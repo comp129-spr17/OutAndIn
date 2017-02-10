@@ -1,5 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
-import App from './components/app';
+import { browserHistory } from 'react-router';
 
-render(<App name='React.js'/>, document.getElementById('apollo'));
+import Routes from './routes';
+
+render(
+    <Routes history={browserHistory} />,
+    document.getElementById('apollo')
+);
