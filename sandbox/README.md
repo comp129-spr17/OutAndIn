@@ -1,5 +1,6 @@
-HOW TO RUN:
-1: "npm install"
-2: "npm start"
-3: Go to "http://localhost:8080/"
-
+## How To Run:
+```
+npm install
+npm start
+Go to http://localhost:8080/
+```
