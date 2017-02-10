@@ -9,7 +9,7 @@ The team consists of:
 - Maxine
 - Pranav
 
-# Details
+## Details
 
 The folder structure consists of the following:
 - apollo-backend: REST API Gateway for both the web frontend and mobile clients
@@ -17,15 +17,15 @@ The folder structure consists of the following:
 - apollo-mobile: Contains the mobile frontend (iOS and Android React Native)
 - sandbox: Contains a current copy of the apollo-frontend. Use it for testing out features
 
-# Requirements
+## Requirements
 In order to run the application, you must first have the following installed:
 - Node.js
 - More things to come
 
-# How to run
+## How to run
 Each folder has it's own README.md. Follow the instructions there on how to run the application
 
-# LICENSE
+## License
 MIT or the University of the Pacific technically ... lol #rekt
 
 <a href="https://zenhub.com"><img src="https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png"></a>
