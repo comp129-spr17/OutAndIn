@@ -1,3 +1,5 @@
 apollo-backend/node_modules
 apollo-frontend/node_modules
+apollo-frontend/public/apollo-core.js
 sandbox/node_modules
+sandbox/public/apollo-core.js
