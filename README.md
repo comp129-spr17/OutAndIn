@@ -1,3 +1,6 @@
+![Apollo Logo]
+(https://github.com/comp129-spr17/OutAndIn/raw/master/apollo-logo.png)
+
 # Apollo
 Apollo is a cross platforming messaging application
 
