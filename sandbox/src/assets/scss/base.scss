@@ -1,15 +1,21 @@
 h1 {
-  font-family: "Times New Roman"; /*initially helvetica*/
+  font-family: "Helvetica"; /*initially helvetica*/
   font-style: bold;
   font-weight: 200;
 
 }
 
 .form { background: #ccc; padding: 10px; position: fixed; bottom: 0; width: 100%; } 
-.form .msg { border: 0; padding: 10px; width: 80%; margin-right: 5px; }
-.form button { background: navy; color: #fff; border: none; padding: 10px; }
+.form .msg { border: 0; padding: 10px; width: 80%; margin-right: 5px; margin-left: 55px; }
+.form button { background: #196A96; color: #fff; border: none; padding: 10px; }
 .messages { list-style-type: none; margin: 0; padding: 0;  font: 14px Helvetica, Arial; color: #0000FF;}
-.messages li { padding: 5px 10px; }
+.messages li { padding: 5px 10px; margin-left: 55px; }
 .messages li:nth-child(odd) { background: #eee; }
-.msgSender { font-family: "Times New Roman"; font-weight: bold; }
+.msgSender { font-family: "Helvetica"; font-weight: bold; }
+.sidebar {
+	position: absolute; 
+	top: 0; bottom: 0; left: 0;
+	width: 50px;
+	background: #196A96;
+}
 /*Adding css properties to classes defined in index.js*/

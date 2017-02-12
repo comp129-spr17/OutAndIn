@@ -45,6 +45,8 @@ export default class Chat extends Component {
             	 <input type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='message'/>
                  <button onClick={this.handleTextSend}>Send</button>  
                  </form>
+
+                 <sidebar className = 'sidebar'></sidebar>
           </div>
      	);
 	}
