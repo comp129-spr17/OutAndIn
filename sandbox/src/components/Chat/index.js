@@ -5,6 +5,7 @@ export default class Chat extends Component {
 	 			super(); //parent class(Component)
 	 			this.state= { //new object
 	 				value: '',//text that you type into input box
+	 				name: '',
 	 				holder:[] //holds previous chats(when enter is clicked, the value of "value" is stored in holder)
 	 			}; 
 	 			this.handleTextSend = this.handleTextSend.bind(this);
@@ -18,7 +19,7 @@ export default class Chat extends Component {
 		event.preventDefault();
 		if(this.state.value=='') //checking if value is empty
 			return;
-		var obj = {from:'Abc', text:this.state.value};
+		var obj = {from: this.state.name, text:this.state.value};
 		this.state.holder.push(obj);
 		if(this.state.holder.length > 10 ) this.state.holder.shift(); //holds last ten chats 
 		 this.setState({value: ''})
@@ -26,6 +27,11 @@ export default class Chat extends Component {
 	}
 
 	 	render() { 		//form for input message and send button creation)
+	 		if(this.state.name == ''){
+				var person = prompt("Please enter your name", this.state.name);
+				this.state.name=person;
+			if(!person) this.state.name="Anon";
+		}
        	return (
             <div> 
             <div>
