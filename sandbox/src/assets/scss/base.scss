@@ -42,7 +42,7 @@ h1 {
 }
 
 .messages li:nth-child(odd) { 
-    background: #eee; 
+    background: #164762; 
 }
 
 .msgSender { 
@@ -50,8 +50,10 @@ h1 {
     font-weight: bold; 
 }
 
-.sidebar {
-	position: absolute; 
+.sidebar { /* Parent flex container that will hold contents of the sidebar. */
+    display: flex; /* Flex containers can wrap, shrink, etc. if necessary. */
+    flex-direction: column; /* Organizes inner flex containers into a column format. */
+    position: absolute; 
 	top: 0; bottom: 0; left: 0;
 	width: 50px;
 	background: #164762;
