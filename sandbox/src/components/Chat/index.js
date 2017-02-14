@@ -3,10 +3,24 @@ import React, { PropTypes, Component } from 'react';
 export default class Chat extends Component { 
 		constructor () { //constructor
 	 			super(); //parent class(Component)
+	 			var self = this;
+
 	 			this.state= { //new object
 	 				value: '',//text that you type into input box
 	 				name: '',
-	 				holder:[] //holds previous chats(when enter is clicked, the value of "value" is stored in holder)
+	 				holder:[],
+	 				sendAjax: function(name, message){
+						var request = new XMLHttpRequest(); //create a request object
+						request.onreadystatechange = function(){ //checking the status of the server
+    						if(this.readyState == 4 && this.status == 200){
+    							self.state.holder = JSON.parse(this.responseText); //parsing the server response
+    						}
+						};
+						request.open("POST", "http://localhost:4200/messagingHandler/global", true); //Creates the Post request
+						request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //Modifies the header of the request
+						request.send('user=' + name +'&message=' + message); // Sends the request to the server
+
+	 				} //holds previous chats(when enter is clicked, the value of "value" is stored in holder)
 	 			}; 
 	 			this.handleTextSend = this.handleTextSend.bind(this);
 	 			this.handleChange = this.handleChange.bind(this);
@@ -20,9 +34,8 @@ export default class Chat extends Component {
 		if(this.state.value=='') //checking if value is empty
 			return;
 		var obj = {from: this.state.name, text:this.state.value};
-		this.state.holder.push(obj);  //pushing name of sender and chat in array (add to array)
-		if(this.state.holder.length > 10 ) this.state.holder.shift(); //holds last ten chats. If size is greater than 10, popping oldest message every time a new one is sent(remove from array).
-		 this.setState({value: ''})
+		this.state.sendAjax(this.state.name, this.state.value);
+		this.setState({value: ''})
 		this.forceUpdate();
 	}
 
@@ -38,12 +51,12 @@ export default class Chat extends Component {
             <div>
     			<ul className="messages" > 
     				{this.state.holder.map((msg, k) => { //mapping each element of holder to item in list(li)
-    				return <li key={k}><span className='msgSender'>{msg.from}:</span> {msg.text}</li>
+    				return <li key={k}><span className='msgSender'>{msg.user}:</span> {msg.message}</li>
     				})}
    			   </ul>
 			</div>
         		 <form className='form'> 
-            	 <input type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='message'/>
+            	 <input type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
                  <button onClick={this.handleTextSend}>Send</button>  
                  </form>
 
@@ -51,5 +64,4 @@ export default class Chat extends Component {
           </div>
      	);
 	}
-
 }
