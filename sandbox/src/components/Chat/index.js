@@ -16,7 +16,7 @@ export default class Chat extends Component {
     							self.state.holder = JSON.parse(this.responseText); //parsing the server response
     						}
 						};
-						request.open("POST", "http://localhost:4200/messagingHandler/global", true); //Creates the Post request
+						request.open("POST", "http://10.15.188.77:4200/messagingHandler/global", true); //Creates the Post request
 						request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //Modifies the header of the request
 						request.send('user=' + name +'&message=' + message); // Sends the request to the server
 
