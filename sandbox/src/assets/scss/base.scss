@@ -34,14 +34,17 @@ h1 {
     padding: 0;  
     font: 14px Helvetica, Arial; 
     color: #000;
+    clear: both;
 }
 
-.messages li { 
+.messages li {
+    display: block;
     padding: 5px 10px; 
     margin-left: 55px; 
 }
 
 .messages li:nth-child(odd) { 
+    display: block;
     color: white;
     background: #164762; 
 }
@@ -49,6 +52,11 @@ h1 {
 .msgSender { 
     font-family: "Helvetica"; 
     font-weight: bold; 
+    float: left;
+}
+
+.msgTimeStamp {
+    float: right;
 }
 
 .sidebar { /* Parent flex container that will hold contents of the sidebar. */
