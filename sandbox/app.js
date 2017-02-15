@@ -9,7 +9,7 @@ const path = require('path');
 const morgan = require('morgan');
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 6969
 
 
 /*

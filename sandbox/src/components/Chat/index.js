@@ -8,19 +8,7 @@ export default class Chat extends Component {
 	 			this.state= { //new object
 	 				value: '',//text that you type into input box
 	 				name: '',
-	 				holder:[],
-	 				sendAjax: function(name, message){
-						var request = new XMLHttpRequest(); //create a request object
-						request.onreadystatechange = function(){ //checking the status of the server
-    						if(this.readyState == 4 && this.status == 200){
-    							self.state.holder = JSON.parse(this.responseText); //parsing the server response
-    						}
-						};
-						request.open("POST", "http://10.15.188.77:4200/messagingHandler/global", true); //Creates the Post request
-						request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //Modifies the header of the request
-						request.send('user=' + name +'&message=' + message); // Sends the request to the server
-
-	 				} //holds previous chats(when enter is clicked, the value of "value" is stored in holder)
+	 				holder:[]
 	 			}; 
 	 			this.handleTextSend = this.handleTextSend.bind(this);
 	 			this.handleChange = this.handleChange.bind(this);
@@ -33,11 +21,26 @@ export default class Chat extends Component {
 		event.preventDefault();
 		if(this.state.value=='') //checking if value is empty
 			return;
-		var obj = {from: this.state.name, text:this.state.value};
-		this.state.sendAjax(this.state.name, this.state.value);
+
+		this.sendAjax(this.state.name, this.state.value);
 		this.setState({value: ''})
 		this.forceUpdate();
 	}
+
+	sendAjax(name, message){
+		var request = new XMLHttpRequest(); //create a request object
+		request.onreadystatechange = function(){ //checking the status of the server
+    		if(this.readyState == 4 && this.status == 200)
+    		{
+    			self.state.holder = JSON.parse(this.responseText); //parsing the server response
+    		}
+		};
+						
+		request.open("POST", "http://10.15.188.77:4200/messagingHandler/global", true); //Creates the Post request
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //Modifies the header of the request
+		request.send('user=' + name +'&message=' + message); // Sends the request to the server
+
+	} //holds previous chats(when enter is clicked, the value of "value" is stored in holder)
 
 	render() { 		//form for input message and send button creation)
 	 	if(this.state.name == ''){
