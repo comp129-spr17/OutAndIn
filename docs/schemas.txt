@@ -1,0 +1,75 @@
+User
+    id              int
+    email           string
+    fullname        string
+    username        string
+    avatar          string
+    hash_password   string
+
+UserStatus
+    id
+    user            int user.id
+    timestamp       string
+    state           int // Online - Offline - Idle/Away
+
+MessageStatus
+    id
+    message         int message.id
+    visible_from    boolean
+    visible_to      boolean
+
+Message
+    id              int
+    chat            int chat.id
+    from            int user.id
+    message         string
+    timestamp       int
+
+Chat
+    id              int
+    name            string
+    avatar          string
+    messages        [] message.id
+    users           [] user.id
+
+Relationship
+    id
+    users           [] user.id
+    status          int
+
+File
+    id
+    type            int // enum of types
+    name            string
+    owner           int user.id
+    chat            int chat.id
+    size            int
+    path            string // AWS S3 URL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
