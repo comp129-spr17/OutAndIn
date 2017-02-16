@@ -60,7 +60,7 @@ export default class Chat extends Component {
 			</div>
         		 <form className='form'> 
             	 <input autoFocus type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
-                 <button onClick={this.handleTextSend}>Send</button>  
+                 <button onClick={this.handleTextSend}></button>  
                  </form>
 
                  <sidebar className = 'sidebar'></sidebar>
