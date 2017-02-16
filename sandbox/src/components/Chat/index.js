@@ -53,13 +53,13 @@ export default class Chat extends Component {
             <div> 
             <div>
     			<ul className="messages" > 
-    				{this.state.holder.map((msg, k) => { //mapping each element of holder to item in list(li)
+    				{this.state.holder.map((msg, k) => { //mapping each element of holder to item in list(li) //line 62 added autofocus property(when page is rendered, focus on element)
                         return <li key={k}><span className='msgSender'>{msg.user}:</span> {msg.message} <span className='msgTimeStamp'>{moment.unix(msg.timeStamp).fromNow()}</span></li>
     				})}
    			   </ul>
 			</div>
         		 <form className='form'> 
-            	 <input type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
+            	 <input autoFocus type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
                  <button onClick={this.handleTextSend}>Send</button>  
                  </form>
 
