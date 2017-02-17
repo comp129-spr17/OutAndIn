@@ -21,17 +21,16 @@ export default class Chat extends Component {
 		if(this.state.value=='') //checking if value is empty
 			return;
 
-		this.sendAjax(this.state.name, this.state.value);
+		this.sendAjax(this.state.name, this.state.value, this);
 		this.setState({value: ''})
 		this.forceUpdate();
 	}
 
-	sendAjax(name, message){
+	sendAjax(name, message, self){
 		var request = new XMLHttpRequest(); //create a request object
 		request.onreadystatechange = function(){ //checking the status of the server
-    		if(this.readyState == 4 && this.status == 200)
-    		{
-    			this.state.holder = JSON.parse(this.responseText); //parsing the server response
+    		if(this.readyState == 4 && this.status == 200){
+    			self.setState({holder: JSON.parse(this.responseText)}); //parsing the server response
     		}
 		};
 						
