@@ -12,12 +12,6 @@ UserStatus
     timestamp       string
     state           int // Online - Offline - Idle/Away
 
-MessageStatus
-    id
-    message         int message.id
-    visible_from    boolean
-    visible_to      boolean
-
 Message
     id              int
     chat            int chat.id
@@ -25,12 +19,26 @@ Message
     message         string
     timestamp       int
 
+MessageStatus
+    id
+    message         int message.id
+    visible_from    boolean
+    visible_to      boolean
+
 Chat
     id              int
     name            string
     avatar          string
-    messages        [] message.id
-    users           [] user.id
+
+ChatStatus
+    id              int
+    chat            int chat.id
+    state           int // Online - Offline - Idle/Away
+
+ChatUsers
+    id
+    chat            int chat.id
+    user            int user.id
 
 Relationship
     id
