@@ -3,7 +3,6 @@ import moment from 'moment';
 export default class Chat extends Component { 
 		constructor () { //constructor
 	 			super(); //parent class(Component)
-	 			var self = this;
 
 	 			this.state= { //new object
 	 				value: '',//text that you type into input box
@@ -32,7 +31,7 @@ export default class Chat extends Component {
 		request.onreadystatechange = function(){ //checking the status of the server
     		if(this.readyState == 4 && this.status == 200)
     		{
-    			self.state.holder = JSON.parse(this.responseText); //parsing the server response
+    			this.state.holder = JSON.parse(this.responseText); //parsing the server response
     		}
 		};
 						
