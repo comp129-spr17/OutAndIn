@@ -4,8 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var messagingHandler = require('./routes/messagingHandler');
+var routes = require('./server/routes');
 
 var app = express();
 
@@ -33,8 +32,8 @@ app.use(function(req, res, next) {
     }
 });
 
-// Handles Messaging route
-app.use('/messagingHandler', messagingHandler);
+// Routes
+app.use(routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
