@@ -1,4 +1,3 @@
-var http = require('http');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -8,16 +7,24 @@ var bodyParser = require('body-parser');
 var routes = require('./server/routes');
 
 var app = express();
-var server; 		//HTTP Server
-var io;				//Socket.io
+var server = require('http').Server(app);
+var io = require('socket.io')(server, {
+    'path': '/sockets', 
+    'serveClient': false
+});
+var sockets = require('./controllers/sockets');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(function(req, res, next){
+    res.io = io;
+    next();
+});
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
 // Allow for Cross Origin Domain Requests
 app.use(function(req, res, next) {
@@ -35,8 +42,11 @@ app.use(function(req, res, next) {
     }
 });
 
-// Routes
+// Route Handlers
 app.use(routes);
+
+// IO Handlers
+sockets(io);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -53,22 +63,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({error: 'error'});
 });
 
-//Create HTTP server
-server = http.createServer(app);
-
-//websockets
-io = require('socket.io')(server);
-
-io.on('connection', function(socket){
-	socket.emit('news', {data:'yeee'});
-	socket.on('my other event', function(data){
-		console.log(data);
-	});
-});
-
-
-module.exports.app = app;
-module.exports.server = server;
+module.exports = {app: app, server: server};
