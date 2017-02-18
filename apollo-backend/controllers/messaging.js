@@ -69,6 +69,12 @@ var Schemas = {
 
 var msgSocket = function(socket){
 	//define websockets here
-}; 
+};
+var express = require('express');
+var router = express.Router();
 
-module.exports.msgSocket = msgSocket;
+router.get('/', function(req, res){
+    send.json({"yo": "messaging"});
+});
+
+module.exports = router;
