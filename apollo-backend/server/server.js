@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../app').app;
+var server = require('../app').server;
 var debug = require('debug')('apollo-backend:server');
 var http = require('http');
 
@@ -16,13 +17,7 @@ var port = normalizePort(process.env.PORT || '4200');
 app.set('port', port);
 
 /**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
+ sdasfw;ddfdsfsdff* Listen on provided port, on all network interfaces.
  */
 
 server.listen(port);

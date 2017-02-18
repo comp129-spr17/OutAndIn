@@ -1,3 +1,4 @@
+var http = require('http');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,6 +8,8 @@ var bodyParser = require('body-parser');
 var routes = require('./server/routes');
 
 var app = express();
+var server; 		//HTTP Server
+var io;				//Socket.io
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -53,4 +56,19 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+//Create HTTP server
+server = http.createServer(app);
+
+//websockets
+io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+	socket.emit('news', {data:'yeee'});
+	socket.on('my other event', function(data){
+		console.log(data);
+	});
+});
+
+
+module.exports.app = app;
+module.exports.server = server;
