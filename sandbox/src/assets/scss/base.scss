@@ -69,19 +69,19 @@ h1 {
     position: absolute; 
 	top: 0; bottom: 0; left: 0;
 	width: 50px;
-	background: #164762;
+	//background: #164762;
 }
 /*Adding css properties to classes defined in index.js*/
 .div-left{
     float:left;
-    width:15%;
+    width:25%;
     height:100%;
     background: #164762;
     padding-left:5px;
 }
 .div-right{
     float:right;
-    width:100%;
+    width:70%;
     padding-right:5px;
 }
 .container{

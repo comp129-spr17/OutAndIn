@@ -57,15 +57,10 @@ export default class Chat extends Component {
        	return (
        		
             <div className="container" > 
-            	<div className="div-left" >
-            		{this.state.friends.map((friend, k) => { 
-                    		return <p> {friend} </p>
-		    			})
-            		}
-            	</div>
+            	<SideBar friends={this.state.friends} />
+            	
             	<div className="div-right">
 		            <div>
- 
 		    			<ul className="messages" > 
 		    				{this.state.holder.map((msg, k) => { //mapping each element of holder to item in list(li) //line 62 added autofocus property(when page is rendered, focus on element)
 		                        return <li key={k}><span className='msgSender'>{msg.user}:</span> {msg.message} <span className='msgTimeStamp'>{moment.unix(msg.timeStamp).fromNow()}</span></li>
@@ -80,4 +75,16 @@ export default class Chat extends Component {
           	</div>
      	);
 	}
+}
+
+
+class SideBar extends React.Component {
+  render(props) {
+    return <div className="div-left" >
+        		{this.props.friends.map((friend, k) => { 
+                		return <p key={k}> {friend} </p>
+	    			})
+        		}
+        	</div>;
+  	}
 }
