@@ -69,14 +69,17 @@ h1 {
     position: absolute; 
     top: 0; bottom: 0; left: 0;
     width: 50px;
+    background: #164762
 }
     
 .div-left{
     float:left;
-    width:25%;
+    width:10%;
     height:100%;
-    background: #164762;
-    padding-left:5px;
+    padding-left:55px;
+    border: 2px solid grey;
+    border-color: #EFEFEF;
+
 }
 .div-right{
     float:right;

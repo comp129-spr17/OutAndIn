@@ -57,6 +57,7 @@ export default class Chat extends Component {
        	return (
        		
             <div className="container" > 
+            	<sidebar className = 'sidebar'></sidebar>
             	<SideBar friends={this.state.friends} />
             	
             	<div className="div-right">
