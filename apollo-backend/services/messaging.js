@@ -1,5 +1,5 @@
 // Import Database
-var db = require('../server/database');
+var db = require('../modules/database');
 
 exports.exampleFunction = function(callback){
     var sql = "some statement";

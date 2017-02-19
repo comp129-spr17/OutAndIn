@@ -1,6 +1,12 @@
+/**
+ *  @(Project): Apollo Backend
+ *  @(Filename): messaging.js
+ *  @(Description): Messaging route handlers
+ *  @(Authors): Out-N-In Team
+ *  @(License): MIT
+ */
+
 //Message Handler
-
-
 //next free id
 var LastID = {
 	User: 0,

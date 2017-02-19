@@ -7,7 +7,8 @@ export default class Chat extends Component {
 	 			this.state= { //new object
 	 				value: '',//text that you type into input box
 	 				name: '',
-	 				holder:[]
+	 				holder:[],
+	 				friends:['Friend1','Friend2']
 	 			}; 
 	 			this.handleTextSend = this.handleTextSend.bind(this);
 	 			this.handleChange = this.handleChange.bind(this);
@@ -40,29 +41,50 @@ export default class Chat extends Component {
 
 	} //holds previous chats(when enter is clicked, the value of "value" is stored in holder)
 
+
+
+
 	render() { 		//form for input message and send button creation)
 	 	if(this.state.name == ''){
 			var person = prompt("Please enter your name", this.state.name); //var person stores user input, which is name
 			this.state.name=person; //setting name input from person var to the name var
 			if(!person) this.state.name="Anon"; //if name is not entered, user is an anon 
 		}
-       	return (
-       		//unordered list tag
-            <div> 
-            <div>
-    			<ul className="messages" > 
-    				{this.state.holder.map((msg, k) => { //mapping each element of holder to item in list(li) //line 62 added autofocus property(when page is rendered, focus on element)
-                        return <li key={k}><span className='msgSender'>{msg.user}:</span> {msg.message} <span className='msgTimeStamp'>{moment.unix(msg.timeStamp).fromNow()}</span></li>
-    				})}
-   			   </ul>
-			</div>
-        		 <form className='form'> 
-            	 <input autoFocus type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
-                 <button onClick={this.handleTextSend}></button>  
-                 </form>
 
-                 <sidebar className = 'sidebar'></sidebar>
-          </div>
+	    var sidebarContent = <b>Sidebar content</b>;
+
+
+       	return (
+       		
+            <div className="container" > 
+            	<SideBar friends={this.state.friends} />
+            	
+            	<div className="div-right">
+		            <div>
+		    			<ul className="messages" > 
+		    				{this.state.holder.map((msg, k) => { //mapping each element of holder to item in list(li) //line 62 added autofocus property(when page is rendered, focus on element)
+		                        return <li key={k}><span className='msgSender'>{msg.user}:</span> {msg.message} <span className='msgTimeStamp'>{moment.unix(msg.timeStamp).fromNow()}</span></li>
+		    				})}
+		   			   </ul>
+					</div>
+	    		 	<form className='form'> 
+	        	 		<input autoFocus type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
+		             	<button onClick={this.handleTextSend}></button>  
+	            	</form>
+            	</div>
+          	</div>
      	);
 	}
+}
+
+
+class SideBar extends React.Component {
+  render(props) {
+    return <div className="div-left" >
+        		{this.props.friends.map((friend, k) => { 
+                		return <p key={k}> {friend} </p>
+	    			})
+        		}
+        	</div>;
+  	}
 }
