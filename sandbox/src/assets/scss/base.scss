@@ -16,7 +16,7 @@ h1 {
 .form .msg { 
     border: 0; 
     padding: 10px; 
-    width: 80%; 
+    width: 50%; 
     margin-right: 5px; 
     margin-left: 55px; 
 }
@@ -44,7 +44,7 @@ h1 {
 .messages li {
     display: block;
     padding: 5px 10px; 
-    margin-left: 55px; 
+    margin-left: 5px; 
 }
 
 .messages li:nth-child(odd) { 
@@ -67,11 +67,10 @@ h1 {
     display: flex; /* Flex containers can wrap, shrink, etc. if necessary. */
     flex-direction: column; /* Organizes inner flex containers into a column format. */
     position: absolute; 
-	top: 0; bottom: 0; left: 0;
-	width: 50px;
-	//background: #164762;
+    top: 0; bottom: 0; left: 0;
+    width: 50px;
 }
-/*Adding css properties to classes defined in index.js*/
+    
 .div-left{
     float:left;
     width:25%;
@@ -88,3 +87,7 @@ h1 {
     width:100%;
     clear:both;
 }
+
+
+
+/*Adding css properties to classes defined in index.js*/
