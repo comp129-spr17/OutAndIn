@@ -57,16 +57,12 @@ export default class Chat extends Component {
        	return (
        		
             <div className="container" > 
-            	<sidebar className = 'sidebar'></sidebar>
             	<SideBar friends={this.state.friends} />
-            	
             	<div className="div-right">
-		            <div>
-		    			<ul className="messages" > 
-		    				{this.state.holder.map((msg, k) => { //mapping each element of holder to item in list(li) //line 62 added autofocus property(when page is rendered, focus on element)
-		                        return <li key={k}><span className='msgSender'>{msg.user}:</span> {msg.message} <span className='msgTimeStamp'>{moment.unix(msg.timeStamp).fromNow()}</span></li>
-		    				})}
-		   			   </ul>
+	  				<div className="bubble-dialog">
+	  					{this.state.holder.map((msg, k) => { 
+            				return <ChatComponent key={k} message={msg} selfname={this.state.name} />
+            			})}
 					</div>
 	    		 	<form className='form'> 
 	        	 		<input autoFocus type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
@@ -80,12 +76,43 @@ export default class Chat extends Component {
 
 
 class SideBar extends React.Component {
-  render(props) {
+  render() {
     return <div className="div-left" >
         		{this.props.friends.map((friend, k) => { 
-                		return <p key={k}> {friend} </p>
+                		return <p key={k} > {friend} </p>
 	    			})
         		}
         	</div>;
   	}
+}
+
+class ChatComponent extends React.Component{
+	render(){
+		console.log()
+		if(this.props.selfname==this.props.message.user)
+			return <LeftChatComponent msg={this.props.message} />
+		else
+			return <RightChatComponent msg={this.props.message} />
+	}
+}
+
+class LeftChatComponent extends React.Component{
+	render(){
+		return(
+			<div className="bubble-left">
+				<span className='msgSender'>{this.props.msg.user}:</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+			</div>
+		)
+	}
+}
+
+
+class RightChatComponent extends React.Component{
+	render(){
+		return(
+			<div className="bubble-right">
+				<span className='msgSender'>{this.props.msg.user}:</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+			</div>
+		)
+	}
 }
