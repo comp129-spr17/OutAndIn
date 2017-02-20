@@ -90,16 +90,16 @@ class ChatComponent extends React.Component{
 	render(){
 		console.log()
 		if(this.props.selfname==this.props.message.user)
-			return <LeftChatComponent msg={this.props.message} />
-		else
 			return <RightChatComponent msg={this.props.message} />
+		else
+			return <LeftChatComponent msg={this.props.message} />
 	}
 }
 
-class LeftChatComponent extends React.Component{
+class RightChatComponent extends React.Component{
 	render(){
 		return(
-			<div className="bubble-left">
+			<div className="bubble-right">
 				<span className='msgSender'>{this.props.msg.user}:</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
 			</div>
 		)
@@ -107,10 +107,10 @@ class LeftChatComponent extends React.Component{
 }
 
 
-class RightChatComponent extends React.Component{
+class LeftChatComponent extends React.Component{
 	render(){
 		return(
-			<div className="bubble-right">
+			<div className="bubble-left">
 				<span className='msgSender'>{this.props.msg.user}:</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
 			</div>
 		)
