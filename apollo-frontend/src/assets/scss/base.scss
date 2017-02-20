@@ -96,14 +96,34 @@ h1 {
     line-height:0;
 }
 
-.bubble-left,
+.bubble-left
+{
+    line-height: 100%;
+    display: block;
+    position: relative;
+    padding: .25em .5em;
+    background-color: #F7F7F7;
+    color:#7A7A7A;
+    border: 2px solid grey;
+    border-color: #EFEFEF;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    margin-bottom: 2em;
+    clear: both;
+    min-width:35%;
+    max-width:50%;
+}
+
 .bubble-right {
     line-height: 100%;
     display: block;
     position: relative;
     padding: .25em .5em;
-    background: grey;
-    border: blue solid 3px;
+    background-color: #164762;
+    color: #FFFFFF;
+    border: 2px solid grey;
+    border-color: #EFEFEF;
     -webkit-border-radius: 11px;
     -moz-border-radius: 11px;
     border-radius: 11px;
