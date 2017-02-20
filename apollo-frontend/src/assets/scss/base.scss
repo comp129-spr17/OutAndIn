@@ -1,5 +1,129 @@
 h1 {
-  font-family: helvetica;
+  font-family: "Helvetica"; 
+  font-style: bold;
   font-weight: 200;
+
 }
 
+.form {
+    background: #ccc; 
+    padding: 10px; 
+    position: fixed; 
+    bottom: 0; 
+    width: 100%; 
+} 
+
+.form .msg { 
+    border: 0; 
+    padding: 10px; 
+    width: 50%; 
+    margin-right: 5px; 
+    margin-left: 5px; 
+}
+
+.form button { /*edited here for the button*/
+   width: 50px;
+    height: 30px;
+    border: none; 
+    padding: 10px; 
+    background-image: url('https://ibin.co/3CYbXRFOLxbF.png');
+    background-position:center;
+    background-repeat: no-repeat;
+    background-color: #164762;  
+}
+
+.messages { 
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0;  
+    font: 14px Helvetica, Arial; 
+    color: #000;
+    clear: both;
+}
+
+.messages li{
+    display: block;
+    padding: 5px 10px; 
+    margin-left: 5px;
+}
+
+.messages li:nth-child(odd) { 
+    display: block;
+    color: white;
+    background: #164762;
+
+}
+
+.msgSender { 
+    font-family: "Helvetica"; 
+    font-weight: bold; 
+    float: left;
+}
+
+.msgTimeStamp {
+    float: right;
+}
+
+.sidebar { /* Parent flex container that will hold contents of the sidebar. */
+    display: flex; /* Flex containers can wrap, shrink, etc. if necessary. */
+    flex-direction: column; /* Organizes inner flex containers into a column format. */
+    position: absolute; 
+    top: 0; bottom: 0; left: 0;
+    width: 50px;
+}
+    
+.div-left{
+    float:left;
+    width:10%;
+    height:100%;
+    padding-left:55px;
+    border: 2px solid grey;
+    border-color: #EFEFEF;
+
+}
+.div-right{
+    float:right;
+    width:70%;
+    padding-right:5px;
+}
+.container{
+    width:100%;
+    clear:both;
+}
+
+.bubble-dialog {
+    white-space: pre-line;
+    line-height:0;
+}
+
+.bubble-left,
+.bubble-right {
+    line-height: 100%;
+    display: block;
+    position: relative;
+    padding: .25em .5em;
+    background: grey;
+    border: blue solid 3px;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    margin-bottom: 2em;
+    clear: both;
+    min-width:35%;
+    max-width:50%;
+}
+
+.bubble-left {
+    float: left;
+    margin-right:10%;
+}
+.bubble-right {
+    float:right;
+    margin-left:10%
+}
+
+
+
+
+
+/*Adding css properties to classes defined in index.js*/

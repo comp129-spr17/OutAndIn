@@ -4,11 +4,13 @@ import { Router, Route } from 'react-router';
 import App from './components/app';
 import Friends from './components/Friends';
 import NotFound from './components/NotFound';
+import Chat from './components/Chat';
 
 const Routes = (props) => (
   	<Router {...props}>
 		<Route path="/" component={App} />
 		<Route path="/friends" component={Friends} />
+			<Route path="/chat" component={Chat} /> 
 		<Route path="*" component={NotFound} />
    	</Router>
 );
