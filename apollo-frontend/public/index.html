@@ -3,11 +3,23 @@
     <head>
         <meta charset="utf-8">
         <title>Apollo | Messaging Made Easy</title>
-        <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
     </head>
     <body>
         <div id='apollo'/>
         
     </body>
+	<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+	<script>
+		var testSock = io.connect('http://localhost:4200', {path:'/sockets'});
+		var userConc = io.connect('http://localhost:4200/UserInit', {path:'/sockets'});
+		
+		userConc.on('connect', function(){
+			userConc.emit('addUser', {name: 'Pranav'});
+		});
+
+		testSock.on('connect', function(){
+			console.log('Connected!');
+		});
+	</script>
     <script src="/apollo-core.js"></script>
 </html>
