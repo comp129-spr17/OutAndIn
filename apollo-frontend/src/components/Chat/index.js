@@ -100,7 +100,7 @@ class RightChatComponent extends React.Component{
 	render(){
 		return(
 			<div className="bubble-right">
-				<span className='msgSender'>{this.props.msg.user}:</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+				<span className='msgSender'>{this.props.msg.user}: </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
 			</div>
 		)
 	}
@@ -111,7 +111,7 @@ class LeftChatComponent extends React.Component{
 	render(){
 		return(
 			<div className="bubble-left">
-				<span className='msgSender'>{this.props.msg.user}:</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+				<span className='msgSender'>{this.props.msg.user}: </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
 			</div>
 		)
 	}
