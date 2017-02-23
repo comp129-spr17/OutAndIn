@@ -10,8 +10,8 @@
     </body>
 	<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 	<script>
-		var testSock = io.connect('http://localhost:4200', {path:'/sockets'});
-		var userConc = io.connect('http://localhost:4200/UserInit', {path:'/sockets'});
+		var testSock = io.connect('http://localhost:4200');
+		var userConc = io.connect('http://localhost:4200/UserInit');
 		
 		userConc.on('connect', function(){
 			userConc.emit('addUser', {name: 'Pranav'});
