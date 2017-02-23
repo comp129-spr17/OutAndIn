@@ -119,6 +119,28 @@ var exp = module.exports;
 exp.User = {};
 exp.Chat = {};
 
+//send error message to client on faulty message
+exp.sendError = function(fromEvent, errorMsg, clientData, socket){
+	//error checking
+	if(typeof clientData != 'object')
+	{
+		console.error('sendError: clientData not an object');
+		return;
+	}
+
+	var errorData = {
+		error: fromEvent + ': ' + errorMsg
+	};
+
+	//send client data with error object
+	for(var keys in clientData)
+		if(clientData.hasOwnProperty(key))
+			errorData[key] = clientData[key];
+
+	socket.emit('error', errorData);
+
+};
+
 //on initial connect
 //namespace: UserInit
 /*
@@ -137,9 +159,7 @@ exp.User.add = function(data, socket){
 	if(typeof data.name != 'string')
 	{
 		//send error to client
-		socket.emit('error', {
-			error: 'User.add: Invalid user name'
-		});
+		exp.sendError('User.add', 'Invalid user name', data, socket);
 		return;
 	}
 
@@ -168,10 +188,7 @@ exp.User.get = function(data, socket){
 	if(typeof data.id != 'number')
 	{
 		//send error to client
-		socket.emit('error'{
-			error: 'User.get: invalid user id',
-			id: data.id
-		});
+		exp.sendError('User.get', 'invalid user id', data, socket);
 		return;
 	}
 
@@ -179,15 +196,12 @@ exp.User.get = function(data, socket){
 
 	if(user.error != null){
 		//send error to client
-		socket.emit('error', {
-			errors: 'User.get: ' + user.error,
-			id: data.id
-		});
+		exp.sendError('User.get', user.error, data, socket);
 		return;
 	}
 
 	socket.emit('userData', {
-			user: user 
+		user: user 
 	});
 };
 
@@ -215,12 +229,7 @@ exp.Chat.add = function(data, socket){
 	if(errors != '')
 	{
 		//send error to client
-		socket.emit('error', {
-			error: 'Chat.add: ' + errors,
-			name: data.name,
-			user1: data.user1,
-			user2: data.user2
-		});
+		exp.sendError('Chat.add', errors, data, socket);
 		return;
 	}
 	
@@ -245,13 +254,10 @@ output:
 */
 exp.Chat.get = function(data, socket){
 	//error checking
-	if(typeof data.id !+ 'number')
+	if(typeof data.id != 'number')
 	{
 		//send error to client
-		socket.emit('error', {
-			error: 'Chat.get: Invalid chat id',
-			id: data.id
-		});
+		exp.sendError('Chat.get', 'Invalid caht id', data, socket);
 		return;
 	}
 
@@ -260,10 +266,7 @@ exp.Chat.get = function(data, socket){
 	if(chat.error != null)
 	{
 		//send error to client
-		socket.emit('error', {
-			error: 'Chat.get: ' + chat.error,
-			id: data.id
-		});
+		exp.sendError('Chat.get', chat.error, data, socket);
 		return;
 	}
 
@@ -281,6 +284,10 @@ inputs:
 	fromUser: 'user id',
 	message: 'string'
 }
+outputs:
+{
+	chat: 'chat id' // return id of chat 
+}
 */
 exp.Chat.addMessage = function(data, socket){
 	//error checking
@@ -294,28 +301,23 @@ exp.Chat.addMessage = function(data, socket){
 	if(errors != '')
 	{
 		//send error to client
-		socket.emit('error', {
-			error: 'Chat.addMessage: ' + errors,
-			chatId: data.chatId,
-			fromUser: data.fromUser,
-			message: data.message
-		});
+		exp.sendError('Chat.addMessage', errors, data, socket);
+		return;
 	}
 	
 	var chat = Lists.getChat(data.chatId);
 	if(chat.error)
 	{
 		//send error to client
-		socket.emit('error', {
-			error: 'Chat.addMessage: ' + chat.error,
-			chatId: data.chatId,
-			fromUser: data.fromUser,
-			message: data.message
-		});
+		exp.sendError('Chat.addMessage', chat.error, data, socket);
+		return;
 	}
 
+	//add message
+	chat.addMessage(new Schemas.Message(data.fromUser, data.message));
+
+	//send chat id
+	socket.emit('chatUpdated', {
+		chat: chat.id
+	});
 };
-
-//TODO: error sending
-
-
