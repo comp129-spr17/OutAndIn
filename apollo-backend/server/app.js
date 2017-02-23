@@ -74,7 +74,7 @@ sockets(io);
 /**
  * Initialize Database
  */
-//db.init();
+db.init();
 
 /**
  * Error Handlers
