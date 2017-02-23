@@ -234,7 +234,7 @@ exp.Chat.add = function(data, socket){
 	}
 	
 	//send client list of chat ids
-	socket.emit('chatIdList'{
+	socket.emit('chatIdList', {
 		chatIds: Lists.getChatIds()
 	});
 
