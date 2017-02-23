@@ -31,8 +31,7 @@ var server = require('http').Server(app);
  * Socket.io Initialization
  */
 // Socket.io Instance
-var io = require('socket.io')(server, {
-    'path': '/sockets', 
+var io = require('socket.io')(server, { 
     'serveClient': false
 });
 
