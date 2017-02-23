@@ -136,6 +136,7 @@ exp.User.add = function(data, socket){
 	//error checking
 	if(typeof data.name != 'string')
 	{
+		//send error to client
 		socket.emit('error', {
 			error: 'User.add: Invalid user name'
 		});
@@ -159,14 +160,14 @@ input:
 
 outputs: 
 {
-	id: 'user id',
-	name: 'user name'
+	user: {user object}
 }
 */
 exp.User.get = function(data, socket){
 	//error checking
 	if(typeof data.id != 'number')
 	{
+		//send error to client
 		socket.emit('error'{
 			error: 'User.get: invalid user id',
 			id: data.id
@@ -174,20 +175,20 @@ exp.User.get = function(data, socket){
 		return;
 	}
 
-	var user = Lists.getUser(data.id).name;
+	var user = Lists.getUser(data.id);
 
 	if(user.error != null){
-		//send user from id
-		socket.emit('userData', {
-			id: data.id, 
-			name: Lists.getUser(data.id).name
-		});
-	}else{
+		//send error to client
 		socket.emit('error', {
-			errors: 'User.get: no user found',
+			errors: 'User.get: ' + user.error,
 			id: data.id
 		});
+		return;
 	}
+
+	socket.emit('userData', {
+			user: user 
+	});
 };
 
 /*
@@ -213,18 +214,108 @@ exp.Chat.add = function(data, socket){
 		errors != 'invalid user2 id';
 	if(errors != '')
 	{
+		//send error to client
 		socket.emit('error', {
 			error: 'Chat.add: ' + errors,
 			name: data.name,
 			user1: data.user1,
 			user2: data.user2
 		});
+		return;
 	}
 	
+	//send client list of chat ids
 	socket.emit('chatIdList'{
 		chatIds: Lists.getChatIds()
 	});
 
 };
 
-//TODO: getChat, addMessage
+/* 
+Returns chat with all messages
+TODO: return specified amount of messages
+input:
+{
+	id: 'chat id'
+}
+output:
+{
+	chat: {chat object}
+}
+*/
+exp.Chat.get = function(data, socket){
+	//error checking
+	if(typeof data.id !+ 'number')
+	{
+		//send error to client
+		socket.emit('error', {
+			error: 'Chat.get: Invalid chat id',
+			id: data.id
+		});
+		return;
+	}
+
+	var chat = Lists.getChat(data.id);
+
+	if(chat.error != null)
+	{
+		//send error to client
+		socket.emit('error', {
+			error: 'Chat.get: ' + chat.error,
+			id: data.id
+		});
+		return;
+	}
+
+	//send client
+	socket.emit('getChat', {
+		chat: chat
+	});
+};
+
+/* 
+Adds 
+inputs: 
+{
+	chatId: 'chat id',
+	fromUser: 'user id',
+	message: 'string'
+}
+*/
+exp.Chat.addMessage = function(data, socket){
+	//error checking
+	var errors = '';
+	if(typeof data.chatId != 'number')
+		errors += ' invalid chat id;';
+	if(typeof data.fromUser != 'number')
+		errors += ' invalid from user id;';
+	if(typeof data.message != 'string')
+		errors += ' invalid message string';
+	if(errors != '')
+	{
+		//send error to client
+		socket.emit('error', {
+			error: 'Chat.addMessage: ' + errors,
+			chatId: data.chatId,
+			fromUser: data.fromUser,
+			message: data.message
+		});
+	}
+	
+	var chat = Lists.getChat(data.chatId);
+	if(chat.error)
+	{
+		//send error to client
+		socket.emit('error', {
+			error: 'Chat.addMessage: ' + chat.error,
+			chatId: data.chatId,
+			fromUser: data.fromUser,
+			message: data.message
+		});
+	}
+
+};
+
+//TODO: error sending
+
+
