@@ -2,7 +2,7 @@
 var db = require('../modules/database');
 
 exports.exampleFunction = function(callback){
-    var sql = "some statement";
+    var sql = "show databases";
     db.pool.getConnection(function(err, connection){
         if(err){
             console.log(err);
