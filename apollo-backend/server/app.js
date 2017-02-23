@@ -66,14 +66,9 @@ app.use(require('./modules/cors'));
  * Route Handlers
  */
 // Route Handlers
-app.use(routes);
+app.use('/api/v1', routes);
 // IO Handlers
 sockets(io);
-
-/**
- * Initialize Database
- */
-db.init();
 
 /**
  * Error Handlers
