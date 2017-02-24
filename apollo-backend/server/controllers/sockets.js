@@ -7,7 +7,7 @@ var sockets = function(io){
 	userInitNS.on('connection', function(socket){
 		console.log('User connected to UserINit');
 		socket.on('addUser', function(data){
-			paths.connect(data);
+            //paths.connect(data);
 		});
 	});
 	
