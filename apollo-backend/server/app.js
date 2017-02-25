@@ -18,7 +18,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug')('apollo-backend:server');
-var db = require('./modules/database');
+var setup = require('./setup');
 /**
  * Application Initialization
  */
@@ -69,6 +69,7 @@ app.use(require('./modules/cors'));
 app.use('/api/v1', routes);
 // IO Handlers
 sockets(io);
+setup.init();
 
 /**
  * Error Handlers
