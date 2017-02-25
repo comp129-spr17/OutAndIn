@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node setup.js && node app.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "bluebird": "^3.4.7",
@@ -13,8 +13,11 @@
     "express": "~4.14.1",
     "morgan": "~1.7.0",
     "node-mysql-importer": "0.0.10",
+    "nodemiral": "^1.1.1",
     "promise-mysql": "^3.0.0",
+    "scp2": "^0.5.0",
     "serve-favicon": "~2.3.2",
-    "socket.io": "^1.7.3"
+    "socket.io": "^1.7.3",
+    "ssh2": "^0.5.4"
   }
 }
