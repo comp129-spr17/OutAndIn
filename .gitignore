@@ -1,4 +1,5 @@
 apollo-backend/server/node_modules
+apollo-backend/server/config/config.json
 apollo-backend/client/node_modules
 apollo-frontend/node_modules
 apollo-frontend/public/apollo-core.js
