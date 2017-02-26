@@ -1,0 +1,18 @@
+{
+  "name": "apollo-api-client",
+  "version": "1.0.0",
+  "description": "Apollo API Client",
+  "main": "apollo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Out-N-In Team",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "querystring": "^0.2.0",
+    "request": "^2.79.0",
+    "socket.io-client": "^1.7.3",
+    "xtend": "^4.0.1"
+  }
+}
