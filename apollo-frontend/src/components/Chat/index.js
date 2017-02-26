@@ -79,7 +79,7 @@ class SideBar extends React.Component {
   render() {
     return <div className="div-left" >
         		{this.props.friends.map((friend, k) => { 
-                		return <p key={k} > {friend} </p>
+                			return <div key={k}> <img className="img-circle" src="https://www.abeautifulsite.net/content/uploads/2014/08/rounded-image-250x250.png"/> <p> {friend} </p> </div>
 	    			})
         		}
         	</div>;
