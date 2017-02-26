@@ -81,9 +81,8 @@ body {
     
 .div-left{
     float:left;
-    width:10%;
+    width:20%;
     height:100%;
-    padding-left:55px;
     border: 2px solid grey;
     border-color: #EFEFEF;
 
@@ -149,10 +148,22 @@ body {
     margin-left:10%
 }
 .img-circle {
+    float:left;
     border-radius: 50%;
     width:50px;
     height:50px;
 }
+.sidebar-container{
+    display: block;
+    clear:both;
+}
+.sidebar-name{
+    margin-left:60px;
+    padding:2px;
+    vertical-align: middle;
+    line-height: 50px; 
+}
+
 
 
 
