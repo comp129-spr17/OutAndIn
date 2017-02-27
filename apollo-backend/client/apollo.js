@@ -41,6 +41,6 @@ Apollo.prototype.sendMessage = function(msg){
     socket.emit('message', { message: msg });
 };
 
-Apollo.prototype.register = function(compRef, funcName) {
-    _self._events["message"].push(compRef[funcName]);
+Apollo.prototype.register = function(compRef, eventName, funcName) {
+    _self._events[eventName].push(compRef[funcName]);
 }
