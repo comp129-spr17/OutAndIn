@@ -13,7 +13,7 @@ export default class Chat extends Component {
 	 		friends:['Friend1','Friend2']
         }; 
         this.client = new Client();
-        this.client.register(this, "handleMessage");
+        this.client.register(this, "message", "handleMessage");
         this.handleTextSend = this.handleTextSend.bind(this);
 	 	this.handleChange = this.handleChange.bind(this);
     }
