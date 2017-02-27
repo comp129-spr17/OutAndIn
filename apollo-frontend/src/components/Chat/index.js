@@ -1,30 +1,39 @@
 import React, { PropTypes, Component } from 'react'; 
 import moment from 'moment';
-export default class Chat extends Component { 
-		constructor () { //constructor
-	 			super(); //parent class(Component)
+import Client from '../../../../apollo-backend/client/apollo';
 
-	 			this.state= { //new object
-	 				value: '',//text that you type into input box
-	 				name: '',
-	 				holder:[],
-	 				friends:['Friend1','Friend2']
-	 			}; 
-	 			this.handleTextSend = this.handleTextSend.bind(this);
-	 			this.handleChange = this.handleChange.bind(this);
-	 		}
-	 		    handleChange(event) {
+export default class Chat extends Component { 
+	constructor () { //constructor
+	 	super(); //parent class(Component)
+
+	 	this.state= { //new object
+	 		value: '',//text that you type into input box
+	 		name: '',
+	 		holder:[],
+	 		friends:['Friend1','Friend2']
+        }; 
+        this.client = new Client();
+        this.client.register(this, "handleMessage");
+        this.handleTextSend = this.handleTextSend.bind(this);
+	 	this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleMessage(data) {
+        console.log("Handle Message: " + JSON.stringify(data));
+    }
+	
+    handleChange(event) {
 	    this.setState({value: event.target.value})  //setting value of this.state.value to what is typed in input box
-	}
+    }
 
 	handleTextSend(event) {  //storing chat in array
 		event.preventDefault();
 		if(this.state.value=='') //checking if value is empty
 			return;
-
 		this.sendAjax(this.state.name, this.state.value, this);
 		this.setState({value: ''})
-		this.forceUpdate();
+        this.forceUpdate();
+        this.client.sendMessage("test from client");
 	}
 
 	sendAjax(name, message, self){
