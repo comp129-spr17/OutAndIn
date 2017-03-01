@@ -14,13 +14,15 @@ var Apollo = function(){
     this.socket = socket;
     _self = this;
     socket.on('message', function(data) {
-        console.log("EVENTS: " + _self._events);
-        for(event in _self._events["message"]){
-            _self._events["message"][event](data);
+        for(index in _self._events["message"]){
+            // 'this' context from function origin
+            var funcContext = _self._events["message"][index]["self"];
+            // function handler
+            var func = _self._events["message"][index]["func"];
+            func(funcContext, data);
         }
     });
 };
-module.exports = Apollo;
 
 Apollo.prototype._get = function(url, parameters){
     //parameters = extend(parameters, this.credentials); // Add credentials to parameters
@@ -34,13 +36,17 @@ Apollo.prototype._get = function(url, parameters){
 };
 
 Apollo.prototype.usersGetAll = function(){
-    return _self._get('users', {});
+    return this._get('users', {});
 };
 
 Apollo.prototype.sendMessage = function(msg){
-    socket.emit('message', { message: msg });
+    socket.emit('message', msg);
 };
 
-Apollo.prototype.register = function(compRef, eventName, funcName) {
-    _self._events[eventName].push(compRef[funcName]);
+Apollo.prototype.registerSocketEvent = function(compRef, eventName, funcName) {
+    console.log("REF: " + compRef);
+    this._events[eventName].push({self: compRef, func: compRef[funcName]});
 }
+
+//var client = exports.client = new Apollo();
+module.exports = Apollo;
