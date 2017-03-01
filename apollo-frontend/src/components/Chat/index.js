@@ -1,48 +1,63 @@
 import React, { PropTypes, Component } from 'react'; 
 import moment from 'moment';
-export default class Chat extends Component { 
-		constructor () { //constructor
-	 			super(); //parent class(Component)
+import { client } from '../../modules/api-client';
 
-	 			this.state= { //new object
-	 				value: '',//text that you type into input box
-	 				name: '',
-	 				holder:[],
-	 				friends:['Friend1','Friend2']
-	 			}; 
-	 			this.handleTextSend = this.handleTextSend.bind(this);
-	 			this.handleChange = this.handleChange.bind(this);
-	 		}
-	 		    handleChange(event) {
+export default class Chat extends Component { 
+	constructor () { //constructor
+	 	super();
+	 	this.state= { //new object
+	 		value: '',//text that you type into input box
+	 		name: '',
+	 		holder: [],
+	 		friends: ['Friend1','Friend2']
+        };
+        client.registerSocketEvent(this, "message", "handleMessage");
+        this.handleTextSend = this.handleTextSend.bind(this);
+	 	this.handleChange = this.handleChange.bind(this);
+    }
+    
+    handleMessage(self, msg) {
+        var type = typeof(msg);
+        console.log("Handle Message: " + type);
+        var n = JSON.parse(msg);
+        var o = [{},{},{}];
+        console.log("NEW TYPE: " + n);
+        console.log("O TYPE: " + o);
+        console.log("SELF: " + self);
+        console.log("HOLDER: " + self.state["holder"]);
+        self.setState({holder: n}); //parsing the server response
+        console.log("HOLDER: " + JSON.stringify(self.state["holder"]));
+    }
+	
+    handleChange(event) {
 	    this.setState({value: event.target.value})  //setting value of this.state.value to what is typed in input box
-	}
+    }
 
 	handleTextSend(event) {  //storing chat in array
 		event.preventDefault();
 		if(this.state.value=='') //checking if value is empty
-			return;
-
-		this.sendAjax(this.state.name, this.state.value, this);
+            return;
+		client.sendMessage({user: this.state.name, message: this.state.value});	
+        //this.sendAjax(this.state.name, this.state.value, this);
 		this.setState({value: ''})
-		this.forceUpdate();
+        this.forceUpdate();
 	}
 
-	sendAjax(name, message, self){
+    sendAjax(name, message, self){
+        /*
 		var request = new XMLHttpRequest(); //create a request object
 		request.onreadystatechange = function(){ //checking the status of the server
     		if(this.readyState == 4 && this.status == 200){
     			self.setState({holder: JSON.parse(this.responseText)}); //parsing the server response
     		}
-		};
-						
-		request.open("POST", "http://localhost:4200/messagingHandler/global", true); //Creates the Post request
-		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //Modifies the header of the request
-		request.send('user=' + name +'&message=' + message); // Sends the request to the server
+        };
+        */
+        //client.sendMessage({user: name, message: message});	
+        //request.open("POST", "http://localhost:4200/messagingHandler/global", true); //Creates the Post request
+        //request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //Modifies the header of the request
+        //request.send('user=' + name +'&message=' + message); // Sends the request to the server
 
 	} //holds previous chats(when enter is clicked, the value of "value" is stored in holder)
-
-
-
 
 	render() { 		//form for input message and send button creation)
 	 	if(this.state.name == ''){
@@ -79,7 +94,7 @@ class SideBar extends React.Component {
   render() {
     return <div className="div-left" >
         		{this.props.friends.map((friend, k) => { 
-                		return <p key={k} > {friend} </p>
+                			return <div className="sidebar-container" key={k}> <img className="img-circle" src="https://www.abeautifulsite.net/content/uploads/2014/08/rounded-image-250x250.png"/> <p className="sidebar-name"> {friend} </p> </div>
 	    			})
         		}
         	</div>;
@@ -100,7 +115,7 @@ class RightChatComponent extends React.Component{
 	render(){
 		return(
 			<div className="bubble-right">
-				<span className='msgSender'>{this.props.msg.user}: </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+				<span className='msgSender'> me : </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
 			</div>
 		)
 	}
@@ -111,7 +126,7 @@ class LeftChatComponent extends React.Component{
 	render(){
 		return(
 			<div className="bubble-left">
-				<span className='msgSender'>{this.props.msg.user}: </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+				<span className='msgSender'>{this.props.msg.user}: </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timestamp).fromNow()} </span>
 			</div>
 		)
 	}
