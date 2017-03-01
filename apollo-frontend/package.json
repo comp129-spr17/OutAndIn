@@ -28,7 +28,8 @@
     "style-loader": "^0.13.1",
     "webpack": "^1.12.14",
     "bluebird": "^3.4.7",
-    "socket.io-client": "^1.7.3"
+    "socket.io-client": "^1.7.3",
+    "apollo-api-client": "file:../apollo-backend/client"
   },
   "devDependencies": {
     "webpack-dev-middleware": "^1.6.1",
