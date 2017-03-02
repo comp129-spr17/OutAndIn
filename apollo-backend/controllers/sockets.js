@@ -4,7 +4,6 @@ var sockets = function(io) {
 	
 	//namespaces
 	var chatSocket = io.of('/Chat');
-	chatSpace(chatSocket);
     var globalMessage = globalMessage || [];
 
     io.on('connection', function(socket){
