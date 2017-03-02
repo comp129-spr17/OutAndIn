@@ -1,0 +1,9 @@
+{
+    "APOLLO_MYSQL_PORT": "6606",
+    "APOLLO_MYSQL_DIR": "pranav",
+    "APOLLO_MYSQL_IP": "172.31.254.33",
+    "APOLLO_MYSQL_SRV_USER": "root",
+    "APOLLO_MYSQL_SRV_PASS": "apollo",
+    "APOLLO_MYSQL_USER": "root",
+    "APOLLO_MYSQL_PASS": "apollo"
+}
