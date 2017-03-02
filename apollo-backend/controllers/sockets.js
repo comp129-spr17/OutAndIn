@@ -3,10 +3,6 @@ var paths = require('./messaging');
 var sockets = function(io) {
 	
 	//namespaces
-<<<<<<< HEAD
-=======
-	var chatSocket = io.of('/Chat');
->>>>>>> a360e4ddd80d7dfb1b5512c27f8798e42ca06df1
     var globalMessage = globalMessage || [];
 
     io.on('connection', function(socket){
