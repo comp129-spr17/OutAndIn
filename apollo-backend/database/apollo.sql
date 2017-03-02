@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS `chat`;
 
 CREATE TABLE `chat` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `room_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
   `avatar` longtext NOT NULL,
   PRIMARY KEY (`id`)
