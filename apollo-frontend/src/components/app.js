@@ -3,11 +3,24 @@ import React, { Component } from 'react';
 import { client } from '../modules/api-client';
 
 class App extends Component {
+    constructor(){
+        super();
+        this.data = "";
+    }
+
+    componentDidMount(){
+        client.usersGetAll().then((res) => {
+            this.setState({data: res.data});
+            console.log(res.data);
+        }).catch((err) => { 
+            console.log(err);
+        });
+    }
     render() {
         return (
             <div>
-                <h1>Apollo is working and running using {this.props.name}</h1>
-                <button onClick={this.handleTextSend}></button>
+                <div> {this.data} </div>
+                { this.props.children }
             </div>
         )
     }
