@@ -1,7 +1,8 @@
-apollo-backend/server/node_modules
-apollo-backend/client/node_modules
+apollo-backend/node_modules
 apollo-backend/config/config.json
-apollo-backend/client/node_modules
 apollo-frontend/node_modules
 apollo-frontend/public/apollo-core.js
 npm-debug.log
+*~
+*.swp
+*.swo
