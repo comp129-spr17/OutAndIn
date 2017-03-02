@@ -137,7 +137,7 @@ exp.sendError = function(fromEvent, errorMsg, clientData, socket){
 		if(clientData.hasOwnProperty(key))
 			errorData[key] = clientData[key];
 
-	socket.emit('error', errorData);
+	socket.emit('error', errorData, socket.id);
 
 };
 
@@ -183,7 +183,7 @@ outputs:
 	user: {user object}
 }
 */
-exp.User.get = function(data, socket){
+exp.User.get = function(data, socket, sockId){
 	//error checking
 	if(typeof data.id != 'number')
 	{
@@ -202,7 +202,7 @@ exp.User.get = function(data, socket){
 
 	socket.emit('userData', {
 		user: user 
-	});
+	}, sockId);
 };
 
 /*
@@ -252,7 +252,7 @@ output:
 	chat: {chat object}
 }
 */
-exp.Chat.get = function(data, socket){
+exp.Chat.get = function(data, socket, sockId){
 	//error checking
 	if(typeof data.id != 'number')
 	{
@@ -271,9 +271,9 @@ exp.Chat.get = function(data, socket){
 	}
 
 	//send client
-	socket.emit('getChat', {
+	socket.emit('chatData', {
 		chat: chat
-	});
+	}, sockId);
 };
 
 /* 
