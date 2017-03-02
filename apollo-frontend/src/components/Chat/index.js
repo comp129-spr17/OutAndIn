@@ -17,16 +17,7 @@ export default class Chat extends Component {
     }
     
     handleMessage(self, msg) {
-        var type = typeof(msg);
-        console.log("Handle Message: " + type);
-        var n = JSON.parse(msg);
-        var o = [{},{},{}];
-        console.log("NEW TYPE: " + n);
-        console.log("O TYPE: " + o);
-        console.log("SELF: " + self);
-        console.log("HOLDER: " + self.state["holder"]);
-        self.setState({holder: n}); //parsing the server response
-        console.log("HOLDER: " + JSON.stringify(self.state["holder"]));
+        self.setState({holder: JSON.parse(msg)}); //parsing the server response
     }
 	
     handleChange(event) {
@@ -43,22 +34,6 @@ export default class Chat extends Component {
         this.forceUpdate();
 	}
 
-    sendAjax(name, message, self){
-        /*
-		var request = new XMLHttpRequest(); //create a request object
-		request.onreadystatechange = function(){ //checking the status of the server
-    		if(this.readyState == 4 && this.status == 200){
-    			self.setState({holder: JSON.parse(this.responseText)}); //parsing the server response
-    		}
-        };
-        */
-        //client.sendMessage({user: name, message: message});	
-        //request.open("POST", "http://localhost:4200/messagingHandler/global", true); //Creates the Post request
-        //request.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); //Modifies the header of the request
-        //request.send('user=' + name +'&message=' + message); // Sends the request to the server
-
-	} //holds previous chats(when enter is clicked, the value of "value" is stored in holder)
-
 	render() { 		//form for input message and send button creation)
 	 	if(this.state.name == ''){
 			var person = prompt("Please enter your name", this.state.name); //var person stores user input, which is name
@@ -68,9 +43,7 @@ export default class Chat extends Component {
 
 	    var sidebarContent = <b>Sidebar content</b>;
 
-
        	return (
-       		
             <div className="container" > 
             	<SideBar friends={this.state.friends} />
             	<div className="div-right">
@@ -103,7 +76,6 @@ class SideBar extends React.Component {
 
 class ChatComponent extends React.Component{
 	render(){
-		console.log()
 		if(this.props.selfname==this.props.message.user)
 			return <RightChatComponent msg={this.props.message} />
 		else
