@@ -3,8 +3,6 @@ var paths = require('./messaging');
 var sockets = function(io) {
 	
 	//namespaces
-	var chatSocket = io.of('/Chat');
-	chatSpace(chatSocket);
     var globalMessage = globalMessage || [];
 
     io.on('connection', function(socket){
@@ -20,7 +18,7 @@ var sockets = function(io) {
 
 		socket.on('addUser', function(data){
 			console.log("EVENT: addUser");
-           	paths.User.add(data, chatSock); 
+           	paths.User.add(data, socket); 
 		});
 
 		socket.on('getUser', function(data){

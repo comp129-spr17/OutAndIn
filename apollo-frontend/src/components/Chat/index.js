@@ -11,13 +11,15 @@ export default class Chat extends Component {
 	 		holder: [],
 	 		friends: ['Friend1','Friend2']
         };
-        client.registerSocketEvent(this, "message", "handleMessage");
-        this.handleTextSend = this.handleTextSend.bind(this);
+
+		this.handleTextSend = this.handleTextSend.bind(this);
 	 	this.handleChange = this.handleChange.bind(this);
+		this.handleMessage = this.handleMessage.bind(this);
+        client.socketRegisterEvent("message", this.handleMessage);
     }
     
-    handleMessage(self, msg) {
-        self.setState({holder: JSON.parse(msg)}); //parsing the server response
+    handleMessage(msg) {
+        this.setState({holder: JSON.parse(msg)}); //parsing the server response
     }
 	
     handleChange(event) {
@@ -29,6 +31,7 @@ export default class Chat extends Component {
 		if(this.state.value=='') //checking if value is empty
             return;
 		client.sendMessage({user: this.state.name, message: this.state.value});	
+		client.userAdd({name: 'TEST NAME'});
         //this.sendAjax(this.state.name, this.state.value, this);
 		this.setState({value: ''})
         this.forceUpdate();
