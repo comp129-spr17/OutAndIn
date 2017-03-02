@@ -1,2 +1,2 @@
-import Apollo from 'apollo-api-client';
+import Apollo from '../libs/apollo';
 export let client = new Apollo();
