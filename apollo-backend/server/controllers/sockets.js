@@ -1,8 +1,7 @@
 var paths = require('./messaging');
 
 
-var chatSpace = function(chatSock)
-{
+var chatSpace = function(chatSock) {
 	chatSock.on('connection', function(socket){
 		
 		//on initial connection
@@ -37,7 +36,7 @@ var chatSpace = function(chatSock)
 	
 };
 
-var sockets = function(io){
+var sockets = function(io) {
 	
 	//namespaces
 	var chatSocket = io.of('/Chat');
@@ -52,8 +51,6 @@ var sockets = function(io){
                 message: data.message,
                 timeStamp: Math.floor(Date.now() / 1000) // UNIX timestamp
             });
-            console.log("SOCKET: " + JSON.stringify(data));
-            console.log("GM: " + JSON.stringify(globalMessage));
             io.emit('message', JSON.stringify(globalMessage));
         });
         socket.on('disconnect', function(){
