@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { browserHistory } from 'react-router';
+import { Router, browserHistory } from 'react-router';
 
-import Routes from './routes';
+import routes from './routes';
 
 render(
-    <Routes history={browserHistory} />,
-    document.getElementById('apollo')
+    <Router history={browserHistory} routes={routes}/>,
+    document.getElementById('app')
 );
