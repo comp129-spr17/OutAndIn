@@ -1,12 +1,22 @@
-import '../assets/scss/base.scss';
+import '../styles/app.scss';
 import React, { Component } from 'react';
 import { client } from '../modules/api-client';
+import Header from './Header';
+import Sidebar from './Sidebar';
 
 class App extends Component {
     render() {
         return (
-            <div>
-                <div>{this.props.children}</div>
+            <div className="apollo-container">
+                <div className="container-fluid">
+                    <div className="row">
+                        <Header />
+                        <Sidebar />
+                        <div class="col-xs-12 main">
+                            { this.props.children }
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
