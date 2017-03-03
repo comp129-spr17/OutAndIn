@@ -35,7 +35,7 @@ export default class Chat extends Component {
 		event.preventDefault();
 		if(this.state.value=='') //checking if value is empty
             return;
-		client.sendMessage({user: this.state.username, message: this.state.value});	
+        client.sendMessage({user: this.state.username, message: this.state.value});
 		this.setState({value: ''})
         this.forceUpdate();
     }
@@ -82,7 +82,6 @@ export default class Chat extends Component {
 
        	return (
             <div className="container" > 
-            	<SideBar friends={this.state.friends} />
             	<div className="div-right">
 	  				<div className="bubble-dialog">
 	  					{this.state.holder.map((msg, k) => { 
@@ -97,18 +96,6 @@ export default class Chat extends Component {
           	</div>
      	);
 	}
-}
-
-
-class SideBar extends React.Component {
-  render() {
-    return <div className="div-left" >
-        		{this.props.friends.map((friend, k) => { 
-                			return <div className="sidebar-container" key={k}> <img className="img-circle" src="https://www.abeautifulsite.net/content/uploads/2014/08/rounded-image-250x250.png"/> <p className="sidebar-name"> {friend} </p> </div>
-	    			})
-        		}
-        	</div>;
-  	}
 }
 
 class ChatComponent extends React.Component{
