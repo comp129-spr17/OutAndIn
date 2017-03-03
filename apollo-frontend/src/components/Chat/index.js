@@ -5,17 +5,22 @@ import { client } from '../../modules/api-client';
 export default class Chat extends Component { 
 	constructor () { //constructor
 	 	super();
-	 	this.state= { //new object
+        this.state= { //new object
+            error: 0, // username taken error
 	 		value: '',//text that you type into input box
-	 		name: '',
+	 		username: '',
 	 		holder: [],
 	 		friends: ['Friend1','Friend2']
         };
-
+        this.handleUserInitError = this.handleUserInitError.bind(this);
+        this.handleUserInit = this.handleUserInit.bind(this);
+        this.promptForUsername = this.promptForUsername.bind(this);
 		this.handleTextSend = this.handleTextSend.bind(this);
 	 	this.handleChange = this.handleChange.bind(this);
 		this.handleMessage = this.handleMessage.bind(this);
         client.socketRegisterEvent("message", this.handleMessage);
+        client.socketRegisterEvent("userInit", this.handleUserInit);
+        client.socketRegisterEvent("userInitError", this.handleUserInitError);
     }
     
     handleMessage(msg) {
@@ -25,26 +30,55 @@ export default class Chat extends Component {
     handleChange(event) {
 	    this.setState({value: event.target.value})  //setting value of this.state.value to what is typed in input box
     }
-
+    
 	handleTextSend(event) {  //storing chat in array
 		event.preventDefault();
 		if(this.state.value=='') //checking if value is empty
             return;
-		client.sendMessage({user: this.state.name, message: this.state.value});	
-		client.userAdd({name: 'TEST NAME'});
-        //this.sendAjax(this.state.name, this.state.value, this);
+		client.sendMessage({user: this.state.username, message: this.state.value});	
 		this.setState({value: ''})
         this.forceUpdate();
-	}
+    }
 
-	render() { 		//form for input message and send button creation)
-	 	if(this.state.name == ''){
-			var person = prompt("Please enter your name", this.state.name); //var person stores user input, which is name
-			this.state.name=person; //setting name input from person var to the name var
-			if(!person) this.state.name="Anon"; //if name is not entered, user is an anon 
-		}
+    promptForUsername(){
+        var username = " ";
+        if(this.state.username == ''){
+            if(!this.state.error == 1){
+                username = prompt(this.state.error + "\n" + "Please enter your name", this.state.username); //var person stores user input, which is name
+            } else {
+                username = prompt("Please enter your name", this.state.username); //var person stores user input, which is name
+            }
+            if(username == null){
+                return false;
+            }
+            client.userInit(username);
+        }
+    }
 
-	    var sidebarContent = <b>Sidebar content</b>;
+    handleUserInit(response){
+        let res = JSON.parse(response);
+        // Check if an error occured
+        if(res["code"] == 0) {
+            this.setState({username: '', error: 0});  
+            return;
+        } 
+        // Error did not occur, store the username in local state
+        var username = res["details"]["username"];
+        this.setState({username: username, error: 1});  
+    }
+
+    // Handle User Initialization Error
+    handleUserInitError(response){
+        this.setState({username: '', error: 2});  
+    }
+
+    render() {
+        // Check if the Database is being set up
+        if(this.state.error == 2){
+            return(<div>Database Error or currently being set up</div>);
+        } else if(this.state.username == '' && this.state.error == 0){
+            return (<div>{this.promptForUsername()}</div>);
+        }
 
        	return (
             <div className="container" > 
@@ -52,7 +86,7 @@ export default class Chat extends Component {
             	<div className="div-right">
 	  				<div className="bubble-dialog">
 	  					{this.state.holder.map((msg, k) => { 
-            				return <ChatComponent key={k} message={msg} selfname={this.state.name} />
+            				return <ChatComponent key={k} message={msg} selfname={this.state.username} />
             			})}
 					</div>
 	    		 	<form className='form'> 
