@@ -9,8 +9,7 @@ export default class Chat extends Component {
             error: 0, // username taken error
 	 		value: '',//text that you type into input box
 	 		username: '',
-	 		holder: [],
-	 		friends: ['Friend1','Friend2']
+	 		holder: []
         };
         this.handleUserInitError = this.handleUserInitError.bind(this);
         this.handleUserInit = this.handleUserInit.bind(this);
@@ -80,26 +79,34 @@ export default class Chat extends Component {
             return (<div>{this.promptForUsername()}</div>);
         }
 
-       	return (
-            <div className="container" > 
-            	<div className="div-right">
-	  				<div className="bubble-dialog">
-	  					{this.state.holder.map((msg, k) => { 
-            				return <ChatComponent key={k} message={msg} selfname={this.state.username} />
-            			})}
-					</div>
-	    		 	<form className='form'> 
-	        	 		<input autoFocus type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
-		             	<button onClick={this.handleTextSend}></button>  
-	            	</form>
-            	</div>
-          	</div>
+        return (
+            <div className="page">
+                <div className="row">
+                    <div className="chat-timeline">
+                        <div className="container" > 
+                            <div className="div-right">
+                                <div className="bubble-dialog">
+                                    {this.state.holder.map((msg, k) => { 
+                                        return <ChatComponent key={k} message={msg} selfname={this.state.username} />
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="chat-input">
+                        <form className='form'> 
+                            <input autoFocus type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
+                            <button onClick={this.handleTextSend}></button>  
+                        </form>
+                    </div>
+                </div>
+            </div>
      	);
 	}
 }
 
-class ChatComponent extends React.Component{
-	render(){
+class ChatComponent extends React.Component {
+	render() {
 		if(this.props.selfname==this.props.message.user)
 			return <RightChatComponent msg={this.props.message} />
 		else
@@ -107,9 +114,9 @@ class ChatComponent extends React.Component{
 	}
 }
 
-class RightChatComponent extends React.Component{
-	render(){
-		return(
+class RightChatComponent extends React.Component {
+	render() {
+		return (
 			<div className="bubble-right">
 				<span className='msgSender'> me : &nbps; </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
 			</div>
@@ -118,9 +125,9 @@ class RightChatComponent extends React.Component{
 }
 
 
-class LeftChatComponent extends React.Component{
-	render(){
-		return(
+class LeftChatComponent extends React.Component {
+	render() {
+		return (
 			<div className="bubble-left">
 				<span className='msgSender'>{this.props.msg.user}: &nbsp;</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
 			</div>
