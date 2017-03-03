@@ -1,0 +1,164 @@
+@import 'base/base';
+@import 'components/components';
+
+.form {
+    background: #ccc; 
+    padding: 10px; 
+    position: fixed; 
+    bottom: 0; 
+    width: 100%; 
+} 
+
+.form .msg { 
+    border: 0; 
+    padding: 10px; 
+    width: 50%; 
+    margin-right: 5px; 
+    margin-left: 5px; 
+}
+
+.form button { /*edited here for the button*/
+   width: 50px;
+    height: 30px;
+    border: none; 
+    padding: 10px; 
+    background-image: url('https://ibin.co/3CYbXRFOLxbF.png');
+    background-position:center;
+    background-repeat: no-repeat;
+    background-color: #164762;  
+}
+
+.messages { 
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0;  
+    font: 14px Helvetica, Arial; 
+    color: #000;
+    clear: both;
+}
+
+.messages li{
+    display: block;
+    padding: 5px 10px; 
+    margin-left: 5px;
+}
+
+.messages li:nth-child(odd) { 
+    display: block;
+    color: white;
+    background: #164762;
+
+}
+
+.msgSender { 
+    font-family: "Helvetica"; 
+    font-weight: bold; 
+    float: left;
+}
+
+.msgTimeStamp {
+    float: right;
+}
+/*
+.sidebar { Parent flex container that will hold contents of the sidebar. 
+    display: flex; Flex containers can wrap, shrink, etc. if necessary.
+    flex-direction: column; Organizes inner flex containers into a column format.
+    position: absolute; 
+    top: 0; bottom: 0; left: 0;
+    width: 50px;
+}*/
+    
+.div-left{
+    float:left;
+    width:20%;
+    height:100%;
+    border: 2px solid grey;
+    border-color: #EFEFEF;
+
+}
+.div-right{
+    float:right;
+    width:70%;
+    padding-right:5px;
+}
+.container{
+    width:100%;
+    clear:both;
+}
+
+.bubble-dialog {
+    white-space: pre-line;
+    line-height:0;
+}
+
+.bubble-left
+{
+    line-height: 100%;
+    display: block;
+    position: relative;
+    padding: .25em .5em;
+    background-color: #F7F7F7;
+    color:#7A7A7A;
+    border: 2px solid grey;
+    border-color: #EFEFEF;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    margin-bottom: 2em;
+    clear: both;
+    min-width:35%;
+    max-width:50%;
+}
+
+.bubble-right {
+    line-height: 100%;
+    display: block;
+    position: relative;
+    padding: .25em .5em;
+    background-color: #164762;
+    color: #FFFFFF;
+    border: 2px solid grey;
+    border-color: #EFEFEF;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    margin-bottom: 2em;
+    clear: both;
+    min-width:35%;
+    max-width:50%;
+}
+
+.bubble-left {
+    float: left;
+    margin-right:10%;
+}
+.bubble-right {
+    float:right;
+    margin-left:10%
+}
+.img-circle {
+    margin-top:10px;
+    float:left;
+    border-radius: 50%;
+    width:50px;
+    height:50px;
+    display:none;
+}
+
+.sidebar-container{
+    height:50px;
+    display: block;
+    clear:both;
+    cursor: pointer;
+    border: 1px solid;
+    border-color: red;
+    margin:1px;
+}
+.sidebar-name{
+    margin-left:60px;
+    vertical-align: middle;
+    line-height: 50px;
+    display:none;
+
+}
+
