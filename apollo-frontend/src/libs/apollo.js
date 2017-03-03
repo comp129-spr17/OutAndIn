@@ -11,7 +11,9 @@ var Apollo = function(){
 
 Apollo.prototype.socketEvents = function(){
     this._events = {
-        "message": []
+        "message": [],
+        "userInit": [],
+        "userInitError": []
     };
     this.socket = require('socket.io-client')('http://localhost:4200');
     var self = this;
@@ -20,6 +22,18 @@ Apollo.prototype.socketEvents = function(){
             var func = self._events["message"][index]["callback"];
             func(data);
         }
+    });
+    this.socket.on('userInit', function(data){
+        for(var index in self._events["userInit"]){
+            var func = self._events["userInit"][index]["callback"];
+            func(data);
+        }
+    });
+    this.socket.on('userInitError', function(data){
+        for(var index in self._events["userInitError"]){
+            var func = self._events["userInitError"][index]["callback"];
+            func(data);
+        }       
     });
 };
 
@@ -45,6 +59,17 @@ Apollo.prototype.usersGetAll = function(){
 
 Apollo.prototype.sendMessage = function(msg){
     this.socket.emit('message', msg);
+};
+
+Apollo.prototype.userInit = function(username){
+    let req = {
+        "object": "USER",
+        "action": "INIT",
+        "details": {
+            "username": username
+        }
+    };
+    this.socket.emit('userInit', req);
 };
 
 Apollo.prototype.userAdd = function(msg){
