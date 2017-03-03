@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'; 
+import ReactDOM from 'react-dom';
 import moment from 'moment';
 import { client } from '../../modules/api-client';
 
@@ -9,7 +10,8 @@ export default class Chat extends Component {
             error: 0, // username taken error
 	 		value: '',//text that you type into input box
 	 		username: '',
-	 		holder: []
+            holder: [],
+            messagesEnd: ''
         };
         this.handleUserInitError = this.handleUserInitError.bind(this);
         this.handleUserInit = this.handleUserInit.bind(this);
@@ -118,7 +120,7 @@ class RightChatComponent extends React.Component {
 	render() {
 		return (
 			<div className="bubble-right">
-				<span className='msgSender'> me : &nbps; </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+				<span className='msgSender'> me:  { "\u00a0\u00a0" } </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
 			</div>
 		)
 	}
@@ -129,7 +131,7 @@ class LeftChatComponent extends React.Component {
 	render() {
 		return (
 			<div className="bubble-left">
-				<span className='msgSender'>{this.props.msg.user}: &nbsp;</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+				<span className='msgSender'>{this.props.msg.user}:  { "\u00a0\u00a0" }</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
 			</div>
 		)
 	}
