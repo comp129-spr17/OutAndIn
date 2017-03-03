@@ -165,7 +165,7 @@ exp.User.add = function(data, socket){
 
 	//create user 
 	new Schemas.User(data.name);
-	console.log("USERSSS: " + JSON.stringify(Lists.User));
+    //console.log("USERSSS: " + JSON.stringify(Lists.User));
 	
 	//send new user list to all clients
 	socket.emit('userIdList', {
