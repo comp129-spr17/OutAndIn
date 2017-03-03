@@ -12,7 +12,7 @@ class App extends Component {
                     <div className="row">
                         <Header />
                         <Sidebar />
-                        <div class="col-xs-12 main">
+                        <div className="col-xs-12 main">
                             { this.props.children }
                         </div>
                     </div>
