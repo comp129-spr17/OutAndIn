@@ -16,14 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# Dump of table chat
+# Dump of table chats
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `chat`;
+DROP TABLE IF EXISTS `chats`;
 
-CREATE TABLE `chat` (
+CREATE TABLE `chats` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `room_id` int(11) NOT NULL,
+  `room_id` varchar(32) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
   `avatar` longtext NOT NULL,
   PRIMARY KEY (`id`)
@@ -45,12 +45,12 @@ CREATE TABLE `chat_status` (
 
 
 
-# Dump of table chat_user
+# Dump of table chat_users
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `chat_user`;
+DROP TABLE IF EXISTS `chat_users`;
 
-CREATE TABLE `chat_user` (
+CREATE TABLE `chat_users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `chat_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -59,10 +59,10 @@ CREATE TABLE `chat_user` (
 
 
 
-# Dump of table file
+# Dump of table files
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `file`;
+DROP TABLE IF EXISTS `files`;
 
 CREATE TABLE `file` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -78,12 +78,12 @@ CREATE TABLE `file` (
 
 
 
-# Dump of table friend
+# Dump of table friends
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `friend`;
+DROP TABLE IF EXISTS `friends`;
 
-CREATE TABLE `friend` (
+CREATE TABLE `friends` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `friend_id` int(11) NOT NULL,
@@ -92,12 +92,12 @@ CREATE TABLE `friend` (
 
 
 
-# Dump of table message
+# Dump of table messages
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `message`;
+DROP TABLE IF EXISTS `messages`;
 
-CREATE TABLE `message` (
+CREATE TABLE `messages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `chat_id` int(11) NOT NULL,
   `created_by` int(11) NOT NULL,
@@ -123,13 +123,14 @@ CREATE TABLE `message_status` (
 
 
 
-# Dump of table user
+# Dump of table users
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `users`;
 
-CREATE TABLE `user` (
+CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(32) NOT NULL DEFAULT '',
   `email` varchar(512) NOT NULL DEFAULT '',
   `fullname` varchar(255) NOT NULL DEFAULT '',
   `username` varchar(255) NOT NULL DEFAULT '',
