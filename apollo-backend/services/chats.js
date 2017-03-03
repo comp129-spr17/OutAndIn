@@ -1,3 +1,4 @@
+'use strict'
 var db = require('../modules/database');
 var uuid = require('uuid/v1');
 

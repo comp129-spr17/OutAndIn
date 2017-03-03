@@ -1,3 +1,4 @@
+'use strict'
 var paths = require('./messaging');
 var usersService = require('../services/users');
 
