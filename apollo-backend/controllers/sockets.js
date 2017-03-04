@@ -20,44 +20,7 @@ var sockets = function(io) {
         });
 
         socket.on('userInit', function(data){
-            usersService.usersGetUserByUsername(data["details"]["username"]).then((res) => {
-                if(res.length == 0) {
-                    return usersService.usersCreateUser(data["details"]["username"]);             
-                }
-                // Username already exists
-                throw 0;
-            }).then((res) => {
-                let response = {
-                    "object": "USER",
-                    "action": "INIT",
-                    "code": "1",
-                    "message": "Username acquired successfully",
-                    "details": {
-                        username: data["details"]["username"]
-                    }
-                };
-                socket.emit('userInit', JSON.stringify(response));
-            }).catch((err) => {
-                if(err == 0){
-                    let response = {
-                        "object": "USER",
-                        "action": "INIT",
-                        "code": "0",
-                        "message": "Username is already taken",
-                        "details": {}
-                    };
-                    socket.emit('userInitError', JSON.stringify(response));    
-                    return;
-                }
-                let response = {
-                    "object": "USER",
-                    "action": "INIT",
-                    "code": "2",
-                    "message": "Database Error",
-                    "details": {}
-                };
-                socket.emit('userInitError', JSON.stringify(response));           
-            });   
+			paths.User.init(data, socket);
         });
 
         socket.on('addUser', function(data){
