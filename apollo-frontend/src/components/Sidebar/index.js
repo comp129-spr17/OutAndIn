@@ -4,7 +4,9 @@ export default class Sidebar extends React.Component {
     constructor() {
         super();
         this.state = {
-            friends: ['friend', 'friend2']
+            friends: [{name:'Friend1',profile_src:'',few_chat_text:''}, 
+                {name:'Friend2',profile_src:'',few_chat_text:''}
+            ]
         };
     }
 
@@ -12,7 +14,7 @@ export default class Sidebar extends React.Component {
         return (
             <div className="sidebar">
         	    {this.state.friends.map((friend, k) => { 
-                			return <div className="sidebar-container" key={k}> <img className="img-circle" src="https://www.abeautifulsite.net/content/uploads/2014/08/rounded-image-250x250.png"/> <p className="sidebar-name"> {friend} </p> </div>
+                			return <div className="sidebar-container" key={k}> <img className="img-circle" src="https://www.abeautifulsite.net/content/uploads/2014/08/rounded-image-250x250.png"/> <p className="sidebar-name"> {friend.name} </p> </div>
 	    			})
         		}
             </div>
