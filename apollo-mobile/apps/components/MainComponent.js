@@ -20,6 +20,9 @@ class MainComponent extends Component
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.Logo}> Apollo </Text>
+        </View>
         <ListView dataSource = {this.state.dataSource}
                   enableEmptySections = {true}
                   style = {styles.listMessage}
@@ -50,7 +53,7 @@ const styles  = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold'
   },
-  ViewContainer:
+  header:
   {
     height:70,
     //flexDirection: "column", /*top to bottom*/
@@ -89,19 +92,11 @@ const styles  = StyleSheet.create({
   },
   inputMessage: {
     flex: 8,
-    //bottom: 0,
-    //position: 'absolute',
     borderWidth: 1,
     borderColor: '#164762',
-    //width: 1000,
-    //height: 30
   },
   buttonSend: {
     flex: 2,
-    //bottom:0,
-    //right:0,
-    //position: 'absolute',
-    //height: 30,
     backgroundColor: '#164762',
     flexDirection: 'row',
     alignItems: 'center',
