@@ -84,24 +84,24 @@ const styles  = StyleSheet.create({
     paddingLeft:5
   },
   containerInput: {
-    flex: 1,
+    height: 30,
     flexDirection: 'row',
   },
   inputMessage: {
     flex: 8,
-    bottom: 0,
-    position: 'absolute',
+    //bottom: 0,
+    //position: 'absolute',
     borderWidth: 1,
-    borderColor: '#46b8da',
-    width: 1000,
-    height: 30
+    borderColor: '#164762',
+    //width: 1000,
+    //height: 30
   },
   buttonSend: {
     flex: 2,
-    bottom:0,
-    right:0,
-    position: 'absolute',
-    height: 30,
+    //bottom:0,
+    //right:0,
+    //position: 'absolute',
+    //height: 30,
     backgroundColor: '#164762',
     flexDirection: 'row',
     alignItems: 'center',
