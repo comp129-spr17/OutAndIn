@@ -2,14 +2,16 @@
 
 import React, { Component } from 'react';
 import { View, StyleSheet, AppRegistry, Text, Navigator } from 'react-native';
-import ViewContainer from './apps/components/ViewContainer'
+import MainComponent from './apps/components/MainComponent'
 
 class Apollo extends Component {
   render() {
     return (
-      <ViewContainer>
-        <Text>Hellooo </Text>
-      </ViewContainer>
+      <MainComponent>
+      <View style={{flex: 1}}>
+<View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}><Text>My fixed footer</Text></View>
+</View>
+      </MainComponent>
     )
   }
 }
