@@ -19,7 +19,7 @@ class MainComponent extends Component
 
   render() {
     return (
-      <View style={styles.ViewContainer}>
+      <View style={styles.container}>
         <ListView dataSource = {this.state.dataSource}
                   enableEmptySections = {true}
                   style = {styles.listMessage}
@@ -30,18 +30,32 @@ class MainComponent extends Component
                       </View>
                   }
         />
+        <View style={styles.containerInput}>
+          <TextInput style={styles.inputMessage}
+                     onChangeText={text => this.setState({message: text})}
+                     value={this.state.message}
+          />
+          <TouchableOpacity style={styles.buttonSend}>
+            <Text style = {styles.send}> SEND </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
 }
 
 const styles  = StyleSheet.create({
+  send:
+  {
+    color: 'white',
+    fontWeight: 'bold'
+  },
   ViewContainer:
   {
     height:70,
-    flexDirection: "column", /*top to bottom*/
+    //flexDirection: "column", /*top to bottom*/
     //justifyContent: "flex-start", /*start at the top*/
-    alignItems: "stretch", /*all components take up full width*/
+    //alignItems: "stretch", /*all components take up full width*/
     backgroundColor: '#164762'
   },
   Logo:
@@ -68,6 +82,30 @@ const styles  = StyleSheet.create({
     paddingTop: 5,
     paddingRight:5,
     paddingLeft:5
+  },
+  containerInput: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  inputMessage: {
+    flex: 8,
+    bottom: 0,
+    position: 'absolute',
+    borderWidth: 1,
+    borderColor: '#46b8da',
+    width: 1000,
+    height: 30
+  },
+  buttonSend: {
+    flex: 2,
+    bottom:0,
+    right:0,
+    position: 'absolute',
+    height: 30,
+    backgroundColor: '#164762',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
 
