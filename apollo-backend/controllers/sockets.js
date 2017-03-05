@@ -1,6 +1,5 @@
 'use strict'
 var paths = require('./messaging');
-var usersService = require('../services/users');
 
 var sockets = function(io) {
 	
@@ -18,36 +17,31 @@ var sockets = function(io) {
             console.log("USER: " + data.user);
             io.emit('message', JSON.stringify(globalMessage));
         });
-
+		
+		//on user initial registration
         socket.on('userInit', function(data){
 			paths.User.init(data, socket);
         });
 
-        socket.on('addUser', function(data){
-            
-			console.log("EVENT: addUser");
-           	//paths.User.add(data, socket); 
+		//Add a user to an exsiting chat
+		//TODO: Later print
+        socket.on('userAddChat', function(data){
 		});
 
-		socket.on('getUser', function(data){
+		//retrieve user data
+		socket.on('userDetails', function(data){
 			console.log("EVENT: getUser");
            	//paths.User.get(data, chatSock, socket.id);
 		});	
-
-        socket.on('joinChat', function(data){
-            // check if chat is already established between those two users
-            // return that chat if there is
-            // if not, make new chat
-			console.log("EVENT: addChat");
-           	//paths.Chat.add(data, chatSock);
-		});
-
-		socket.on('getChat', function(data){
+		
+		//retrieve chat data
+		socket.on('chatDetails', function(data){
 			console.log("EVENT: getChat");
            	//paths.Chat.get(data, chatSock, socket.id);
 		});
 
-		socket.on('addMessage', function(data){
+		//on new message to a chat
+		socket.on('messageSend', function(data){
 			console.log("EVENT: addMessage");
            	//paths.Chat.addMessage(data, chatSock);
 		});
