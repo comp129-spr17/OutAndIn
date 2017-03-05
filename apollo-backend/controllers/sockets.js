@@ -26,7 +26,7 @@ var sockets = function(io) {
         socket.on('addUser', function(data){
             
 			console.log("EVENT: addUser");
-           	paths.User.add(data, socket); 
+           	//paths.User.add(data, socket); 
 		});
 
 		socket.on('getUser', function(data){

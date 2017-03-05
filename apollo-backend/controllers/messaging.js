@@ -118,6 +118,19 @@ var Schemas = {
 //export function objects
 var exp = module.exports;
 
+var eventEmit = function(socket, evnt, object, action, code, message, data){
+
+	var msg = {
+		"object": object,
+		"action": action,
+		"code": code,
+		"message": message,
+		"details": data		//change to "data"???
+	};
+
+	socket.emit(evnt, msg);
+};
+
 exp.User = {};
 exp.Chat = {};
 
