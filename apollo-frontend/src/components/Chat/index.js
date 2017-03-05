@@ -39,6 +39,7 @@ export default class Chat extends Component {
         client.sendMessage({user: this.state.username, message: this.state.value});
 		this.setState({value: ''})
         this.forceUpdate();
+        $("html, body").animate({ scrollTop: $(document).height()}, 1000);
     }
 
     promptForUsername(){
