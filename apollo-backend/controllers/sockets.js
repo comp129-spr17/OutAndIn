@@ -31,13 +31,13 @@ var sockets = function(io) {
 		//retrieve user data
 		socket.on('userDetails', function(data){
 			console.log("EVENT: getUser");
-           	//paths.User.get(data, chatSock, socket.id);
+           	//paths.User.get(data, chatSock);
 		});	
 		
 		//retrieve chat data
 		socket.on('chatDetails', function(data){
 			console.log("EVENT: getChat");
-           	//paths.Chat.get(data, chatSock, socket.id);
+           	//paths.Chat.get(data, chatSock);
 		});
 
 		//on new message to a chat

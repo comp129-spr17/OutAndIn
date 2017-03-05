@@ -134,6 +134,9 @@ var eventEmit = function(socket, evnt, object, action, code, message, data){
 exp.User = {};
 exp.Chat = {};
 
+exp.global = {};	//events emited to all connections
+exp.singular = {};	//events emited to one connection 
+
 //send error message to client on faulty message
 exp.sendError = function(fromEvent, errorMsg, clientData, socket){
 	//error checking
@@ -174,7 +177,10 @@ exp.User.init = function(data, socket){
                         username: data["details"]["username"]
                     }
                 };
-                socket.emit('userInit', JSON.stringify(response));
+				//add to temp database
+				new Schemas.User(data.name);
+				//TODO: need to send all user ids to all users connected
+                socket.emit('userInit', JSON.stringify(response), socket.id);
             }).catch((err) => {
                 if(err == 0){
                     let response = {
@@ -184,7 +190,7 @@ exp.User.init = function(data, socket){
                         "message": "Username is already taken",
                         "details": {}
                     };
-                    socket.emit('userInitError', JSON.stringify(response));    
+                    socket.emit('userInitError', JSON.stringify(response), socket.id);    
                     return;
                 }
                 let response = {
@@ -194,7 +200,7 @@ exp.User.init = function(data, socket){
                     "message": "Database Error",
                     "details": {}
                 };
-                socket.emit('userInitError', JSON.stringify(response));           
+                socket.emit('userInitError', JSON.stringify(response), socket.id);           
             }); 
 };
 
@@ -241,7 +247,7 @@ outputs:
 	user: {user object}
 }
 */
-exp.User.get = function(data, socket, sockId){
+exp.User.get = function(data, socket){
 	//error checking
 	if(typeof data.id != 'number')
 	{
@@ -260,7 +266,7 @@ exp.User.get = function(data, socket, sockId){
 
 	socket.emit('userData', {
 		user: user 
-	}, sockId);
+	}, socket.id);
 };
 
 /*
@@ -310,7 +316,7 @@ output:
 	chat: {chat object}
 }
 */
-exp.Chat.get = function(data, socket, sockId){
+exp.Chat.get = function(data, socket){
 	//error checking
 	if(typeof data.id != 'number')
 	{
@@ -331,7 +337,7 @@ exp.Chat.get = function(data, socket, sockId){
 	//send client
 	socket.emit('chatData', {
 		chat: chat
-	}, sockId);
+	}, socket.id);
 };
 
 /* 
