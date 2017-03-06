@@ -9,10 +9,10 @@ import NotFound from './components/NotFound';
 
 export default (
     <Route path="/" component={App} >
-    <IndexRoute component={Home} />
-		<Route path="/home" component={Home} />
-		<Route path="/chat" component={Chat} />
-		<Route path="/sockTest" component={SockTest} />
-    <Route path="*" component={NotFound} />
+    	<IndexRoute component={Home} />
+			<Route path="/home" component={Home} />
+			<Route path="/chat" component={Chat} />
+			<Route path="/sockTest" component={SockTest} />
+    	<Route path="*" component={NotFound} />
     </Route>
 );

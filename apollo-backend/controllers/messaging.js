@@ -25,35 +25,35 @@ var Lists = {
 		var arr = [];
 		for(var i = 0; i < Lists.User.length; i ++)
 			arr.push(Lists.User[i].id);
-		
+
 		return arr;
 	},
 
 	getUser: function(id){
 		//error checking
 		if(typeof id != 'number')
-			return {error: 'invalid id'};	
-		
+			return {error: 'invalid id'};
+
 		for(var i = 0; i < Lists.User.length; i ++)
 			if(Lists.User[i].id == id)
 				return {user : Lists.User[i]};
 
 		return {error: 'No user found'};
 	},
-	
+
 	getChatIds: function(){
 		var arr = [];
 		for(var i = 0; i < Lists.Chat.length; i ++)
 			arr.push(Lists.Chat[i].id);
 
 		return arr;
-	},	
+	},
 
 	getChat: function(id){
 		//error checking
 		if(typeof id != 'number')
-			return {error: 'invalid id'};	
-		
+			return {error: 'invalid id'};
+
 		for(var i = 0; i < Lists.Chat.length; i ++)
 			if(Lists.Chat[i].id == id)
 				return {user : Lists.Chat[i]};
@@ -82,15 +82,15 @@ var Schemas = {
 		if(typeof user1 != 'number')
 			user1 = -1;
 		if(typeof user2 != 'number')
-			user2 = -1;	
- 
+			user2 = -1;
+
 		//ref to self
 		var _self = this;
 
 		this.id = LastID.Chat ++;
 		this.name = name;
 		this.users = [user1, user2];
-		this.messages = [];			// array or messages			
+		this.messages = [];			// array or messages
 
 		this.addMessage = function(msg)
 		{
@@ -131,12 +131,6 @@ var eventEmit = function(socket, evnt, object, action, code, message, data){
 	socket.emit(evnt, msg);
 };
 
-exp.User = {};
-exp.Chat = {};
-
-exp.global = {};	//events emited to all connections
-exp.singular = {};	//events emited to one connection 
-
 //send error message to client on faulty message
 exp.sendError = function(fromEvent, errorMsg, clientData, socket){
 	//error checking
@@ -160,10 +154,10 @@ exp.sendError = function(fromEvent, errorMsg, clientData, socket){
 };
 
 //when user first registers
-exp.User.init = function(data, socket){
+exp.userInit = function(data, socket){
 	usersService.usersGetUserByUsername(data["details"]["username"]).then((res) => {
                 if(res.length == 0) {
-                    return usersService.usersCreateUser(data["details"]["username"]);             
+                    return usersService.usersCreateUser(data["details"]["username"]);
                 }
                 // Username already exists
                 throw 0;
@@ -190,7 +184,7 @@ exp.User.init = function(data, socket){
                         "message": "Username is already taken",
                         "details": {}
                     };
-                    socket.emit('userInitError', JSON.stringify(response), socket.id);    
+                    socket.emit('userInitError', JSON.stringify(response), socket.id);
                     return;
                 }
                 let response = {
@@ -200,40 +194,8 @@ exp.User.init = function(data, socket){
                     "message": "Database Error",
                     "details": {}
                 };
-                socket.emit('userInitError', JSON.stringify(response), socket.id);           
-            }); 
-};
-
-//on initial connect to chat
-//namespace: UserInit
-/*
-input:
-{
-	name: 'name'
-}
-
-output:
-{
-	userIds: []
-}
-*/
-exp.User.add = function(data, socket){
-	//error checking
-	if(typeof data.name != 'string')
-	{
-		//send error to client
-		exp.sendError('User.add', 'Invalid user name', data, socket);
-		return;
-	}
-
-	//create user 
-	new Schemas.User(data.name);
-    //console.log("USERSSS: " + JSON.stringify(Lists.User));
-	
-	//send new user list to all clients
-	socket.emit('userIdList', {
-		userIds: Lists.getUserIds()
-	});
+                socket.emit('userInitError', JSON.stringify(response), socket.id);
+            });
 };
 
 /*
@@ -242,12 +204,12 @@ input:
 	id: 'user id'
 }
 
-outputs: 
+outputs:
 {
 	user: {user object}
 }
 */
-exp.User.get = function(data, socket){
+exp.userDetails = function(data, socket){
 	//error checking
 	if(typeof data.id != 'number')
 	{
@@ -264,8 +226,8 @@ exp.User.get = function(data, socket){
 		return;
 	}
 
-	socket.emit('userData', {
-		user: user 
+	socket.emit('userDetails', {
+		user: user
 	}, socket.id);
 };
 
@@ -276,12 +238,12 @@ input:
 	user1: 'user id',
 	user2: 'user id'
 }
-output: 
+output:
 {
 	chatIDs: []
 }
 */
-exp.Chat.add = function(data, socket){
+exp.chatInit = function(data, socket){
 	//error checking
 	var errors = '';
 	if(typeof data.name != 'string')
@@ -296,15 +258,17 @@ exp.Chat.add = function(data, socket){
 		exp.sendError('Chat.add', errors, data, socket);
 		return;
 	}
-	
-	//send client list of chat ids
+
+	//TODO: init chat
+
+	//send client list of chat ids to involved
 	socket.emit('chatIdList', {
 		chatIds: Lists.getChatIds()
 	});
 
 };
 
-/* 
+/*
 Returns chat with all messages
 TODO: return specified amount of messages
 input:
@@ -316,7 +280,7 @@ output:
 	chat: {chat object}
 }
 */
-exp.Chat.get = function(data, socket){
+exp.chatDetails = function(data, socket){
 	//error checking
 	if(typeof data.id != 'number')
 	{
@@ -340,9 +304,9 @@ exp.Chat.get = function(data, socket){
 	}, socket.id);
 };
 
-/* 
-Adds 
-inputs: 
+/*
+Adds
+inputs:
 {
 	chatId: 'chat id',
 	fromUser: 'user id',
@@ -350,10 +314,10 @@ inputs:
 }
 outputs:
 {
-	chat: 'chat id' // return id of chat 
+	chat: 'chat id' // return id of chat
 }
 */
-exp.Chat.addMessage = function(data, socket){
+exp.messageAdd = function(data, socket){
 	//error checking
 	var errors = '';
 	if(typeof data.chatId != 'number')
@@ -368,7 +332,7 @@ exp.Chat.addMessage = function(data, socket){
 		exp.sendError('Chat.addMessage', errors, data, socket);
 		return;
 	}
-	
+
 	var chat = Lists.getChat(data.chatId);
 	if(chat.error)
 	{

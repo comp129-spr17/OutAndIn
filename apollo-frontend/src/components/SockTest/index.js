@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { client } from '../../modules/api-client';
 
 export default class SockTest extends React.Component {
     constructor() {
@@ -8,6 +9,6 @@ export default class SockTest extends React.Component {
     }
 
     render() {
-        return (<div><h3>WORKS</h3></div>);
+        return (<div><h3></h3></div>);
     }
 }
