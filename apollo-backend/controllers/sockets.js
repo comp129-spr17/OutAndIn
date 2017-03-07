@@ -32,7 +32,7 @@ var sockets = function(io) {
 
 		socket.on('chatInit', function(data){
 			console.log('Event: chat init');
-			paths.chatInit(data, socket);
+			paths.chatInit(data, socket, io);
 		});
 
 		//retrieve chat data

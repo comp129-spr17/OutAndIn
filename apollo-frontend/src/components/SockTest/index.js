@@ -36,7 +36,7 @@ export default class SockTest extends React.Component {
 	}
 
 	handleInitUser(res){
-		this.userID = res['details']['userID'];
+		this.userId = res['details']['userID'];
 		console.log("Set id: " + res['details']['userID']);
 	}
 
@@ -77,16 +77,21 @@ export default class SockTest extends React.Component {
 	}
 
 	handleUserIDList(res){
-		this.users = res.body.userIDList;
+		this.users = res.details.userIDList;
+		console.log(JSON.stringify(this.users));
+		console.log("ID: " + this.userId);
 
-		if(res.header.code == 2)
+		if(this.userId == -1)
+			return;
+
+		if(res.code == 2)
 		{
 			//create chats
-			for(var user in this.users)
+			for(var u in this.users)
 			{
-				if(user.id != this.userId)
+				if(this.users[u].id != this.userId)
 				{
-					this.initChat(this.username + ' : ' + user.name, user.id);
+					this.initChat(this.username + ' : ' + this.users[u].name, this.users[u].id);
 				}
 			}
 		}

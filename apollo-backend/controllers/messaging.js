@@ -36,7 +36,7 @@ var Lists =
 
 		for(var i = 0; i < Lists.User.length; i ++)
 			if(Lists.User[i].id == id)
-				return {user : Lists.User[i]};
+				return Lists.User[i];
 
 		return {error: 'No user found'};
 	},
@@ -54,7 +54,7 @@ var Lists =
 
 		for(var i = 0; i < Lists.Chat.length; i ++)
 			if(Lists.Chat[i].id == id)
-				return {user : Lists.Chat[i]};
+				return Lists.Chat[i];
 
 		return {error: 'No chat found'};
 
@@ -63,9 +63,9 @@ var Lists =
 	{
 		var chats = [];
 		for(var c in Lists.Chat)
-			for(var u in c.users)
-				if(u == userId)
-					chats.push(c.id);
+			for(var u in Lists.Chat[c].users)
+				if(Lists.Chat[c].users[u] == userId)
+					chats.push(Lists.Chat[c].id);
 
 		return chats;
 	}
@@ -165,15 +165,16 @@ var EventData = function(object, action, code, message, body)
 };
 
 //socketId is optional, use for single response
-function eventEmit(evnt, data, socket, socketId){
+function eventEmit(evnt, data, socket, socketId, io){
 
 	if(!(data instanceof EventData))
 		data = new EventData();
 
-	if(socketId)
-		socket.emit(evnt, msg);
+	if(socketId && io.sockets.connected[socketId])
+		//send to specified socketId
+		io.sockets.connected[socketId].emit(evnt, data);
 	else
-		socket.emit(evnt, msg, socketId);
+		socket.emit(evnt, data);
 };
 
 //when user first registers
@@ -211,8 +212,6 @@ exp.userInit = function(data, socket){
 	socket.broadcast.emit('userListUpdate', response);
 	response['code'] = 2;
 	socket.emit('userListUpdate', response);
-
-	console.log("YEE");
 
 	// usersService.usersGetUserByUsername(data["details"]["username"]).then((res) => {
     //             if(res.length == 0) {
@@ -319,14 +318,15 @@ output:
 	chatIDs: []
 }
 */
-exp.chatInit = function(data, socket)
+exp.chatInit = function(data, socket, io)
 {
-	var chat = new Schema.Chat(data['name']);
+	var chat = new Schemas.Chat(data['name']);
 
 	for(var userId in data['users'])
 	{
 		//add users to chat
-		chat.addUser(userId);
+		chat.addUser(data.users[userId]);
+		var user = Lists.getUser(data.users[userId]);
 
 		//send clients involded list of chat ids
 		let msg = new EventData('Chat', 'Init', 0, 'success',
@@ -335,9 +335,11 @@ exp.chatInit = function(data, socket)
 		});
 
 		if(user.socketId != null)
-			eventEmit('chatInit', msg, socket, Lists.getUser(userId).socketId);
+			eventEmit('chatInit', msg, socket, user.socketId, io);
 		else
 			console.log("ERROR: User <" + user.name + "> does not have a socket");
+
+		console.log("YEEE");
 	}
 };
 
