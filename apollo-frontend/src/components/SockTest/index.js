@@ -38,7 +38,6 @@ export default class SockTest extends React.Component {
 
 	handleInitUser(res){
 		this.userId = res['details']['userID'];
-		console.log("Set id: " + res['details']['userID']);
 	}
 
 	handleDetailUser(res){
@@ -72,7 +71,6 @@ export default class SockTest extends React.Component {
 
 	handleDetailChat(res){
 		//print last message
-		console.log("CODE: " + res.header.code);
 		if(res.header.code == 0){
 			var lastMsg = res.body.chat.messages[res.body.chat.messages.length - 1];
 			console.log(this.users[lastMsg.fromUser].name + ' says: '+ lastMsg.msg);
@@ -81,14 +79,11 @@ export default class SockTest extends React.Component {
 
 	handleMessageAdd(res){
 		//get chat details
-		console.log("Add message code: " + res.header.code);
 		this.detailsChat(res.body.chat);
 	}
 
 	handleUserIDList(res){
 		this.users = res.details.userIDList;
-		console.log(JSON.stringify(this.users));
-		console.log("ID: " + this.userId);
 
 		if(this.userId == -1)
 			return;
@@ -141,7 +136,7 @@ export default class SockTest extends React.Component {
 	sendMessage()
 	{
 		var greetings = ['Hello', 'Hey', 'Bonjour', 'Hola', 'Ola'];
-		var message = greetings[Math.floor(greetings.length * Math.random())] + ' : ' + new Date().toString();
+		var message = greetings[Math.floor(greetings.length * Math.random())] + ' at ' + new Date().toString();
 		var chatId = this.chats[Math.floor(this.chats.length * Math.random())];
 		console.log("SENDING TO: " + chatId);
 
