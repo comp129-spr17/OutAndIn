@@ -27,7 +27,7 @@ var sockets = function(io) {
 		//retrieve user data
 		socket.on('userDetails', function(data){
 			console.log("EVENT: userDetails");
-           	paths.userDetails(data, chatSock);
+           	paths.userDetails(data, socket);
 		});
 
 		socket.on('chatInit', function(data){

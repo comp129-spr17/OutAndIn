@@ -208,7 +208,8 @@ exp.userInit = function(data, socket){
 				response["details"] = {
 					"userIDList": Lists.User.getUserIds()
 				};
-				socket.emit('userListUpdate', response)
+				socket.broadcast.emit('userListUpdate', response);
+				socket.emit('userListUpdate', response);
 
             }).catch((err) => {
                 if(err == 0){

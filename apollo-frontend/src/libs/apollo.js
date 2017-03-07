@@ -15,7 +15,8 @@ Apollo.prototype.socketEvents = function(){
 		"userDetails": [],
 		"chatInit": [],
 		"chatDetails": [],
-		"messageAdd": []
+		"messageAdd": [],
+		"userIDList": []
     };
     this.socket = require('socket.io-client')('http://localhost:4200');
     var _self = this;
@@ -55,26 +56,32 @@ Apollo.prototype.usersGetAll = function()
 };
 
 //emit events
+
+// {name: 'name'}
 Apollo.prototype.userInit = function(msg)
 {
 	this.socket.emit('userInit', msg);
 };
 
+// {id: #}
 Apollo.prototype.userDetails = function(msg)
 {
 	this.socket.emit('userDetails', msg);
 };
 
+//{name: 'chat name'}
 Apollo.prototype.chatInit = function(msg)
 {
 	this.socket.emit('chatInit', msg);
 };
 
+//{id: #}
 Apollo.prototype.chatDetails = function(msg)
 {
 	this.socket.emit('chatDetails', msg);
 };
 
+//{chatId: # fromUser: #, message: 'string'}
 Apollo.prototype.messageAdd = function(msg)
 {
 	this.socket.emit('messageAdd', msg);

@@ -17,17 +17,11 @@ export default class Chat extends Component {
 		//bind 'this' referance
 		this.handleChange = this.handleChange.bind(this);
 		this.handleTextSend = this.handleTextSend.bind(this);
-		this.promptForUsername = this.promptForUsername.bind(this);
-        this.handleUserInit = this.handleUserInit.bind(this);
-		this.handleUserDetails = this.handleUserDetails.bind(this);
-		this.handleChatInit = this.handleChatInit.bind(this);
 		this.handleChatDetails = this.handleChatDetails.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
+		this.promptForUsername = this.promptForUsername.bind(this);
 
 		//add socket event handlers
-        client.socketRegisterEvent("userInit", this.handleUserInit);
-		client.socketRegisterEvent("userDetails", this.handleUserDetails);
-		client.socketRegisterEvent("chatInit", this.handleChatInit);
 		client.socketRegisterEvent("chatDetails", this.handleChatDetails);
 		client.socketRegisterEvent("messageAdd", this.handleMessageAdd);
 
@@ -44,7 +38,8 @@ export default class Chat extends Component {
         client.messageAdd({user: this.state.username, message: this.state.value});
 		this.setState({value: ''});
         this.forceUpdate();
-        $("html, body").animate({ scrollTop: $(document).height()}, 1000);
+
+        //$("html, body").animate({ scrollTop: $(document).height()}, 1000);
     }
 
     promptForUsername(){
@@ -62,33 +57,6 @@ export default class Chat extends Component {
             client.userInit(username);
         }
     }
-
-    handleUserInit(res){
-        // Check if an error occured
-        if(res["code"] == 0) {
-			//success
-	        var username = res["details"]["username"];
-	        this.setState({username: username, error: 0});
-        }
-		else if(res["code"] == 1 || res["code"] == 2)
-		{
-			//username taken
-			this.setState({username: '', error: res["code"]});
-
-			//output error
-			console.log("ERRORS: code - " + res['code'] + ' message - ' + res['message']);
-
-			return;
-		}
-    }
-
-	handleUserDetails(msg){
-
-	}
-
-	handleChatInit(msg){
-
-	}
 
 	handleChatDetails(msg){
 		this.setState({messageList: msg['body']['chat'].messages}); //parsing the server response
