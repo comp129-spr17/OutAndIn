@@ -45,7 +45,7 @@ export default class SockTest extends React.Component {
 	}
 
 	initChat(){
-		
+
 	}
 
     render() {

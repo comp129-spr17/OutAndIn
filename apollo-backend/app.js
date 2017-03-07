@@ -31,7 +31,7 @@ var server = require('http').Server(app);
  * Socket.io Initialization
  */
 // Socket.io Instance
-var io = require('socket.io')(server, { 
+var io = require('socket.io')(server, {
     'serveClient': false
 });
 
@@ -69,7 +69,8 @@ app.use(require('./modules/cors'));
 app.use('/api/v1', routes);
 // IO Handlers
 sockets(io);
-setup.init();
+
+//setup.init();
 
 /**
  * Error Handlers
@@ -106,7 +107,7 @@ server.on('listening', onListening);
 /**
  *  @(Description): Normalize a port into a number, string, or false
  *  @(Params): {int} : Port number
- *  @(Return): {int} : Port Number 
+ *  @(Return): {int} : Port Number
  *              or
  *             {boolean} : Error
  */
@@ -126,8 +127,8 @@ function normalizePort(val) {
 /**
  * @(Description): Event listener for HTTP server "error" event
  * @(Params): {Error}: Error
- * @(Return): {Error}: Error 
- *             or 
+ * @(Return): {Error}: Error
+ *             or
  *            {SIGTERM}: None // Process kill
  */
 function onError(error) {

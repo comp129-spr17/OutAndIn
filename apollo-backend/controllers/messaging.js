@@ -178,64 +178,101 @@ function eventEmit(evnt, data, socket, socketId){
 
 //when user first registers
 exp.userInit = function(data, socket){
-	usersService.usersGetUserByUsername(data["details"]["username"]).then((res) => {
-                if(res.length == 0) {
-                    return usersService.usersCreateUser(data["details"]["username"]);
-                }
-                // Username already exists
-                throw 0;
-            }).then((res) => {
-                let response = {
-                    "object": "USER",
-                    "action": "INIT",
-                    "code": 0,
-                    "message": "Username acquired successfully",
-                    "details": {
-                        username: data["details"]["username"]
-                    }
-                };
-				//add to temp database
-				var user = new Schemas.User(data.name, socket.id);
 
-				console.log("FINE");
-				//Emit id to regitered user
-				response["details"] = {
-					"userID": user.id
-				};
-				socket.emit('userInit', response, socket.id);
+	let response = {
+			"object": "USER",
+			"action": "INIT",
+			"code": 1,
+			"message": "",
+			"details": {}
+   };
 
-				//emit userID list to everyone
-				response["details"] = {
-					"userIDList": Lists.User.getUserIds()
-				};
-				socket.broadcast.emit('userListUpdate', response);
-				socket.emit('userListUpdate', response);
+	//see if username is taken
+	for(var u in Lists.User)
+		if(u.name == data.name)
+		{
+			response["message"] = "Username already taken";
+		   socket.emit('userInit', response, socket.id);
+		   return;
+		}
 
-            }).catch((err) => {
-                if(err == 0){
-					//username given already taken
-					console.log("TAKEN");
-                    let response = {
-                        "object": "USER",
-                        "action": "INIT",
-                        "code": 1,
-                        "message": "Username is already taken",
-                        "details": {}
-                    };
-                    socket.emit('userInit', response, socket.id);
-                    return;
-                }
-				//Database error
-				console.log("ERROR");
-                let response = {
-                    "object": "USER",
-                    "action": "INIT",
-                    "code": 2,
-                    "message": "Database Error",
-                    "details": {}
-                };
-                socket.emit('userInit', response, socket.id);
-            });
+	var user = new Schemas.User(data.name, socket.id);
+
+	response["details"] = {
+ 		"userID": user.id
+	};
+	response["code"] = 0;
+	//Emit id to regitered user
+	response["details"] = {
+		"userID": user.id
+	};
+	socket.emit('userInit', response, socket.id);
+
+	//emit userID list to everyone
+	response["details"] = {
+		"userIDList": Lists.User.getUserIds()
+	};
+	socket.broadcast.emit('userListUpdate', response);
+	socket.emit('userListUpdate', response);
+
+	// usersService.usersGetUserByUsername(data["details"]["username"]).then((res) => {
+    //             if(res.length == 0) {
+    //                 return usersService.usersCreateUser(data["details"]["username"]);
+    //             }
+    //             // Username already exists
+    //             throw 0;
+    //         }).then((res) => {
+    //             let response = {
+    //                 "object": "USER",
+    //                 "action": "INIT",
+    //                 "code": 0,
+    //                 "message": "Username acquired successfully",
+    //                 "details": {
+    //                     username: data["details"]["username"]
+    //                 }
+    //             };
+	// 			//add to temp database
+	// 			var user = new Schemas.User(data.name, socket.id);
+	//
+	// 			console.log("FINE");
+	// 			//Emit id to regitered user
+	// 			response["details"] = {
+	// 				"userID": user.id
+	// 			};
+	// 			socket.emit('userInit', response, socket.id);
+	//
+	// 			//emit userID list to everyone
+	// 			response["details"] = {
+	// 				"userIDList": Lists.User.getUserIds()
+	// 			};
+	// 			socket.broadcast.emit('userListUpdate', response);
+	// 			socket.emit('userListUpdate', response);
+	//
+    //         }).catch((err) => {
+    //             if(err == 0){
+	// 				//username given already taken
+	// 				console.log("TAKEN");
+    //                 let response = {
+    //                     "object": "USER",
+    //                     "action": "INIT",
+    //                     "code": 1,
+    //                     "message": "Username is already taken",
+    //                     "details": {}
+    //                 };
+    //                 socket.emit('userInit', response, socket.id);
+    //                 return;
+    //             }
+	// 			//Database error
+	// 			console.log("ERROR");
+    //             let response = {
+    //                 "object": "USER",
+    //                 "action": "INIT",
+    //                 "code": 2,
+    //                 "message": "Database Error",
+    //                 "details": {}
+    //             };
+    //             socket.emit('userInit', response, socket.id);
+    //         });
 };
 
 /*
