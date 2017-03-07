@@ -2,7 +2,7 @@
 var paths = require('./messaging');
 
 var sockets = function(io) {
-	
+
 	//namespaces
     var globalMessage = globalMessage || [];
 
@@ -17,23 +17,24 @@ var sockets = function(io) {
             console.log("USER: " + data.user);
             io.emit('message', JSON.stringify(globalMessage));
         });
-		
+
 		//on user initial registration
-        socket.on('userInit', function(data){
-			paths.User.init(data, socket);
-        });
+    	socket.on('userInit', function(data){
+			paths.userInit(data, socket);
+    	});
 
 		//Add a user to an exsiting chat
 		//TODO: Later print
         socket.on('userAddChat', function(data){
+
 		});
 
 		//retrieve user data
 		socket.on('userDetails', function(data){
 			console.log("EVENT: getUser");
-           	//paths.User.get(data, chatSock);
-		});	
-		
+           	paths.userDetails(data, chatSock);
+		});
+
 		//retrieve chat data
 		socket.on('chatDetails', function(data){
 			console.log("EVENT: getChat");
@@ -49,7 +50,7 @@ var sockets = function(io) {
         socket.on('disconnect', function(){
             console.log("User disconnected");
         });
-    });   
+    });
 };
 
 module.exports = sockets;

@@ -10,7 +10,8 @@ var usersService = require('../services/users');
 
 //Message Handler
 //next free id
-var LastID = {
+var LastID =
+{
 	User: 0,
 	Chat: 0,
 	Message: 0
@@ -18,18 +19,17 @@ var LastID = {
 
 //Stores data
 //TODO: move all data storage to mySQL
-var Lists = {
+var Lists =
+{
 	User:[],
 	Chat:[],
-	getUserIds:function(){
-		var arr = [];
-		for(var i = 0; i < Lists.User.length; i ++)
-			arr.push(Lists.User[i].id);
-
-		return arr;
+	getUserIds:function()
+	{
+		return Lists.User;
 	},
 
-	getUser: function(id){
+	getUser: function(id)
+	{
 		//error checking
 		if(typeof id != 'number')
 			return {error: 'invalid id'};
@@ -39,17 +39,15 @@ var Lists = {
 				return {user : Lists.User[i]};
 
 		return {error: 'No user found'};
+	}
+
+	getChatIds: function()
+	{
+		return Lists.Chat;
 	},
 
-	getChatIds: function(){
-		var arr = [];
-		for(var i = 0; i < Lists.Chat.length; i ++)
-			arr.push(Lists.Chat[i].id);
-
-		return arr;
-	},
-
-	getChat: function(id){
+	getChat: function(id)
+	{
 		//error checking
 		if(typeof id != 'number')
 			return {error: 'invalid id'};
@@ -60,42 +58,71 @@ var Lists = {
 
 		return {error: 'No chat found'};
 
+	},
+	getChatsForUser: function(userId)
+	{
+		var chats = [];
+		for(var c in Lists.Chat)
+			for(var u in c.users)
+				if(u == userId)
+					chats.push(c.id);
+
+		return chats;
 	}
 };
 
 //constructs data
-var Schemas = {
-	User:function(name){ 			// Create users here
+var Schemas =
+{
+	User:function(name, socketId){ 			// Create users here
 		if(typeof name != 'string')
 			name = 'NULL';
 
+		var _self = this;
+
 		this.id = LastID.User ++;
 		this.name = name;
+
+		if(socketId)
+			this.socketId = socketId;
+		else
+			this.socketId = null;
+
+		this.socketAdd = function(id)
+		{
+			_self.socketId = id;
+		};
+
+		this.socketRemove = function()
+		{
+			_self.socketId = null;
+		};
 
 		//store
 		Lists.User.push(this);
 	},
 
-	Chat:function(name, user1, user2){			// Create chats here
+	Chat:function(name){			// Create chats here
 		if(typeof name != 'string')
 			name = 'NULL';
-		if(typeof user1 != 'number')
-			user1 = -1;
-		if(typeof user2 != 'number')
-			user2 = -1;
 
 		//ref to self
 		var _self = this;
 
 		this.id = LastID.Chat ++;
 		this.name = name;
-		this.users = [user1, user2];
+		this.users = [];
 		this.messages = [];			// array or messages
 
 		this.addMessage = function(msg)
 		{
 			_self.messages.push(msg);
-		}
+		};
+
+		this.addUser = function(id)
+		{
+			_self.users.push(id);
+		};
 
 		//store
 		Lists.Chat.push(this);
@@ -109,7 +136,7 @@ var Schemas = {
 			msg = 'null';
 
 		this.id = LastID.Message ++;
-		this.from = fromUser;
+		this.fromUser = fromUser;
 		this.msg = msg;
 		this.timeStamp = Math.floor(new Date()/1000);
 	}
@@ -118,39 +145,35 @@ var Schemas = {
 //export function objects
 var exp = module.exports;
 
-var eventEmit = function(socket, evnt, object, action, code, message, data){
+//object factory
+var EventData = function(object, action, code, message, body)
+{
+	//type check
+	if(typeof object != 'string')	object = 'N/A';
+	if(typeof action != 'string')	action = 'N/A';
+	if(typeof code != 'number')		code = -1;
+	if(typeof message != 'string')	message = 'N/A';
+	if(typeof body != 'object')		body = {error: 'NO body given'};
 
-	var msg = {
-		"object": object,
-		"action": action,
-		"code": code,
-		"message": message,
-		"details": data		//change to "data"???
+	this.header = {
+		'object': object,
+		'action': action,
+		'code': code,
+		'message': message
 	};
-
-	socket.emit(evnt, msg);
+	this.body = body;
 };
 
-//send error message to client on faulty message
-exp.sendError = function(fromEvent, errorMsg, clientData, socket){
-	//error checking
-	if(typeof clientData != 'object')
-	{
-		console.error('sendError: clientData not an object');
-		return;
-	}
+//socketId is optional, use for single response
+function eventEmit(evnt, data, socket, socketId){
 
-	var errorData = {
-		error: fromEvent + ': ' + errorMsg
-	};
+	if(!(data instanceof EventData))
+		data = new EventData();
 
-	//send client data with error object
-	for(var keys in clientData)
-		if(clientData.hasOwnProperty(key))
-			errorData[key] = clientData[key];
-
-	socket.emit('error', errorData, socket.id);
-
+	if(socketId)
+		socket.emit(evnt, msg);
+	else
+		socket.emit(evnt, msg, socketId);
 };
 
 //when user first registers
@@ -165,36 +188,52 @@ exp.userInit = function(data, socket){
                 let response = {
                     "object": "USER",
                     "action": "INIT",
-                    "code": "1",
+                    "code": 0,
                     "message": "Username acquired successfully",
                     "details": {
                         username: data["details"]["username"]
                     }
                 };
 				//add to temp database
-				new Schemas.User(data.name);
-				//TODO: need to send all user ids to all users connected
-                socket.emit('userInit', JSON.stringify(response), socket.id);
+				var user = new Schemas.User(data.name, socket.id);
+
+				console.log("FINE");
+				//Emit id to regitered user
+				response["details"] = {
+					"userID": user.id
+				};
+				socket.emit('userInit', response, socket.id);
+
+				//emit userID list to everyone
+				response["details"] = {
+					"userIDList": Lists.User.getUserIds()
+				};
+				socket.emit('userListUpdate', response)
+
             }).catch((err) => {
                 if(err == 0){
+					//username given already taken
+					console.log("TAKEN");
                     let response = {
                         "object": "USER",
                         "action": "INIT",
-                        "code": "0",
+                        "code": 1,
                         "message": "Username is already taken",
                         "details": {}
                     };
-                    socket.emit('userInitError', JSON.stringify(response), socket.id);
+                    socket.emit('userInit', response, socket.id);
                     return;
                 }
+				//Database error
+				console.log("ERROR");
                 let response = {
                     "object": "USER",
                     "action": "INIT",
-                    "code": "2",
+                    "code": 2,
                     "message": "Database Error",
                     "details": {}
                 };
-                socket.emit('userInitError', JSON.stringify(response), socket.id);
+                socket.emit('userInit', response, socket.id);
             });
 };
 
@@ -214,7 +253,8 @@ exp.userDetails = function(data, socket){
 	if(typeof data.id != 'number')
 	{
 		//send error to client
-		exp.sendError('User.get', 'invalid user id', data, socket);
+		let msg = new EventData("User", "Details", 2, "Invalid id", {});
+		exp.eventEmit('userDetails', msg, socket, socket.id);
 		return;
 	}
 
@@ -222,50 +262,46 @@ exp.userDetails = function(data, socket){
 
 	if(user.error != null){
 		//send error to client
-		exp.sendError('User.get', user.error, data, socket);
+		let msg = new EventData("User", "Details", 1, "No user found", {'id': data.id});
+		eventEmit('userDetails', msg, socket, socket.id);
 		return;
 	}
 
-	socket.emit('userDetails', {
-		user: user
-	}, socket.id);
+	let msg = new EventData("User", "Details", 0, "success", {'user': user});
+	eventEmit('userDetails', msg, socket, socket.id);
 };
 
 /*
 input:
 {
 	name: 'chat name',
-	user1: 'user id',
-	user2: 'user id'
+	users: [array of userids]
 }
 output:
 {
 	chatIDs: []
 }
 */
-exp.chatInit = function(data, socket){
-	//error checking
-	var errors = '';
-	if(typeof data.name != 'string')
-		errors += 'invalid chat name; ';
-	if(typeof data.user1 != 'number')
-		errors += 'invlid user1 id; ';
-	if(typeof data.user2 != 'number')
-		errors != 'invalid user2 id';
-	if(errors != '')
+exp.chatInit = function(data, socket)
+{
+	var chat = new Schema.Chat(data['name']);
+
+	for(var userId in data['users'])
 	{
-		//send error to client
-		exp.sendError('Chat.add', errors, data, socket);
-		return;
+		//add users to chat
+		chat.addUser(userId);
+
+		//send clients involded list of chat ids
+		let msg = new EventData('Chat', 'Init', 0, 'success',
+		{
+			'chats': Lists.getChatsForUser(userId)
+		});
+
+		if(user.socketId != null)
+			eventEmit('chatInit', msg, socket, Lists.getUser(userId).socketId);
+		else
+			console.log("ERROR: User <" + user.name + "> does not have a socket");
 	}
-
-	//TODO: init chat
-
-	//send client list of chat ids to involved
-	socket.emit('chatIdList', {
-		chatIds: Lists.getChatIds()
-	});
-
 };
 
 /*
@@ -285,7 +321,8 @@ exp.chatDetails = function(data, socket){
 	if(typeof data.id != 'number')
 	{
 		//send error to client
-		exp.sendError('Chat.get', 'Invalid caht id', data, socket);
+		let msg = new EventData('Chat', 'Details', 2, 'Invalid chat id', {'id': data.id});
+		eventEmit('chatDetails', msg, socket, socket.id);
 		return;
 	}
 
@@ -294,14 +331,14 @@ exp.chatDetails = function(data, socket){
 	if(chat.error != null)
 	{
 		//send error to client
-		exp.sendError('Chat.get', chat.error, data, socket);
+		let msg = new EventData('Chat', 'Details', 1, 'No chat found', {'id': data.id});
+		eventEmit('chatDetails', msg, socket, socket.id);
 		return;
 	}
 
 	//send client
-	socket.emit('chatData', {
-		chat: chat
-	}, socket.id);
+	let msg = new EventData('Chat', 'Details', 0, 'success', {'chat': chat});
+	eventEmit('chatDetails', msg, socket, socket.id);
 };
 
 /*
@@ -329,7 +366,8 @@ exp.messageAdd = function(data, socket){
 	if(errors != '')
 	{
 		//send error to client
-		exp.sendError('Chat.addMessage', errors, data, socket);
+		let msg = new EventData('Chat', 'messageAdd', 2, errors, {'data', data});
+		eventEmit('messageAdd', msg, socket, socket.id);
 		return;
 	}
 
@@ -337,15 +375,22 @@ exp.messageAdd = function(data, socket){
 	if(chat.error)
 	{
 		//send error to client
-		exp.sendError('Chat.addMessage', chat.error, data, socket);
+		let msg = new EventData('Chat', 'messageAdd', 2, 'No chat found', {'data', data});
+		eventEmit('messageAdd', msg, socket, socket.id);
 		return;
 	}
 
 	//add message
 	chat.addMessage(new Schemas.Message(data.fromUser, data.message));
 
-	//send chat id
-	socket.emit('chatUpdated', {
-		chat: chat.id
-	});
+	//send chat id to all clients involved
+	let msg = new EventData('Chat', 'messageAdd', 0, 'success', {'chat': chat.id});
+	for(var userId in chat.users)
+	{
+		let user = Lists.getUser(userId);
+		if(user.socketId != null)
+			eventEmit('messageAdd', msg, socket, user.socketId);
+		else
+			console.log("ERROR: user <" + user.name + "> has no socket");
+	}
 };

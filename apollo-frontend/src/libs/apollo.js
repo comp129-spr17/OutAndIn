@@ -12,8 +12,7 @@ var Apollo = function(){
 Apollo.prototype.socketEvents = function(){
     this._events = {
         "message": [],
-        "userInit": [],
-        "userInitError": []
+        "userInit": []
     };
     this.socket = require('socket.io-client')('http://localhost:4200');
     var self = this;
@@ -28,12 +27,6 @@ Apollo.prototype.socketEvents = function(){
             var func = self._events["userInit"][index]["callback"];
             func(data);
         }
-    });
-    this.socket.on('userInitError', function(data){
-        for(var index in self._events["userInitError"]){
-            var func = self._events["userInitError"][index]["callback"];
-            func(data);
-        }       
     });
 };
 

@@ -1,37 +1,39 @@
-import React, { PropTypes, Component } from 'react'; 
+import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import { client } from '../../modules/api-client';
 
-export default class Chat extends Component { 
+export default class Chat extends Component {
 	constructor () { //constructor
 	 	super();
         this.state= { //new object
-            error: 0, // username taken error
+            error: 1, // username taken error
 	 		value: '',//text that you type into input box
 	 		username: '',
             holder: [],
             messagesEnd: ''
         };
-        this.handleUserInitError = this.handleUserInitError.bind(this);
-        this.handleUserInit = this.handleUserInit.bind(this);
-        this.promptForUsername = this.promptForUsername.bind(this);
-		this.handleTextSend = this.handleTextSend.bind(this);
-	 	this.handleChange = this.handleChange.bind(this);
+
+		//bind 'this' referance
 		this.handleMessage = this.handleMessage.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+		this.handleTextSend = this.handleTextSend.bind(this);
+		this.promptForUsername = this.promptForUsername.bind(this);
+        this.handleUserInit = this.handleUserInit.bind(this);
+
+		//add socket event handlers
         client.socketRegisterEvent("message", this.handleMessage);
         client.socketRegisterEvent("userInit", this.handleUserInit);
-        client.socketRegisterEvent("userInitError", this.handleUserInitError);
     }
-    
+
     handleMessage(msg) {
-        this.setState({holder: JSON.parse(msg)}); //parsing the server response
+        this.setState({holder: msg}); //parsing the server response
     }
-	
+
     handleChange(event) {
 	    this.setState({value: event.target.value})  //setting value of this.state.value to what is typed in input box
     }
-    
+
 	handleTextSend(event) {  //storing chat in array
 		event.preventDefault();
 		if(this.state.value=='') //checking if value is empty
@@ -57,28 +59,28 @@ export default class Chat extends Component {
         }
     }
 
-    handleUserInit(response){
-        let res = JSON.parse(response);
+    handleUserInit(res){
         // Check if an error occured
         if(res["code"] == 0) {
-            this.setState({username: '', error: 0});  
+			//success
+	        var username = res["details"]["username"];
+	        this.setState({username: username, error: 0});
+        }
+		else if(res["code"] == 1 || res["code"] == 2)
+		{
+			//username taken
+			this.setState({username: '', error: res["code"]});
             return;
-        } 
-        // Error did not occur, store the username in local state
-        var username = res["details"]["username"];
-        this.setState({username: username, error: 1});  
-    }
-
-    // Handle User Initialization Error
-    handleUserInitError(response){
-        this.setState({username: '', error: 2});  
+		}
     }
 
     render() {
         // Check if the Database is being set up
         if(this.state.error == 2){
+			console.log("Render: ERROR");
             return(<div>Database Error or currently being set up</div>);
-        } else if(this.state.username == '' && this.state.error == 0){
+        } else if(this.state.username == '' && this.state.error == 1){
+			console.log("Render: FINE");
             return (<div>{this.promptForUsername()}</div>);
         }
 
@@ -86,10 +88,10 @@ export default class Chat extends Component {
             <div className="page">
                 <div className="row">
                     <div className="chat-timeline">
-                        <div className="container" > 
+                        <div className="container" >
                             <div className="div-right">
                                 <div className="bubble-dialog">
-                                    {this.state.holder.map((msg, k) => { 
+                                    {this.state.holder.map((msg, k) => {
                                         return <ChatComponent key={k} message={msg} selfname={this.state.username} />
                                     })}
                                 </div>
@@ -97,9 +99,9 @@ export default class Chat extends Component {
                         </div>
                     </div>
                     <div className="chat-input">
-                        <form className='form'> 
+                        <form className='form'>
                             <input autoFocus type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
-                            <button onClick={this.handleTextSend}></button>  
+                            <button onClick={this.handleTextSend}></button>
                         </form>
                     </div>
                 </div>
