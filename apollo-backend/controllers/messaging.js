@@ -184,9 +184,8 @@ function eventEmit(evnt, data, socket, socketId, io){
 		if(socketId && io.sockets.connected[socketId])
 			//send to specified socketId
 			io.sockets.connected[socketId].emit(evnt, data);
-		else
-			socket.emit(evnt, data);
-	}
+	}else
+		socket.emit(evnt, data);
 };
 
 //when user first registers
