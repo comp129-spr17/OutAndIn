@@ -2,7 +2,7 @@
 var paths = require('./messaging');
 
 var sockets = function(io) {
-	
+
 	//namespaces
     var globalMessage = globalMessage || [];
 
@@ -17,39 +17,40 @@ var sockets = function(io) {
             console.log("USER: " + data.user);
             io.emit('message', JSON.stringify(globalMessage));
         });
-		
-		//on user initial registration
-        socket.on('userInit', function(data){
-			paths.User.init(data, socket);
-        });
 
-		//Add a user to an exsiting chat
-		//TODO: Later print
-        socket.on('userAddChat', function(data){
-		});
+		//on user initial registration
+    	socket.on('userInit', function(data){
+			console.log("EVENT: userInit");
+			paths.userInit(data, socket);
+    	});
 
 		//retrieve user data
 		socket.on('userDetails', function(data){
-			console.log("EVENT: getUser");
-           	//paths.User.get(data, chatSock);
-		});	
-		
+			console.log("EVENT: userDetails");
+           	paths.userDetails(data, socket);
+		});
+
+		socket.on('chatInit', function(data){
+			console.log('Event: chat init');
+			paths.chatInit(data, socket);
+		});
+
 		//retrieve chat data
 		socket.on('chatDetails', function(data){
-			console.log("EVENT: getChat");
-           	//paths.Chat.get(data, chatSock);
+			console.log("EVENT: chatDetails");
+           	paths.chatDetails(data, socket);
 		});
 
 		//on new message to a chat
-		socket.on('messageSend', function(data){
+		socket.on('messageAdd', function(data){
 			console.log("EVENT: addMessage");
-           	//paths.Chat.addMessage(data, chatSock);
+           	paths.messageAdd(data, socket);
 		});
 
         socket.on('disconnect', function(){
             console.log("User disconnected");
         });
-    });   
+    });
 };
 
 module.exports = sockets;
