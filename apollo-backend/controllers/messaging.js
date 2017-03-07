@@ -367,11 +367,12 @@ output:
 */
 exp.chatDetails = function(data, socket){
 	//error checking
+	console.log('Chat Details: ' + JSON.stringify(data.id));
 	if(typeof data.id != 'number')
 	{
 		//send error to client
 		let msg = new EventData('Chat', 'Details', 2, 'Invalid chat id', {'id': data.id});
-		eventEmit('chatDetails', msg, socket, socket.id);
+		eventEmit('chatDetails', msg, socket);
 		return;
 	}
 
@@ -381,13 +382,13 @@ exp.chatDetails = function(data, socket){
 	{
 		//send error to client
 		let msg = new EventData('Chat', 'Details', 1, 'No chat found', {'id': data.id});
-		eventEmit('chatDetails', msg, socket, socket.id);
+		eventEmit('chatDetails', msg, socket);
 		return;
 	}
 
 	//send client
 	let msg = new EventData('Chat', 'Details', 0, 'success', {'chat': chat});
-	eventEmit('chatDetails', msg, socket, socket.id);
+	eventEmit('chatDetails', msg, socket);
 };
 
 /*
@@ -403,7 +404,7 @@ outputs:
 	chat: 'chat id' // return id of chat
 }
 */
-exp.messageAdd = function(data, socket){
+exp.messageAdd = function(data, socket, io){
 	//error checking
 	var errors = '';
 	if(typeof data.chatId != 'number')
@@ -416,7 +417,7 @@ exp.messageAdd = function(data, socket){
 	{
 		//send error to client
 		let msg = new EventData('Chat', 'messageAdd', 2, errors, {'data': data});
-		eventEmit('messageAdd', msg, socket, socket.id);
+		eventEmit('messageAdd', msg, socket);
 		return;
 	}
 
@@ -425,7 +426,7 @@ exp.messageAdd = function(data, socket){
 	{
 		//send error to client
 		let msg = new EventData('Chat', 'messageAdd', 2, 'No chat found', {'data': data});
-		eventEmit('messageAdd', msg, socket, socket.id);
+		eventEmit('messageAdd', msg, socket);
 		return;
 	}
 
@@ -434,11 +435,12 @@ exp.messageAdd = function(data, socket){
 
 	//send chat id to all clients involved
 	let msg = new EventData('Chat', 'messageAdd', 0, 'success', {'chat': chat.id});
-	for(var userId in chat.users)
+	console.log("MSG ID: " + chat.id);
+	for(var u in chat.users)
 	{
-		let user = Lists.getUser(userId);
+		let user = Lists.getUser(chat.users[u]);
 		if(user.socketId != null)
-			eventEmit('messageAdd', msg, socket, user.socketId);
+			eventEmit('messageAdd', msg, socket, user.socketId, io);
 		else
 			console.log("ERROR: user <" + user.name + "> has no socket");
 	}

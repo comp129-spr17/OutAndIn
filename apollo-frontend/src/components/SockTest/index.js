@@ -24,6 +24,7 @@ export default class SockTest extends React.Component {
 		this.initChat = this.initChat.bind(this);
 		this.detailsChat = this.detailsChat.bind(this);
 		this.addMessage = this.addMessage.bind(this);
+		this.sendMessage = this.sendMessage.bind(this);
 
 		client.socketRegisterEvent('userInit', this.handleInitUser);
 		client.socketRegisterEvent('userDetails', this.handleDetailUser);
@@ -65,15 +66,23 @@ export default class SockTest extends React.Component {
 	}
 
 	handleInitChat(res){
-		console.log(JSON.stringify(res));
+			this.chats = res.body.chats;
+			console.log("Chats: " + JSON.stringify(this.chats));
 	}
 
 	handleDetailChat(res){
-
+		//print last message
+		console.log("CODE: " + res.header.code);
+		if(res.header.code == 0){
+			var lastMsg = res.body.chat.messages[res.body.chat.messages.length - 1];
+			console.log(this.users[lastMsg.fromUser].name + ' says: '+ lastMsg.msg);
+		}
 	}
 
 	handleMessageAdd(res){
-
+		//get chat details
+		console.log("Add message code: " + res.header.code);
+		this.detailsChat(res.body.chat);
 	}
 
 	handleUserIDList(res){
@@ -120,16 +129,26 @@ export default class SockTest extends React.Component {
 		client.chatDetails({id: id});
 	}
 
-	addMessage(message, chatID)
+	addMessage(message, chatId)
 	{
 		client.messageAdd({
-			chatId: chatID,
+			chatId: chatId,
 			fromUser: this.userId,
 			message: message
 		});
 	}
 
+	sendMessage()
+	{
+		var greetings = ['Hello', 'Hey', 'Bonjour', 'Hola', 'Ola'];
+		var message = greetings[Math.floor(greetings.length * Math.random())] + ' : ' + new Date().toString();
+		var chatId = this.chats[Math.floor(this.chats.length * Math.random())];
+		console.log("SENDING TO: " + chatId);
+
+		this.addMessage(message, chatId);
+	}
+
     render() {
-        return (<div><button onClick={this.initUser}>Init User</button></div>);
+        return (<div><button onClick={this.initUser}>Init User</button><br /><button onClick={this.sendMessage}>Send Message</button></div>);
     }
 }

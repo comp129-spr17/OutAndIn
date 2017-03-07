@@ -44,7 +44,7 @@ var sockets = function(io) {
 		//on new message to a chat
 		socket.on('messageAdd', function(data){
 			console.log("EVENT: addMessage");
-           	paths.messageAdd(data, socket);
+           	paths.messageAdd(data, socket, io);
 		});
 
         socket.on('disconnect', function(){
