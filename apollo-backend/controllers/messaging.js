@@ -63,10 +63,20 @@ var Lists =
 	{
 		var chats = [];
 		for(var c in Lists.Chat)
+		{
+			console.log("IN: " + Lists.Chat[c].id);
 			for(var u in Lists.Chat[c].users)
+			{
+				console.log("User: " + Lists.Chat[c].users[0] + ' - ' + Lists.Chat[c].users[1]);
+				console.log("Looking: " + userId);
 				if(Lists.Chat[c].users[u] == userId)
+				{
+					console.log('FOUND: ' + Lists.Chat[c].id);
 					chats.push(Lists.Chat[c].id);
-
+					break;
+				}
+			}
+		}
 		return chats;
 	}
 };
@@ -331,7 +341,7 @@ exp.chatInit = function(data, socket, io)
 		//send clients involded list of chat ids
 		let msg = new EventData('Chat', 'Init', 0, 'success',
 		{
-			'chats': Lists.getChatsForUser(userId)
+			'chats': Lists.getChatsForUser(user.id)
 		});
 
 		if(user.socketId != null)
