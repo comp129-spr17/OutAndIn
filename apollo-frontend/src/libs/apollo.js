@@ -16,22 +16,67 @@ Apollo.prototype.socketEvents = function(){
 		"chatInit": [],
 		"chatDetails": [],
 		"messageAdd": [],
-		"userIDList": []
+		"userListUpdate": []
     };
     this.socket = require('socket.io-client')('http://localhost:4200');
     var _self = this;
 
-	//creates on evetns for all keys in _events
-	for(var evnt in this._events)
+	this.socket.on("userInit", function(data)
 	{
-		this.socket.on(evnt, function(data)
+		for(var index in _self._events["userInit"])
 		{
-	        for(var index in self._events[evnt])
-			{
-	            _self._events[evnt][index](data);
-	        }
-	    });
-	}
+			_self._events["userInit"][index](data);
+		}
+	});
+	this.socket.on("userDetails", function(data)
+	{
+		for(var index in _self._events["userDetails"])
+		{
+			_self._events["userDetails"][index](data);
+		}
+	});
+	this.socket.on("chatInit", function(data)
+	{
+		for(var index in _self._events["chatInit"])
+		{
+			_self._events["chatInit"][index](data);
+		}
+	});
+	this.socket.on("chatDetails", function(data)
+	{
+		for(var index in _self._events["chatDetails"])
+		{
+			_self._events["chatDetails"][index](data);
+		}
+	});
+	this.socket.on("messageAdd", function(data)
+	{
+		for(var index in _self._events["messageAdd"])
+		{
+			_self._events["messageAdd"][index](data);
+		}
+	});
+	this.socket.on("userListUpdate", function(data)
+	{
+		for(var index in _self._events["userListUpdate"])
+		{
+			_self._events["userListUpdate"][index](data);
+		}
+	});
+
+	//creates on evetns for all keys in _events
+	// for(var evnt in this._events)
+	// {
+	// 	console.log(evnt);
+	// 	this.socket.on(evnt, function(data)
+	// 	{
+	// 		console.log("FIRE: " + evnt);
+	//         for(var index in _self._events[evnt])
+	// 		{
+	//             _self._events[evnt][index](data);
+	//         }
+	//     });
+	// }
 };
 
 Apollo.prototype.socketRegisterEvent = function(eventName, func) {
@@ -60,30 +105,39 @@ Apollo.prototype.usersGetAll = function()
 // {name: 'name'}
 Apollo.prototype.userInit = function(msg)
 {
+	console.log("EMIT: User init");
 	this.socket.emit('userInit', msg);
 };
 
 // {id: #}
 Apollo.prototype.userDetails = function(msg)
 {
+	console.log("EMIT: User Details");
+
 	this.socket.emit('userDetails', msg);
 };
 
 //{name: 'chat name'}
 Apollo.prototype.chatInit = function(msg)
 {
+	console.log("EMIT: Chat init");
+
 	this.socket.emit('chatInit', msg);
 };
 
 //{id: #}
 Apollo.prototype.chatDetails = function(msg)
 {
+	console.log("EMIT: Chat details");
+
 	this.socket.emit('chatDetails', msg);
 };
 
 //{chatId: # fromUser: #, message: 'string'}
 Apollo.prototype.messageAdd = function(msg)
 {
+	console.log("EMIT: message add");
+
 	this.socket.emit('messageAdd', msg);
 };
 

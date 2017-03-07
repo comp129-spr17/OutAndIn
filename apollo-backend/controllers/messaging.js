@@ -198,11 +198,7 @@ exp.userInit = function(data, socket){
 
 	var user = new Schemas.User(data.name, socket.id);
 
-	response["details"] = {
- 		"userID": user.id
-	};
 	response["code"] = 0;
-	//Emit id to regitered user
 	response["details"] = {
 		"userID": user.id
 	};
@@ -210,10 +206,13 @@ exp.userInit = function(data, socket){
 
 	//emit userID list to everyone
 	response["details"] = {
-		"userIDList": Lists.User.getUserIds()
+		"userIDList": Lists.getUserIds()
 	};
 	socket.broadcast.emit('userListUpdate', response);
+	response['code'] = 2;
 	socket.emit('userListUpdate', response);
+
+	console.log("YEE");
 
 	// usersService.usersGetUserByUsername(data["details"]["username"]).then((res) => {
     //             if(res.length == 0) {
@@ -413,7 +412,7 @@ exp.messageAdd = function(data, socket){
 	if(chat.error)
 	{
 		//send error to client
-		let msg = new EventData('Chat', 'messageAdd', 2, 'No chat found', {'data', data});
+		let msg = new EventData('Chat', 'messageAdd', 2, 'No chat found', {'data': data});
 		eventEmit('messageAdd', msg, socket, socket.id);
 		return;
 	}

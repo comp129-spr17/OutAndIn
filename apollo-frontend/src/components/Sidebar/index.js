@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { client } from '../../modules/api-client';
+
 
 export default class Sidebar extends React.Component {
     constructor() {
@@ -12,7 +14,6 @@ export default class Sidebar extends React.Component {
 		this.handleChatInit = this.handleChatInit.bind(this);
 		this.handleUserInit = this.handleUserInit.bind(this);
 		this.handleUserDetails = this.handleUserDetails.bind(this);
-		this.promptForUsername = this.promptForUsername.bind(this);
 
 		client.socketRegisterEvent("userInit", this.handleUserInit);
 		client.socketRegisterEvent("userDetails", this.handleUserDetails);
