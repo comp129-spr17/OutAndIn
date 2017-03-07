@@ -180,11 +180,13 @@ function eventEmit(evnt, data, socket, socketId, io){
 	if(!(data instanceof EventData))
 		data = new EventData();
 
-	if(socketId && io.sockets.connected[socketId])
-		//send to specified socketId
-		io.sockets.connected[socketId].emit(evnt, data);
-	else
-		socket.emit(evnt, data);
+	if(io){
+		if(socketId && io.sockets.connected[socketId])
+			//send to specified socketId
+			io.sockets.connected[socketId].emit(evnt, data);
+		else
+			socket.emit(evnt, data);
+	}
 };
 
 //when user first registers

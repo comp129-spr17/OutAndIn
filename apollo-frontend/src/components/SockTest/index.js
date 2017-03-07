@@ -42,7 +42,7 @@ export default class SockTest extends React.Component {
 
 	handleDetailUser(res){
 		//is user
-		if(res.body.user.id == userId)
+		if(res.body.user.id == this.userId)
 		{
 			this.username = res.body.user.name;
 			return;

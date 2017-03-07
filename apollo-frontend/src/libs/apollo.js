@@ -105,14 +105,14 @@ Apollo.prototype.usersGetAll = function()
 // {name: 'name'}
 Apollo.prototype.userInit = function(msg)
 {
-	console.log("EMIT: User init");
+	//console.log("EMIT: User init");
 	this.socket.emit('userInit', msg);
 };
 
 // {id: #}
 Apollo.prototype.userDetails = function(msg)
 {
-	console.log("EMIT: User Details");
+	//console.log("EMIT: User Details");
 
 	this.socket.emit('userDetails', msg);
 };
@@ -120,7 +120,7 @@ Apollo.prototype.userDetails = function(msg)
 //{name: 'chat name'}
 Apollo.prototype.chatInit = function(msg)
 {
-	console.log("EMIT: Chat init");
+	//console.log("EMIT: Chat init");
 
 	this.socket.emit('chatInit', msg);
 };
@@ -128,7 +128,7 @@ Apollo.prototype.chatInit = function(msg)
 //{id: #}
 Apollo.prototype.chatDetails = function(msg)
 {
-	console.log("EMIT: Chat details");
+	//console.log("EMIT: Chat details");
 
 	this.socket.emit('chatDetails', msg);
 };
@@ -136,7 +136,7 @@ Apollo.prototype.chatDetails = function(msg)
 //{chatId: # fromUser: #, message: 'string'}
 Apollo.prototype.messageAdd = function(msg)
 {
-	console.log("EMIT: message add");
+	//console.log("EMIT: message add");
 
 	this.socket.emit('messageAdd', msg);
 };
