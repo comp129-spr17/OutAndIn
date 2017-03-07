@@ -10,36 +10,39 @@ export default class Chat extends Component {
             error: 1, // username taken error
 	 		value: '',//text that you type into input box
 	 		username: '',
-            holder: [],
+            messageList: [],
             messagesEnd: ''
         };
 
 		//bind 'this' referance
-		this.handleMessage = this.handleMessage.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleTextSend = this.handleTextSend.bind(this);
 		this.promptForUsername = this.promptForUsername.bind(this);
         this.handleUserInit = this.handleUserInit.bind(this);
+		this.handleUserDetails = this.handleUserDetails.bind(this);
+		this.handleChatInit = this.handleChatInit.bind(this);
+		this.handleChatDetails = this.handleChatDetails.bind(this);
+		this.handleMessageAdd = this.handleMessageAdd.bind(this);
 
 		//add socket event handlers
-        client.socketRegisterEvent("message", this.handleMessage);
         client.socketRegisterEvent("userInit", this.handleUserInit);
+		client.socketRegisterEvent("userDetails", this.handleUserDetails);
+		client.socketRegisterEvent("chatInit", this.handleChatInit);
+		client.socketRegisterEvent("chatDetails", this.handleChatDetails);
+		client.socketRegisterEvent("messageAdd", this.handleMessageAdd);
+
     }
 
-    handleMessage(msg) {
-        this.setState({holder: msg}); //parsing the server response
-    }
-
-    handleChange(event) {
+    handleChange(event){
 	    this.setState({value: event.target.value})  //setting value of this.state.value to what is typed in input box
     }
 
-	handleTextSend(event) {  //storing chat in array
+	handleTextSend(event){  	//storing chat in array
 		event.preventDefault();
 		if(this.state.value=='') //checking if value is empty
             return;
-        client.sendMessage({user: this.state.username, message: this.state.value});
-		this.setState({value: ''})
+        client.messageAdd({user: this.state.username, message: this.state.value});
+		this.setState({value: ''});
         this.forceUpdate();
         $("html, body").animate({ scrollTop: $(document).height()}, 1000);
     }
@@ -55,6 +58,7 @@ export default class Chat extends Component {
             if(username == null){
                 return false;
             }
+
             client.userInit(username);
         }
     }
@@ -70,9 +74,31 @@ export default class Chat extends Component {
 		{
 			//username taken
 			this.setState({username: '', error: res["code"]});
-            return;
+
+			//output error
+			console.log("ERRORS: code - " + res['code'] + ' message - ' + res['message']);
+
+			return;
 		}
     }
+
+	handleUserDetails(msg){
+
+	}
+
+	handleChatInit(msg){
+
+	}
+
+	handleChatDetails(msg){
+		this.setState({messageList: msg['body']['chat'].messages}); //parsing the server response
+	}
+
+	handleMessageAdd(msg) {
+		client.chatDetails({
+			id: msg['chat']
+		});
+	}
 
     render() {
         // Check if the Database is being set up
@@ -91,9 +117,11 @@ export default class Chat extends Component {
                         <div className="container" >
                             <div className="div-right">
                                 <div className="bubble-dialog">
-                                    {this.state.holder.map((msg, k) => {
-                                        return <ChatComponent key={k} message={msg} selfname={this.state.username} />
-                                    })}
+                                    {
+										this.state.messageList.map((msg, k) => {
+                                        	return < ChatComponent key={k} message={msg} selfname={this.state.username} />
+                                    	})
+									}
                                 </div>
                             </div>
                         </div>

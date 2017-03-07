@@ -11,27 +11,30 @@ var Apollo = function(){
 
 Apollo.prototype.socketEvents = function(){
     this._events = {
-        "message": [],
-        "userInit": []
+        "userInit": [],		// array of callbacks
+		"userDetails": [],
+		"chatInit": [],
+		"chatDetails": [],
+		"messageAdd": []
     };
     this.socket = require('socket.io-client')('http://localhost:4200');
-    var self = this;
-    this.socket.on('message', function(data) {
-        for(var index in self._events["message"]){
-            var func = self._events["message"][index]["callback"];
-            func(data);
-        }
-    });
-    this.socket.on('userInit', function(data){
-        for(var index in self._events["userInit"]){
-            var func = self._events["userInit"][index]["callback"];
-            func(data);
-        }
-    });
+    var _self = this;
+
+	//creates on evetns for all keys in _events
+	for(var evnt in this._events)
+	{
+		this.socket.on(evnt, function(data)
+		{
+	        for(var index in self._events[evnt])
+			{
+	            _self._events[evnt][index](data);
+	        }
+	    });
+	}
 };
 
 Apollo.prototype.socketRegisterEvent = function(eventName, func) {
-    this._events[eventName].push({callback: func});
+    this._events[eventName].push(func);
 }
 
 Apollo.prototype._get = function(url, parameters){
@@ -46,45 +49,35 @@ Apollo.prototype._get = function(url, parameters){
     return axios.get(getURL);
 };
 
-Apollo.prototype.usersGetAll = function(){
+Apollo.prototype.usersGetAll = function()
+{
     return this._get('users', {});
 };
 
-Apollo.prototype.sendMessage = function(msg){
-    this.socket.emit('message', msg);
+//emit events
+Apollo.prototype.userInit = function(msg)
+{
+	this.socket.emit('userInit', msg);
 };
 
-Apollo.prototype.userInit = function(username){
-    let req = {
-        "object": "USER",
-        "action": "INIT",
-        "details": {
-            "username": username
-        }
-    };
-    this.socket.emit('userInit', req);
+Apollo.prototype.userDetails = function(msg)
+{
+	this.socket.emit('userDetails', msg);
 };
 
-Apollo.prototype.userAdd = function(msg){
-    this.socket.emit('addUser', msg);
-};
-Apollo.prototype.userGet = function(msg){
-    this.socket.emit('getUser', msg);
-};
-Apollo.prototype.chatAdd = function(msg){
-    this.socket.emit('addChat', msg);
-};
-Apollo.prototype.chatGet = function(msg){
-    this.socket.emit('getChat', msg);
-};
-Apollo.prototype.message = function(msg){
-    this.socket.emit('addMessage', msg);
+Apollo.prototype.chatInit = function(msg)
+{
+	this.socket.emit('chatInit', msg);
 };
 
+Apollo.prototype.chatDetails = function(msg)
+{
+	this.socket.emit('chatDetails', msg);
+};
 
-
-
-
-
+Apollo.prototype.messageAdd = function(msg)
+{
+	this.socket.emit('messageAdd', msg);
+};
 
 module.exports = Apollo;

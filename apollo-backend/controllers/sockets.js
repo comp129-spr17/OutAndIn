@@ -20,31 +20,31 @@ var sockets = function(io) {
 
 		//on user initial registration
     	socket.on('userInit', function(data){
+			console.log("EVENT: userInit");
 			paths.userInit(data, socket);
     	});
 
-		//Add a user to an exsiting chat
-		//TODO: Later print
-        socket.on('userAddChat', function(data){
-
-		});
-
 		//retrieve user data
 		socket.on('userDetails', function(data){
-			console.log("EVENT: getUser");
+			console.log("EVENT: userDetails");
            	paths.userDetails(data, chatSock);
+		});
+
+		socket.on('chatInit', function(data){
+			console.log('Event: chat init');
+			paths.chatInit(data, socket);
 		});
 
 		//retrieve chat data
 		socket.on('chatDetails', function(data){
-			console.log("EVENT: getChat");
-           	//paths.Chat.get(data, chatSock);
+			console.log("EVENT: chatDetails");
+           	paths.chatDetails(data, socket);
 		});
 
 		//on new message to a chat
-		socket.on('messageSend', function(data){
+		socket.on('messageAdd', function(data){
 			console.log("EVENT: addMessage");
-           	//paths.Chat.addMessage(data, chatSock);
+           	paths.messageAdd(data, socket);
 		});
 
         socket.on('disconnect', function(){
