@@ -7,6 +7,8 @@ export default class SockTest extends React.Component {
         this.state = {
 			username: '',
 			userId: -1,
+			users: [],
+			chats: []
         };
 
 		this.handleInitUser = this.handleInitUser.bind(this);
@@ -44,8 +46,30 @@ export default class SockTest extends React.Component {
 		this.setState({username: name});
 	}
 
-	initChat(){
+	initChat(name, toUser){
+		client.chatInit({
+			name: name,
+			users: [this.state.userId, toUser]
+		});
+	}
 
+	detailsUser(id)
+	{
+		client.userDetails({id: id});
+	}
+
+	detailsChat(id)
+	{
+		client.chatDetails({id: id});
+	}
+
+	addMessage(message, chatID)
+	{
+		client.messageAdd({
+			chatId: chatID,
+			fromUser: this.state.userId,
+			message: message
+		});
 	}
 
     render() {

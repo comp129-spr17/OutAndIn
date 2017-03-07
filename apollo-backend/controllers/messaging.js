@@ -39,7 +39,7 @@ var Lists =
 				return {user : Lists.User[i]};
 
 		return {error: 'No user found'};
-	}
+	},
 
 	getChatIds: function()
 	{
@@ -404,7 +404,7 @@ exp.messageAdd = function(data, socket){
 	if(errors != '')
 	{
 		//send error to client
-		let msg = new EventData('Chat', 'messageAdd', 2, errors, {'data', data});
+		let msg = new EventData('Chat', 'messageAdd', 2, errors, {'data': data});
 		eventEmit('messageAdd', msg, socket, socket.id);
 		return;
 	}
