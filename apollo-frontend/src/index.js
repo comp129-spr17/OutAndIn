@@ -2,9 +2,9 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 
-import routes from './routes';
+import router from './routes';
 
 render(
-    <Router history={browserHistory} routes={routes} />,
+    router,
     document.getElementById('apollo')
 );
