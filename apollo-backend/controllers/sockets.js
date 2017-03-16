@@ -19,17 +19,20 @@ var sockets = function(io) {
         });
 
 		//on user initial registration
+		//TODO: AJAX
     	socket.on('userInit', function(data){
 			console.log("EVENT: userInit");
 			paths.userInit(data, socket);
     	});
 
 		//retrieve user data
+		//TODO: AJAX
 		socket.on('userDetails', function(data){
 			console.log("EVENT: userDetails");
            	paths.userDetails(data, socket);
 		});
 
+		//TODO: make io room
 		socket.on('chatInit', function(data){
 			console.log('Event: chat init');
 			paths.chatInit(data, socket, io);

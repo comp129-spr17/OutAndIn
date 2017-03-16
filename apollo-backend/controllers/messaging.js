@@ -188,6 +188,13 @@ function eventEmit(evnt, data, socket, socketId, io){
 		socket.emit(evnt, data);
 };
 
+/*
+THINGS TO CONVERT TO AJAX:
+userInit
+userList
+userDetails
+*/
+
 //when user first registers
 exp.userInit = function(data, socket){
 
