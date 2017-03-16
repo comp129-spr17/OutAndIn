@@ -25,6 +25,13 @@ var sockets = function(io) {
 			paths.userInit(data, socket);
     	});
 
+		//retrieve list of user ids
+		//TODO: AJAX
+		socket.on('userIDList', function(data){
+			console.log("EVENT: User Lists");
+			paths.userIDList(data, socket);
+		});
+
 		//retrieve user data
 		//TODO: AJAX
 		socket.on('userDetails', function(data){
