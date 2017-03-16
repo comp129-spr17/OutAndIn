@@ -2,14 +2,10 @@
     width: 60px;
     background-color: $primary;
     color: white;
-    box-shadow: 1px 70px 0px #e6e6e6;
-    position: fixed;
+    position: absolute;
     top: 0;
-    bottom: 0;
     left: 0;
-    height: calc(100%);
-    overflow: hidden;
-    z-index: 1032;
+    bottom: 0;
 }
 
 .logo-container {
