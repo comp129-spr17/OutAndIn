@@ -9,23 +9,42 @@ export default class Chat extends Component {
         this.state= { //new object
             error: 1, // username taken error
 	 		value: '',//text that you type into input box
-	 		username: '',
+	 		userID: -1,
             messageList: [],
             messagesEnd: ''
         };
 
 		//bind 'this' referance
+		this.userInit = this.userInit.bind(this);
+
 		this.handleChange = this.handleChange.bind(this);
 		this.handleTextSend = this.handleTextSend.bind(this);
 		this.handleChatDetails = this.handleChatDetails.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
-		this.promptForUsername = this.promptForUsername.bind(this);
+		this.handleUserInit = this.handleUserInit.bind(this);
 
 		//add socket event handlers
 		client.socketRegisterEvent("chatDetails", this.handleChatDetails);
 		client.socketRegisterEvent("messageAdd", this.handleMessageAdd);
+		client.socketRegisterEvent("userInit", this.handleUserInit);
 
     }
+
+	userInit(){
+		var username = "";
+		if(this.state.userID == -1){
+			if(!this.state.error == 1){
+				username = prompt(this.state.error + "\n" + "Please enter your name", username); //var person stores user input, which is name
+			} else {
+				username = prompt("Please enter your name", username); //var person stores user input, which is name
+			}
+			if(username == null){
+				return false;
+			}
+
+			client.userInit({name: username});
+		}
+	}
 
     handleChange(event){
 	    this.setState({value: event.target.value})  //setting value of this.state.value to what is typed in input box
@@ -35,28 +54,32 @@ export default class Chat extends Component {
 		event.preventDefault();
 		if(this.state.value=='') //checking if value is empty
             return;
-        client.messageAdd({user: this.state.username, message: this.state.value});
+        client.messageAdd({user: this.state.userID, message: this.state.value});
 		this.setState({value: ''});
         this.forceUpdate();
 
         //$("html, body").animate({ scrollTop: $(document).height()}, 1000);
     }
 
-    promptForUsername(){
-        var username = " ";
-        if(this.state.username == ''){
-            if(!this.state.error == 1){
-                username = prompt(this.state.error + "\n" + "Please enter your name", this.state.username); //var person stores user input, which is name
-            } else {
-                username = prompt("Please enter your name", this.state.username); //var person stores user input, which is name
-            }
-            if(username == null){
-                return false;
-            }
+	handleUserInit(msg){
+		if(msg.header.code == 0)
+		{
+			console.log("YEE");
+			//get user data
+			client.userDetails({id:this.state.userID});
+		}
+		else
+		{
+			console.log("SHEE");
+			//username already taken
+			this.userInit();
+		}
 
-            client.userInit(username);
-        }
-    }
+		this.setState({
+			userID: msg.body.userID,
+			error: msg.header.code
+		});
+	}
 
 	handleChatDetails(msg){
 		this.setState({messageList: msg['body']['chat'].messages}); //parsing the server response
@@ -71,11 +94,9 @@ export default class Chat extends Component {
     render() {
         // Check if the Database is being set up
         if(this.state.error == 2){
-			console.log("Render: ERROR");
             return(<div>Database Error or currently being set up</div>);
-        } else if(this.state.username == '' && this.state.error == 1){
-			console.log("Render: FINE");
-            return (<div>{this.promptForUsername()}</div>);
+        } else if(this.state.userID == -1 && this.state.error == 1){
+            return (<div>{this.userInit()}</div>);
         }
 
         return (

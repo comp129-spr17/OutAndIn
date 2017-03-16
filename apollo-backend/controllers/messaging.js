@@ -22,7 +22,9 @@ var LastID =
 var Lists =
 {
 	User:[],
+	UserIds:[],
 	Chat:[],
+	ChatIds:[],
 	getUserIds:function()
 	{
 		return Lists.User;
@@ -109,6 +111,8 @@ var Schemas =
 		};
 
 		//store
+		Lists.UserIds.push(this.id);
+		console.log("Added: " + this.id);
 		Lists.User.push(this);
 	},
 
@@ -135,6 +139,7 @@ var Schemas =
 		};
 
 		//store
+		Lists.ChatIds.push(this.id);
 		Lists.Chat.push(this);
 
 	},
@@ -195,41 +200,41 @@ userList
 userDetails
 */
 
+//emit userID list
+//TODO: make explicit later sprint
+exp.userIDList = function(data, socket)
+{
+	console.log(JSON.stringify(Lists.UserIds));
+	var response = new EventData("User", "IDList", 0, "success", {
+		"userIDList": Lists.UserIds
+	});
+
+	socket.emit('userIDList', response);
+}
+
 //when user first registers
 exp.userInit = function(data, socket){
 
-	let response = {
-			"object": "USER",
-			"action": "INIT",
-			"code": 1,
-			"message": "",
-			"details": {}
-   };
+	let response = new EventData("User", "Init", 0, "success", {});
 
 	//see if username is taken
 	for(var u in Lists.User)
-		if(u.name == data.name)
+		if(Lists.User[u].name == data.name)
 		{
-			response["message"] = "Username already taken";
+			console.log("USER ALREADY EXSITS");
+			response.header["code"] = 1;
+			response.header["message"] = "Username already taken";
 		   socket.emit('userInit', response, socket.id);
 		   return;
 		}
 
+	console.log("New User: " + JSON.stringify(data));
 	var user = new Schemas.User(data.name, socket.id);
 
-	response["code"] = 0;
-	response["details"] = {
+	response["body"] = {
 		"userID": user.id
 	};
 	socket.emit('userInit', response, socket.id);
-
-	//emit userID list to everyone
-	response["details"] = {
-		"userIDList": Lists.getUserIds()
-	};
-	socket.broadcast.emit('userListUpdate', response);
-	response['code'] = 2;
-	socket.emit('userListUpdate', response);
 
 	// usersService.usersGetUserByUsername(data["details"]["username"]).then((res) => {
     //             if(res.length == 0) {
@@ -312,6 +317,7 @@ exp.userDetails = function(data, socket){
 		return;
 	}
 
+	console.log("Looksing for: " + data.id);
 	var user = Lists.getUser(data.id);
 
 	if(user.error != null){
@@ -322,7 +328,7 @@ exp.userDetails = function(data, socket){
 	}
 
 	let msg = new EventData("User", "Details", 0, "success", {'user': user});
-	eventEmit('userDetails', msg, socket, socket.id);
+	eventEmit('userDetails', msg, socket);
 };
 
 /*

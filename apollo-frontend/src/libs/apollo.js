@@ -16,7 +16,7 @@ Apollo.prototype.socketEvents = function(){
 		"chatInit": [],
 		"chatDetails": [],
 		"messageAdd": [],
-		"userListUpdate": []
+		"userIDList": []
     };
     this.socket = require('socket.io-client')('http://localhost:4200');
     var _self = this;
@@ -56,11 +56,11 @@ Apollo.prototype.socketEvents = function(){
 			_self._events["messageAdd"][index](data);
 		}
 	});
-	this.socket.on("userListUpdate", function(data)
+	this.socket.on("userIDList", function(data)
 	{
-		for(var index in _self._events["userListUpdate"])
+		for(var index in _self._events["userIDList"])
 		{
-			_self._events["userListUpdate"][index](data);
+			_self._events["userIDList"][index](data);
 		}
 	});
 
@@ -115,6 +115,11 @@ Apollo.prototype.userDetails = function(msg)
 	//console.log("EMIT: User Details");
 
 	this.socket.emit('userDetails', msg);
+};
+
+Apollo.prototype.userIDList = function(msg)
+{
+	this.socket.emit('userIDList');
 };
 
 //{name: 'chat name'}
