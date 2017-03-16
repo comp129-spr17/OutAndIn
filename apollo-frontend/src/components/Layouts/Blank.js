@@ -2,7 +2,6 @@ import '../../styles/app.scss';
 import React, { Component } from 'react';
 import { client } from '../../modules/api-client';
 import Header from '../Header';
-import Sidebar from '../Sidebar';
 
 class Blank extends Component {
     render() {
