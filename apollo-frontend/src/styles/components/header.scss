@@ -17,3 +17,64 @@
     margin-left: 20px;
     margin-top: 15px;
 }
+
+.info-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.info-links span {
+    display: block;
+    height: 50px;
+    width: 60px;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+.info-links span:hover {
+    background: #143D53;
+}
+
+.info-links span a {
+    color: #fff;
+}
+
+.info-links i {
+    position: relative;
+    margin-left: 23px;
+    margin-top: 15px;
+    font-size: 20px;
+}
+
+.info-user {
+    height: 60px;
+    width: 60px;
+    background: #143D53;
+}
+
+.info-img {
+    position: relative;
+}
+
+.info-avatar {
+    margin-top: 12px;
+    margin-left: 12px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.info-status {
+    display: inline-block;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: 38px;
+    top: 35px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    background: $green;
+}
