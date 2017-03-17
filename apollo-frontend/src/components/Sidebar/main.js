@@ -5,11 +5,74 @@ export default class SidebarMain extends Component {
     constructor() {
         super();
         this.state = {
-            friends: [{name:'Friend1',profile_src:'',few_chat_text:''},
-                {name:'Friend2',profile_src:'',few_chat_text:''}
-            ]
-        };
+            friends: [{
+                name: 'John Doe',
+                avatar: '/img/avatar2.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '12:45 pm'
+            },{
 
+                name: 'John Doe',
+                avatar: '/img/avatar1.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '12:45 pm'
+            },{
+
+                name: 'John Doe',
+                avatar: '/img/avatar.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '09/11/2001'
+            },{
+
+                name: 'John Doe',
+                avatar: '/img/avatar2.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '12:45 pm'
+            },{
+
+                name: 'John Doe',
+                avatar: '/img/avatar3.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '12:45 pm'
+            },{
+
+                name: 'John Doe',
+                avatar: '/img/avatar1.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '3:15 pm'
+            },{
+                name: 'Osvaldo Jimenez',
+                avatar: '/img/avatar.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '06:17 am'
+            },{
+
+                name: 'Ayy LMAO',
+                avatar: '/img/avatar3.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '12:45 pm'
+            },{
+                name: 'Donald Trump',
+                avatar: '/img/avatar2.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '12:45 pm'
+            },{
+                name: 'Jill Smith',
+                avatar: '/img/avatar2.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '8:45 pm'
+            },{
+                name: 'Mike Jones',
+                avatar: '/img/avatar3.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '04/23/2016'
+            }]
+        };
+        $(document).ready(function(){
+            $('.sidebar-content').niceScroll({
+                cursorcolor:"#ccc"
+            });
+        });
 		this.handleChatInit = this.handleChatInit.bind(this);
 		this.handleUserInit = this.handleUserInit.bind(this);
 		this.handleUserDetails = this.handleUserDetails.bind(this);
@@ -47,14 +110,45 @@ export default class SidebarMain extends Component {
 	}
 
     render() {
-
-
         return (
             <div className="sidebar-main">
-        	    {this.state.friends.map((friend, k) => {
-                			return <div className="sidebar-container" key={k}> <img className="img-circle" src="https://www.abeautifulsite.net/content/uploads/2014/08/rounded-image-250x250.png"/> <p className="sidebar-name"> {friend.name} </p> </div>
-	    			})
-        		}
+                <div className="sidebar-container">
+                    <div className="sidebar-search">
+                        <div className="sidebar-search-input">
+                            <i className="fa fa-search"></i>
+                            <input type="text" className="form-group" placeholder="Search for ..."/>
+                        </div>
+                        <div className="sidebar-search-create-msg">
+                            <span><i className="fa fa-pencil-square-o"></i></span>
+                        </div>
+                    </div>
+                    <div className="sidebar-content">
+                        { this.state.friends.map((friend, k) => {
+                            return <div className="sidebar-item" key={k}>
+                                <div className="sidebar-chat">
+                                    <div className="sidebar-chat-img">
+                                        <div className="sidebar-chat-avatar">
+                                            <img src={ friend.avatar } alt="Sidebar Chat Image"/>
+                                        </div>
+                                        <div className="sidebar-chat-status">
+                                        </div>
+                                    </div>
+                                    <div className="sidebar-chat-details">
+                                        <div className="sidebar-chat-details-name">
+                                            <h4>{ friend.name }</h4>
+                                        </div>
+                                        <div className="sidebar-chat-details-preview">
+                                            <p>{ friend.preview }</p>
+                                        </div>
+                                    </div>
+                                    <div className="sidebar-chat-timestamp">
+                                        <span>{ friend.timestamp }</span>
+                                    </div>
+                                </div>
+                            </div>
+                        })}
+                    </div>
+                </div>
             </div>
         );
     }
