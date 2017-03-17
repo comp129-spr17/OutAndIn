@@ -52,6 +52,36 @@ export default class SidebarMain extends Component {
                 preview: 'Lorem ipsum stuff some preview message',
                 timestamp: '12:45 pm'
             },{
+
+                name: 'John Doe',
+                avatar: '/img/avatar1.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '12:45 pm'
+            },{
+
+                name: 'John Doe',
+                avatar: '/img/avatar.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '09/11/2001'
+            },{
+
+                name: 'John Doe',
+                avatar: '/img/avatar2.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '12:45 pm'
+            },{
+
+                name: 'John Doe',
+                avatar: '/img/avatar3.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '12:45 pm'
+            },{
+
+                name: 'John Doe',
+                avatar: '/img/avatar1.jpg',
+                preview: 'Lorem ipsum stuff some preview message',
+                timestamp: '3:15 pm'
+            },{
                 name: 'Donald Trump',
                 avatar: '/img/avatar2.jpg',
                 preview: 'Lorem ipsum stuff some preview message',
