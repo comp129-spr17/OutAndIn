@@ -149,6 +149,10 @@
     color: #424242;
     margin: 0;
     font-size: 16px;
+    max-width: 125px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .sidebar-chat-details-preview {
