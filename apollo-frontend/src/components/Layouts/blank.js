@@ -7,9 +7,7 @@ class Blank extends Component {
     render() {
         return (
             <div className="apollo-container">
-                <div className="col-xs-12">
-                    { this.props.children }
-                </div>
+                { this.props.children }
             </div>
         )
     }
