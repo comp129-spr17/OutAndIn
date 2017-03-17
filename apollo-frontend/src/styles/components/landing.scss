@@ -1,0 +1,112 @@
+.landing {
+    background-image: url('/img/landing.jpg');
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.landing-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $primary;
+    opacity: 0.75;
+    z-index: 0;
+}
+
+.landing-container {
+}
+
+.landing-form-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 500px;
+    margin: -250px 0 0 -150px;
+    color: #fff;
+}
+
+.landing-form {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.landing-brand-container {
+    position: relative;
+}
+
+.landing-logo {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.landing-logo img {
+    vertical-align: -12px;
+    height: 80px;
+}
+
+.landing-logo-name {
+    display: inline-block;
+    font-size: 72px;
+}
+
+.landing-slogan {
+    position: relative;
+    display: block;
+    font-size: 16px;
+}
+
+.landing-actions-container {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.landing-actions-container hr {
+    margin-top: 30px;
+    border: 0;
+    width: 265px;
+    border-top: 2px solid #efefef;
+    opacity: 0.65;
+}
+
+.landing-actions {
+    
+}
+
+.landing-actions-button-left {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.landing-actions-button-right {
+    display: inline-block;
+}
+
+.landing-actions .btn {
+    width: 125px;
+    color: white;
+    background: rgba(255,255,255,0.35);
+    border: 2px solid #fff;
+    border-radius: 10px;
+}
+
+.landing-actions .btn:hover {
+    background: rgba(255,255,255,0.7);
+    color: #424242;
+}
+
+.landing-actions-forgot-password a {
+    color: white;
+    border-bottom:1px solid white;
+    text-decoration: none;
+}
+
