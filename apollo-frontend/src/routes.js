@@ -3,11 +3,12 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
 import Chat from './components/Chat';
 import Login from './components/Login';
+import Landing from './components/Landing';
 import Home from './components/Home';
 import SockTest from './components/SockTest';
 import NotFound from './components/NotFound';
-import Blank from './components/Layouts/Blank';
-import Main from './components/Layouts/Main';
+import Blank from './components/Layouts/blank';
+import Main from './components/Layouts/main';
 
 
 export default (
@@ -20,6 +21,7 @@ export default (
         </Route>
         <Route component={Blank} >
             <Route path="/login" component={Login} />
+            <Route path="/landing" component={Landing} />
         </Route>
         <Route path="*" component={NotFound} />
     </Router>
