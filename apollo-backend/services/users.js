@@ -7,9 +7,14 @@ exports.usersGetAll = function(){
     return db.pool.query(sql);
 };
 
-exports.usersCreateUser = function(username){
-    var sql = "INSERT INTO users VALUES ('', '', '', '', ?, '', '')";
+exports.usersGetUserByUsername = function(username){
+    var sql = "SELECT * FROM users WHERE username = ?";
     return db.pool.query(sql, [username]);
+};
+
+exports.usersCreateUser = function(username, password){
+    var sql = "INSERT INTO users VALUES ('', '', '', '', ?, ?, '')";
+    return db.pool.query(sql, [username, password]);
 };
 
 exports.usersGetUserByUsername = function(username){
