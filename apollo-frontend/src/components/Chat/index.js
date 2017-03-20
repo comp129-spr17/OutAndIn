@@ -8,7 +8,7 @@ export default class Chat extends Component {
 	 	super();
         this.state= { //new object
             error: 1, // username taken error
-	 		value: '',//text that you type into input box
+	 		inputChatText: '',//text that you type into input box
 	 		userID: -1,
             messageList: [],
             messagesEnd: ''
@@ -17,8 +17,8 @@ export default class Chat extends Component {
 		//bind 'this' referance
 		this.userInit = this.userInit.bind(this);
 
-		this.handleChange = this.handleChange.bind(this);
-		this.handleTextSend = this.handleTextSend.bind(this);
+		this.handleChatInpChange = this.handleChatInpChange.bind(this);
+		this.handleChatTextSend = this.handleChatTextSend.bind(this);
 		this.handleChatDetails = this.handleChatDetails.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
 		this.handleUserInit = this.handleUserInit.bind(this);
@@ -46,16 +46,16 @@ export default class Chat extends Component {
 		}
 	}
 
-    handleChange(event){
-	    this.setState({value: event.target.value})  //setting value of this.state.value to what is typed in input box
+    handleChatInpChange(event){
+	    this.setState({inputChatText: event.target.value})  //setting value of this.state.value to what is typed in input box
     }
 
-	handleTextSend(event){  	//storing chat in array
+	handleChatTextSend(event){  	//storing chat in array
 		event.preventDefault();
-		if(this.state.value=='') //checking if value is empty
+		if(this.state.inputChatText=='') //checking if value is empty
             return;
-        client.messageAdd({user: this.state.userID, message: this.state.value});
-		this.setState({value: ''});
+        client.messageAdd({user: this.state.userID, message: this.state.inputChatText});
+		this.setState({inputChatText: ''});
         this.forceUpdate();
 
         //$("html, body").animate({ scrollTop: $(document).height()}, 1000);
@@ -108,7 +108,7 @@ export default class Chat extends Component {
                                 <div className="bubble-dialog">
                                     {
 										this.state.messageList.map((msg, k) => {
-                                        	return < ChatComponent key={k} message={msg} selfname={this.state.username} />
+                                        	return < ChatDirectionComponent key={k} message={msg} selfname={this.state.username} />
                                     	})
 									}
                                 </div>
@@ -117,8 +117,8 @@ export default class Chat extends Component {
                     </div>
                     <div className="chat-input">
                         <form className='form'>
-                            <input autoFocus type="text" value={this.state.value} onChange={this.handleChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
-                            <button onClick={this.handleTextSend}></button>
+                            <input autoFocus type="text" value={this.state.inputChatText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Enter your message here:'/>
+                            <button onClick={this.handleChatTextSend}></button>
                         </form>
                     </div>
                 </div>
@@ -127,16 +127,16 @@ export default class Chat extends Component {
 	}
 }
 
-class ChatComponent extends React.Component {
+class ChatDirectionComponent extends React.Component {
 	render() {
 		if(this.props.selfname==this.props.message.user)
-			return <RightChatComponent msg={this.props.message} />
+			return <FloatRightChatComponent msg={this.props.message} />
 		else
-			return <LeftChatComponent msg={this.props.message} />
+			return <FloatLeftChatComponent msg={this.props.message} />
 	}
 }
 
-class RightChatComponent extends React.Component {
+class FloatRightChatComponent extends React.Component {
 	render() {
 		return (
 			<div className="bubble-right">
@@ -147,7 +147,7 @@ class RightChatComponent extends React.Component {
 }
 
 
-class LeftChatComponent extends React.Component {
+class FloatLeftChatComponent extends React.Component {
 	render() {
 		return (
 			<div className="bubble-left">
