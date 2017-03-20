@@ -100,7 +100,7 @@ export default class Chat extends Component {
         }
 
         return (
-            <div className="page">
+            <div className="content">
                 <div className="row">
                     <div className="chat-timeline">
                         <div className="container" >
