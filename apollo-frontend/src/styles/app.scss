@@ -1,15 +1,6 @@
 @import 'base/base';
 @import 'components/components';
 
-.form {
-    background: white; 
-    padding: 10px; 
-    position: fixed; 
-    bottom: 0; 
-    width: 100%; 
-    border: 1px solid #efefef;
-} 
-
 .form .msg { 
     border: 0; 
     padding: 10px; 
@@ -20,17 +11,6 @@
 
 .form .msg:focus {
     outline: none;
-}
-
-.form button { /*edited here for the button*/
-   width: 50px;
-    height: 30px;
-    border: none; 
-    padding: 10px; 
-    background-image: url('https://ibin.co/3ETgfYQ8u9Dq.png');
-    background-position:center;
-    background-repeat: no-repeat;
-    background-color: #164762;  
 }
 
 .messages { 
