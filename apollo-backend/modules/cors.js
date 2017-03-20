@@ -6,7 +6,7 @@ module.exports = function(req, res, next) {
     // Intercepts OPTIONS method
     if('OPTIONS' === req.method) {
       // Respond with 200 code
-      res.send(200);
+      res.sendStatus(200);
     } else {
       next();
     }
