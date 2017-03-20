@@ -70,7 +70,7 @@ app.use('/api/v1', routes);
 // IO Handlers
 sockets(io);
 
-//setup.init();
+setup.init();
 
 /**
  * Error Handlers
