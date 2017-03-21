@@ -10,7 +10,32 @@ export default class Chat extends Component {
             error: 1, // username taken error
 	 		inputChatText: '',//text that you type into input box
 	 		userID: -1,
-            messageList: [],
+	 		username:'Malvika',
+            messageList: [
+            	{	
+            		user:'Malvika',
+            		message:'Hello',
+            		timeStamp: parseInt(new Date().getTime()/1000)
+            	},
+            	{	
+            		user:'Abc',
+            		message:'Hello',
+            		timeStamp: parseInt(new Date().getTime()/1000)
+            	},
+
+            	{	
+            		user:'Def',
+            		message:'I am Def.',
+            		timeStamp: parseInt(new Date().getTime()/1000)
+            	},
+            	{	
+            		user:'Abc',
+            		message:'LOL good one',
+            		timeStamp: parseInt(new Date().getTime()/1000)
+            	},
+
+            ],
+            //messageList: [],
             messagesEnd: ''
         };
 
