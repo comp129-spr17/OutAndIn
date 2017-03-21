@@ -106,7 +106,7 @@ export default class Chat extends Component {
         // Check if the Database is being set up
         if(this.state.error == 2){
             return(<div>Database Error or currently being set up</div>);
-        } else if(this.state.userID == -1 && this.state.error == 1){
+       } else if(this.state.userID == -1 && this.state.error == 1){
             return (<div>{this.userInit()}</div>);
         }
 
