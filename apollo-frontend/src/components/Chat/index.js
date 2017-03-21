@@ -11,7 +11,8 @@ export default class Chat extends Component {
 	 		inputChatText: '',//text that you type into input box
 	 		userID: -1,
             messageList: [],
-            messagesEnd: ''
+            messagesEnd: '',
+            activeChatID: 0
         };
 
 		//bind 'this' referance
@@ -21,13 +22,12 @@ export default class Chat extends Component {
 		this.handleChatTextSend = this.handleChatTextSend.bind(this);
 		this.handleChatDetails = this.handleChatDetails.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
-		this.handleUserInit = this.handleUserInit.bind(this);
+        this.handleUserInit = this.handleUserInit.bind(this);
 
 		//add socket event handlers
-		client.socketRegisterEvent("chatDetails", this.handleChatDetails);
+        client.eventBusRegisterEvent("chatDetails", this.handleChatDetails);
 		client.socketRegisterEvent("messageAdd", this.handleMessageAdd);
-		client.socketRegisterEvent("userInit", this.handleUserInit);
-
+		client.eventBusRegisterEvent("userInit", this.handleUserInit);
     }
 
 	userInit(){
@@ -42,18 +42,31 @@ export default class Chat extends Component {
 				return false;
 			}
 
-			client.userInit({username: username}).then((res) =>{
-				if(res.header.code == 0){
-					//fine
-				}else {
-					//username already taken
-					this.userInit();
-				}
+            client.userInit({username: username}).then((res) =>{
 				this.setState({
-					userID: res.body.id,
-					error: res.header.code
-				});
-			});
+					userID: res.data.body.id,
+					error: res.data.header.code
+                });
+                localStorage.setItem("userID", res.data.body.id);
+                if(res.data.header.code == 0){
+                    return client.userGetUserByID(res.data.body.id);                
+                    //client.userDetails({id: this.state.userID});
+					//fine
+				} else {
+					//username already taken
+					return 1;
+				}
+            }).then((user) => {
+                if(user == 1)
+                    this.userInit();
+                else {
+                    localStorage.setItem("username", user.data.body.user.username);
+                    //client.socketDispatchEvent("connectedUsers");      
+                }
+                    
+            }).catch((err) => {
+                console.log("ERROR: " + JSON.stringify(err)); 
+            });
 		}
 	}
 
