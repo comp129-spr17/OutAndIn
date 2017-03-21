@@ -1,8 +1,7 @@
 'use strict'
 
 import React, { Component } from 'react';
-import { StyleSheet, AppRegistry, Text, ListView, TextInput, TouchableOpacity, View } from 'react-native';
-/*import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i');*/
+import { StyleSheet, AppRegistry, Text, ListView, TextInput, TouchableOpacity, View, ScrollView } from 'react-native';
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2});
 var dataArray=[];
@@ -19,7 +18,7 @@ class MainComponent extends Component
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.Logo}> Apollo </Text>
         </View>
@@ -42,7 +41,7 @@ class MainComponent extends Component
             <Text style = {styles.send}> SEND </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -51,7 +50,8 @@ const styles  = StyleSheet.create({
   send:
   {
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    //fontFamily: 'FontAwesome'
   },
   header:
   {
