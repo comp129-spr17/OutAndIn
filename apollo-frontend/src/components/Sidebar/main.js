@@ -5,139 +5,36 @@ export default class SidebarMain extends Component {
     constructor() {
         super();
         this.state = {
-            friends: [{
-                name: 'John Doe',
-                avatar: '/img/avatar2.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar1.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '09/11/2001'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar2.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar3.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar1.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '3:15 pm'
-            },{
-                name: 'Osvaldo Jimenez',
-                avatar: '/img/avatar.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '06:17 am'
-            },{
-
-                name: 'Ayy LMAO',
-                avatar: '/img/avatar3.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar1.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '09/11/2001'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar2.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar3.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar1.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '3:15 pm'
-            },{
-                name: 'Donald Trump',
-                avatar: '/img/avatar2.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-                name: 'Jill Smith',
-                avatar: '/img/avatar2.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '8:45 pm'
-            },{
-                name: 'Mike Jones',
-                avatar: '/img/avatar3.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '04/23/2016'
-            }]
+            friends: []
         };
         $(document).ready(function(){
             $('.sidebar-content').niceScroll({
                 cursorcolor:"#ccc"
             });
         });
-		this.handleChatInit = this.handleChatInit.bind(this);
-		this.handleUserInit = this.handleUserInit.bind(this);
-		this.handleUserDetails = this.handleUserDetails.bind(this);
 
-		client.socketRegisterEvent("userInit", this.handleUserInit);
-		client.socketRegisterEvent("userDetails", this.handleUserDetails);
-		client.socketRegisterEvent("chatInit", this.handleChatInit);
+        this.newUsersConnected = this.newUsersConnected.bind(this);
+        client.socketRegisterEvent("usersConnected", this.newUsersConnected);
     }
 
-    handleUserInit(res){
-        // Check if an error occured
-        if(res["code"] == 0) {
-			//success
-	        var username = res["details"]["username"];
-	        this.setState({username: username, error: 0});
-        }
-		else if(res["code"] == 1 || res["code"] == 2)
-		{
-			//username taken
-			this.setState({username: '', error: res["code"]});
-
-			//output error
-			console.log("ERRORS: code - " + res['code'] + ' message - ' + res['message']);
-
-			return;
-		}
+    newUsersConnected(){
+        client.userGetUsers().then((users) => {
+            var friends = [];
+            for(var user in users.data.body.list){
+                var rn = Math.floor(Math.random() * 3) + 1;
+                console.log(users.data.body.list[user].username);
+                friends.push({
+                    name: users.data.body.list[user].username,
+                    avatar: '/img/avatar'+rn+'.jpg',
+                    preview: 'Lorem ipsum stuff some preview message',
+                    timestamp: '11/09/2911'
+                });
+            }
+            this.setState({friends: friends});
+        }).catch((err) => {
+            console.log(err); 
+        }); 
     }
-
-	handleUserDetails(msg){
-
-	}
-
-	handleChatInit(msg){
-
-	}
 
     render() {
         return (
