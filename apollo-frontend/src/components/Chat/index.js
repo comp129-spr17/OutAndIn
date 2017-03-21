@@ -10,11 +10,9 @@ export default class Chat extends Component {
             error: 1, // username taken error
 	 		inputChatText: '',//text that you type into input box
 	 		userID: -1,
-<<<<<<< HEAD
             messageList: [],
             messagesEnd: '',
             activeChatID: 0
-=======
 	 		username:'Malvika',
             messageList: [
             	{	
@@ -42,7 +40,6 @@ export default class Chat extends Component {
             ],
             //messageList: [],
             messagesEnd: ''
->>>>>>> 092fc382aac3fbd1750dc393cf8bc0a6c1ec9b9a
         };
 
 		//bind 'this' referance
