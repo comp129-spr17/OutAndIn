@@ -80,24 +80,25 @@ router.post('/create', function(req, res){
         // Doesn't exist, create it
         return usersService.usersCreateUser(req.body.username, '');
     }).then((data) => {
-		var response = {
-			header: {
-				'object': 'user',
-				'action': 'create',
-				'code': 1,
-				'message': 'User already exists'
-			},
-			body: {
-				id: -1
-			}
-		};
         if(data == 1){
 			//return error, user already exists
-			res.json(response);
-            return;
+			res.json({
+				header: {
+					'object': 'user',
+					'action': 'create',
+					'code': 1,
+					'message': 'User already exists'
+				},
+				body: {
+					id: -1
+				}
+			});
+            return 1;
         }
 		return usersService.usersGetUserByUsername(req.body.username);
-    }).then((user) =>{
+    }).then((users) =>{
+		if(user == 1)
+			return;
 		var response = {
 			header: {
 				'object': 'user',
@@ -106,55 +107,77 @@ router.post('/create', function(req, res){
 				'message': 'success'
 			},
 			body: {
-				id:user.uuid
+				id:users[0].uuid
 			}
 		};
 		res.json(response);
 	}).catch((err) => {
-        res.send("Error: " + err);
+		res.json({
+			header: {
+				'object': 'user',
+				'action': 'create',
+				'code': 2,
+				'message': 'error'
+			},
+			body: {
+				error: err
+			}
+		});
     });
 });
 
 //get all user ids
 router.get('/list', function(req, res){
-	var data = {
-		header: {
-			'object': 'user',
-			'action': 'list',
-			'code': 0,
-			'message': 'success'
-		},
-		body: {
-			'list': UserIdList
-		}
-	};
-	res.send(JSON.stringify(data));
+	usersService.usersGetUserIDList().then((users) => {
+		res.json({
+			header: {
+				'object': 'user',
+				'action': 'list',
+				'code': 0,
+				'message': 'success'
+			},
+			body: {
+				list:users
+			}
+		});
+		return;
+	}).catch((err) => {
+		res.json({
+			header: {
+				'object': 'user',
+				'action': 'list',
+				'code': 1,
+				'message': 'error'
+			},
+			body: {
+				error: err
+			}
+		});
+	});
 });
 
 //get user data by id
 router.get('/details', function(req, res){
-
-	var data = {
-		header: {
-			'object': 'user',
-			'action': 'details',
-			'code': 1,
-			'message': 'No user found'
-		},
-		body: {}
-	};
-
-	for(var i = 0; i < UserList.length; i ++)
-		if(UserList[i].id == req.query.id)
-		{
-			data.body.user = UserList[i];
-			data.header['code'] = 0;
-			data.header['message'] = 'success';
-			break;
+	usersService.usersGetUserByUUID(req.body.id).then((users) =>{
+		var response = {
+			header: {
+				'object': 'user',
+				'action': 'details',
+				'code': 1,
+				'message': 'error'
+			},
+			body: {}
+		};
+		if(users.length != 1){
+			//error
+			res.json(response);
 		}
-
-	res.send(JSON.stringify(data));
-
+		//success
+		response.header.code = 0;
+		response.header.message = 'success';
+		response.body.user = users[0];
+		res.send(response);
+	});
 });
 
 module.exports = router;
