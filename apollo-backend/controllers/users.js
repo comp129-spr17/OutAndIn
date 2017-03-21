@@ -23,21 +23,31 @@ var User = function(name){
 }
 
 router.get('/', function(req, res){
-    // Get all users
-    /*
-    usersService.getAllUsers().then((results) => {
-        console.log(results);
-        res.send(results);
-    }).catch((err) => {
-        res.send(err);
-    });
-    */
-    chatsService.chatsCreateRoom().then((res) => {
-        console.log(res);
-        res.send(results);
-    }).catch((err) => {
-        res.send(err);
-    });
+	usersService.usersGetUserIDList().then((users) => {
+		res.json({
+			header: {
+				'object': 'user',
+				'action': 'list',
+				'code': 0,
+				'message': 'success'
+			},
+			body: {
+				list:users
+			}
+		});
+	}).catch((err) => {
+		res.json({
+			header: {
+				'object': 'user',
+				'action': 'list',
+				'code': 1,
+				'message': 'error'
+			},
+			body: {
+				error: err
+			}
+		});
+	});
 });
 
 router.post('/', function(req, res){
@@ -82,6 +92,13 @@ router.post('/create', function(req, res){
     }).then((data) => {
         if(data == 1){
 			//return error, user already exists
+            return 1;
+        }
+		return usersService.usersGetUserByUsername(req.body.username);
+    }).then((users) =>{
+        console.log("Users: " + JSON.stringify(users));
+        if(users == 1) {
+            //return error, user already exists
 			res.json({
 				header: {
 					'object': 'user',
@@ -93,12 +110,8 @@ router.post('/create', function(req, res){
 					id: -1
 				}
 			});
-            return 1;
+            return;
         }
-		return usersService.usersGetUserByUsername(req.body.username);
-    }).then((users) =>{
-		if(user == 1)
-			return;
 		var response = {
 			header: {
 				'object': 'user',
@@ -107,11 +120,12 @@ router.post('/create', function(req, res){
 				'message': 'success'
 			},
 			body: {
-				id:users[0].uuid
+				id: users[0].uuid
 			}
-		};
+        };
+        res.io.sockets.emit('usersConnected', {});
 		res.json(response);
-	}).catch((err) => {
+    }).catch((err) => {
 		res.json({
 			header: {
 				'object': 'user',
@@ -123,6 +137,16 @@ router.post('/create', function(req, res){
 				error: err
 			}
 		});
+    });
+});
+
+router.get('/test', function(req, res){
+    usersService.usersGetUserByUsername("apollo").then((data) => {
+        console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        console.log(err);
+        res.json(err);
     });
 });
 
@@ -157,8 +181,8 @@ router.get('/list', function(req, res){
 });
 
 //get user data by id
-router.get('/details', function(req, res){
-	usersService.usersGetUserByUUID(req.body.id).then((users) =>{
+router.get('/id/:id', function(req, res){
+	usersService.usersGetUserByUUID(req.params.id).then((users) =>{
 		var response = {
 			header: {
 				'object': 'user',
@@ -166,18 +190,30 @@ router.get('/details', function(req, res){
 				'code': 1,
 				'message': 'error'
 			},
-			body: {}
+            body: {}
 		};
 		if(users.length != 1){
 			//error
-			res.json(response);
+			return res.json(response);
 		}
 		//success
 		response.header.code = 0;
 		response.header.message = 'success';
 		response.body.user = users[0];
 		res.send(response);
-	});
+    }).catch((err) => {
+ 		res.json({
+			header: {
+				'object': 'user',
+				'action': 'details',
+				'code': 2,
+				'message': 'error'
+			},
+			body: {
+				error: err
+			}
+		});   
+    });
 });
 
 module.exports = router;
