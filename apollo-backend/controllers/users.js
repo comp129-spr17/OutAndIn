@@ -40,6 +40,36 @@ router.get('/', function(req, res){
     });
 });
 
+router.post('/', function(req, res){
+    console.log("in here");
+    console.log("body: " + JSON.stringify(req.body));
+    // Create User
+    res.json({done: "done"});
+});
+
+// Create User Manually
+router.get('/setup', function(req, res){
+    var username = "apollo";
+    var password = "apollo";
+
+    usersService.usersGetUserByUsername(username).then((users) =>{
+        // User already exists
+        if(users.length != 0){
+            return 1;
+        }
+        // Doesn't exist, create it
+        return usersService.usersCreateUser("apollo", "apollo");    
+    }).then((data) => {
+        if(data == 1){
+            res.send("User already exists");
+            return;
+        }
+        res.send("User created successfully"); 
+    }).catch((err) => {
+        res.send("Error: " + err); 
+    });
+});
+
 //create user
 router.get('/init', function(req, res){
 	new User(req.query.name);
