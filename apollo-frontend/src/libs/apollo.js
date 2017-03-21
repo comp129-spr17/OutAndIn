@@ -1,4 +1,5 @@
 var axios = require('axios');
+var EventBus = require('eventbusjs');
 
 var Apollo = function(){
     this.API_URL = 'http://localhost:4200/api/v1';
@@ -16,10 +17,19 @@ Apollo.prototype.socketEvents = function(){
 		"chatInit": [],
 		"chatDetails": [],
 		"messageAdd": [],
-		"userIDList": []
+        "userIDList": [],
+        "usersConnected": []
     };
     this.socket = require('socket.io-client')('http://localhost:4200');
     var _self = this;
+
+	this.socket.on("usersConnected", function(data)
+	{
+		for(var index in _self._events["usersConnected"])
+		{
+			_self._events["usersConnected"][index](data);
+		}
+    });
 
 	this.socket.on("userInit", function(data)
 	{
@@ -27,7 +37,7 @@ Apollo.prototype.socketEvents = function(){
 		{
 			_self._events["userInit"][index](data);
 		}
-	});
+    });
 	this.socket.on("userDetails", function(data)
 	{
 		for(var index in _self._events["userDetails"])
@@ -81,11 +91,19 @@ Apollo.prototype.socketEvents = function(){
 
 Apollo.prototype.socketRegisterEvent = function(eventName, func) {
     this._events[eventName].push(func);
-}
+    //EventBus.addEventListener(eventName, func);
+};
+
+Apollo.prototype.eventBusRegisterEvent = function(eventName, func){
+    EventBus.addEventListener(eventName, func);
+};
+
+Apollo.prototype.eventBusDispatchEvent = function(eventName){
+    EventBus.dispatch(eventName);
+};
 
 Apollo.prototype._get = function(url, parameters){
     //parameters = extend(parameters, this.credentials); // Add credentials to parameters
-    return;
     var getURL = "";
     if(parameters.length > 0) {
         getURL = this.API_URL + '/' + url + '?' + querystring.stringify(parameters); // Construct URL with parameters
@@ -113,20 +131,28 @@ Apollo.prototype.userInit = function(msg)
 {
 	//console.log("EMIT: User init");
 	return this._post('users/create', msg);
-	// this.socket.emit('userInit', msg);
+    // this.socket.emit('userInit', msg);
 };
 
 // {id: #}
 Apollo.prototype.userDetails = function(msg)
 {
 	//console.log("EMIT: User Details");
+    //this.socket.emit('userDetails', msg);
+    EventBus.dispatch("userDetails");
+};
 
-	this.socket.emit('userDetails', msg);
+Apollo.prototype.userGetUserByID = function(id){
+    return this._get('users/id/' + id, {});
 };
 
 Apollo.prototype.userIDList = function(msg)
 {
 	this.socket.emit('userIDList');
+};
+
+Apollo.prototype.userGetUsers = function(){
+    return this._get('users', {});
 };
 
 //{name: 'chat name'}
