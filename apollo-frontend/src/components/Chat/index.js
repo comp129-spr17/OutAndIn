@@ -12,7 +12,7 @@ export default class Chat extends Component {
 	 		userID: -1,
             messageList: [],
             messagesEnd: '',
-            activeChatID: 0
+            activeChatID: 0,
 	 		username:'Malvika',
             messageList: [
             	{	
@@ -144,11 +144,11 @@ export default class Chat extends Component {
 
     render() {
         // Check if the Database is being set up
-       // if(this.state.error == 2){
-          //  return(<div>Database Error or currently being set up</div>);
-      // } else if(this.state.userID == -1 && this.state.error == 1){
-          //  return (<div>{this.userInit()}</div>);
-       // }
+        if(this.state.error == 2){
+            return(<div>Database Error or currently being set up</div>);
+        } else if(this.state.userID == -1 && this.state.error == 1){
+            return (<div>{this.userInit()}</div>);
+        }
 
   return (
             <div className="content">
