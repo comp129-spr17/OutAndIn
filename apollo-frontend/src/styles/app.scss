@@ -74,6 +74,8 @@
 .bubble-dialog {
     white-space: pre-line;
     line-height:0;
+    width:63%;
+
 }
 
 .bubble-left
@@ -91,7 +93,7 @@
     border-radius: 11px;
     margin-bottom: 2em;
     clear: both;
-    min-width:35%;
+    min-width:50%;
     max-width:50%;
 }
 
@@ -109,9 +111,10 @@
     border-radius: 11px;
     margin-bottom: 2em;
     clear: both;
-    min-width:35%;
+    min-width:50%;
     max-width:50%;
 }
+
 
 .bubble-left {
     float: left;

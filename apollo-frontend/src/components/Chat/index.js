@@ -10,9 +10,39 @@ export default class Chat extends Component {
             error: 1, // username taken error
 	 		inputChatText: '',//text that you type into input box
 	 		userID: -1,
+<<<<<<< HEAD
             messageList: [],
             messagesEnd: '',
             activeChatID: 0
+=======
+	 		username:'Malvika',
+            messageList: [
+            	{	
+            		user:'Malvika',
+            		message:'Hello',
+            		timeStamp: parseInt(new Date().getTime()/1000)
+            	},
+            	{	
+            		user:'Abc',
+            		message:'Hello',
+            		timeStamp: parseInt(new Date().getTime()/1000)
+            	},
+
+            	{	
+            		user:'Def',
+            		message:'I am Def.',
+            		timeStamp: parseInt(new Date().getTime()/1000)
+            	},
+            	{	
+            		user:'Abc',
+            		message:'LOL good one',
+            		timeStamp: parseInt(new Date().getTime()/1000)
+            	},
+
+            ],
+            //messageList: [],
+            messagesEnd: ''
+>>>>>>> 092fc382aac3fbd1750dc393cf8bc0a6c1ec9b9a
         };
 
 		//bind 'this' referance
@@ -117,11 +147,11 @@ export default class Chat extends Component {
 
     render() {
         // Check if the Database is being set up
-        if(this.state.error == 2){
-            return(<div>Database Error or currently being set up</div>);
-        } else if(this.state.userID == -1 && this.state.error == 1){
-            return (<div>{this.userInit()}</div>);
-        }
+       // if(this.state.error == 2){
+          //  return(<div>Database Error or currently being set up</div>);
+      // } else if(this.state.userID == -1 && this.state.error == 1){
+          //  return (<div>{this.userInit()}</div>);
+       // }
 
   return (
             <div className="content">
@@ -138,7 +168,7 @@ export default class Chat extends Component {
                 </div>
                 <div className="chat-input">
                     <form className='form'>
-                        <input autoFocus type="text" value={this.state.inputChatText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type your message ...'/>
+                       <div className='msg' contentEditable placeholder='Enter Text' ></div>
                     </form>
                 </div>
             </div>
