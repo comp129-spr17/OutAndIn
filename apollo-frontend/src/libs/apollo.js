@@ -95,6 +95,12 @@ Apollo.prototype._get = function(url, parameters){
     return axios.get(getURL);
 };
 
+Apollo.prototype._post = function(url, parameters){
+	var getUrl = '';
+	getUrl = this.API_URL + '/' + url;
+	return axios.post(getUrl, parameters);
+}
+
 Apollo.prototype.usersGetAll = function()
 {
     return this._get('users', {});
@@ -106,7 +112,8 @@ Apollo.prototype.usersGetAll = function()
 Apollo.prototype.userInit = function(msg)
 {
 	//console.log("EMIT: User init");
-	this.socket.emit('userInit', msg);
+	return this._post('users/create', msg);
+	// this.socket.emit('userInit', msg);
 };
 
 // {id: #}

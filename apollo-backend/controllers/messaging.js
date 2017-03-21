@@ -7,6 +7,7 @@
  */
 'use strict'
 var usersService = require('../services/users');
+var router = require('express').Router();
 
 //Message Handler
 //next free id
