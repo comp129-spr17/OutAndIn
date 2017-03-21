@@ -42,7 +42,18 @@ export default class Chat extends Component {
 				return false;
 			}
 
-			client.userInit({name: username});
+			client.userInit({username: username}).then((res) =>{
+				if(res.header.code == 0){
+					//fine
+				}else {
+					//username already taken
+					this.userInit();
+				}
+				this.setState({
+					userID: res.body.id,
+					error: res.header.code
+				});
+			});
 		}
 	}
 

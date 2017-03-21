@@ -58,33 +58,61 @@ router.get('/setup', function(req, res){
             return 1;
         }
         // Doesn't exist, create it
-        return usersService.usersCreateUser("apollo", "apollo");    
+        return usersService.usersCreateUser("apollo", "apollo");
     }).then((data) => {
         if(data == 1){
             res.send("User already exists");
             return;
         }
-        res.send("User created successfully"); 
+        res.send("User created successfully");
     }).catch((err) => {
-        res.send("Error: " + err); 
+        res.send("Error: " + err);
     });
 });
 
 //create user
-router.get('/init', function(req, res){
-	new User(req.query.name);
-	var data = {
-		header: {
-			'object': 'user',
-			'action': 'init',
-			'code': 0,
-			'message': 'success'
-		},
-		body:{
-			'id': UserList[UserList.length - 1].id
-		}
-	};
-	res.send(JSON.stringify(data));
+router.post('/create', function(req, res){
+	usersService.usersGetUserByUsername(req.body.username).then((users) =>{
+        // User already exists
+        if(users.length != 0){
+            return 1;
+        }
+        // Doesn't exist, create it
+        return usersService.usersCreateUser(req.body.username, '');
+    }).then((data) => {
+		var response = {
+			header: {
+				'object': 'user',
+				'action': 'create',
+				'code': 1,
+				'message': 'User already exists'
+			},
+			body: {
+				id: -1
+			}
+		};
+        if(data == 1){
+			//return error, user already exists
+			res.json(response);
+            return;
+        }
+		return usersService.usersGetUserByUsername(req.body.username);
+    }).then((user) =>{
+		var response = {
+			header: {
+				'object': 'user',
+				'action': 'create',
+				'code': 0,
+				'message': 'success'
+			},
+			body: {
+				id:user.uuid
+			}
+		};
+		res.json(response);
+	}).catch((err) => {
+        res.send("Error: " + err);
+    });
 });
 
 //get all user ids

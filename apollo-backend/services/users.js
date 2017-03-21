@@ -1,6 +1,6 @@
 // Import Database
 var db = require('../modules/database');
-var Promise = require('bluebird');
+var uuid = require('uuid/v1');
 
 exports.usersGetAll = function(){
     var sql = "SELECT * FROM users";
@@ -13,8 +13,9 @@ exports.usersGetUserByUsername = function(username){
 };
 
 exports.usersCreateUser = function(username, password){
-    var sql = "INSERT INTO users VALUES ('', '', '', '', ?, ?, '')";
-    return db.pool.query(sql, [username, password]);
+	var u = uuid();
+    var sql = "INSERT INTO users VALUES ('', ?, '', '', ?, ?, '')";
+    return db.pool.query(sql, [u, username,password]);
 };
 
 exports.usersGetUserByUsername = function(username){
