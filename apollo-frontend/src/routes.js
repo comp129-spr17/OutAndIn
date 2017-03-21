@@ -9,7 +9,7 @@ import SockTest from './components/SockTest';
 import NotFound from './components/NotFound';
 import Blank from './components/Layouts/blank';
 import Main from './components/Layouts/main';
-
+import ReduxTest from './components/ReduxTest';
 
 export default (
     <Router history={browserHistory} >
@@ -20,6 +20,7 @@ export default (
             <Route path="/sockTest" component={SockTest} />
         </Route>
         <Route component={Blank} >
+            <Route path="/redux" component={ReduxTest} />
             <Route path="/login" component={Login} />
             <Route path="/landing" component={Landing} />
         </Route>
