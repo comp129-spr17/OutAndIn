@@ -13,7 +13,7 @@ exports.usersGetUserByUsername = function(username){
 };
 
 exports.usersGetUserIDList = function(){
-	var sql = "SELECT uuid FROM users";
+	var sql = "SELECT * FROM users";
 	return db.pool.query(sql);
 };
 
@@ -26,9 +26,4 @@ exports.usersCreateUser = function(username, password){
 	var u = uuid();
     var sql = "INSERT INTO users VALUES ('', ?, '', '', ?, ?, '')";
     return db.pool.query(sql, [u, username,password]);
-};
-
-exports.usersGetUserByUsername = function(username){
-    var sql = "SELECT id FROM users WHERE username = ?";
-    return db.pool.query(sql, [username]);
 };
