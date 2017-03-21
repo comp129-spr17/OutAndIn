@@ -110,27 +110,23 @@ export default class Chat extends Component {
             return (<div>{this.userInit()}</div>);
         }
 
-        return (
+  return (
             <div className="content">
-                <div className="row">
-                    <div className="chat-timeline">
-                        <div className="container" >
-                            <div className="div-right">
-                                <div className="bubble-dialog">
-                                    {
-										this.state.messageList.map((msg, k) => {
-                                        	return < ChatDirectionComponent key={k} message={msg} selfname={this.state.username} />
-                                    	})
-									}
-                                </div>
-                            </div>
+                <div className="chat-timeline">
+                    <div className="div-right">
+                        <div className="bubble-dialog">
+                            {
+								this.state.messageList.map((msg, k) => {
+                                	return < ChatDirectionComponent key={k} message={msg} selfname={this.state.username} />
+                            	})
+							}
                         </div>
                     </div>
-                    <div className="chat-input">
-                        <form className='form'>
-                            <input autoFocus type="text" value={this.state.inputChatText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type your message ...'/>
-                        </form>
-                    </div>
+                </div>
+                <div className="chat-input">
+                    <form className='form'>
+                        <input autoFocus type="text" value={this.state.inputChatText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type your message ...'/>
+                    </form>
                 </div>
             </div>
      	);
