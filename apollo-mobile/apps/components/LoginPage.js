@@ -1,13 +1,13 @@
 'use strict'
 
 import React, { Component } from 'react';
-import { StyleSheet, AppRegistry, Text, ListView, TextInput, TouchableOpacity, View, ScrollView } from 'react-native';
+import { StyleSheet, AppRegistry, Text, ListView, TextInput, Image, TouchableOpacity, View, ScrollView } from 'react-native';
 
 export default class LoginPage extends Component
 {
   render(){
     return(
-      <ScrollView>
+      <Image source={require('../../Img/landing.jpg')} style = {styles.container}>
       <View>
         <Text style = {styles.textLabel}>Username or Email</Text>
         <TextInput style = {styles.textInput}/>
@@ -17,27 +17,34 @@ export default class LoginPage extends Component
         <Text style = {styles.textLabel}>Password</Text>
         <TextInput style = {styles.textInput}/>
       </View>
-      </ScrollView>
+      </Image>
 
     )
   }
 }
 
 const styles = StyleSheet.create({
+  container:
+  {
+    flex: 1,
+    
+    width: null,
+    height: null,
+    resizeMode: 'stretch'
+  },
+
   textLabel:
   {
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: 'Verdana',
     marginBottom: 10,
   },
 
   textInput:
   {
-    flex: 8,
+    //flex: 8,
     borderWidth: 1,
     borderColor: '#164762',
     paddingLeft: 5
   }
-
 })
