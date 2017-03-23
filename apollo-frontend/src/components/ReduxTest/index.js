@@ -1,34 +1,21 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { usersCreate } from '../../actions/users';
 
-class ReduxTest extends Component {
-    componentWillMount(){
-        console.log(this.props);
-    }
-    componentDidMount(){
-        this.props.createUser("apollo");
+export default class ReduxTest extends Component {
+    constructor(){
+        super();
+        this.changeTheName = this.changeTheName.bind(this);
     }
 
+    changeTheName(){
+        var name = "dale";
+        this.props.changeUsername(name);
+    }
     render(){
         return (
             <div>
-                { this.state.username }
+                <button onClick={this.changeTheName}></button>
+                { this.props.username }
             </div>
         );
     }
 }
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        createUser: (username) => dispatch(usersCreate(username))
-    };
-};
-
-const mapStateToProps = (state) => {
-    return {
-        username: state.username
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ReduxTest);
