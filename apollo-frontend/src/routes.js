@@ -9,7 +9,7 @@ import SockTest from './components/SockTest';
 import NotFound from './components/NotFound';
 import Blank from './components/Layouts/blank';
 import Main from './components/Layouts/main';
-import ReduxTest from './components/ReduxTest';
+import ReduxTest from './containers/user';
 
 export default (
     <Router history={browserHistory} >
