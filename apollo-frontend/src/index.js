@@ -5,10 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 
 import router from './routes';
-const initialState = {
-    users: {username: "bob"}
-};
-const store = configureStore(initialState);
+const store = configureStore();
 
 render(
     <Provider store={store} >
