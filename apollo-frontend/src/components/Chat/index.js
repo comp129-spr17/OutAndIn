@@ -165,7 +165,7 @@ export default class Chat extends Component {
                 </div>
                 <div className="chat-input">
                     <form className='form'>
-                       <div className='msg' contentEditable placeholder='Enter Text' ></div>
+                       <input autoFocus type="text" value={this.state.inputChatText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type a message ...'/>
                     </form>
                 </div>
             </div>
