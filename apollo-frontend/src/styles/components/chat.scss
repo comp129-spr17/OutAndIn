@@ -23,6 +23,16 @@
     border-top: 1px solid #efefef;
 }
 
+.msgSender { 
+    font-family: "Helvetica"; 
+    font-weight: bold; 
+    float: left;
+}
+
+.msgTimeStamp {
+    float: right;
+}
+
 .bubble-left
 {
     line-height: 100%;
