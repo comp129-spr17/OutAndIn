@@ -44,14 +44,6 @@
 .msgTimeStamp {
     float: right;
 }
-/*
-.sidebar { Parent flex container that will hold contents of the sidebar. 
-    display: flex; Flex containers can wrap, shrink, etc. if necessary.
-    flex-direction: column; Organizes inner flex containers into a column format.
-    position: absolute; 
-    top: 0; bottom: 0; left: 0;
-    width: 50px;
-}*/
     
 .div-left{
     float:left;
@@ -76,45 +68,6 @@
     line-height:0;
     width:63%;
 
-}
-
-.bubble-left
-{
-    line-height: 100%;
-    display: block;
-    position: relative;
-    padding: .5em .7em;
-    background-color: #F7F7F7;
-    color:#7A7A7A;
-    border-radius: 17px;
-    margin-bottom: 2em;
-    clear: both;
-    min-width:50%;
-    max-width:50%;
-}
-
-.bubble-right {
-    line-height: 100%;
-    display: block;
-    position: relative;
-    padding: .5em .7em;
-    background-color: #164762;
-    color: #FFFFFF;
-    border-radius: 17px;
-    margin-bottom: 2em;
-    clear: both;
-    min-width:50%;
-    max-width:50%;
-}
-
-
-.bubble-left {
-    float: left;
-    margin-right:10%;
-}
-.bubble-right {
-    float:right;
-    margin-left:10%
 }
 .img-circle {
     margin-top:5px;
