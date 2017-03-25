@@ -19,7 +19,7 @@ class MainComponent extends Component
   render() {
     return (
       <View style={styles.container}>
-        <View>
+        <View style = {styles.headerBar}>
           <Text style={styles.username}> Maxine Lien </Text>
         </View>
         <ListView dataSource = {this.state.dataSource}
@@ -49,11 +49,11 @@ class MainComponent extends Component
 }
 
 const styles  = StyleSheet.create({
-  //headerBar:
-  //{
-  //  height:70,
-  //  backgroundColor: '#F8F8F8'
-  //},
+  headerBar:
+  {
+    height:70,
+    backgroundColor: '#F8F8F8'
+  },
   username:
   {
     textAlign: 'center',
@@ -81,7 +81,7 @@ const styles  = StyleSheet.create({
   },
   bigContainer: {
     height:80,
-    flexDirection: 'row'
+    //flexDirection: 'row'
   },
   containerInput: {
     height:40,
@@ -91,7 +91,7 @@ const styles  = StyleSheet.create({
   inputMessage: {
     flex: 8,
     borderWidth: 1,
-    borderColor: '#164762',
+    borderColor: '#EDEDED',
     paddingLeft: 5
   }
 
