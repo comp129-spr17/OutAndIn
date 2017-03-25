@@ -8,7 +8,7 @@ import LoginPage from './apps/components/LoginPage'
 class Apollo extends Component {
   render() {
     return (
-      <Navigator initialRoute = {{id: 'landing'}}
+      <Navigator initialRoute = {{id: 'mainChat'}}
                  renderScene = {this.navigatorRenderScene} />
     );
   }

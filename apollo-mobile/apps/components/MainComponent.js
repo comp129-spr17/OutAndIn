@@ -59,18 +59,18 @@ const styles  = StyleSheet.create({
     //flexDirection: "column", /*top to bottom*/
     //justifyContent: "flex-start", /*start at the top*/
     //alignItems: "stretch", /*all components take up full width*/
-    backgroundColor: '#164762'
+    backgroundColor: '#F8F8F8'
   },
   Logo:
   {
     textAlign: 'center',
-    color: 'white',
-    fontSize: 30,
-    marginTop: 20
+    color: '#424242',
+    fontSize: 16,
+    marginTop: 30
   },
   container:
   {
-    marginTop: 20,
+    //marginTop: 20,
     flex: 1,
     flexDirection: 'column'
   },
