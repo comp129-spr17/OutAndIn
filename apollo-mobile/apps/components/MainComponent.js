@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, AppRegistry, Text, ListView, TextInput, TouchableOpacity, View, ScrollView } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2});
 var dataArray=[];
@@ -40,7 +41,7 @@ class MainComponent extends Component
             />
           </View>
           <View style = {styles.containerInput}>
-            <Text style = {styles.inputMessage}> file icons go here </Text>
+            <Icon name = "fa-paperclip" size = {20} style = {styles.icons} />
           </View>
         </View>
       </View>
@@ -93,6 +94,11 @@ const styles  = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#EDEDED',
     paddingLeft: 5
+  },
+  icons:{
+    color: '#164762',
+    width:20,
+    height:20
   }
 
 })
