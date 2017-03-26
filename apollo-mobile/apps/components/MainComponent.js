@@ -41,7 +41,7 @@ class MainComponent extends Component
             />
           </View>
           <View style = {styles.containerInput}>
-            <Icon name = "fa-paperclip" size = {20} style = {styles.icons} />
+            <Icon name = "paperclip" size = {20} style = {styles.icons} />
           </View>
         </View>
       </View>
