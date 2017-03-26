@@ -23,6 +23,28 @@
     border-top: 1px solid #efefef;
 }
 
+.messages { 
+    list-style-type: none; 
+    margin: 0; 
+    padding: 0;  
+    font: 14px Helvetica, Arial; 
+    color: #000;
+    clear: both;
+}
+
+.messages li{
+    display: block;
+    padding: 5px 10px; 
+    margin-left: 5px;
+}
+
+.messages li:nth-child(odd) { 
+    display: block;
+    color: white;
+    background: #164762;
+
+}
+
 .msgSender { 
     font-family: "Helvetica"; 
     font-weight: bold; 
