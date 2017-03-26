@@ -42,6 +42,9 @@ class MainComponent extends Component
           </View>
           <View style = {styles.containerInput}>
             <Icon name = "paperclip" size = {20} style = {styles.icons} />
+            <Icon name = "microphone" size = {20} style = {styles.icons} />
+            <Icon name = "camera" size = {20} style = {styles.icons} />
+            <Icon name = "video-camera" size = {20} style = {styles.icons} />
           </View>
         </View>
       </View>
@@ -96,9 +99,10 @@ const styles  = StyleSheet.create({
     paddingLeft: 5
   },
   icons:{
-    color: '#164762',
-    width:20,
-    height:20
+    color: '#8A8A8A',
+    paddingTop: 10,
+    paddingLeft: 7,
+    paddingRight: 10
   }
 
 })
