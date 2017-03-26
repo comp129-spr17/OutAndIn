@@ -106,26 +106,23 @@ export default class UserSearch extends Component {
         });
 
         this.newUsersConnected = this.newUsersConnected.bind(this);
-        this.serachFriend = this.serachFriend.bind(this);
+        this.searchFriend = this.searchFriend.bind(this);
 
         //client.socketRegisterEvent("usersConnected", this.newUsersConnected);
     }
 
-    serachFriend(event){ //function by Malvika to search for friends(currently hardcoded)
-        if(event.keyCode==13 || event.charCode==13 || event.key=='Enter'){ //keycoe for enter is 13
-            var currVal = $('#input_friend').val(); //sets current value to what is typed in input box
-            if(currVal=='') //if there is no value, return nothing
-                return; 
-            this.state.friends = []; //
-            for(var i in this.state.allFriends){ //iterate through friends
-                if(this.state.allFriends[i].name.toLowerCase().indexOf(currVal.toLowerCase())> -1){ //case insensitive, 
-
-                    this.state.friends.push(this.state.allFriends[i]);  //found the name. now add name to friends array to fill it from allFriends populated array.
+   searchFriend(event){
+        var currVal = $('#input_friend').val(); 
+        this.state.friends = [];
+        if(currVal !=''){  //removed return statement since it was returning nothing when curr val was empty, keeping searches on screen when there was nothing in search inp
+            for(var i in this.state.allFriends){
+                if(this.state.allFriends[i].name.toLowerCase().indexOf(currVal.toLowerCase())> -1){
+                    console.log('matched');
+                    this.state.friends.push(this.state.allFriends[i]);
                 }
             }
-            this.forceUpdate();
-
         }
+        this.forceUpdate();
 
     }
 
@@ -155,7 +152,7 @@ export default class UserSearch extends Component {
                     <div className="sidebar-search">
                         <div className="sidebar-search-input">
                             <i className="fa fa-search"></i>
-                            <input  onKeyUp={this.serachFriend} id="input_friend" type="text" className="form-group" placeholder="Search for ..."/>
+                            <input  onKeyUp={this.searchFriend} id="input_friend" type="text" className="form-group" placeholder="Search for ..."/>
                         </div>
                         <div className="sidebar-search-create-msg">
                             <span><i className="fa fa-pencil-square-o"></i></span>
