@@ -181,7 +181,6 @@ Apollo.prototype.messageAdd = function(msg)
 
 //input: {user: id}
 Apollo.prototype.userSetSocketID = function(msg){
-	console.log("EMIT: " + msg.user);
 	this.socket.emit('usersStoreSocketID', msg);
 };
 

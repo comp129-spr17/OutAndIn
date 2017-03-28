@@ -9,6 +9,11 @@ exports.chatsCreateChat = function(){
     return db.pool.query(sql, [room_id]);
 };
 
+//create entry
+exports.chatsAddUserToChat = function(chatID, userID){
+
+};
+
 //get entry by id
 exports.chatsGetChatByID = function(ChatID){
 	var sql = 'SELECT * FROM chats WHERE chat_id = ?';
@@ -19,4 +24,10 @@ exports.chatsGetChatByID = function(ChatID){
 exports.chatGetChatUser = function(ChatID){
 	var sql = 'SELECT * FROM chat_users WHERE chat_id = ?';
 	return db.pool.query(sql, [ChatID]);
+};
+
+//get chat ids by user
+exports.chatGetChatsForUser = function(UserID){
+	var sql = 'SELECT chat_id FROM chats_users WHERE user_id = ?';
+	return db.pool.query(sql, [UserID]);
 };
