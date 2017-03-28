@@ -15,23 +15,23 @@ export default class Chat extends Component {
             activeChatID: 0,
 	 		username:'Malvika',
             messageList: [
-            	{	
+            	{
             		user:'Malvika',
             		message:'Hello',
             		timeStamp: parseInt(new Date().getTime()/1000)
             	},
-            	{	
+            	{
             		user:'Abc',
             		message:'Hello',
             		timeStamp: parseInt(new Date().getTime()/1000)
             	},
 
-            	{	
+            	{
             		user:'Def',
             		message:'I am Def.',
             		timeStamp: parseInt(new Date().getTime()/1000)
             	},
-            	{	
+            	{
             		user:'Abc',
             		message:'LOL good one',
             		timeStamp: parseInt(new Date().getTime()/1000)
@@ -76,9 +76,11 @@ export default class Chat extends Component {
                 });
                 localStorage.setItem("userID", res.data.body.id);
                 if(res.data.header.code == 0){
-                    return client.userGetUserByID(res.data.body.id);                
-                    //client.userDetails({id: this.state.userID});
 					//fine
+					//set socket id in server
+					console.log("EMIT");
+					client.userSetSocketID({user: this.state.userID});
+					return -1;
 				} else {
 					//username already taken
 					return 1;
@@ -88,11 +90,12 @@ export default class Chat extends Component {
                     this.userInit();
                 else {
                     localStorage.setItem("username", user.data.body.user.username);
-                    //client.socketDispatchEvent("connectedUsers");      
+					return 0;
+                    //client.socketDispatchEvent("connectedUsers");
                 }
-                    
+
             }).catch((err) => {
-                console.log("ERROR: " + JSON.stringify(err)); 
+                console.log("ERROR: " + JSON.stringify(err));
             });
 		}
 	}
@@ -112,6 +115,7 @@ export default class Chat extends Component {
         //$("html, body").animate({ scrollTop: $(document).height()}, 1000);
     }
 
+	//old
 	handleUserInit(msg){
 		if(msg.header.code == 0)
 		{

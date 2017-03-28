@@ -1,5 +1,6 @@
 'use strict'
 var paths = require('./messaging');
+var usersService = require('../services/users');
 
 var sockets = function(io) {
 
@@ -7,7 +8,25 @@ var sockets = function(io) {
     var globalMessage = globalMessage || [];
 
     io.on('connection', function(socket){
-        console.log("User connected");
+        console.log("User connected: " + socket.id);
+
+		//store socket id of this user
+		socket.on("usersStoreSocketID", function(data){
+			console.log("EVENT: usersStoreSocketID");
+			usersService.usersStoreSocketID(data.user, socket.id).then((res) => {
+				console.log("Stored: " + socket.id);
+				socket.emit("usersStoreSocketID",{
+					code: 0
+				});
+			}).catch((err) => {
+				console.log("ERROR");
+				socket.emit("usersStoreSocketID", {
+					code: 1,
+					err: err
+				});
+			});
+		});
+
         socket.on('message', function(data){
             globalMessage.push({
                 user: data.user,
