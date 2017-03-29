@@ -9,6 +9,7 @@
 var express = require('express');
 var router = express.Router();
 var chatsService = require('../services/chats');
+var usersService = require('../services/users');
 
 //?
 router.get('/', function(req, res){
@@ -54,37 +55,6 @@ router.post('/create', function(req, res){
 	});
 });
 
-//add user to chat
-/*
-input:
-{
-	chatID: #,
-	userID: #
-}
-*/
-router.post("/addUser", function(req,res){
-	chatsService.chatsAddUserToChat(req.body.chatID, req.body.userID).then((chat) => {
-		res.json({
-			header:{
-				code: 0,
-				message: 'success'
-			},
-			body: {}
-		});
-	}).catch((err) =>{
-		res.json({
-			header:{
-				code: 1,
-				message: 'ERROR: sql'
-			},
-			body:{
-				err : err
-			}
-		});
-	});
-});
-
-//TODO:BORKEN
 //get chat details
 /*
 input:
@@ -132,6 +102,66 @@ router.get('/id/:id', function(req, res){
 			header:{
 				code: 3,
 				message: 'ERROR: sql'
+			},
+			body:{
+				err : err
+			}
+		});
+	});
+});
+
+//add user to chat
+/*
+input:
+{
+	chatID: #,
+	userID: #
+}
+*/
+router.post("/addUser", function(req,res){
+	chatsService.chatsAddUserToChat(req.body.chatID, req.body.userID).then((chat) => {
+		//TODO: dont add if already exists
+		res.json({
+			header:{
+				code: 0,
+				message: 'success'
+			},
+			body: {}
+		});
+
+		//send socket event
+		usersService.usersGetSocketID(req.body.userID).then((sock) => {
+			if(res.io.sockets.connected[sock[0]]){
+				//fine
+				res.io.sockets.connected[sock[0]].emit('chatsListUpdate', {});
+			}else{
+				res.json({
+					header:{
+						code: 3,
+						message: 'ERROR: socket not connected'
+					},
+					body:{
+						err : err
+					}
+				});
+			}
+		}).catch((err) =>{
+			res.json({
+				header:{
+					code: 2,
+					message: 'ERROR: sql, could not get socket id'
+				},
+				body:{
+					err : err
+				}
+			});
+		});
+
+	}).catch((err) =>{
+		res.json({
+			header:{
+				code: 1,
+				message: 'ERROR: sql could not make entry'
 			},
 			body:{
 				err : err
