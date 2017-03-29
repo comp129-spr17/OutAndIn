@@ -14,15 +14,14 @@ exports.chatsCreateChat = function(chatID){
 
 //create entry
 exports.chatsAddUserToChat = function(chatID, userID){
-	console.log("SQL");
 	var sql = "INSERT INTO chat_users VALUES('', ?, ?)";
 	return db.pool.query(sql, [chatID, userID]);
 };
 
 //get entry by id
-exports.chatsGetChatByID = function(ChatID){
-	var sql = 'SELECT * FROM chats WHERE chat_id = ?';
-	return db.pool.query(sql, [ChatID]);
+exports.chatsGetChatByID = function(uuid){
+	var sql = "SELECT * FROM chats WHERE uuid = ?";
+	return db.pool.query(sql, [uuid]);
 };
 
 //get users by chat id
@@ -33,6 +32,6 @@ exports.chatGetChatUser = function(ChatID){
 
 //get chat ids by user
 exports.chatGetChatsForUser = function(UserID){
-	var sql = 'SELECT chat_id FROM chats_users WHERE user_id = ?';
+	var sql = 'SELECT chat_id FROM chat_users WHERE user_id = ?';
 	return db.pool.query(sql, [UserID]);
 };

@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `chats`;
 
 CREATE TABLE `chats` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `chat_id` varchar(32) NOT NULL DEFAULT '',
+  `uuid` varchar(64) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
   `avatar` longtext NOT NULL,
   PRIMARY KEY (`id`)
@@ -42,8 +42,6 @@ CREATE TABLE `chat_status` (
   `state` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 
 # Dump of table chat_users
 # ------------------------------------------------------------

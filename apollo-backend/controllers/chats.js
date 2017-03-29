@@ -63,7 +63,6 @@ input:
 }
 */
 router.post("/addUser", function(req,res){
-	console.log("BODY: " + req.body.chatID + ' : ' + req.body.userID);
 	chatsService.chatsAddUserToChat(req.body.chatID, req.body.userID).then((chat) => {
 		res.json({
 			header:{
@@ -85,17 +84,17 @@ router.post("/addUser", function(req,res){
 	});
 });
 
+//TODO:BORKEN
 //get chat details
 /*
 input:
 {
-	user1: #,
-	user2: #
+	id: #
 }
 */
 router.get('/id/:id', function(req, res){
 	chatsService.chatsGetChatByID(req.params.id).then((chats) =>{
-		if(!chats.length){
+		if(chats.length == 0){
 			//no chats found
 			res.json({
 				header:{
@@ -144,6 +143,7 @@ router.get('/id/:id', function(req, res){
 //get all chat ids by user id
 router.get('/byUser/:id', function(req, res){
 	chatsService.chatGetChatsForUser(req.params.id).then((chatIDs) =>{
+		console.log("chat:" + JSON.stringify(chatIDs));
 		res.json({
 			header:{
 				code: 0,
