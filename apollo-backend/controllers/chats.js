@@ -123,7 +123,6 @@ router.post("/addUser", function(req,res){
 		if(chat_user.length == 0){
 			//no connection yet
 			chatsService.chatsAddUserToChat(req.body.chatID, req.body.userID).then((chat) => {
-				//TODO: dont add if already exists
 				res.json({
 					header:{
 						code: 0,
@@ -131,7 +130,7 @@ router.post("/addUser", function(req,res){
 					},
 					body: {}
 				});
-
+				//TODO: push above ^
 				//send socket event
 				usersService.usersGetSocketID(req.body.userID).then((sock) => {
 					if(res.io.sockets.connected[sock[0]]){
@@ -230,12 +229,72 @@ output:
 }
 */
 router.get('/messages/:id', function(req, res){
-
+	chatsService.chatsGetMessagesForChat(req.params.id).then((msg) =>{
+		if(msg.length == 0){
+			//no messages found
+			res.json({
+				header:{
+					code: 2,
+					message: 'No messages for chat'
+				},
+				body:{
+					messages: msg
+				}
+			});
+		}else{
+			//fine
+			res.json({
+				header:{
+					code: 0,
+					message: 'success'
+				},
+				body:{
+					messages: msg
+				}
+			});
+		}
+	}).catch((err) =>{
+		res.json({
+			header:{
+				code: 1,
+				message: 'ERROR: sql'
+			},
+			body:{
+				err : err
+			}
+		});
+	});
 });
 
 //add message to chat
-router.post('/messages/:id', function(req, res){
-
+/*
+input:
+{
+	chatID: #,
+	userID: #,
+	messageText: ''
+}
+*/
+router.post('/messages', function(req, res){
+	chatsService.chatsAddMessageToChat(req.body.chatID,req.body.userID,req.body.messageText).then((msg) => {
+		res.json({
+			header:{
+				code: 0,
+				message: 'success'
+			},
+			body:{}
+		});
+	}).catch((err) =>{
+		res.json({
+			header:{
+				code: 1,
+				message: 'ERROR: sql'
+			},
+			body:{
+				err : err
+			}
+		});
+	});
 });
 
 module.exports = router;

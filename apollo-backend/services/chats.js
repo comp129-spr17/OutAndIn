@@ -41,3 +41,16 @@ exports.chatsGetChatsForUser = function(UserID){
 	var sql = 'SELECT chat_id FROM chat_users WHERE user_id = ?';
 	return db.pool.query(sql, [UserID]);
 };
+
+//add message for chat
+exports.chatsAddMessageToChat = function(ChatID, UserID, msgText){
+	var sql = "INSERT INTO messages VALUES('', ?, ?, ?, ?)";
+	return db.pool.query(sql, [ChatID, UserID, msgText, Math.floor(Date.now()/ 1000)]);
+};
+
+//get messages [] for chat
+exports.chatsGetMessagesForChat = function(ChatID){
+	console.log("CHATID: " + ChatID);
+	var sql = "SELECT * FROM messages WHERE chat_id = ?";
+	return db.pool.query(sql, [ChatID]);
+};
