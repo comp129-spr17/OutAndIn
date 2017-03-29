@@ -24,14 +24,20 @@ exports.chatsGetChatByID = function(uuid){
 	return db.pool.query(sql, [uuid]);
 };
 
+//get entry by id, use to check if user is in chat
+exports.chatsGetChatUser = function(chatID, userID){
+	var sql = "SELECT * FROM chat_users WHERE chat_id = ? AND user_id = ?";
+	return db.pool.query(sql, [chatID, userID]);
+};
+
 //get users by chat id
-exports.chatGetChatUser = function(ChatID){
+exports.chatsGetUsersForChat = function(ChatID){
 	var sql = 'SELECT * FROM chat_users WHERE chat_id = ?';
 	return db.pool.query(sql, [ChatID]);
 };
 
 //get chat ids by user
-exports.chatGetChatsForUser = function(UserID){
+exports.chatsGetChatsForUser = function(UserID){
 	var sql = 'SELECT chat_id FROM chat_users WHERE user_id = ?';
 	return db.pool.query(sql, [UserID]);
 };
