@@ -2,16 +2,21 @@
 var db = require('../modules/database');
 var uuid = require('uuid/v1');
 
+exports.chatsGenID = function(){
+	return uuid();
+};
+
 //create entry
-exports.chatsCreateChat = function(){
-    let room_id = uuid();
+exports.chatsCreateChat = function(chatID){
     var sql = "INSERT INTO chats VALUES('', ?, '', '')";
-    return db.pool.query(sql, [room_id]);
+    return db.pool.query(sql, [chatID]);
 };
 
 //create entry
 exports.chatsAddUserToChat = function(chatID, userID){
-
+	console.log("SQL");
+	var sql = "INSERT INTO chat_users VALUES('', ?, ?)";
+	return db.pool.query(sql, [chatID, userID]);
 };
 
 //get entry by id

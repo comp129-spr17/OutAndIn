@@ -12,7 +12,7 @@ var chatsService = require('../services/chats');
 
 //?
 router.get('/', function(req, res){
-    chatsService.chatsCreateChat().then((res) => {
+    chatsService.chatsCreateChat(chatsService.chatsGenID()).then((res) => {
         console.log(res);
         res.send(results);
     }).catch((err) => {
@@ -23,13 +23,22 @@ router.get('/', function(req, res){
 //create chat
 //NOTE: does not create chat if already EXISTS
 /*
+output:
+{
+	chatID: #
+}
 */
 router.post('/create', function(req, res){
-	chatsService.chatsCreateChat().then((chat) => {
+	var chatID = chatsService.chatsGenID();
+	chatsService.chatsCreateChat(chatID).then((chat) => {
+		console.log("CHAT: " + JSON.stringify(chat));
 		res.json({
 			header:{
 				code: 0,
 				message: 'success'
+			},
+			body: {
+				chatID: chatID
 			}
 		});
 	}).catch((err) =>{
@@ -54,22 +63,24 @@ input:
 }
 */
 router.post("/addUser", function(req,res){
-	chatsService.chatsAddUserToChat(req.body.chatID. req.body.userID).then((chat_user) =>{
+	console.log("BODY: " + req.body.chatID + ' : ' + req.body.userID);
+	chatsService.chatsAddUserToChat(req.body.chatID, req.body.userID).then((chat) => {
 		res.json({
 			header:{
 				code: 0,
 				message: 'success'
+			},
+			body: {}
+		});
+	}).catch((err) =>{
+		res.json({
+			header:{
+				code: 1,
+				message: 'ERROR: sql'
+			},
+			body:{
+				err : err
 			}
-		}).catch((err) =>{
-			res.json({
-				header:{
-					code: 1,
-					message: 'ERROR: sql'
-				},
-				body:{
-					err: err
-				}
-			});
 		});
 	});
 });

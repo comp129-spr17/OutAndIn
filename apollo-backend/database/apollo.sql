@@ -38,7 +38,7 @@ DROP TABLE IF EXISTS `chat_status`;
 
 CREATE TABLE `chat_status` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `chat_id` int(11) NOT NULL,
+  `chat_id` varchar(32) NOT NULL,
   `state` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -52,8 +52,8 @@ DROP TABLE IF EXISTS `chat_users`;
 
 CREATE TABLE `chat_users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `chat_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `chat_id` varchar(32) NOT NULL,
+  `user_id` varchar(32)  NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -67,10 +67,10 @@ DROP TABLE IF EXISTS `files`;
 CREATE TABLE `file` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `type` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` varchar(32) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `owner` int(11) DEFAULT NULL,
-  `chat_id` int(11) DEFAULT NULL,
+  `chat_id` varchar(32) DEFAULT NULL,
   `size` bigint(20) DEFAULT NULL,
   `path` longtext,
   PRIMARY KEY (`id`)
@@ -85,8 +85,8 @@ DROP TABLE IF EXISTS `friends`;
 
 CREATE TABLE `friends` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `friend_id` int(11) NOT NULL,
+  `user_id` varchar(32) NOT NULL,
+  `friend_id` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -99,8 +99,8 @@ DROP TABLE IF EXISTS `messages`;
 
 CREATE TABLE `messages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `chat_id` int(11) NOT NULL,
-  `created_by` int(11) NOT NULL,
+  `chat_id` varchar(32) NOT NULL,
+  `created_by` varchar(32) NOT NULL,
   `message` longtext NOT NULL,
   `timestamp` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
@@ -149,14 +149,11 @@ DROP TABLE IF EXISTS `user_status`;
 
 CREATE TABLE `user_status` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `user_id` varchar(32) NOT NULL,
   `state` int(11) NOT NULL,
   `timestamp` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
