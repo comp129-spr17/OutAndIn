@@ -8,6 +8,10 @@ const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2});
 var dataArray=[];
 class MainComponent extends Component
 {
+  static navigationOptions = {
+    //title: ({route}) => route.params.name,
+  }
+
   constructor() {
     super();
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 != r2});
@@ -18,11 +22,9 @@ class MainComponent extends Component
   }
 
   render() {
+    const { goBack } = this.props.navigation
     return (
       <View style={styles.container}>
-        <View style = {styles.headerBar}>
-          <Text style={styles.username}> Maxine Lien </Text>
-        </View>
         <ListView dataSource = {this.state.dataSource}
                   enableEmptySections = {true}
                   style = {styles.listMessage}

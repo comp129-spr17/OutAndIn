@@ -10,38 +10,29 @@ export default class LoginPage extends Component
   static navigationOptions = {
     //title: 'LoginPage',
     header: {
-      visible: true
+      visible: false,
     }
   }
 
   render(){
     const {navigate} = this.props.navigation;
     return(
-      <Image source={require('../../Img/landing.jpg')} style = {styles.container}>
-        <View style = {styles.container}>
+      <View>
+        <View style={styles.headerBar}>
           <Image source={require('../../Img/logo.png')}/>
-          <Text style = {styles.textLabel}>Messaging Made Easy</Text>
-          <View>
-            <TouchableOpacity onPress = {() => navigate('chatList')}>
-              <Text style = {styles.textLabel}>Login</Text>
-            </TouchableOpacity>
-            <TextInput style = {styles.textInput}/>
-          </View>
-
-          <View>
-            <TouchableOpacity>
-              <Text style = {styles.textLabel}>Register</Text>
-            </TouchableOpacity>
-            <TextInput style = {styles.textInput}/>
-          </View>
         </View>
-      </Image>
+      </View>
 
     )
   }
 }
 
 const styles = StyleSheet.create({
+  headerBar:
+  {
+    height:70,
+    backgroundColor: '#164762'
+  },
   container:
   {
     flex: 1,
