@@ -2,28 +2,29 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, AppRegistry, Text, ListView, TextInput, TouchableOpacity, View, Navigator } from 'react-native';
+import { StackNavigator, } from 'react-navigation';
 import MainComponent from './apps/components/MainComponent'
 import LoginPage from './apps/components/LoginPage'
+import ChatList from './apps/components/ChatList'
 
-class Apollo extends Component {
-  render() {
-    return (
-      <Navigator initialRoute = {{id: 'mainChat'}}
-                 renderScene = {this.navigatorRenderScene} />
-    );
-  }
 
-  navigatorRenderScene(route, navigator)
-  {
-    switch(route.id)
-    {
-      case 'landing':
-        return(<LoginPage navigator = {navigator}/>);
-      case 'mainChat':
-        return(<MainComponent navigator = {navigator} />);
-    }
-  }
-}
+//class Apollo extends Component {
+  //static navigationOptions = {
+    //title: 'Login',
+  //};
+
+  //render() {
+    //return (
+
+  //  );
+
+//  }
+//}
+const Apollo = StackNavigator({
+  Login: { screen: LoginPage },
+  mainChat: {screen: MainComponent},
+  chatList: {screen: ChatList}
+});
 
 var styles = StyleSheet.create({
   text: {
