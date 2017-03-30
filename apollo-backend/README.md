@@ -123,7 +123,7 @@ These fields are the ones available via the API. Some fields such as the passwor
 | username | string | The username of the user |
 | avatar | string | The URL path of the avatar |
 
-**Users API Resource Methods**
+**Resource Methods**
 
 * **[Get All Users](#get-all-users)**
 * **[Update All Users](#update-all-users)**
