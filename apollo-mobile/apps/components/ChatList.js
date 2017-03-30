@@ -15,7 +15,7 @@ export default class LoginPage extends Component
   }
 
   render(){
-    const {navigate} = this.props.navigation;
+    //const {navigate} = this.props.navigation;
     return(
       <View>
         <View style={styles.headerBar}>

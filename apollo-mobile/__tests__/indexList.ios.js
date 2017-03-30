@@ -1,12 +1,13 @@
 import 'react-native';
 import React from 'react';
-import Index from '../index.android.js';
+import ChatList from '../apps/components/ChatList';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
 
-it('renders correctly', () => {
+test('renders correctly', () => {
   const tree = renderer.create(
-    <Index />
-  );
+    <ChatList />
+  ).toJSON();
+  expect(tree).toMatchSnapshot();
 });

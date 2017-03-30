@@ -22,7 +22,7 @@ class MainComponent extends Component
   }
 
   render() {
-    const { goBack } = this.props.navigation
+    //const { goBack } = this.props.navigation
     return (
       <View style={styles.container}>
         <ListView dataSource = {this.state.dataSource}
