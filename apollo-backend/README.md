@@ -155,7 +155,7 @@ Authorization: Bearer $TOKEN
 Below are the query parameters available. They are also case sensitive.
 
 | **Name** | **Values Available** | **Example URL** |
-| ---- | ---- |
+| ---- | ---- | --- |
 | Fields | <ul><li>`uuid`: ff06479d-79d0-4baa-999e-ea16a9030e93</li><li>`email`: test@example.com</li><li>`fullname`: Test User</li><li>`username`: test</li><li>`avatar`: http://example.com/path/to/avatar.jpg </li></ul> | `/api/v1/users?fields=username,uuid` |
 
 **Data Params:**
