@@ -91,7 +91,7 @@ You should not need to be concerned with the details of these headers, because t
 
 **Example Preflight Request**
 ```
-curl -I -H "Origin: https://example.com" -X OPTIONS "https://api.digitalocean.com/v2/droplets"
+curl -I -H "Origin: https://example.com" -X OPTIONS "https://localhost:4200/api/v1/$RESOURCE"
 ```
 
 **Example Preflight Response**
