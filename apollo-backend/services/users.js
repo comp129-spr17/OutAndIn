@@ -28,7 +28,14 @@ exports.usersCreateUser = function(username, password){
     return db.pool.query(sql, [u, username,password]);
 };
 
+//store socket id
 exports.usersStoreSocketID = function(userID, sockID){
 	var sql = "UPDATE users SET socket = ? WHERE uuid = ?";
 	return db.pool.query(sql, [sockID, userID]);
+};
+
+//get socket id
+exports.usersGetSocketID = function(userID){
+	var sql = 'SELECT socket FROM users WHERE uuid = ?';
+	return db.pool.query(sql, [userID]);
 };
