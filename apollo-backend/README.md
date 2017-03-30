@@ -6,6 +6,13 @@ The Apollo API allows Apollo Frontend servers an easy way to interface with reso
 
 The API documentation will provide you with a general overview about the design and technology that has been implemented, followed by reference information about specific endpoints.
 
+## Testing
+Test cases are in the `test` directory. You must have the backend API running in the backend in order for the test cases to perform their tests. To run all the tests, you could need to run the following:
+
+```
+npm test
+```
+
 ## Requests
 Any tool that is fluent in HTTP can communicate with the API simply by requesting the correct URI. Requests should be made using the HTTPS protocol so that traffic is encrypted. This is currently not supported by the API, but will soon be implemented. The API interfaces respond to different methods depending on the action required.
 
