@@ -116,7 +116,7 @@ The API Endpoints
 These fields are the ones available via the API. Some fields such as the password hash are not provided as they would pose a security risk and not neccessary for external use.
 
 | **Name** | **Type** | **Description** |
-| ---- | ---- | ---- |
+| ---- | ---- | ---- | ---- |
 | uuid | string | The Universally Unique Identifier for the user |
 | email | string | The email address of the user |
 | fullname | string | The full name of the user |
