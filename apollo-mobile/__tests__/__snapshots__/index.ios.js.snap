@@ -1,0 +1,133 @@
+exports[`test renders correctly 1`] = `
+<Image
+  source={1}
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "height": null,
+      "justifyContent": "center",
+      "width": null,
+    }
+  }>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "height": null,
+        "justifyContent": "center",
+        "width": null,
+      }
+    }>
+    <Image
+      source={1} />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "backgroundColor": "rgba(0,0,0,0)",
+          "color": "white",
+          "fontSize": 20,
+          "fontWeight": "bold",
+        }
+      }>
+      Messaging Made Easy
+    </Text>
+    <View>
+      <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        hitSlop={undefined}
+        isTVSelectable={true}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+        testID={undefined}
+        tvParallaxProperties={undefined}>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0)",
+              "color": "white",
+              "fontSize": 20,
+              "fontWeight": "bold",
+            }
+          }>
+          Login
+        </Text>
+      </View>
+      <TextInput
+        style={
+          Object {
+            "borderColor": "#164762",
+            "borderWidth": 1,
+            "paddingLeft": 5,
+          }
+        } />
+    </View>
+    <View>
+      <View
+        accessibilityComponentType={undefined}
+        accessibilityLabel={undefined}
+        accessibilityTraits={undefined}
+        accessible={true}
+        hitSlop={undefined}
+        isTVSelectable={true}
+        onLayout={undefined}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+        testID={undefined}
+        tvParallaxProperties={undefined}>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "backgroundColor": "rgba(0,0,0,0)",
+              "color": "white",
+              "fontSize": 20,
+              "fontWeight": "bold",
+            }
+          }>
+          Register
+        </Text>
+      </View>
+      <TextInput
+        style={
+          Object {
+            "borderColor": "#164762",
+            "borderWidth": 1,
+            "paddingLeft": 5,
+          }
+        } />
+    </View>
+  </View>
+</Image>
+`;
