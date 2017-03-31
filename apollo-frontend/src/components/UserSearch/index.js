@@ -99,11 +99,11 @@ export default class UserSearch extends Component {
                 timestamp: '04/23/2016'
             }]
         };
-        $(document).ready(function(){
-            $('.sidebar-content').niceScroll({
-                cursorcolor:"#ccc"
-            });
-        });
+        // $(document).ready(function(){
+        //     $('.sidebar-content').niceScroll({
+        //         cursorcolor:"#ccc"
+        //     });
+        //});
 
         this.newUsersConnected = this.newUsersConnected.bind(this);
         this.searchFriend = this.searchFriend.bind(this);
