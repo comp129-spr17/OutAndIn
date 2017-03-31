@@ -37,7 +37,7 @@ For the most part, if the status returned is in the 200 range, it indiciates tha
 If your requests returns an HTTP response code in the 400 range, this would indicate that thre was an issue with the request you made.  This could also mean that your API client is not authenticated and will not be able to make further requests, that the resource you are requesting does not exist, or that you made a malformed request.
 
 **Example Error Response**
-```json
+```
 HTTP/1.1 403 Forbidden
 {
     "id": "forbidden",
@@ -53,7 +53,7 @@ Inside of the JSON object, the resource root that was the target of the request 
 For example, if you send a GET request to `/api/v1/users` you will get back an object with a key called `"users"`. If you send a GET request to `/api/v1/user/$ID`, then you will get back an object with a key called `"user"`.
 
 **Response For A Single Object**
-```json
+```
 {
     "user": {
         "uuid": "30e039ed-7768-4472-b483-6803fb5ae041",
@@ -63,7 +63,7 @@ For example, if you send a GET request to `/api/v1/users` you will get back an o
 ```
 
 **Response For An Object Collection**
-```json
+```
 {
     "users": [
         {
@@ -171,7 +171,7 @@ Below are the query parameters available. They are also case sensitive.
 **Response:**
 - **Success Code:** `200`
 - **Body:** 
-```json
+```
 { 
     "users": [
         { 
