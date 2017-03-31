@@ -23,7 +23,7 @@ var User = function(name){
 }
 
 router.get('/', function(req, res){
-	usersService.usersGetUserIDList().then((users) => {
+    usersService.usersGetUserIDList().then((users) => {
 		res.json({
 			header: {
 				'object': 'user',
