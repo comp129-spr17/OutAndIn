@@ -2,6 +2,7 @@ apollo-backend/node_modules
 apollo-backend/config/config.json
 apollo-frontend/node_modules
 apollo-frontend/public/apollo-core.js
+*.js.snap
 npm-debug.log
 *~
 *.swp
