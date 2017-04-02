@@ -15,10 +15,9 @@ export default class Friends extends Component {
             }
         }
     }
-
-    render() {
+ render() {
         return (
-            <div> 
+            <div className='profile-container'> 
                 <div >
                     <div className='profile-avatar'>
                         <img  src={ this.state.user.avatar } alt="User Image"/>
@@ -30,7 +29,7 @@ export default class Friends extends Component {
                 </div>
                 <div className='profile-otherinfo'>
                     <p> Phone : {this.state.user.phoneNumber}  </p>
-                    <p> BirthDay : {this.state.user.dob}  </p>
+                    <p> Birthday : {this.state.user.dob}  </p>
                     <p> Where I Live : {this.state.user.address}  </p>
                     <div>
                         <p>Friends </p>
