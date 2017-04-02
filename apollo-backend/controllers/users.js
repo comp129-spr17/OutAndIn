@@ -11,7 +11,7 @@ var router = express.Router();
 var usersService = require('../services/users');
 var chatsService = require('../services/chats');
 
-//TEMP User factory
+// TEMP User factory
 var lastId = 0;
 var UserList = [];
 var UserIdList = [];
@@ -21,6 +21,52 @@ var User = function(name){
 	UserIdList.push(this.id);
 	UserList.push(this);
 }
+
+// OPTIONS - Routes permitted per route
+var _OPTIONS = {
+	// Default Users Route
+	"/": {
+		"METHODS": [
+			"GET",
+			"POST"
+		],
+		"HASHES": new Set()
+	}
+};
+
+function init(){
+	// Initialize the OPTIONS methods for each route
+	// Create new Set instance for each route
+	// Add all routes into the set
+	var keys = Object.keys(_OPTIONS);
+	keys.forEach(function(key){
+		var methods = _OPTIONS[key]["METHODS"];
+		methods.forEach(function(method){
+			_OPTIONS[key]["HASHES"].add(method);
+		});
+	});
+}
+
+router.options('/', function(req, res){
+	var origin = req.get('Origin');
+	// Check if origin is set
+	if(!origin){
+		res.sendStatus(404);		
+		return;
+	}
+	// Check if method that is requested is in the methods hash set
+	var method = req.get('Access-Control-Request-Method');
+	if(_OPTIONS["/"]["HASHES"].has(method)){
+
+		res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+		res.header("Access-Control-Max-Age", 86400);
+		res.sendStatus(200);
+		return;
+	}
+	// Send 404 if both of the above conditions are not met
+	res.sendStatus(404);
+});
 
 router.get('/', function(req, res){
     usersService.usersGetUserIDList().then((users) => {
@@ -78,6 +124,10 @@ router.get('/setup', function(req, res){
     }).catch((err) => {
         res.send("Error: " + err);
     });
+});
+
+router.options('/create', function(req, res){
+	res.status(404).json({error: "404"});
 });
 
 //create user
@@ -216,4 +266,7 @@ router.get('/id/:id', function(req, res){
     });
 });
 
-module.exports = router;
+module.exports = {
+	router: router,
+	init: init
+};
