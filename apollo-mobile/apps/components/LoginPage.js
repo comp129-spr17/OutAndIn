@@ -15,7 +15,7 @@ export default class LoginPage extends Component
   }
 
   render(){
-    //const {navigate} = this.props.navigation;
+    const {navigate} = this.props.navigation;
     return(
       <Image source={require('../../Img/landing.jpg')} style = {styles.container}>
         <View style = {styles.container}>

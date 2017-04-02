@@ -15,11 +15,12 @@ export default class LoginPage extends Component
   }
 
   render(){
-    //const {navigate} = this.props.navigation;
+    const {navigate} = this.props.navigation;
     return(
       <View>
         <View style={styles.headerBar}>
-          <Image source={require('../../Img/logo.png')}/>
+          <Image source={require('../../Img/logo.png')} style={styles.logoPic}/>
+          <Text> Apollo </Text>
         </View>
       </View>
 
@@ -28,10 +29,17 @@ export default class LoginPage extends Component
 }
 
 const styles = StyleSheet.create({
+  logoPic:
+  {
+    marginTop: 15,
+    width: 18,
+    height: 36,
+  },
   headerBar:
   {
     height:70,
-    backgroundColor: '#164762'
+    backgroundColor: '#164762',
+    alignItems: 'center'
   },
   container:
   {
