@@ -70,6 +70,7 @@ app.use('/api/v1', routes);
 // IO Handlers
 sockets(io);
 
+// Setup script for database
 setup.init();
 
 /**
