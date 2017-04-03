@@ -1,7 +1,6 @@
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var secret = "super-secret";
-var salt = bcrypt.genSaltSync(10);
 
 exports.generateToken = function(uuid){
 	var payload = {
@@ -13,5 +12,9 @@ exports.generateToken = function(uuid){
 };
 
 exports.hashPassword = function(password){
-	return bcrypt.hashSync(password, salt);	
+	return bcrypt.hashSync(password, 10);	
+};
+
+exports.comparePasswordAndHash = function(password, hash){
+	return bcrypt.compareSync(password, hash);
 };
