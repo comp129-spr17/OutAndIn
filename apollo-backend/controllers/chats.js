@@ -132,7 +132,7 @@ router.post("/addUser", function(req,res){
 				});
 				//TODO: push above ^
 				//send socket event
-				usersService.usersGetSocketID(req.body.userID).then((sock) => {
+				usersService.getSocketID(req.body.userID).then((sock) => {
 					if(res.io.sockets.connected[sock[0]]){
 						//fine
 						res.io.sockets.connected[sock[0]].emit('chatsListUpdate', {});
