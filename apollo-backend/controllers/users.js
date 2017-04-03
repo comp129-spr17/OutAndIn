@@ -36,7 +36,7 @@ function init(){
 }
 
 router.get('/', function(req, res){
-    usersService.usersGetUserIDList().then((users) => {
+    usersService.getUserIDList().then((users) => {
 		res.json({
 			header: {
 				'object': 'user',
@@ -65,21 +65,20 @@ router.get('/', function(req, res){
 
 //create user
 router.post('/', function(req, res){
-	usersService.usersGetUserByUsername(req.body.username).then((users) =>{
+	usersService.getUserByUsername(req.body.username).then((users) =>{
         // User already exists
         if(users.length != 0){
             return 1;
         }
         // Doesn't exist, create it
-        return usersService.usersCreateUser(req.body.username, '');
+        return usersService.createUser(req.body.username, '');
     }).then((data) => {
         if(data == 1){
 			//return error, user already exists
             return 1;
         }
-		return usersService.usersGetUserByUsername(req.body.username);
+		return usersService.getUserByUsername(req.body.username);
     }).then((users) =>{
-        console.log("Users: " + JSON.stringify(users));
         if(users == 1) {
             //return error, user already exists
 			res.json({
@@ -149,13 +148,13 @@ router.get('/setup', function(req, res){
     var username = "apollo";
     var password = "apollo";
 
-    usersService.usersGetUserByUsername(username).then((users) =>{
+    usersService.getUserByUsername(username).then((users) =>{
         // User already exists
         if(users.length != 0){
             return 1;
         }
         // Doesn't exist, create it
-        return usersService.usersCreateUser("apollo", "apollo");
+        return usersService.createUser("apollo", "apollo");
     }).then((data) => {
         if(data == 1){
             res.send("User already exists");
@@ -169,7 +168,7 @@ router.get('/setup', function(req, res){
 
 //get all user ids
 router.get('/list', function(req, res){
-	usersService.usersGetUserIDList().then((users) => {
+	usersService.getUserIDList().then((users) => {
 		res.json({
 			header: {
 				'object': 'user',
@@ -199,7 +198,7 @@ router.get('/list', function(req, res){
 
 //get user data by id
 router.get('/id/:id', function(req, res){
-	usersService.usersGetUserByUUID(req.params.id).then((users) =>{
+	usersService.getUserByUUID(req.params.id).then((users) =>{
 		var response = {
 			header: {
 				'object': 'user',
