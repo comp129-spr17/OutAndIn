@@ -112,6 +112,7 @@ router.post('/', function(req, res){
 		response.pushResult({
 			token: token
 		});
+		res.cookie('sid', 'value', {domain: 'localhost', path: '/api/v1', secure: true, expires: new Date(Date.now() + 900000), httpOnly: true});
 		res.status(200).json(response.getResponse());
 	}).catch((err) => {
 		console.log(err);	
