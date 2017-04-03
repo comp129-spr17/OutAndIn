@@ -39,7 +39,7 @@ var io = require('socket.io')(server, {
  * Route Handler Modules
  */
 // REST API route handler module
-var routes = require('./routes/routes');
+var routes = require('./server/routes');
 // Socket.io route handler module
 var sockets = require('./controllers/sockets');
 
