@@ -12,6 +12,7 @@ var express = require('express');
 var router = express.Router();
 var usersService = require('../services/users');
 var ResponsePayload = require('./controller');
+var authService = require('../services/authentication');
 
 // OPTIONS - Routes permitted per route
 var _OPTIONS = {
@@ -101,7 +102,7 @@ router.post('/', function(req, res){
 				"propertyName": "email"
 			});
 			res.status(400).json(response.getResponse());
-			return;
+			return false;
 		}
 		// Username already exists
 		if(userUsernameExists.length > 0){
@@ -115,7 +116,7 @@ router.post('/', function(req, res){
 				"propertyName": "username"
 			});
 			res.status(400).json(response.getResponse());
-			return;	
+			return false;	
 		}
 		// Email already exists
 		if(userEmailExists.length > 0){
@@ -129,10 +130,47 @@ router.post('/', function(req, res){
 				"propertyName": "email"
 			});
 			res.status(400).json(response.getResponse());
-			return;	
+			return false;	
 		}
-		// Create user and return a token
-		res.sendStatus(200);
+		// Create user
+		return usersService.createUser(requestPayload.email, requestPayload.username, requestPayload.fullname, requestPayload.password);
+	}).then((user) => {
+		// Handle previously finished requests and return
+		if(user == false){
+			return;
+		}
+		// Successfully created the user
+		if(user["affectedRows"] != 1){
+			let response = new ResponsePayload();
+			response.setStatus(400);
+			response.setCount(1);
+			response.setType("register");
+			response.pushResult({
+				"code": "SystemError",
+				"message": "User was not successfully created",
+				"objectName": "register",
+				"propertyName": ""
+			});
+			res.status(400).json(response.getResponse());
+			return;
+		}
+		// Get UUID for newly created user
+		return usersService.getUUIDByUsername(requestPayload["username"]); 
+	}).then((uuid) => {
+		// Handle previously completed promises
+		if(uuid == false){
+			return;
+		}
+		// Generate authentication token
+		var token = authService.generateToken(uuid);
+		var response = new ResponsePayload();
+		response.setStatus(200);
+		response.setCount(1);
+		response.setType("register");
+		response.pushResult({
+			token: token
+		});
+		res.status(200).json(response.getResponse());
 	}).catch((err) => {
 		// Internal server error
 		res.sendStatus(500);
