@@ -27,10 +27,15 @@ exports.getUserByUUID = function(uuid){
 	return db.pool.query(sql, [uuid]);
 };
 
-exports.createUser = function(username, password){
+exports.getUUIDByUsername = function(username){
+	var sql = "SELECT uuid FROM users WHERE username = ?";
+	return db.pool.query(sql, [username]);
+};
+
+exports.createUser = function(email, username, fullname, password){
 	var u = uuid();
-    var sql = "INSERT INTO users VALUES ('', ?, '', '', ?, ?, '', '')";
-    return db.pool.query(sql, [u, username,password]);
+    var sql = "INSERT INTO users VALUES ('', ?, ?, ?, ?, ?, '', '')";
+    return db.pool.query(sql, [u, email, fullname, username, password]);
 };
 
 //store socket id
