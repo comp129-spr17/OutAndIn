@@ -38,6 +38,10 @@ function init(){
 }
 
 router.post('/', function(req, res){
+	//TODO:(mcervco) Test inputs for all possible json data types
+	// currently accepts null and does not return an error as it should
+	// need more QA on this method
+	
 	// Store body values
 	var requestPayload = {
 		email: req.body.email,
