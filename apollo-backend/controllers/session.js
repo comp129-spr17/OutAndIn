@@ -117,9 +117,6 @@ router.post('/', function(req, res){
 		console.log(err);	
 		res.status(500).json(err);
 	});
-	return;
-	// return vauge error "username and password are invalid"
-	res.sendStatus(200);
 });
 
 router.options('/', function(req, res){
