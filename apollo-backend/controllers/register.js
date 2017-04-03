@@ -86,7 +86,7 @@ router.post('/', function(req, res){
 		var userUsernameExists = values[0];
 		var userEmailExists = values[1];
 		// Both the username and email already exists
-		if(userUsernameExists.length > 0 && userEmailExists > 0){
+		if(userUsernameExists.length > 0 && userEmailExists.length > 0){
 			response.setStatus("error");
 			response.setCount(2);
 			response.setType("error");
@@ -95,7 +95,8 @@ router.post('/', function(req, res){
 				"message": "Username already exists",
 				"objectName": "register",
 				"propertyName": "username"
-			}, {
+			});
+			response.pushResult({
 				"code": "invalidArgument",
 				"message": "Email already exists",
 				"objectName": "register",
