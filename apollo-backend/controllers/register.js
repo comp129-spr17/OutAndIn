@@ -138,7 +138,7 @@ router.post('/', function(req, res){
 	}).then((user) => {
 		// Handle previously finished requests and return
 		if(user == false){
-			return;
+			return false;
 		}
 		// Successfully created the user
 		if(user["affectedRows"] != 1){
@@ -149,11 +149,10 @@ router.post('/', function(req, res){
 			response.pushResult({
 				"code": "SystemError",
 				"message": "User was not successfully created",
-				"objectName": "register",
-				"propertyName": ""
+				"objectName": "register"
 			});
 			res.status(400).json(response.getResponse());
-			return;
+			return false;
 		}
 		// Get UUID for newly created user
 		return usersService.getUUIDByUsername(requestPayload["username"]); 
