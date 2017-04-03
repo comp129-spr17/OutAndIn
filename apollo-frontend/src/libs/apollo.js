@@ -106,7 +106,7 @@ Apollo.prototype.usersGetAll = function(){
 // {name: 'name'}
 Apollo.prototype.userInit = function(msg){
 	//console.log("EMIT: User init");
-	return this._post('users/create', msg);
+	return this._post('users', msg);
 	// this.socket.emit('userInit', msg);
 };
 
