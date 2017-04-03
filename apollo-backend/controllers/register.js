@@ -134,7 +134,9 @@ router.post('/', function(req, res){
 			return false;	
 		}
 		// Create user
-		return usersService.createUser(requestPayload.email, requestPayload.username, requestPayload.fullname, requestPayload.password);
+		// Hash the password before storing
+		var hashedPassword = authService.hashPassword(requestPayload.password);
+		return usersService.createUser(requestPayload.email, requestPayload.username, requestPayload.fullname, hashedPassword);
 	}).then((user) => {
 		// Handle previously finished requests and return
 		if(user == false){
