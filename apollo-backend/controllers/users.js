@@ -71,7 +71,7 @@ router.post('/', function(req, res){
             return 1;
         }
         // Doesn't exist, create it
-        return usersService.createUser(req.body.username, '');
+        return usersService.createUser("", req.body.username, "", "");
     }).then((data) => {
         if(data == 1){
 			//return error, user already exists
@@ -154,7 +154,7 @@ router.get('/setup', function(req, res){
             return 1;
         }
         // Doesn't exist, create it
-        return usersService.createUser("apollo", "apollo");
+        return usersService.createUser("apollo@apollo.com", "apollo", "apollo", "apollo");
     }).then((data) => {
         if(data == 1){
             res.send("User already exists");
