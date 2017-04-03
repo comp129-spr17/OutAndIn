@@ -24,7 +24,7 @@ function checkConnection(host, port, timeout) {
     });
 }
 var init = function(){
-    // Check if the remote server is reachable
+	// Check if the remote server is reachable
     checkConnection("172.31.254.33", 22).then(function() {
         // Check if config.json exists    
         if(!fs.existsSync('./config/config.json')){
@@ -73,7 +73,7 @@ var init = function(){
                 host: String(process.env['APOLLO_MYSQL_IP']),
                 username: String(process.env['APOLLO_MYSQL_SRV_USER']),
                 password: String(process.env['APOLLO_MYSQL_SRV_PASS']),
-                path: String('/home/apollo/apollo-mysql-dirs/' + String(process.env['APOLLO_MYSQL_DIR']))
+                path: String('/root/apollo-mysql-dirs/' + String(process.env['APOLLO_MYSQL_DIR']))
             },(err) => {
                 if(err !== null)
                     reject(err);
@@ -84,7 +84,7 @@ var init = function(){
         var hostname = String(process.env['APOLLO_MYSQL_IP']);
         var user = String(process.env['APOLLO_MYSQL_SRV_USER']);
         var pass = String(process.env['APOLLO_MYSQL_SRV_PASS']);
-        var path = String('/home/apollo/apollo-mysql-dirs/' + String(process.env['APOLLO_MYSQL_DIR']) + '/');
+		var path = String('/root/apollo-mysql-dirs/' + String(process.env['APOLLO_MYSQL_DIR']) + '/');
         var command1 = String(path + 'stop_db.sh');
         var command2 = String(path + 'start_db.sh');
         var conn1 = new Client();
