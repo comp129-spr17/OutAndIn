@@ -53,6 +53,18 @@ var _OPTIONS = {
 	}
 };
 
+function init(){
+	// Initialize the OPTIONS methods for each route
+	// Add all routes into the set
+	var keys = Object.keys(_OPTIONS);
+	keys.forEach(function(key){
+		var methods = _OPTIONS[key]["METHODS"];
+		methods.forEach(function(method){
+			_OPTIONS[key]["HASHES"].add(method);
+		});
+	});
+}
+
 //?
 router.get('/', function(req, res){
     chatsService.chatsCreateChat(chatsService.chatsGenID()).then((res) => {
@@ -140,6 +152,7 @@ router.options('/create', function(req, res){
 	}
 
 	// Send 404 if both of the above conditions are not met
+	console.log('no method');
 	res.sendStatus(404);
 });
 
@@ -520,4 +533,7 @@ router.options('/messages', function(req, res){
 });
 
 
-module.exports = router;
+module.exports = {
+	init: init,
+	router: router
+};
