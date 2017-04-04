@@ -124,6 +124,36 @@ Apollo.prototype.userSetSocketID = function(msg){
 
 //CHATS
 
+//{id: #}
+Apollo.prototype.chatGetAllByUser = function(msg){
+	this._get('chats/byUser/' + msg.id, {});
+};
+
+//{}
+Apollo.prototype.chatInit = function(msg){
+	this._post('chats/create', {});
+};
+
+//{id: #}
+Apollo.prototype.chatGetChatDetails = function(msg){
+	this._get('chats/id/' + msg.id, {});
+};
+
+//{chatID: #, userID: #}
+Apollo.prototype.chatAddUser = function(msg){
+	this._post('chats/addUser', msg);
+};
+
+//{id: #}
+Apollo.prototype.chatGetMessage = function(msg){
+	this._get('chats/messages/' + msg.id, {});
+};
+
+//{chatID: #, userID: #, message: 'text'}
+Apollo.prototype.chatAddMessage = function(msg){
+	this._post('chats/messages', msg);
+};
+
 //SESSIONS
 Apollo.prototype.sessionLogin = function(data){
 	return this._post('session', data);
