@@ -11,6 +11,7 @@ var express = require('express');
 var router = express.Router();
 var usersService = require('../services/users');
 var authService = require('../services/authentication');
+var sessionService = require('../services/sessions');
 var ResponsePayload = require('./controller');
 
 // OPTIONS - Routes permitted per route
@@ -86,7 +87,7 @@ router.post('/', function(req, res){
 				"objectName": "session"
 			});
 			res.status(400).json(response.getResponse());
-			return;
+			return false;
 		}
 		var user = user[0];
 		// Check if passwords match
@@ -101,19 +102,48 @@ router.post('/', function(req, res){
 				"objectName": "session"
 			});
 			res.status(400).json(response.getResponse());
+			return false;
+		}
+		// Generate session token
+		var sessionToken = authService.generateSessionToken();
+		// Return token to 'then' by resolving it in a promise
+		var tokenPromise = new Promise((resolve, reject) => {
+			resolve(sessionToken);
+		});
+		// Store session token in the database with the corresponding user id
+		return Promise.all([sessionService.storeSessionToken(user["uuid"], sessionToken), tokenPromise]);
+	}).then((values) => {
+		// Handle previously completed promises
+		if(values == false){
 			return;
 		}
-		// Generate authentication token
-		var token = authService.generateToken(user["uuid"]);
+		// Check if session token was successfully stored
+		if(!values[0]["affectedRows"]){
+			let response = new ResponsePayload();
+			response.setStatus("error");
+			response.setCount(emptyCount);
+			response.setType("error");
+			response.pushResult({
+				"code": "SystemError",
+				"message": "Unable to login. Try again",
+				"objectName": "session"
+			});
+			res.status(400).json(response.getResponse());
+			return;
+		}
+		// Session token from previous promise
+		var sessionToken = values[1];
 		let response = new ResponsePayload();
 		response.setStatus("success");
 		response.setCount(emptyCount);
 		response.setType("session");
-		response.pushResult({
-			token: token
-		});
-		res.cookie('sid', 'value', {domain: 'localhost', path: '/api/v1', secure: true, expires: new Date(Date.now() + 900000), httpOnly: true});
-		res.status(200).json(response.getResponse());
+		//response.pushResult();
+		res.cookie('sid', sessionToken, { 
+			domain: 'localhost',
+			path: '/api/v1',
+			maxAge: 3600000 * 24 * 30,
+			signed: true
+		}).status(200).json(response.getResponse());
 	}).catch((err) => {
 		console.log(err);	
 		res.status(500).json(err);
