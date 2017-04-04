@@ -10,6 +10,7 @@ var express = require('express');
 var router = express.Router();
 var usersService = require('../services/users');
 var chatsService = require('../services/chats');
+var ResponsePayload = require('./controller');
 
 // OPTIONS - Routes permitted per route
 var _OPTIONS = {
@@ -18,6 +19,12 @@ var _OPTIONS = {
 		"METHODS": [
 			"GET",
 			"POST"
+		],
+		"HASHES": new Set()
+	},
+	"/me": {
+		"METHODS": [
+			"GET"	
 		],
 		"HASHES": new Set()
 	}
@@ -143,6 +150,42 @@ router.options('/', function(req, res){
 	res.sendStatus(404);
 });
 
+// Get basic info about the authenticated user
+router.get('/me', function(req, res){
+	// Get User by UUID
+	usersService.getUserByUUID(req.user).then((user) => {
+		let response = new ResponsePayload();
+		response.setStatus("success");
+		response.setCount(1);
+		response.setType("users");
+		response.pushResult(user[0]);
+		res.status(200).json(response.getResponse());
+	}).catch((err) => {
+		console.log(err);
+		res.status(500).send("system error");
+	});
+});
+
+router.options('/me', function(req, res){
+	var origin = req.get('Origin');
+	// Check if origin is set
+	if(!origin){
+		res.sendStatus(404);		
+		return;
+	}
+	// Check if method that is requested is in the methods hash set
+	var method = req.get('Access-Control-Request-Method');
+	if(_OPTIONS["/me"]["HASHES"].has(method)){
+
+		res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+		res.header("Access-Control-Max-Age", 86400);
+		res.sendStatus(200);
+		return;
+	}
+	// Send 404 if both of the above conditions are not met
+	res.sendStatus(404);
+});
 // Create User Manually
 router.get('/setup', function(req, res){
     var username = "apollo";
