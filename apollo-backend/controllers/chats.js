@@ -11,6 +11,48 @@ var router = express.Router();
 var chatsService = require('../services/chats');
 var usersService = require('../services/users');
 
+// OPTIONS - Routes permitted per route
+var _OPTIONS = {
+	// Default Users Route
+	"/": {
+		"METHODS": [
+			"GET",
+		],
+		"HASHES": new Set()
+	},
+	"/create": {
+		"METHODS": [
+			"POST"
+		],
+		"HASHES": new Set()
+	},
+	"/id": {
+		"METHODS": [
+			"GET"
+		],
+		"HASHES": new Set()
+	},
+	"/addUser": {
+		"METHODS": [
+			"POST"
+		],
+		"HASHES": new Set()
+	},
+	"/byUser": {
+		"METHODS": [
+			"GET"
+		],
+		"HASHES": new Set()
+	},
+	"/messages": {
+		"METHODS": [
+			"GET",
+			"POST"
+		],
+		"HASHES": new Set()
+	}
+};
+
 //?
 router.get('/', function(req, res){
     chatsService.chatsCreateChat(chatsService.chatsGenID()).then((res) => {
@@ -20,6 +62,29 @@ router.get('/', function(req, res){
         res.send(err);
     });
 });
+
+
+router.options('/', function(req, res){
+	var origin = req.get('Origin');
+	// Check if origin is set
+	if(!origin){
+		res.sendStatus(404);
+		return;
+	}
+	// Check if method that is requested is in the methods hash set
+	var method = req.get('Access-Control-Request-Method');
+	if(_OPTIONS["/"]["HASHES"].has(method)){
+
+		res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+		res.header("Access-Control-Max-Age", 86400);
+		res.sendStatus(200);
+		return;
+	}
+	// Send 404 if both of the above conditions are not met
+	res.sendStatus(404);
+});
+
 
 //create chat
 /*
@@ -52,6 +117,30 @@ router.post('/create', function(req, res){
 			}
 		});
 	});
+});
+
+
+router.options('/create', function(req, res){
+	var origin = req.get('Origin');
+	// Check if origin is set
+	if(!origin){
+		console.log('no origin');
+		res.sendStatus(404);
+		return;
+	}
+	// Check if method that is requested is in the methods hash set
+	var method = req.get('Access-Control-Request-Method');
+	if(_OPTIONS["/create"]["HASHES"].has(method)){
+
+		res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+		res.header("Access-Control-Max-Age", 86400);
+		res.sendStatus(200);
+		return;
+	}
+
+	// Send 404 if both of the above conditions are not met
+	res.sendStatus(404);
 });
 
 //get chat details
@@ -108,6 +197,31 @@ router.get('/id/:id', function(req, res){
 		});
 	});
 });
+
+
+router.options('/id', function(req, res){
+	var origin = req.get('Origin');
+	// Check if origin is set
+	if(!origin){
+		console.log('no origin');
+		res.sendStatus(404);
+		return;
+	}
+	// Check if method that is requested is in the methods hash set
+	var method = req.get('Access-Control-Request-Method');
+	if(_OPTIONS["/id"]["HASHES"].has(method)){
+
+		res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+		res.header("Access-Control-Max-Age", 86400);
+		res.sendStatus(200);
+		return;
+	}
+
+	// Send 404 if both of the above conditions are not met
+	res.sendStatus(404);
+});
+
 
 //add user to chat
 /*
@@ -190,6 +304,31 @@ router.post("/addUser", function(req,res){
 	});
 });
 
+
+router.options('/addUser', function(req, res){
+	var origin = req.get('Origin');
+	// Check if origin is set
+	if(!origin){
+		console.log('no origin');
+		res.sendStatus(404);
+		return;
+	}
+	// Check if method that is requested is in the methods hash set
+	var method = req.get('Access-Control-Request-Method');
+	if(_OPTIONS["/addUser"]["HASHES"].has(method)){
+
+		res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+		res.header("Access-Control-Max-Age", 86400);
+		res.sendStatus(200);
+		return;
+	}
+
+	// Send 404 if both of the above conditions are not met
+	res.sendStatus(404);
+});
+
+
 //get all chat ids by user id
 router.get('/byUser/:id', function(req, res){
 	chatsService.chatsGetChatsForUser(req.params.id).then((chatIDs) =>{
@@ -215,6 +354,31 @@ router.get('/byUser/:id', function(req, res){
 		});
 	});
 });
+
+
+router.options('/byUser', function(req, res){
+	var origin = req.get('Origin');
+	// Check if origin is set
+	if(!origin){
+		console.log('no origin');
+		res.sendStatus(404);
+		return;
+	}
+	// Check if method that is requested is in the methods hash set
+	var method = req.get('Access-Control-Request-Method');
+	if(_OPTIONS["/byUser"]["HASHES"].has(method)){
+
+		res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+		res.header("Access-Control-Max-Age", 86400);
+		res.sendStatus(200);
+		return;
+	}
+
+	// Send 404 if both of the above conditions are not met
+	res.sendStatus(404);
+});
+
 
 //get messages for one chat
 /*
@@ -330,5 +494,30 @@ router.post('/messages', function(req, res){
 		});
 	});
 });
+
+
+router.options('/messages', function(req, res){
+	var origin = req.get('Origin');
+	// Check if origin is set
+	if(!origin){
+		console.log('no origin');
+		res.sendStatus(404);
+		return;
+	}
+	// Check if method that is requested is in the methods hash set
+	var method = req.get('Access-Control-Request-Method');
+	if(_OPTIONS["/messages"]["HASHES"].has(method)){
+
+		res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+		res.header("Access-Control-Max-Age", 86400);
+		res.sendStatus(200);
+		return;
+	}
+
+	// Send 404 if both of the above conditions are not met
+	res.sendStatus(404);
+});
+
 
 module.exports = router;
