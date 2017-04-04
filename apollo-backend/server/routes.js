@@ -8,11 +8,12 @@ var session = require('../controllers/session');
 
 // Initialize any prep work before controller is used
 users.init();
+chats.init();
 session.init();
 register.init();
 
 // Register routes
-router.use('/chats', chats);
+router.use('/chats', chats.router);
 router.use('/users', users.router);
 router.use('/register', register.router);
 router.use('/session', session.router);
