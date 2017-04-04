@@ -1,6 +1,6 @@
 var ResponsePayload = require('../../controllers/controller');
 var sessionService = require('../../services/sessions');
-
+var util = require('util');
 module.exports = function(req, res, next) {
 	if(req.path == '/api/v1/register' || req.path == '/api/v1/session'){
 		next();
@@ -33,7 +33,7 @@ module.exports = function(req, res, next) {
 			});
 			return res.status(401).json(response.getResponse());
 		}
-		req.user = user_id;
+		req.user = user_id[0]["user_id"];
 		next();
 	}).catch((err) => {
 		var response = new ResponsePayload();
