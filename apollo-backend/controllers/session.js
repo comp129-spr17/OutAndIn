@@ -38,6 +38,7 @@ function init(){
 }
 
 router.post('/', function(req, res){
+	console.log(req.get('Origin'));
 	// Store body values
 	var requestPayload = {
 		username: req.body.username,
@@ -139,8 +140,7 @@ router.post('/', function(req, res){
 		response.setType("session");
 		//response.pushResult();
 		res.cookie('sid', sessionToken, { 
-			domain: 'localhost',
-			path: '/api/v1',
+			path: '/',
 			maxAge: 3600000 * 24 * 30,
 			signed: true
 		}).status(200).json(response.getResponse());
