@@ -1,4 +1,4 @@
-.registration {
+.Registration {
     background-image: url('/img/landing.jpg');
     background-size: cover;
     height: 100%;
@@ -68,6 +68,9 @@
 .registration-actions-container {
     margin-top: 30px;
     margin-bottom: 15px;
+    background-color: white;
+    border-radius: 10px;
+    color: #818181;
 }
 
 .registration-actions-container hr {
@@ -79,7 +82,6 @@
 }
 
 .registration-actions {
-    
 }
 
 .registration-actions .btn {
@@ -95,9 +97,56 @@
     color: #424242;
 }
 
-.registration-actions-forgot-password a {
-    color: white;
-    border-bottom:1px solid white;
-    text-decoration: none;
+.registrationForm{
+    padding-top: 5%;
+    padding-bottom: 5%;
 }
 
+.registrationForm input{
+    font-family: 'Roboto', sans-serif;
+    font-size: inherit;
+    line-height: inherit;
+    align-items: center;
+    width: 80%;
+    border-radius: 10px;
+    border-color: grey;
+    opacity:.65;
+    color:#818181;
+}
+
+#TandC{
+    width:initial;
+    padding-left: 10%;
+    padding-right: 10px;
+}
+
+.registrationForm label{
+    font-weight: normal;
+    font-size: 8pt;
+    padding-bottom: 2px;
+}
+
+.registrationForm button{
+    width: 80%;
+    border-radius: 10px;
+    background-color:#164762;
+    color:white;
+}
+
+.registrationForm p{
+    margin-top: 10px;
+    margin-bottom: 3px;
+    text-align: left;
+    padding-left: 10%;
+    font-weight:bold;
+}
+
+.registration-actions-forgot-password{
+    padding-bottom: 10%;
+}
+
+.registration-actions-forgot-password a {
+    color: grey;
+    border-bottom: 1px solid white;
+    text-decoration: none;
+}

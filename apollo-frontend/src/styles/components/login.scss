@@ -120,6 +120,14 @@
     color:white;
 }
 
+.loginForm p{
+    margin-top: 10px;
+    margin-bottom: 3px;
+    text-align: left;
+    padding-left: 10%;
+    font-weight:bold;
+}
+
 .login-actions-forgot-password{
     padding-bottom: 10%;
 }
@@ -128,12 +136,4 @@
     color: grey;
     border-bottom:1px solid white;
     text-decoration: none;
-}
-
-.loginForm p{
-    margin-top: 10px;
-    margin-bottom: 3px;
-    text-align: left;
-    padding-left: 10%;
-    font-weight:bold;
 }
