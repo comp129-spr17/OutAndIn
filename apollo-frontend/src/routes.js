@@ -14,6 +14,7 @@ import Profile from './components/Profile';
 import UserSearch from './components/UserSearch';
 import ReduxTest from './containers/user';
 import Registration from './components/Registration';
+import RegistrationTest from './components/RegistrationTest';
 
 export default (
     <Router history={browserHistory} >
@@ -30,7 +31,8 @@ export default (
 			<Route path="/login" component={Login} />
 			<Route path="/loginTest" component={LoginTest} />
             <Route path="/landing" component={Landing} />
-            <Route path="/registration" component={Registration} />
+            <Route path="/register" component={Registration} />
+            <Route path="/registerTest" component={RegistrationTest} />
         </Route>
         <Route path="*" component={NotFound} />
     </Router>

@@ -293,7 +293,7 @@ router.post('/messages', function(req, res){
 							code: 3,
 							message: 'ERROR: sql'
 						},
-						body{
+						body: {
 							err:err
 						}
 					});
@@ -305,7 +305,7 @@ router.post('/messages', function(req, res){
 					code: 2,
 					message: 'ERROR: sql'
 				},
-				body{
+				body: {
 					err:err
 				}
 			});

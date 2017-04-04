@@ -10,12 +10,12 @@ export default class LoginTest extends React.Component {
 			password: '',
 			error: ''
 		};
-		this.handleUserNameChange = this.handleUserNameChange.bind(this);
+		this.handleUsernameChange = this.handleUsernameChange.bind(this);
 		this.handlePasswordChange = this.handlePasswordChange.bind(this);
-		this.handleSignUp = this.handleSignUp.bind(this);
+		this.handleLogin = this.handleLogin.bind(this);
 	}
 
-	handleUserNameChange(event){
+	handleUsernameChange(event){
 		this.setState({username: event.target.value}) 
 	}
     
@@ -23,7 +23,7 @@ export default class LoginTest extends React.Component {
 		this.setState({password: event.target.value})
     }
     
-	handleSignUp(event){  
+	handleLogin(event){  
 		event.preventDefault();
 		// TODO:(mcervco) Do basic sanitation of params before sending them
 		var data = {
@@ -55,9 +55,9 @@ export default class LoginTest extends React.Component {
 			<div className="login">
 				<div style={{color: '#fff'}}>{this.state.error}</div>
                 <form className='loginForm'>
-                    <input autoFocus type="text" value={this.state.username} onChange={this.handleUserNameChange} autoComplete="off"  placeholder='Enter UserName'/>
+                    <input autoFocus type="text" value={this.state.username} onChange={this.handleUsernameChange} autoComplete="off"  placeholder='Enter UserName'/>
                     <input type="password" value={this.state.password} onChange={this.handlePasswordChange} autoComplete="off"  placeholder='Enter Password'/>
-                    <button onClick={this.handleSignUp}>Submit</button>
+                    <button onClick={this.handleLogin}>Submit</button>
                 </form>
             </div>
         );
