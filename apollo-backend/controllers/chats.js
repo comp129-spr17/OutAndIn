@@ -22,7 +22,6 @@ router.get('/', function(req, res){
 });
 
 //create chat
-//NOTE: does not create chat if already EXISTS
 /*
 output:
 {
@@ -277,6 +276,41 @@ input:
 */
 router.post('/messages', function(req, res){
 	chatsService.chatsAddMessageToChat(req.body.chatID,req.body.userID,req.body.messageText).then((msg) => {
+		//emit event to all users in chat
+		chatsService.chatsGetUsersForChat(req.body.chatID).then((users)=>{
+			//collect all users
+			for(var i in users){
+				usersService.getSocketID(users[i].uuid).then((socket)=>{
+					//send socket event
+					if(res.io.connected[socket]){
+						res.io.connected[socket].emit('messageAdd', {chatID: req.body.chatID});
+					}else{
+						console.log("ERR: no such socket - " + JSON.stringify(socket));
+					}
+				}).catch((err)=>{
+					res.json({
+						header:{
+							code: 3,
+							message: 'ERROR: sql'
+						},
+						body{
+							err:err
+						}
+					});
+				});
+			}
+		}).catch((err) =>{
+			res.json({
+				header:{
+					code: 2,
+					message: 'ERROR: sql'
+				},
+				body{
+					err:err
+				}
+			});
+		});
+
 		res.json({
 			header:{
 				code: 0,
