@@ -58,10 +58,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // Cookie parsing
-app.use(cookieParser());
+app.use(cookieParser("super-secret"));
 // Cross origin request sharing
 app.use(require('./server/middleware/cors'));
-
+app.use(require('./server/middleware/auth'));
 /**
  * Route Handlers
  */
