@@ -174,6 +174,7 @@ router.post('/', function(req, res){
 		var tokenPromise = new Promise((resolve, reject) => {
 			resolve(sessionToken);	
 		});
+		var uuid = uuid[0]["uuid"];
 		// Store session token in the database with the corresponding user id
 		return Promise.all([sessionService.storeSessionToken(uuid, sessionToken), tokenPromise]);
 	}).then((values) => {
