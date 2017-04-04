@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { client } from '../../modules/api-client';
 
 export default class Registration extends React.Component {
     constructor() {
@@ -36,13 +36,26 @@ export default class Registration extends React.Component {
 
     handleSignUp(event){  
 		event.preventDefault();
-		console.log(this.state);
+		var self = this;
+		var data = {
+			email: this.state.email,
+			username: this.state.username,
+			fullname: this.state.fullname,
+			password: this.state.password
+		};
+		client.sessionRegister(data).then((res) => {
+			self.setState({error: "Registration successful"});	
+			console.log(res);	
+		}).catch((err) => {
+			console.log(err.response);	
+		});
     }
     
     
     render() {
         return (
-            <div className="Registration">
+			<div className="Registration">
+				<div>{this.state.error}</div>
                 <form className='registrationForm'>
                     <input autoFocus type="text" value={this.state.email} onChange={this.handleEmailChange} autoComplete="off"  placeholder='Enter Email'/>
                     <input autoFocus type="text" value={this.state.fullname} onChange={this.handleFullnameChange} autoComplete="off"  placeholder='Enter Fullname'/>
