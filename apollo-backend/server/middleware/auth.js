@@ -2,7 +2,7 @@ var ResponsePayload = require('../../controllers/controller');
 var sessionService = require('../../services/sessions');
 var util = require('util');
 module.exports = function(req, res, next) {
-	if(req.path == '/api/v1/register' || req.path == '/api/v1/session'){
+	if(req.path == '/api/v1/register' || req.path == '/api/v1/session' || req.method == 'OPTIONS'){
 		next();
 		return;
 	}
