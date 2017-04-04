@@ -17,10 +17,16 @@ export default class LoginPage extends Component
   render(){
     const {navigate} = this.props.navigation;
     return(
-      <View>
+      <View style = {styles.container}>
         <View style={styles.headerBar}>
           <Image source={require('../../Img/logo.png')} style={styles.logoPic}/>
-          <Text> Apollo </Text>
+          <Text style = {styles.textLabel}> Apollo </Text>
+        </View>
+        <View style = {{height: 40}}>
+          <View style = {styles.greyTitle}>
+            <Text style = {styles.titleFont}> Online </Text>
+          </View>
+          <Text style = {styles.titleFont}> No friends online </Text>
         </View>
       </View>
 
@@ -29,23 +35,41 @@ export default class LoginPage extends Component
 }
 
 const styles = StyleSheet.create({
+  greyTitle:
+  {
+    height: 10,
+    backgroundColor: '#F8F8F8',
+  },
+  titleFont:
+  {
+    color: '#7A7A7A'
+  },
+  textLabel:
+  {
+    fontSize: 20,
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(0,0,0,0)',
+    color: 'white'
+  },
   logoPic:
   {
-    marginTop: 15,
+    //marginTop: 15,
     width: 18,
     height: 36,
   },
   headerBar:
   {
+    flexDirection: 'row',
     height:70,
     backgroundColor: '#164762',
-    alignItems: 'center'
+    justifyContent: 'center',
+    alignItems:'center'
   },
   container:
   {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    //justifyContent: 'center',
+    //alignItems: 'center',
     width: null,
     height: null,
   },
@@ -57,12 +81,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
     color: 'white'
   },
-
-  textInput:
-  {
-    //flex: 8,
-    borderWidth: 1,
-    borderColor: '#164762',
-    paddingLeft: 5
-  }
 })
