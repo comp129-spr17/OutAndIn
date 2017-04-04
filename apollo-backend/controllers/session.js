@@ -1,4 +1,4 @@
-'use-strict'
+'use strict'
 /**
  *  @(Project): Apollo Backend
  *  @(Filename): session.js
@@ -70,7 +70,7 @@ router.post('/', function(req, res){
 			};
 			result["message"] = emptyValues[i] + " must be supplied";
 			result["propertyName"] = emptyValues[i];
-			response.pushResult(result);	
+			response.pushResult(result);
 		}
 		res.status(400).json(response.getResponse());
 		return;
@@ -139,13 +139,13 @@ router.post('/', function(req, res){
 		response.setCount(emptyCount);
 		response.setType("session");
 		//response.pushResult();
-		res.cookie('sid', sessionToken, { 
+		res.cookie('sid', sessionToken, {
 			path: '/',
 			maxAge: 3600000 * 24 * 30,
 			signed: true
 		}).status(200).json(response.getResponse());
 	}).catch((err) => {
-		console.log(err);	
+		console.log(err);
 		res.status(500).json(err);
 	});
 });
@@ -154,7 +154,7 @@ router.options('/', function(req, res){
 	var origin = req.get('Origin');
 	// Check if origin is set
 	if(!origin){
-		res.sendStatus(404);		
+		res.sendStatus(404);
 		return;
 	}
 	// Check if method that is requested is in the methods hash set
@@ -174,4 +174,3 @@ module.exports = {
 	init: init,
 	router: router
 };
-

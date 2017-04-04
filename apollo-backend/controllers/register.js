@@ -1,4 +1,4 @@
-'use-strict'
+'use strict';
 
 /**
  *  @(Project): Apollo Backend
@@ -42,7 +42,7 @@ router.post('/', function(req, res){
 	//TODO:(mcervco) Test inputs for all possible json data types
 	// currently accepts null and does not return an error as it should
 	// need more QA on this method
-	
+
 	// Store body values
 	var requestPayload = {
 		email: req.body.email,
@@ -76,7 +76,7 @@ router.post('/', function(req, res){
 			};
 			result["message"] = emptyValues[i] + " must be supplied";
 			result["propertyName"] = emptyValues[i];
-			response.pushResult(result);	
+			response.pushResult(result);
 		}
 		res.status(400).json(response.getResponse());
 		return;
@@ -122,7 +122,7 @@ router.post('/', function(req, res){
 				"propertyName": "username"
 			});
 			res.status(400).json(response.getResponse());
-			return false;	
+			return false;
 		}
 		// Email already exists
 		if(userEmailExists.length > 0){
@@ -136,7 +136,7 @@ router.post('/', function(req, res){
 				"propertyName": "email"
 			});
 			res.status(400).json(response.getResponse());
-			return false;	
+			return false;
 		}
 		// Create user
 		// Hash the password before storing
@@ -162,7 +162,7 @@ router.post('/', function(req, res){
 			return false;
 		}
 		// Get UUID for newly created user
-		return usersService.getUUIDByUsername(requestPayload["username"]); 
+		return usersService.getUUIDByUsername(requestPayload["username"]);
 	}).then((uuid) => {
 		// Handle previously completed promises
 		if(uuid == false){
@@ -172,7 +172,7 @@ router.post('/', function(req, res){
 		var sessionToken = authService.generateSessionToken();
 		// Return token to 'then' by resolving it in a promise
 		var tokenPromise = new Promise((resolve, reject) => {
-			resolve(sessionToken);	
+			resolve(sessionToken);
 		});
 		var uuid = uuid[0]["uuid"];
 		// Store session token in the database with the corresponding user id
@@ -203,7 +203,7 @@ router.post('/', function(req, res){
 		response.setCount(emptyCount);
 		response.setType("register");
 		//response.pushResult();
-		res.cookie('sid', sessionToken, { 
+		res.cookie('sid', sessionToken, {
 			path: '/',
 			maxAge: 3600000 * 24 * 30,
 			signed: true
@@ -218,7 +218,7 @@ router.options('/', function(req, res){
 	var origin = req.get('Origin');
 	// Check if origin is set
 	if(!origin){
-		res.sendStatus(404);		
+		res.sendStatus(404);
 		return;
 	}
 	// Check if method that is requested is in the methods hash set
@@ -238,4 +238,3 @@ module.exports = {
 	init: init,
 	router: router
 };
-

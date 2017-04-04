@@ -1,3 +1,4 @@
+'use strict';
 /**
  *  @(Project): Apollo Backend
  *  @(Filename): users.js
@@ -24,7 +25,7 @@ var _OPTIONS = {
 	},
 	"/me": {
 		"METHODS": [
-			"GET"	
+			"GET"
 		],
 		"HASHES": new Set()
 	}
@@ -133,7 +134,7 @@ router.options('/', function(req, res){
 	var origin = req.get('Origin');
 	// Check if origin is set
 	if(!origin){
-		res.sendStatus(404);		
+		res.sendStatus(404);
 		return;
 	}
 	// Check if method that is requested is in the methods hash set
@@ -170,7 +171,7 @@ router.options('/me', function(req, res){
 	var origin = req.get('Origin');
 	// Check if origin is set
 	if(!origin){
-		res.sendStatus(404);		
+		res.sendStatus(404);
 		return;
 	}
 	// Check if method that is requested is in the methods hash set
@@ -271,7 +272,7 @@ router.get('/id/:id', function(req, res){
 			body: {
 				error: err
 			}
-		});   
+		});
     });
 });
 
