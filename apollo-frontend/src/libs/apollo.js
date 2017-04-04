@@ -95,7 +95,7 @@ Apollo.prototype._get = function(url, parameters){
 Apollo.prototype._post = function(url, parameters){
 	var getUrl = '';
 	getUrl = this.API_URL + '/' + url;
-	return axios.post(getUrl, parameters);
+	return axios.post(getUrl, parameters, {withCredentials: true});
 }
 
 Apollo.prototype.usersGetAll = function(){
@@ -127,6 +127,10 @@ Apollo.prototype.userIDList = function(msg){
 
 Apollo.prototype.userGetUsers = function(){
     return this._get('users', {});
+};
+
+Apollo.prototype.sessionLogin = function(data){
+	return this._post('session', data);
 };
 
 //{name: 'chat name'}
