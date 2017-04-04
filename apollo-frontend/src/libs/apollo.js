@@ -129,4 +129,8 @@ Apollo.prototype.sessionLogin = function(data){
 	return this._post('session', data);
 };
 
+Apollo.prototype.sessionRegister = function(data){
+	return this._post('register', data);
+};
+
 module.exports = Apollo;
