@@ -1,6 +1,13 @@
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var secret = "super-secret";
+var crypto = require('crypto');
+
+exports.generateSessionToken = function(){
+	var sha = crypto.createHash('sha256');
+	sha.update(Math.random().toString());
+	return sha.digest('hex');
+};
 
 exports.generateToken = function(uuid){
 	var payload = {
