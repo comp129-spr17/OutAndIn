@@ -13,6 +13,7 @@ var router = express.Router();
 var usersService = require('../services/users');
 var ResponsePayload = require('./controller');
 var authService = require('../services/authentication');
+var sessionService = require('../services/sessions');
 
 // OPTIONS - Routes permitted per route
 var _OPTIONS = {
@@ -165,18 +166,47 @@ router.post('/', function(req, res){
 	}).then((uuid) => {
 		// Handle previously completed promises
 		if(uuid == false){
+			return false;
+		}
+		// Generate session token
+		var sessionToken = authService.generateSessionToken();
+		// Return token to 'then' by resolving it in a promise
+		var tokenPromise = new Promise((resolve, reject) => {
+			resolve(sessionToken);	
+		});
+		// Store session token in the database with the corresponding user id
+		return Promise.all([sessionService.storeSessionToken(uuid, sessionToken), tokenPromise]);
+	}).then((values) => {
+		// Handle previously completed promises
+		if(values == false){
 			return;
 		}
-		// Generate authentication token
-		var token = authService.generateToken(uuid);
-		var response = new ResponsePayload();
-		response.setStatus(200);
-		response.setCount(1);
+		// Check if session token was successfully stored
+		if(!values[0]["affectedRows"]){
+			let response = new ResponsePayload();
+			response.setStatus("error");
+			response.setCount(emptyCount);
+			response.setType("error");
+			response.pushResult({
+				"code": "SystemError",
+				"message": "Unable to register. Try again",
+				"objectName": "register"
+			});
+			res.status(400).json(response.getResponse());
+			return;
+		}
+		// Session token from previous promise
+		var sessionToken = values[1];
+		let response = new ResponsePayload();
+		response.setStatus("success");
+		response.setCount(emptyCount);
 		response.setType("register");
-		response.pushResult({
-			token: token
-		});
-		res.status(200).json(response.getResponse());
+		//response.pushResult();
+		res.cookie('sid', sessionToken, { 
+			path: '/',
+			maxAge: 3600000 * 24 * 30,
+			signed: true
+		}).status(200).json(response.getResponse());
 	}).catch((err) => {
 		// Internal server error
 		res.sendStatus(500);
