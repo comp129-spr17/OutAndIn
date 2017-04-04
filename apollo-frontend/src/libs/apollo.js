@@ -89,7 +89,7 @@ Apollo.prototype._get = function(url, parameters){
 	} else {
 		getURL = this.API_URL + '/' + url;
 	}
-	return axios.get(getURL);
+	return axios.get(getURL, {withCredentials: true});
 };
 
 Apollo.prototype._post = function(url, parameters){
@@ -124,39 +124,39 @@ Apollo.prototype.userSetSocketID = function(msg){
 
 //get self info
 Apollo.prototype.userGetMe = function(){
-	this._get('users/me', {});
+	return this._get('users/me', {});
 };
 
 //CHATS
 
 //{id: #}
 Apollo.prototype.chatGetAllByUser = function(msg){
-	this._get('chats/byUser/' + msg.id, {});
+	return this._get('chats/byUser/' + msg.id, {});
 };
 
 //{}
 Apollo.prototype.chatInit = function(msg){
-	this._post('chats/create', {});
+	return this._post('chats/create', {});
 };
 
 //{id: #}
 Apollo.prototype.chatGetChatDetails = function(msg){
-	this._get('chats/id/' + msg.id, {});
+	return this._get('chats/id/' + msg.id, {});
 };
 
 //{chatID: #, userID: #}
 Apollo.prototype.chatAddUser = function(msg){
-	this._post('chats/addUser', msg);
+	return this._post('chats/addUser', msg);
 };
 
 //{id: #}
 Apollo.prototype.chatGetMessage = function(msg){
-	this._get('chats/messages/' + msg.id, {});
+	return this._get('chats/messages/' + msg.id, {});
 };
 
 //{chatID: #, userID: #, message: 'text'}
 Apollo.prototype.chatAddMessage = function(msg){
-	this._post('chats/messages', msg);
+	return this._post('chats/messages', msg);
 };
 
 //SESSIONS
