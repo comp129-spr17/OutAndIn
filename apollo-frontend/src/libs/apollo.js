@@ -98,22 +98,18 @@ Apollo.prototype._post = function(url, parameters){
 	return axios.post(getUrl, parameters, {withCredentials: true});
 }
 
+//USERS
 Apollo.prototype.usersGetAll = function(){
 	return this._get('users', {});
 };
 
-//emit events
 // {name: 'name'}
 Apollo.prototype.userInit = function(msg){
-	//console.log("EMIT: User init");
 	return this._post('users', msg);
-	// this.socket.emit('userInit', msg);
 };
 
 // {id: #}
 Apollo.prototype.userDetails = function(msg){
-	//console.log("EMIT: User Details");
-	//this.socket.emit('userDetails', msg);
 	EventBus.dispatch("userDetails");
 };
 
@@ -121,39 +117,16 @@ Apollo.prototype.userGetUserByID = function(id){
 	return this._get('users/id/' + id, {});
 };
 
-Apollo.prototype.userIDList = function(msg){
-	this.socket.emit('userIDList');
-};
-
-Apollo.prototype.userGetUsers = function(){
-    return this._get('users', {});
-};
-
-Apollo.prototype.sessionLogin = function(data){
-	return this._post('session', data);
-};
-
-//{name: 'chat name'}
-Apollo.prototype.chatInit = function(msg){
-	//console.log("EMIT: Chat init");
-	this.socket.emit('chatInit', msg);
-};
-
-//{id: #}
-Apollo.prototype.chatDetails = function(msg){
-	//console.log("EMIT: Chat details");
-	this.socket.emit('chatDetails', msg);
-};
-
-//{chatId: # fromUser: #, message: 'string'}
-Apollo.prototype.messageAdd = function(msg){
-	//console.log("EMIT: message add");
-	this.socket.emit('messageAdd', msg);
-};
-
 //input: {user: id}
 Apollo.prototype.userSetSocketID = function(msg){
 	this.socket.emit('usersStoreSocketID', msg);
+};
+
+//CHATS
+
+//SESSIONS
+Apollo.prototype.sessionLogin = function(data){
+	return this._post('session', data);
 };
 
 module.exports = Apollo;
