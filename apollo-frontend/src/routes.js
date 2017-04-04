@@ -3,6 +3,7 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
 import Chat from './components/Chat';
 import Login from './components/Login';
+import LoginTest from './components/LoginTest';
 import Landing from './components/Landing';
 import Home from './components/Home';
 import SockTest from './components/SockTest';
@@ -26,7 +27,8 @@ export default (
         </Route>
         <Route component={Blank} >
             <Route path="/redux" component={ReduxTest} />
-            <Route path="/login" component={Login} />
+			<Route path="/login" component={Login} />
+			<Route path="/loginTest" component={LoginTest} />
             <Route path="/landing" component={Landing} />
             <Route path="/registration" component={Registration} />
         </Route>
