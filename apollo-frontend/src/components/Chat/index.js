@@ -5,42 +5,40 @@ import { client } from '../../modules/api-client';
 
 export default class Chat extends Component {
 	constructor () { //constructor
-	 	super();
-        this.state= { //new object
-            error: 1, // username taken error
-	 		inputChatText: '',//text that you type into input box
-	 		userID: -1,
-            messageList: [],
-            messagesEnd: '',
-            activeChatID: 0,
-	 		username:'Malvika',
-            messageList: [
-            	{
-            		user:'Malvika',
-            		message:'Hello',
-            		timeStamp: parseInt(new Date().getTime()/1000)
-            	},
-            	{
-            		user:'Abc',
-            		message:'Hello',
-            		timeStamp: parseInt(new Date().getTime()/1000)
-            	},
-
-            	{
-            		user:'Def',
-            		message:'I am Def.',
-            		timeStamp: parseInt(new Date().getTime()/1000)
-            	},
-            	{
-            		user:'Abc',
-            		message:'LOL good one',
-            		timeStamp: parseInt(new Date().getTime()/1000)
-            	},
-
-            ],
-            //messageList: [],
-            messagesEnd: ''
-        };
+		super();
+		this.state= { //new object
+			error: 1, // username taken error
+			inputChatText: '',//text that you type into input box
+			userID: -1,
+			messageList: [],
+			messagesEnd: '',
+			activeChatID: 0,
+			username:'Malvika',
+			messageList: [
+				{
+					user:'Malvika',
+					message:'Hello',
+					timeStamp: parseInt(new Date().getTime()/1000)
+				},
+				{
+					user:'Abc',
+					message:'Hello',
+					timeStamp: parseInt(new Date().getTime()/1000)
+				},
+				{
+					user:'Def',
+					message:'I am Def.',
+					timeStamp: parseInt(new Date().getTime()/1000)
+				},
+				{
+					user:'Abc',
+					message:'LOL good one',
+					timeStamp: parseInt(new Date().getTime()/1000)
+				}
+			],
+			//messageList: [],
+			messagesEnd: ''
+		};
 
 		//bind 'this' referance
 		this.userInit = this.userInit.bind(this);
@@ -49,13 +47,13 @@ export default class Chat extends Component {
 		this.handleChatTextSend = this.handleChatTextSend.bind(this);
 		this.handleChatDetails = this.handleChatDetails.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
-        this.handleUserInit = this.handleUserInit.bind(this);
+		this.handleUserInit = this.handleUserInit.bind(this);
 
 		//add socket event handlers
-        client.eventBusRegisterEvent("chatDetails", this.handleChatDetails);
+		client.eventBusRegisterEvent("chatDetails", this.handleChatDetails);
 		client.socketRegisterEvent("messageAdd", this.handleMessageAdd);
 		client.eventBusRegisterEvent("userInit", this.handleUserInit);
-    }
+	}
 
 	userInit(){
 		var username = "";
@@ -84,31 +82,30 @@ export default class Chat extends Component {
 					//set socket id in server
 					console.log("EMIT");
 					return client.userSetSocketID({user: this.state.userID});
-                    localStorage.setItem("username", user.data.body.user.username);
+					localStorage.setItem("username", user.data.body.user.username);
 				} else {
 					//username already taken
-                    this.userInit();
+					this.userInit();
 				}
-            }).catch((err) => {
-                console.log("ERROR: " + JSON.stringify(err));
-            });
+			}).catch((err) => {
+				console.log("ERROR: " + JSON.stringify(err));
+			});
 		}
 	}
 
-    handleChatInpChange(event){
-	    this.setState({inputChatText: event.target.value})  //setting value of this.state.value to what is typed in input box
-    }
+	handleChatInpChange(event){
+		this.setState({inputChatText: event.target.value})  //setting value of this.state.value to what is typed in input box
+	}
 
 	handleChatTextSend(event){  	//storing chat in array
 		event.preventDefault();
 		if(this.state.inputChatText=='') //checking if value is empty
-            return;
-        client.messageAdd({user: this.state.userID, message: this.state.inputChatText});
+			return;
+		client.messageAdd({user: this.state.userID, message: this.state.inputChatText});
 		this.setState({inputChatText: ''});
-        this.forceUpdate();
-
-        //$("html, body").animate({ scrollTop: $(document).height()}, 1000);
-    }
+		this.forceUpdate();
+		//$("html, body").animate({ scrollTop: $(document).height()}, 1000);
+	}
 
 	//old
 	handleUserInit(msg){
@@ -143,14 +140,15 @@ export default class Chat extends Component {
 
     render() {
 		// Check if the Database is being set up
-        if(this.state.error == 2){
-            return(<div>Database Error or currently being set up</div>);
-        } else if(this.state.userID == -1 && this.state.error == 1){
-            return (<div>{this.userInit()}</div>);
+		if(this.state.error == 2){
+			return(<div>Database Error or currently being set up</div>);
+		} else if(this.state.userID == -1 && this.state.error == 1){
+			return (<div>{this.userInit()}</div>);
 		}
 
 		return (
-            <div className="content">
+			<div className="content">
+				<div className="chat-header"></div>
                 <div className="chat-timeline">
                     <div className="div-right">
                         <div className="bubble-dialog">
