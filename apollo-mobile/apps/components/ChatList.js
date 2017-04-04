@@ -22,11 +22,21 @@ export default class LoginPage extends Component
           <Image source={require('../../Img/logo.png')} style={styles.logoPic}/>
           <Text style = {styles.textLabel}> Apollo </Text>
         </View>
-        <View style = {{height: 40}}>
+        <View>
           <View style = {styles.greyTitle}>
             <Text style = {styles.titleFont}> Online </Text>
           </View>
-          <Text style = {styles.titleFont}> No friends online </Text>
+          <View style = {{justifyContent: 'center', backgroundColor: 'white', height: 40}}>
+            <Text style = {styles.titleFont}> No friends online </Text>
+          </View>
+        </View>
+        <View>
+          <View style = {styles.greyTitle}>
+            <Text style = {styles.titleFont}> Conversations </Text>
+          </View>
+
+            
+
         </View>
       </View>
 
@@ -37,7 +47,7 @@ export default class LoginPage extends Component
 const styles = StyleSheet.create({
   greyTitle:
   {
-    height: 10,
+    height: 20,
     backgroundColor: '#F8F8F8',
   },
   titleFont:
@@ -46,7 +56,7 @@ const styles = StyleSheet.create({
   },
   textLabel:
   {
-    fontSize: 20,
+    fontSize: 26,
     fontWeight: 'bold',
     backgroundColor: 'rgba(0,0,0,0)',
     color: 'white'
