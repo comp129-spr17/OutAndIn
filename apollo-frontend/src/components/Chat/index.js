@@ -60,6 +60,7 @@ export default class Chat extends Component {
 	userInit(){
 		var username = "";
 		if(this.state.userID == -1){
+			/*
 			if(!this.state.error == 1){
 				username = prompt(this.state.error + "\n" + "Please enter your name", username); //var person stores user input, which is name
 			} else {
@@ -68,32 +69,26 @@ export default class Chat extends Component {
 			if(username == null){
 				return false;
 			}
-
-            client.userInit({username: username}).then((res) =>{
+			*/
+			client.userGetMe().then((res) => {
+				console.log(res.data.results[0].username);		
+				return client.userInit({username: username});
+			}).then((res) =>{
 				this.setState({
 					userID: res.data.body.id,
 					error: res.data.header.code
-                });
-                localStorage.setItem("userID", res.data.body.id);
-                if(res.data.header.code == 0){
+				});
+				localStorage.setItem("userID", res.data.body.id);
+				if(res.data.header.code == 0){
 					//fine
 					//set socket id in server
 					console.log("EMIT");
-					client.userSetSocketID({user: this.state.userID});
-					return -1;
+					return client.userSetSocketID({user: this.state.userID});
+                    localStorage.setItem("username", user.data.body.user.username);
 				} else {
 					//username already taken
-					return 1;
-				}
-            }).then((user) => {
-                if(user == 1)
                     this.userInit();
-                else {
-                    localStorage.setItem("username", user.data.body.user.username);
-					return 0;
-                    //client.socketDispatchEvent("connectedUsers");
-                }
-
+				}
             }).catch((err) => {
                 console.log("ERROR: " + JSON.stringify(err));
             });
@@ -147,21 +142,21 @@ export default class Chat extends Component {
 	}
 
     render() {
-        // Check if the Database is being set up
+		// Check if the Database is being set up
         if(this.state.error == 2){
             return(<div>Database Error or currently being set up</div>);
         } else if(this.state.userID == -1 && this.state.error == 1){
             return (<div>{this.userInit()}</div>);
-        }
+		}
 
-  return (
+		return (
             <div className="content">
                 <div className="chat-timeline">
                     <div className="div-right">
                         <div className="bubble-dialog">
                             {
 								this.state.messageList.map((msg, k) => {
-                                	return < ChatDirectionComponent key={k} message={msg} selfname={this.state.username} />
+                                	return <ChatDirectionComponent key={k} message={msg} selfname={this.state.username} />
                             	})
 							}
                         </div>
