@@ -68,6 +68,9 @@
 .login-actions-container {
     margin-top: 30px;
     margin-bottom: 15px;
+    background-color: white;
+    border-radius: 10px;
+    color: black;
 }
 
 .login-actions-container hr {
@@ -79,7 +82,6 @@
 }
 
 .login-actions {
-    
 }
 
 .login-actions .btn {
@@ -101,3 +103,16 @@
     text-decoration: none;
 }
 
+.loginForm input{
+    font-family: 'Roboto', sans-serif;
+    font-size: inherit;
+    line-height: inherit;
+    align-items: center;
+    width: 80%;
+}
+
+.loginForm .btn{
+    width: 80%;
+    border-radius: 10px;
+    background-color:#164762;
+}

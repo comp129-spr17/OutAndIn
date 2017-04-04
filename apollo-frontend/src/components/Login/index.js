@@ -29,12 +29,40 @@ export default class Login extends React.Component {
     
     render() {
         return (
-            <div className="login">
-                <form className='loginForm'>
-                    <input autoFocus type="text" value={this.state.username} onChange={this.handleUserNameChange} autoComplete="off"  placeholder='Enter UserName'/>
-                    <input type="password" value={this.state.password} onChange={this.handlePasswordChange} autoComplete="off"  placeholder='Enter Password'/>
-                    <button onClick={this.handleSignUp}>Submit</button>
-                </form>
+ <div className="login">
+                <div className="login-overlay"></div>
+                <div className="login-container">
+                    <div className="login-form-container">
+                        <div className="login-form">
+                                            <div className="login-brand-container">
+                        <div className="login-logo">
+                             <img src="/img/logo.png"/>
+                        </div>
+                        <div className="login-logo-name">
+                            <span>Apollo</span>
+                        </div>
+                    </div>            
+                            <div className="login-actions-container">
+                                <div className="login-actions">
+                                    <form className='loginForm'>
+                                        <p>Username</p>
+                                        <input autoFocus type="text" value={this.state.username} onChange={this.handleUserNameChange} autoComplete="off"  placeholder='Enter Username'/>
+                                        <p>Password</p>
+                                        <input type="password" value={this.state.password} onChange={this.handlePasswordChange} autoComplete="off"  placeholder='Enter Password'/>
+                                        <hr></hr>
+                                        <button onClick={this.handleSignUp}>Submit</button>
+                                    </form>
+                                    <div className="login-actions-forgot-password">
+                                        Forgot your password?
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="login-footer">
+                                Apollo © 2017
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
