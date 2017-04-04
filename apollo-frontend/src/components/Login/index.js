@@ -46,14 +46,14 @@ export default class Login extends React.Component {
                                 <div className="login-actions">
                                     <form className='loginForm'>
                                         <p>Username</p>
-                                        <input autoFocus type="text" value={this.state.username} onChange={this.handleUserNameChange} autoComplete="off"  placeholder='Enter Username'/>
+                                        <input autoFocus type="text" value={this.state.username} onChange={this.handleUserNameChange} autoComplete="off"/>
                                         <p>Password</p>
-                                        <input type="password" value={this.state.password} onChange={this.handlePasswordChange} autoComplete="off"  placeholder='Enter Password'/>
+                                        <input type="password" value={this.state.password} onChange={this.handlePasswordChange} autoComplete="off"/>
                                         <hr></hr>
-                                        <button onClick={this.handleSignUp}>Submit</button>
+                                        <button onClick={this.handleSignUp}>Login</button>
                                     </form>
                                     <div className="login-actions-forgot-password">
-                                        Forgot your password?
+                                        <a href = "">Forgot your password?</a>
                                     </div>
                                 </div>
                             </div>
