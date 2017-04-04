@@ -12,6 +12,7 @@ import Main from './components/Layouts/main';
 import Profile from './components/Profile';
 import UserSearch from './components/UserSearch';
 import ReduxTest from './containers/user';
+import Registration from '.components/Registration';
 
  
 
@@ -29,6 +30,7 @@ export default (
             <Route path="/redux" component={ReduxTest} />
             <Route path="/login" component={Login} />
             <Route path="/landing" component={Landing} />
+            <Route path="/registration" component={Registration} />
         </Route>
         <Route path="*" component={NotFound} />
     </Router>

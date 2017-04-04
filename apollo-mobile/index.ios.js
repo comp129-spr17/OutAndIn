@@ -21,8 +21,8 @@ import ChatList from './apps/components/ChatList'
 //  }
 //}
 const Apollo = StackNavigator({
-  Login: { screen: LoginPage },
-  mainChat: {screen: MainComponent},
+  //Login: { screen: LoginPage },
+  //mainChat: {screen: MainComponent},
   chatList: {screen: ChatList}
 });
 

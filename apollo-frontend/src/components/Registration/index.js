@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 
-export default class Login extends React.Component {
+export default class Registration extends React.Component {
     constructor() {
         super();
         
@@ -29,8 +29,8 @@ export default class Login extends React.Component {
     
     render() {
         return (
-            <div className="login">
-                <form className='loginForm'>
+            <div className="Registration">
+                <form className='registrationForm'>
                     <input autoFocus type="text" value={this.state.username} onChange={this.handleUserNameChange} autoComplete="off"  placeholder='Enter UserName'/>
                     <input type="password" value={this.state.password} onChange={this.handlePasswordChange} autoComplete="off"  placeholder='Enter Password'/>
                     <button onClick={this.handleSignUp}>Submit</button>
