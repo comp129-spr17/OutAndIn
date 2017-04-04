@@ -35,8 +35,6 @@ export default class Login extends React.Component {
                     <input type="password" value={this.state.password} onChange={this.handlePasswordChange} autoComplete="off"  placeholder='Enter Password'/>
                     <button onClick={this.handleSignUp}>Submit</button>
                 </form>
-            
-            
             </div>
         );
     }
