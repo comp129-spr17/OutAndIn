@@ -12,9 +12,7 @@ import Main from './components/Layouts/main';
 import Profile from './components/Profile';
 import UserSearch from './components/UserSearch';
 import ReduxTest from './containers/user';
-import Registration from '.components/Registration';
-
- 
+import Registration from './components/Registration';
 
 export default (
     <Router history={browserHistory} >
