@@ -1,7 +1,21 @@
+.chat-header {
+	height: 66px;
+	left: 0;
+	right: 0;
+	top: 0;
+	position: absolute;
+	border-bottom: 1px solid #efefef;
+}
+
 .chat-timeline {
     overflow-x: hidden;
-    padding-bottom: 50px;
+	padding: 15px;
+	bottom: 50px;
+	top: 66px;
+	position: absolute;
+	width: 100%;
 }
+
 .chat-input {
 	position: absolute;
     bottom: 0;
@@ -13,8 +27,9 @@
     width: 100%;
     border-top-style: solid;
     border-top-color: #EDEDED;
-    border-top-width: thin;
+    border-top-width: 1px;
 }
+
 .form {
     background: #fff;
     padding: 5px;
@@ -57,8 +72,7 @@
     float: right;
 }
 
-.bubble-left
-{
+.bubble-left {
     line-height: 100%;
     display: block;
     position: relative;
@@ -90,6 +104,7 @@
     float: left;
     margin-right:10%;
 }
+
 .bubble-right {
     float:right;
     margin-left:10%
@@ -138,7 +153,4 @@
 .form .msg:focus {
     outline: none;
 }
-/*[contenteditable=true]:empty:before{
-content: attr(placeholder);
-display: block;
-}*/
+
