@@ -122,6 +122,11 @@ Apollo.prototype.userSetSocketID = function(msg){
 	this.socket.emit('usersStoreSocketID', msg);
 };
 
+//get self info
+Apollo.prototype.userGetMe = function(){
+	this._get('users/me', {});
+};
+
 //CHATS
 
 //{id: #}
