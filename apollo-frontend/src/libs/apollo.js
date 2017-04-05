@@ -97,7 +97,14 @@ Apollo.prototype._post = function(url, parameters){
 	var getUrl = '';
 	getUrl = this.API_URL + '/' + url;
 	return axios.post(getUrl, parameters, {withCredentials: true});
-}
+};
+
+Apollo.prototype._delete = function(url, parameters){
+	//parameters = extend(parameters, this.credentials); // Add credentials to parameters
+	var getURL = "";
+	getURL = this.API_URL + '/' + url;
+	return axios.delete(getURL, {withCredentials: true});
+};
 
 //USERS--------------------------------------------
 Apollo.prototype.usersGetAll = function(){
@@ -171,6 +178,10 @@ Apollo.prototype.sessionLogin = function(data){
 
 Apollo.prototype.sessionRegister = function(data){
 	return this._post('register', data);
+};
+
+Apollo.prototype.sessionLogout = function(){
+	return this._delete('session', {});
 };
 
 module.exports = Apollo;
