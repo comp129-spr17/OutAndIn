@@ -25,3 +25,4 @@ exports.hashPassword = function(password){
 exports.comparePasswordAndHash = function(password, hash){
 	return bcrypt.compareSync(password, hash);
 };
+
