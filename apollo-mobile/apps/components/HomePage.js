@@ -5,12 +5,12 @@ import { StyleSheet, AppRegistry, Text, ListView, TextInput, Image, Navigator, T
 import{ StackNavigator } from 'react-navigation'
 
 
-export default class LoginPage extends Component
+export default class HomePage extends Component
 {
   static navigationOptions = {
-    //title: 'LoginPage',
+    //title: 'HomePage',
     header: {
-      visible: true
+      visible: false
     }
   }
 
@@ -20,9 +20,9 @@ export default class LoginPage extends Component
       <Image source={require('../../Img/landing.jpg')} style = {styles.container}>
         <View style = {styles.container}>
           <Image source={require('../../Img/logo.png')}/>
-          
+          <Text style = {styles.textLabel}>Messaging Made Easy</Text>
           <View>
-            <TouchableOpacity onPress = {() => navigate('chatList')}>
+            <TouchableOpacity onPress = {() => navigate('Login')}>
               <Text style = {styles.textLabel}>Login</Text>
             </TouchableOpacity>
             <TextInput style = {styles.textInput}/>

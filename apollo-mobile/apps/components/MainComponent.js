@@ -40,6 +40,8 @@ class MainComponent extends Component
             <TextInput style={styles.inputMessage}
                       onChangeText={text => this.setState({message: text})}
                       value={this.state.message}
+                      multiline={true}
+                      placeholder={'Type your message'}
             />
           </View>
           <View style = {styles.containerInput}>

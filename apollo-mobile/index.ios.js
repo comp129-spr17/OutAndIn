@@ -4,9 +4,10 @@ import React, { Component } from 'react';
 import { StyleSheet, AppRegistry, Text, ListView, TextInput, TouchableOpacity, View, Navigator } from 'react-native';
 import { StackNavigator, } from 'react-navigation';
 import MainComponent from './apps/components/MainComponent'
-import LoginPage from './apps/components/LoginPage'
+import HomePage from './apps/components/HomePage'
 import ChatList from './apps/components/ChatList'
 import MainScreenNavigator from './apps/components/ChatList'
+import LoginPage from './apps/components/LoginPage'
 
 //class Apollo extends Component {
   //static navigationOptions = {
@@ -21,9 +22,10 @@ import MainScreenNavigator from './apps/components/ChatList'
 //  }
 //}
 const Apollo = StackNavigator({
-  //Login: { screen: LoginPage },
-  //mainChat: {screen: MainComponent},
-  chatList: {screen: MainScreenNavigator}
+  //Greeting: { screen: HomePage },
+  //Login: {screen: LoginPage},
+  mainChat: {screen: MainComponent},
+  //chatList: {screen: MainScreenNavigator}
 });
 
 var styles = StyleSheet.create({
