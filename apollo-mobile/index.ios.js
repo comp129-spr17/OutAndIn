@@ -6,7 +6,7 @@ import { StackNavigator, } from 'react-navigation';
 import MainComponent from './apps/components/MainComponent'
 import LoginPage from './apps/components/LoginPage'
 import ChatList from './apps/components/ChatList'
-
+import MainScreenNavigator from './apps/components/ChatList'
 
 //class Apollo extends Component {
   //static navigationOptions = {
@@ -23,7 +23,7 @@ import ChatList from './apps/components/ChatList'
 const Apollo = StackNavigator({
   //Login: { screen: LoginPage },
   //mainChat: {screen: MainComponent},
-  chatList: {screen: ChatList}
+  chatList: {screen: MainScreenNavigator}
 });
 
 var styles = StyleSheet.create({

@@ -2,10 +2,10 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, AppRegistry, Text, ListView, TextInput, Image, Navigator, TouchableOpacity, View, ScrollView } from 'react-native';
-import{ StackNavigator } from 'react-navigation'
+import{ StackNavigator, TabNavigator } from 'react-navigation'
 
 
-export default class LoginPage extends Component
+export default class ChatList extends Component
 {
   static navigationOptions = {
     //title: 'LoginPage',
@@ -96,3 +96,32 @@ const styles = StyleSheet.create({
     color: 'white'
   },
 })
+
+
+
+//tab navigation stuff... i dont think this is how to do it?? confused
+
+class SearchScreen extends React.Component {
+  render() {
+    return <Text>Search stuff</Text>
+  }
+}
+
+class FriendsScreen extends React.Component {
+  render() {
+    return <Text>list of all my friendss</Text>
+  }
+}
+
+class ProfileScreen extends React.Component {
+  render() {
+    return <Text>My profileee</Text>
+  }
+}
+
+const MainScreenNavigator = TabNavigator({
+  Home: { screen: ChatList },
+  Search: { screen: SearchScreen },
+  Friends: {screen: FriendsScreen },
+  Profile: {screen: ProfileScreen },
+});
