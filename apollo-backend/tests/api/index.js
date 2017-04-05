@@ -1,2 +1,2 @@
-require('./_users');
-require('./_chats');
+require('./users_test');
+require('./chats_test');
