@@ -19,7 +19,8 @@ var _OPTIONS = {
 	// Default Users Route
 	"/": {
 		"METHODS": [
-			"POST"
+			"POST",
+			"DELETE"
 		],
 		"HASHES": new Set()
 	}
@@ -150,6 +151,11 @@ router.post('/', function(req, res){
 	});
 });
 
+router.delete('/', function(req, res){
+	res.cookie('sid', '', {expires: new Date()});
+	res.sendStatus(200);
+});
+
 router.options('/', function(req, res){
 	var origin = req.get('Origin');
 	// Check if origin is set
@@ -160,7 +166,7 @@ router.options('/', function(req, res){
 	// Check if method that is requested is in the methods hash set
 	var method = req.get('Access-Control-Request-Method');
 	if(_OPTIONS["/"]["HASHES"].has(method)){
-		res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+		res.header('Access-Control-Allow-Methods', 'POST, DELETE, OPTIONS');
 		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
 		res.header("Access-Control-Max-Age", 86400);
 		res.sendStatus(200);
