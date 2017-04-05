@@ -34,9 +34,9 @@ export default class LoginPage extends Component
           <View style = {styles.greyTitle}>
             <Text style = {styles.titleFont}> Conversations </Text>
           </View>
-          <ListView style = {{flex: 1, backgroundColor: 'white'}}>
+          <View style = {{height: 80, backgroundColor: 'white', justifyContent: 'center'}}>
             <Text style = {styles.titleFont}> Place holderrr </Text>
-          </ListView>
+          </View>
 
 
 

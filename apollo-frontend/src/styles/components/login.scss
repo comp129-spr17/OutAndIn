@@ -70,7 +70,7 @@
     margin-bottom: 15px;
     background-color: white;
     border-radius: 10px;
-    color: black;
+    color: #818181;
 }
 
 .login-actions-container hr {
@@ -97,10 +97,9 @@
     color: #424242;
 }
 
-.login-actions-forgot-password a {
-    color: white;
-    border-bottom:1px solid white;
-    text-decoration: none;
+.loginForm{
+    padding-top: 5%;
+    padding-bottom: 5%;
 }
 
 .loginForm input{
@@ -109,10 +108,32 @@
     line-height: inherit;
     align-items: center;
     width: 80%;
+    border-radius: 10px;
+    border-color: grey;
+    opacity:.65;
 }
 
-.loginForm .btn{
+.loginForm button{
     width: 80%;
     border-radius: 10px;
     background-color:#164762;
+    color:white;
+}
+
+.loginForm p{
+    margin-top: 10px;
+    margin-bottom: 3px;
+    text-align: left;
+    padding-left: 10%;
+    font-weight:bold;
+}
+
+.login-actions-forgot-password{
+    padding-bottom: 10%;
+}
+
+.login-actions-forgot-password a {
+    color: grey;
+    border-bottom:1px solid white;
+    text-decoration: none;
 }
