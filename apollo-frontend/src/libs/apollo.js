@@ -78,6 +78,7 @@ Apollo.prototype.eventBusRegisterEvent = function(eventName, func){
 };
 
 Apollo.prototype.eventBusDispatchEvent = function(eventName){
+	console.log('Dispatch: ' + eventName);
 	EventBus.dispatch(eventName);
 };
 
@@ -98,7 +99,7 @@ Apollo.prototype._post = function(url, parameters){
 	return axios.post(getUrl, parameters, {withCredentials: true});
 }
 
-//USERS
+//USERS--------------------------------------------
 Apollo.prototype.usersGetAll = function(){
 	return this._get('users', {});
 };
@@ -131,15 +132,14 @@ Apollo.prototype.userGetMe = function(){
 	return this._get('users/me', {});
 };
 
-//CHATS
-
+//CHATS--------------------------------------------
 //{id: #}
 Apollo.prototype.chatGetAllByUser = function(msg){
 	return this._get('chats/byUser/' + msg.id, {});
 };
 
 //{}
-Apollo.prototype.chatInit = function(msg){
+Apollo.prototype.chatInit = function(){
 	return this._post('chats/create', {});
 };
 
@@ -150,6 +150,7 @@ Apollo.prototype.chatGetChatDetails = function(msg){
 
 //{chatID: #, userID: #}
 Apollo.prototype.chatAddUser = function(msg){
+	console.log('ADDING: ' + msg.userID);
 	return this._post('chats/addUser', msg);
 };
 
@@ -163,7 +164,7 @@ Apollo.prototype.chatAddMessage = function(msg){
 	return this._post('chats/messages', msg);
 };
 
-//SESSIONS
+//SESSIONS------------------------------------------
 Apollo.prototype.sessionLogin = function(data){
 	return this._post('session', data);
 };

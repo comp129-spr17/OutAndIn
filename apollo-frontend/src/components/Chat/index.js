@@ -1,3 +1,10 @@
+/*
+TODO
+0 - add user to chat with every other user
+1 - side bar show chats
+2 - click sidebar elem, chow chats
+3 - send message and update chat
+*/
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
@@ -48,11 +55,41 @@ export default class Chat extends Component {
 		this.handleChatDetails = this.handleChatDetails.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
 		this.handleUserInit = this.handleUserInit.bind(this);
+		this.handleChatFocusUpdate = this.handleChatFocusUpdate.bind(this);
 
 		//add socket event handlers
 		client.eventBusRegisterEvent("chatDetails", this.handleChatDetails);
-		client.socketRegisterEvent("messageAdd", this.handleMessageAdd);
 		client.eventBusRegisterEvent("userInit", this.handleUserInit);
+		client.eventBusRegisterEvent('chatFocusedUpdate', this.handleChatFocusUpdate);
+
+		client.socketRegisterEvent("messageAdd", this.handleChatFocusUpdate);
+	}
+
+	handleChatFocusUpdate(){
+		var chatID = localStorage.getItem('chatFocused');
+		console.log('building msgs: ' + chatID);
+		client.chatGetMessage({id: chatID}).then((messages) => {
+			//update messagelist
+			console.log(messages);
+			var msgs = [];
+			for(var m in messages.data.body.messages){
+				console.log(messages.data.body.messages[m]);
+				var temp = messages.data.body.messages[m];
+				client.userDetails({id: temp.created_by}).then((user) => {
+					msgs.push({
+							user:user.data.body.user.username,
+							message:temp.message,
+							timeStamp: temp.timestamp
+						});
+					this.setState({messageList: msgs});
+				}).catch((err) =>{
+					console.log('ERR 0');
+				});
+			}
+			this.setState({messageList: msgs});
+		}).catch((err) => {
+			console.log('err 1');
+		});
 	}
 
 	userInit(){
@@ -69,26 +106,29 @@ export default class Chat extends Component {
 			}
 			*/
 			client.userGetMe().then((res) => {
-				console.log(res.data.results[0].username);		
-				return client.userInit({username: username});
-			}).then((res) =>{
-				this.setState({
-					userID: res.data.body.id,
-					error: res.data.header.code
+				console.log(res.data.results[0].username);
+				client.userInit({username: username}).then((user) =>{
+					this.setState({
+						userID: user.data.body.id,
+						error: user.data.header.code
+					});
+					localStorage.setItem("userID", user.data.body.id);
+					if(user.data.header.code == 0){
+						//fine
+						//set socket id in server
+						client.userSetSocketID({user: this.state.userID});
+						client.eventBusDispatchEvent('chatsInitWithUsers');
+					} else {
+						//username already taken
+						console.log('ERR code: ' + res.data.header.code);
+						//this.userInit();
+					}
+					return;
+				}).catch((err) =>{
+					console.log(err);
 				});
-				localStorage.setItem("userID", res.data.body.id);
-				if(res.data.header.code == 0){
-					//fine
-					//set socket id in server
-					console.log("EMIT");
-					return client.userSetSocketID({user: this.state.userID});
-					localStorage.setItem("username", user.data.body.user.username);
-				} else {
-					//username already taken
-					this.userInit();
-				}
 			}).catch((err) => {
-				console.log("ERROR: " + JSON.stringify(err));
+				console.log("ERROR here: " + JSON.stringify(err));
 			});
 		}
 	}
@@ -101,9 +141,17 @@ export default class Chat extends Component {
 		event.preventDefault();
 		if(this.state.inputChatText=='') //checking if value is empty
 			return;
-		client.messageAdd({user: this.state.userID, message: this.state.inputChatText});
-		this.setState({inputChatText: ''});
-		this.forceUpdate();
+		client.chatAddMessage({
+			chatID: localStorage.getItem('chatFocused'),
+			userID: localStorage.getItem('userID'),
+			message: this.state.inputChatText
+		}).then((msg) => {
+			console.log(msg);
+			this.setState({inputChatText: ''});
+			this.forceUpdate();
+		}).catch((err) => {
+			console.log('Err: ' + err);
+		});
 		//$("html, body").animate({ scrollTop: $(document).height()}, 1000);
 	}
 
@@ -161,9 +209,9 @@ export default class Chat extends Component {
                     </div>
                 </div>
                 <div className="chat-input">
-                    <form className='form'>
+                    <form className='form' onSubmit={this.handleChatTextSend}>
                        <input autoFocus type="text" value={this.state.inputChatText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type a message ...'/>
-                    </form>
+					</form>
                 </div>
             </div>
      	);

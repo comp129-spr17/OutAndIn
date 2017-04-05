@@ -13,7 +13,7 @@ var sockets = function(io) {
 		//store socket id of this user
 		socket.on("usersStoreSocketID", function(data){
 			console.log("EVENT: usersStoreSocketID");
-			usersService.usersStoreSocketID(data.user, socket.id).then((res) => {
+			usersService.storeSocketID(data.user, socket.id).then((res) => {
 				console.log("Stored: " + socket.id);
 				socket.emit("usersStoreSocketID",{
 					code: 0

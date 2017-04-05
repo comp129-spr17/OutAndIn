@@ -249,19 +249,12 @@ router.post("/addUser", function(req,res){
 		if(chat_user.length == 0){
 			//no connection yet
 			chatsService.chatsAddUserToChat(req.body.chatID, req.body.userID).then((chat) => {
-				res.json({
-					header:{
-						code: 0,
-						message: 'success'
-					},
-					body: {}
-				});
 				//TODO: push above ^
 				//send socket event
 				usersService.getSocketID(req.body.userID).then((sock) => {
-					if(res.io.sockets.connected[sock[0]]){
+					if(res.io.sockets.connected[sock[0].socket]){
 						//fine
-						res.io.sockets.connected[sock[0]].emit('chatsListUpdate', {});
+						res.io.sockets.connected[sock[0].socket].emit('chatsListUpdate', {});
 					}else{
 						res.json({
 							header:{
@@ -269,10 +262,17 @@ router.post("/addUser", function(req,res){
 								message: 'ERROR: socket not connected'
 							},
 							body:{
-								err : err
+								sock: sock
 							}
 						});
 					}
+					res.json({
+						header:{
+							code: 0,
+							message: 'success'
+						},
+						body: {}
+					});
 				}).catch((err) =>{
 					res.json({
 						header:{
@@ -405,6 +405,7 @@ output:
 }
 */
 router.get('/messages/:id', function(req, res){
+	console.log('Getting: ' + req.params.id);
 	chatsService.chatsGetMessagesForChat(req.params.id).then((msg) =>{
 		if(msg.length == 0){
 			//no messages found
@@ -433,7 +434,7 @@ router.get('/messages/:id', function(req, res){
 		res.json({
 			header:{
 				code: 1,
-				message: 'ERROR: sql'
+				message: 'ERROR: sql cannot get messages from chat'
 			},
 			body:{
 				err : err
@@ -452,6 +453,7 @@ input:
 }
 */
 router.post('/messages', function(req, res){
+	console.log(JSON.stringify(req.body));
 	chatsService.chatsAddMessageToChat(req.body.chatID,req.body.userID,req.body.messageText).then((msg) => {
 		//emit event to all users in chat
 		chatsService.chatsGetUsersForChat(req.body.chatID).then((users)=>{
@@ -459,8 +461,8 @@ router.post('/messages', function(req, res){
 			for(var i in users){
 				usersService.getSocketID(users[i].uuid).then((socket)=>{
 					//send socket event
-					if(res.io.connected[socket]){
-						res.io.connected[socket].emit('messageAdd', {chatID: req.body.chatID});
+					if(res.io.connected[socket[0].socket]){
+						res.io.connected[socket[0].socket].emit('messageAdd', {});
 					}else{
 						console.log("ERR: no such socket - " + JSON.stringify(socket));
 					}
@@ -480,7 +482,7 @@ router.post('/messages', function(req, res){
 			res.json({
 				header:{
 					code: 2,
-					message: 'ERROR: sql'
+					message: 'ERROR: sql cannot get chats for user'
 				},
 				body: {
 					err:err
@@ -499,7 +501,7 @@ router.post('/messages', function(req, res){
 		res.json({
 			header:{
 				code: 1,
-				message: 'ERROR: sql'
+				message: 'ERROR: sql cannot add message to chat '
 			},
 			body:{
 				err : err

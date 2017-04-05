@@ -20,7 +20,8 @@ export default class Sidebar extends React.Component {
 		client.socketRegisterEvent("userInit", this.handleUserInit);
 		client.socketRegisterEvent("userIDList", this.handleUserIDList);
 		client.socketRegisterEvent("userDetails", this.handleUserDetails);
-		client.socketRegisterEvent("chatInit", this.handleChatInit);
+
+		client.eventBusRegisterEvent('chatsInitWithUsers', this.handleChatInit);
     }
 
 	userIDList(){
@@ -84,9 +85,6 @@ export default class Sidebar extends React.Component {
 		}
 	}
 
-	handleChatInit(msg){
-
-	}
 
     render() {
         return (
