@@ -22,10 +22,10 @@ import LoginPage from './apps/components/LoginPage'
 //  }
 //}
 const Apollo = StackNavigator({
-  Greeting: { screen: HomePage },
-  Login: {screen: LoginPage},
+  //Greeting: { screen: HomePage },
+  //Login: {screen: LoginPage},
   mainChat: {screen: MainComponent},
-  chatList: {screen: MainScreenNavigator}
+  //chatList: {screen: MainScreenNavigator}
 });
 
 var styles = StyleSheet.create({

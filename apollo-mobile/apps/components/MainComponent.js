@@ -31,7 +31,7 @@ class MainComponent extends Component
                   renderRow = {
                     (rowData) =>
                       <View style={styles.message}>
-                        <Text>{rowData}</Text>
+                        <Text style = {{ padding: 10, backgroundColor: rowData.color, color: 'white', borderRadius: 10}}>{rowData.message}</Text>
                       </View>
                   }
         />
@@ -40,7 +40,8 @@ class MainComponent extends Component
             <TextInput style={styles.inputMessage}
                       onChangeText={text => this.setState({message: text})}
                       value={this.state.message}
-                      multiline={true}
+                      //multiline={true}
+                      onSubmitEditing={() => {this.emitMessage()}}
                       placeholder={'Type your message'}
             />
           </View>
@@ -54,6 +55,24 @@ class MainComponent extends Component
       </View>
     )
   }
+
+  emitMessage() {
+        //this.socket.emit('onChat', this.state.message);
+        this.appendMessage(this.state.message, '#164762');
+        this.setState({
+            message: '',
+        });
+    }
+    appendMessage(message, color) {
+        // color is for define user message color
+        dataArray.push({
+            message: message,
+            color: color
+        });
+        this.setState({
+            dataSource: ds.cloneWithRows(dataArray)
+        });
+    }
 }
 
 const styles  = StyleSheet.create({
