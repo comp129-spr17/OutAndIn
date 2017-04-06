@@ -20,19 +20,17 @@ export default class LoginPage extends Component
       <Image source={require('../../Img/landing.jpg')} style = {styles.container}>
         <View style = {styles.container}>
           <Image source={require('../../Img/logo.png')}/>
-          
-          <View>
-            <TouchableOpacity onPress = {() => navigate('chatList')}>
-              <Text style = {styles.textLabel}>Login</Text>
-            </TouchableOpacity>
+          <View style = {styles.box}>
+            <Text style = {styles.textLabel}> Username </Text>
             <TextInput style = {styles.textInput}/>
-          </View>
+            <Text style = {styles.textLabel}> Password </Text>
+            <TextInput style = {styles.textInput} secureTextEntry = 'true'/>
 
-          <View>
-            <TouchableOpacity>
-              <Text style = {styles.textLabel}>Register</Text>
+            <TouchableOpacity onPress = {() => navigate('chatList')}>
+              <View style = {styles.button}>
+                <Text style = {{color: 'white'}}> Log In </Text>
+              </View>
             </TouchableOpacity>
-            <TextInput style = {styles.textInput}/>
           </View>
         </View>
       </Image>
@@ -42,10 +40,28 @@ export default class LoginPage extends Component
 }
 
 const styles = StyleSheet.create({
+  button:
+  {
+      height: 35,
+      width: 320,
+      backgroundColor: '#164762',
+      justifyContent: 'center',
+      alignItems: 'center'
+  },
+  box:
+  {
+      height: 298,
+      width: 345,
+      backgroundColor: 'white',
+      borderRadius: 10,
+      borderColor: '#95989A',
+      justifyContent: 'center',
+  },
+
   container:
   {
     flex: 1,
-    justifyContent: 'center',
+    //justifyContent: 'center',
     alignItems: 'center',
     width: null,
     height: null,
@@ -53,17 +69,19 @@ const styles = StyleSheet.create({
 
   textLabel:
   {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 16,
+    //fontWeight: 'bold',
     backgroundColor: 'rgba(0,0,0,0)',
-    color: 'white'
+    color: '#7A7A7A'
   },
 
   textInput:
   {
-    //flex: 8,
+    paddingLeft: 10,
+    width: 315,
+    height: 30,
     borderWidth: 1,
-    borderColor: '#164762',
-    paddingLeft: 5
+    borderColor: '#EDEDED',
+    borderRadius: 10,
   }
 })
