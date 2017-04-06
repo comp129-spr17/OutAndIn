@@ -31,7 +31,7 @@ class MainComponent extends Component
                   renderRow = {
                     (rowData) =>
                       <View style={styles.message}>
-                        <Text style = {{ padding: 10, backgroundColor: rowData.color, color: 'white', borderRadius: 10}}>{rowData.message}</Text>
+                        <Text style = {{ padding: 10, backgroundColor: rowData.color, color: 'white',}}>{rowData.message}</Text>
                       </View>
                   }
         />
@@ -92,19 +92,19 @@ const styles  = StyleSheet.create({
   {
     //marginTop: 20,
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   listMessage:
   {
     flex: 13,
     paddingLeft: 5,
-    paddingRight:5
+    paddingRight:5,
   },
   message:
   {
     paddingTop: 5,
     paddingRight:5,
-    paddingLeft:5
+    paddingLeft:5,
   },
   bigContainer: {
     height:80,
