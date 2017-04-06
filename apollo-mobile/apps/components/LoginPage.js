@@ -26,9 +26,9 @@ export default class LoginPage extends Component
             <Text style = {styles.textLabel}> Password </Text>
             <TextInput style = {styles.textInput} secureTextEntry = 'true'/>
 
-            <TouchableOpacity onPress = {() => navigate('chatList')}>
+            <TouchableOpacity onPress = {() => navigate('chatList')} style = {{paddingTop: 30}}>
               <View style = {styles.button}>
-                <Text style = {{color: 'white'}}> Log In </Text>
+                <Text style = {{color: 'white', fontSize: 16}}> Log In </Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -46,16 +46,19 @@ const styles = StyleSheet.create({
       width: 320,
       backgroundColor: '#164762',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      borderRadius: 10,
   },
   box:
   {
+      //flex: 3,
       height: 298,
       width: 345,
       backgroundColor: 'white',
       borderRadius: 10,
       borderColor: '#95989A',
       justifyContent: 'center',
+      alignItems: 'center'
   },
 
   container:
@@ -72,13 +75,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     //fontWeight: 'bold',
     backgroundColor: 'rgba(0,0,0,0)',
-    color: '#7A7A7A'
+    color: '#7A7A7A',
+    paddingBottom: 10,
   },
 
   textInput:
   {
     paddingLeft: 10,
-    width: 315,
+    //width: 315,
     height: 30,
     borderWidth: 1,
     borderColor: '#EDEDED',

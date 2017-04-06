@@ -22,7 +22,7 @@ import LoginPage from './apps/components/LoginPage'
 //  }
 //}
 const Apollo = StackNavigator({
-  //Greeting: { screen: HomePage },
+  Greeting: { screen: HomePage },
   Login: {screen: LoginPage},
   mainChat: {screen: MainComponent},
   chatList: {screen: MainScreenNavigator}
