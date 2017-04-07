@@ -1,3 +1,8 @@
+.chatIcons{
+position:relative;
+float:right;
+cursor: pointer;
+}
 .chat-header {
 	height: 66px;
 	left: 0;
@@ -154,3 +159,6 @@
     outline: none;
 }
 
+.chatImage{
+    height:30px;
+}

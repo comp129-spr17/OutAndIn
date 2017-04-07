@@ -58,11 +58,11 @@ export default class Chat extends Component {
 		this.handleChatFocusUpdate = this.handleChatFocusUpdate.bind(this);
 
 		//add socket event handlers
-		client.eventBusRegisterEvent("chatDetails", this.handleChatDetails);
-		client.eventBusRegisterEvent("userInit", this.handleUserInit);
-		client.eventBusRegisterEvent('chatFocusedUpdate', this.handleChatFocusUpdate);
+		// client.eventBusRegisterEvent("chatDetails", this.handleChatDetails);
+		// client.eventBusRegisterEvent("userInit", this.handleUserInit);
+		// client.eventBusRegisterEvent('chatFocusedUpdate', this.handleChatFocusUpdate);
 
-		client.socketRegisterEvent("messageAdd", this.handleChatFocusUpdate);
+		// client.socketRegisterEvent("messageAdd", this.handleChatFocusUpdate);
 	}
 
 	handleChatFocusUpdate(){
@@ -188,11 +188,11 @@ export default class Chat extends Component {
 
     render() {
 		// Check if the Database is being set up
-		if(this.state.error == 2){
-			return(<div>Database Error or currently being set up</div>);
-		} else if(this.state.userID == -1 && this.state.error == 1){
-			return (<div>{this.userInit()}</div>);
-		}
+		// if(this.state.error == 2){
+		// 	return(<div>Database Error or currently being set up</div>);
+		// } else if(this.state.userID == -1 && this.state.error == 1){
+		// 	return (<div>{this.userInit()}</div>);
+		// }
 
 		return (
 			<div className="content">
@@ -211,6 +211,19 @@ export default class Chat extends Component {
                 <div className="chat-input">
                     <form className='form' onSubmit={this.handleChatTextSend}>
                        <input autoFocus type="text" value={this.state.inputChatText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type a message ...'/>
+					   <div className="chatIcons">
+	 	                   	<img className="chatImage" src = "/img/vid.png"/>
+	                    </div>
+                    	<div className="chatIcons">
+                    		<img className="chatImage" src = "/img/paperclip.png"/>
+                    	</div>
+                    	<div className="chatIcons">
+                    		<img className="chatImage" src = "/img/micicon.png"/>
+                    	</div>
+                    	<div className="chatIcons">
+                    		<img className="chatImage" src = "/img/capture.png"/>
+                    	</div> 
+					    
 					</form>
                 </div>
             </div>
