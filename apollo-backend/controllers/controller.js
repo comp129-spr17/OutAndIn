@@ -1,52 +1,119 @@
-
 /**
- *  @(Project): Apollo Backend
- *  @(Filename): controller.js
- *  @(Description): Controller helper methods
- *  @(Authors): Out-N-In Team
- *  @(License): MIT
+ *  Apollo
+ *  @description: Controller helper methods
+ *  @author: Out-N-In Team
+ *  @license: MIT
  */
 
-var ResponsePayload = function(status, count, type, results){
-	var _status, _count, _type, _results;
-	if(typeof status != 'string' || status != ""){
-		_status = "";	
+/**
+ * ResponseObject
+ * @constructor
+ * @description: Response object template
+ * @param: {boolean} success - Success flag
+ * @param: {array or null} errors - Collection of errors
+ * @param: {array or null} results - Collection of results
+ * @return: {none}
+ */
+var responseObject = function(success, errors, results){
+	var _success, _errors, _results;
+	if(typeof success != 'boolean' || typeof success === "undefined"){
+		_success = false;	
 	}
-	if(typeof count != 'number' || count < 0){
-		_count = "";	
-	}	
-	if(typeof type != 'string' || status != ""){
-		_type = "";	
+	if(typeof errors !== "object" || typeof errors === "undefined" || (Array.isArray(errors) && errors.length == 0)){
+		_errors = null;	
 	}
-	if(!Array.isArray(results) || results.length < 0){
-		_results = [];	
+	if(typeof results !== "object" || typeof results === "undefined" || (Array.isArray(results) && errors.length == 0)){
+		_results = null;	
 	}
-	this.response = {
-		status: _status,
-		count: _count,
-		type: _type,
+	// Response object
+	this._response = {
+		success: _success,
+		errors: _errors,
 		results: _results
 	};
 };
 
-ResponsePayload.prototype.setStatus = function(status){
-	this.response.status = status;
+/**
+ * SetSuccess
+ * @description: Sets the success flag of the response object
+ * @param: {boolean} success - Success flag
+ * @return: {none}
+ */
+responseObject.prototype.setSuccess = function(flag){
+	this._response.success = flag;
 };
 
-ResponsePayload.prototype.setCount = function(count){
-	this.response.count = count;
+/**
+ * SetErrors
+ * @description: Set errors for the response object
+ * @param: {boolean} errors - Collection or object of errors
+ * @return: {none}
+ */
+responseObject.prototype.setErrors = function(errors){
+	if(Array.isArray(errors)){
+		this._response.errors = errors;
+		return;
+	}
+	if(this._response.errors == null){
+		this._response.errors = [];
+	}
+	if(Array.isArray(this._response.errors)){
+		this._response.errors.push(errors);
+	}
 };
 
-ResponsePayload.prototype.setType = function(type){
-	this.response.type = type;
+/**
+ * SetResults
+ * @description: Set results for the response object
+ * @param: {boolean} results - Collection or object of results
+ * @return: {none}
+ */
+responseObject.prototype.setResults = function(results){
+	if(Array.isArray(results)){
+		this._response.results = results;
+		return;
+	}
+	if(this._response.results == null){
+		this._response.results = [];
+	}
+	if(Array.isArray(this._response.results)){
+		this._response.results.push(results);
+	}
 };
 
-ResponsePayload.prototype.pushResult = function(values){
-	this.response.results.push(values);
+/**
+ * ToJSON
+ * @description: Returns response object
+ * @param: {none}
+ * @return: {object} response - Response object
+ */
+responseObject.prototype.toJSON = function(){
+	return this._response;
 };
 
-ResponsePayload.prototype.getResponse = function(values){
-	return this.response;
+/**
+ * ToString
+ * @description: Logging helper
+ * @param: {none}
+ * @return: {object} response - Response object
+ */
+responseObject.prototype.toString = function(){
+	return this._response;
 };
 
-module.exports = ResponsePayload;
+/**
+ * Inspect
+ * @description: Logging helper
+ * @param: {none}
+ * @return: {string} response - String of response object
+ */
+responseObject.prototype.inspect = function(){
+	return this.toString();
+};
+
+// Module wrapper
+var controller = {
+	responseObject: responseObject
+};
+
+module.exports = controller;
