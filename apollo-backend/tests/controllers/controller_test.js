@@ -1,6 +1,27 @@
 var controller = require('../../controllers/controller');
 
 describe("[ Controller ]", function(){
+	describe("<responseObject>::setSuccess", function(){
+		it("Should set the state of success given", function(){
+			var response = new controller.responseObject();
+			response.setSuccess(true);
+			expect(response._response.success).to.equal(true); 
+		});
+	});
+
+	describe("<responseObject>::setErrors", function(){
+		it("Should set the errors given", function(){
+			var response1 = new controller.responseObject();
+			response1.setErrors({});
+			expect(response1._response.errors).to.be.a('array');
+			expect(response1._response.errors).to.have.length(1); 
+			var response2 = new controller.responseObject();
+			response2.setErrors([{}, {}, {}]);
+			expect(response2._response.errors).to.be.a('array');
+			expect(response2._response.errors).to.have.length(3); 
+		});
+	});
+
 	describe("<responseObject>::toJSON", function(){
 		it("Initial State - Should return a default response object", function(){
 			var response = new controller.responseObject();
@@ -20,27 +41,6 @@ describe("[ Controller ]", function(){
 			expect((response.toJSON())["errors"]).to.be.a('array');
 			expect((response.toJSON())["results"]).to.have.length(3);
 			expect((response.toJSON())["results"]).to.be.a('array');
-		});
-	});
-
-	describe("<responseObject>::setSuccess", function(){
-		it("Should set the state of success given", function(){
-			var response = new controller.responseObject();
-			response.setSuccess(true);
-			expect(response._response.success).to.equal(true); 
-		});
-	});
-
-	describe("<responseObject>::setErrors", function(){
-		it("Should set the errors given", function(){
-			var response1 = new controller.responseObject();
-			response1.setErrors({});
-			expect(response1._response.errors).to.be.a('array');
-			expect(response1._response.errors).to.have.length(1); 
-			var response2 = new controller.responseObject();
-			response2.setErrors([{}, {}, {}]);
-			expect(response2._response.errors).to.be.a('array');
-			expect(response2._response.errors).to.have.length(3); 
 		});
 	});
 });
