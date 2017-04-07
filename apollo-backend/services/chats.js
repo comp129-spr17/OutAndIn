@@ -1,13 +1,26 @@
 'use strict'
+/**
+ * GetUserByUsername
+ * @description: Get the user by the username
+ * @param: {string} username - Username of the user
+ * @return: {promise} promise - SQL promise
+ */
+
 var db = require('../modules/database');
 var uuid = require('uuid/v1');
 
-exports.chatsGenID = function(){
+/**
+ * GenerateChatID
+ * @description: Get the user by the username
+ * @param: {string} username - Username of the user
+ * @return: {promise} promise - SQL promise
+ */
+exports.generateChatID = function(){
 	return uuid();
 };
 
 //create entry
-exports.chatsCreateChat = function(chatID){
+exports.createChat = function(chatID){
     var sql = "INSERT INTO chats VALUES('', ?, '', '')";
     return db.pool.query(sql, [chatID]);
 };
