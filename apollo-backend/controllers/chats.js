@@ -1,22 +1,21 @@
 /**
- *  @(Project): Apollo Backend
- *  @(Filename): users.js
- *  @(Description): Users route handlers
- *  @(Authors): Out-N-In Team
- *  @(License): MIT
+ *  Apollo
+ *  @description: Chats route handlers
+ *  @author: Out-N-In Team
+ *  @license: MIT
  */
 
 var express = require('express');
 var router = express.Router();
 var chatsService = require('../services/chats');
 var usersService = require('../services/users');
+var responseObject = require('./controller').responseObject;
 
-// OPTIONS - Routes permitted per route
+// Routes permitted per route
 var _OPTIONS = {
-	// Default Users Route
 	"/": {
 		"METHODS": [
-			"GET",
+			"POST",
 		],
 		"HASHES": new Set()
 	},
@@ -53,6 +52,13 @@ var _OPTIONS = {
 	}
 };
 
+/**
+ * Init
+ * @constructor
+ * @description: Initialize OPTIONS methods for each route
+ * @param: {none}
+ * @return: {none}
+ */
 function init(){
 	// Initialize the OPTIONS methods for each route
 	// Add all routes into the set
@@ -65,16 +71,44 @@ function init(){
 	});
 }
 
-//?
-router.get('/', function(req, res){
-    chatsService.chatsCreateChat(chatsService.chatsGenID()).then((res) => {
-        console.log(res);
-        res.send(results);
-    }).catch((err) => {
-        res.send(err);
-    });
-});
+/**
+ * GET - ["/"]
+ * @description: Create chat
+ * @param: {none}
+ * @return: {object} users - Collection of users
+ */
+router.post('/', function(req, res){
+	var chatID = chatsService.generateChatID();
+	chatsService.createChat(chatID).then((chat) => {
+		// Create response object
+		let response = new responseObject();
+		// Set attributes
+		response.setSuccess(true);
+		response.setResults(chat);
+		// Send response
+		res.status(200).json(response.toJSON());
 
+		res.json({
+			header:{
+				code: 0,
+				message: 'success'
+			},
+			body: {
+				chatID: chatID
+			}
+		});
+	}).catch((err) =>{
+		res.json({
+			header:{
+				code: 1,
+				message: 'ERROR: sql'
+			},
+			body:{
+				err : err
+			}
+		});
+	});
+});
 
 router.options('/', function(req, res){
 	var origin = req.get('Origin');
@@ -87,7 +121,7 @@ router.options('/', function(req, res){
 	var method = req.get('Access-Control-Request-Method');
 	if(_OPTIONS["/"]["HASHES"].has(method)){
 
-		res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+		res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
 		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
 		res.header("Access-Control-Max-Age", 86400);
 		res.sendStatus(200);
