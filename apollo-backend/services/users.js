@@ -26,7 +26,7 @@ exports.getUserByUsername = function(username){
  * @return: {promise} promise - SQL promise
  */
 exports.getUserByEmail = function(email){
-    var sql = "SELECT * FROM users WHERE email = ?";
+    var sql = "SELECT uuid, email, fullname, username, avatar FROM users WHERE email = ?";
 	return db.pool.query(sql, [email]);
 };
 
@@ -64,12 +64,23 @@ exports.getUUIDByUsername = function(username){
 };
 
 /**
+ * GetSocketID
+ * @description: Get the socket ID of the user
+ * @param: {string} userID - User ID of the user
+ * @return: {promise} promise - SQL promise
+ */
+exports.getSocketID = function(userID){
+	var sql = 'SELECT socket FROM users WHERE uuid = ?';
+	return db.pool.query(sql, [userID]);
+};
+
+/**
  * CreateUser
  * @description: Create a new user
- * @param: {email} email - Email of the user
- * @param: {username} username - Username of the user
- * @param: {fullname} fullname - Full Name of the user
- * @param: {password} password - Password of the user
+ * @param: {string} email - Email of the user
+ * @param: {string} username - Username of the user
+ * @param: {string} fullname - Full Name of the user
+ * @param: {string} password - Password of the user
  * @return: {promise} promise - SQL promise
  */
 exports.createUser = function(email, username, fullname, password){
@@ -79,25 +90,25 @@ exports.createUser = function(email, username, fullname, password){
 };
 
 /**
+ * DeleteUser
+ * @description: Delete a user
+ * @param: {string} uuid - UUID of the user
+ * @return: {promise} promise - SQL promise
+ */
+exports.deleteUser = function(uuid){
+    var sql = "DELETE FROM users WHERE uuid = ?";
+    return db.pool.query(sql, [uuid]);
+};
+
+/**
  * StoreSocketID
  * @description: Store socket ID of the user
- * @param: {userID} userID - User ID of the user
- * @param: {socketID} socketID - Socket ID of the user
+ * @param: {string} userID - User ID of the user
+ * @param: {string} socketID - Socket ID of the user
  * @return: {promise} promise - SQL promise
  */
 exports.storeSocketID = function(userID, socketID){
 	var sql = "UPDATE users SET socket = ? WHERE uuid = ?";
 	return db.pool.query(sql, [socketID, userID]);
-};
-
-/**
- * GetSocketID
- * @description: Get the socket ID of the user
- * @param: {userID} userID - User ID of the user
- * @return: {promise} promise - SQL promise
- */
-exports.getSocketID = function(userID){
-	var sql = 'SELECT socket FROM users WHERE uuid = ?';
-	return db.pool.query(sql, [userID]);
 };
 
