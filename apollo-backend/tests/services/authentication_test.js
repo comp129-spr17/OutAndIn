@@ -1,6 +1,6 @@
 var authService = require('../../services/authentication');
 
-describe("[ Authentication ]", function(){
+describe("[Authentication]", function(){
 	describe("generateSessionToken", function(){
 		it("Should generate a session token", function(){
 			var sessionToken = authService.generateSessionToken();
@@ -11,10 +11,10 @@ describe("[ Authentication ]", function(){
 		});
 	});
 
-	describe("generateToken", function(){
+	describe("generateJWT", function(){
 		it("Should generate a JSON Web Token", function(){
 			var uuid = "343e9a9a-8db7-474f-a49c-cf9e7737acab";
-			var token = authService.generateToken(uuid);
+			var token = authService.generateJWT(uuid);
 			expect(token).to.be.a('string');
 		});
 	});
