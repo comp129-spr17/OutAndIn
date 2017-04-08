@@ -119,6 +119,8 @@ export default class UserSearch extends Component {
                 if(this.state.allFriends[i].name.toLowerCase().indexOf(currVal.toLowerCase())> -1){
                     console.log('matched');
                     this.state.friends.push(this.state.allFriends[i]);
+                    if(this.state.friends.length >=3)
+                        break;
                 }
             }
         }
@@ -159,30 +161,88 @@ export default class UserSearch extends Component {
                         </div>
                     </div>
                     <div className="sidebar-content">
-                        { this.state.friends.map((friend, k) => {
-                            return <div className="sidebar-item" key={k}>
-                                <div className="sidebar-chat">
-                                    <div className="sidebar-chat-img">
-                                        <div className="sidebar-chat-avatar">
-                                            <img src={ friend.avatar } alt="Sidebar Chat Image"/>
+                        <div className='conversationDiv' >
+                            <p>Conversation</p>
+                            { this.state.friends.map((friend, k) => {
+                                return <div className="sidebar-item" key={k}>
+                                    <div className="sidebar-chat">
+                                        <div className="sidebar-chat-img">
+                                            <div className="sidebar-chat-avatar">
+                                                <img src={ friend.avatar } alt="Sidebar Chat Image"/>
+                                            </div>
+                                            <div className="sidebar-chat-status">
+                                            </div>
                                         </div>
-                                        <div className="sidebar-chat-status">
+                                        <div className="sidebar-chat-details">
+                                            <div className="sidebar-chat-details-name">
+                                                <h4>{ friend.name }</h4>
+                                            </div>
+                                            <div className="sidebar-chat-details-preview">
+                                                <p>{ friend.preview }</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="sidebar-chat-details">
-                                        <div className="sidebar-chat-details-name">
-                                            <h4>{ friend.name }</h4>
+                                        <div className="sidebar-chat-timestamp">
+                                            <span>{ friend.timestamp }</span>
                                         </div>
-                                        <div className="sidebar-chat-details-preview">
-                                            <p>{ friend.preview }</p>
-                                        </div>
-                                    </div>
-                                    <div className="sidebar-chat-timestamp">
-                                        <span>{ friend.timestamp }</span>
                                     </div>
                                 </div>
-                            </div>
-                        })}
+                            })}
+                        </div>
+                        <div className='peopleDiv' >
+                            <p>People</p>
+                            { this.state.friends.map((friend, k) => {
+                                return <div className="sidebar-item" key={k}>
+                                    <div className="sidebar-chat">
+                                        <div className="sidebar-chat-img">
+                                            <div className="sidebar-chat-avatar">
+                                                <img src={ friend.avatar } alt="Sidebar Chat Image"/>
+                                            </div>
+                                            <div className="sidebar-chat-status">
+                                            </div>
+                                        </div>
+                                        <div className="sidebar-chat-details">
+                                            <div className="sidebar-chat-details-name">
+                                                <h4>{ friend.name }</h4>
+                                            </div>
+                                            <div className="sidebar-chat-details-preview">
+                                                <p>{ friend.preview }</p>
+                                            </div>
+                                        </div>
+                                        <div className="sidebar-chat-timestamp">
+                                            <span>{ friend.timestamp }</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            })}
+                        </div>
+                        <div className='fileDiv' >
+                            <p>Files</p>
+                            { this.state.friends.map((friend, k) => {
+                                return <div className="sidebar-item" key={k}>
+                                    <div className="sidebar-chat">
+                                        <div className="sidebar-chat-img">
+                                            <div className="sidebar-chat-avatar">
+                                                <img src={ friend.avatar } alt="Sidebar Chat Image"/>
+                                            </div>
+                                            <div className="sidebar-chat-status">
+                                            </div>
+                                        </div>
+                                        <div className="sidebar-chat-details">
+                                            <div className="sidebar-chat-details-name">
+                                                <h4>{ friend.name }</h4>
+                                            </div>
+                                            <div className="sidebar-chat-details-preview">
+                                                <p>{ friend.preview }</p>
+                                            </div>
+                                        </div>
+                                        <div className="sidebar-chat-timestamp">
+                                            <span>{ friend.timestamp }</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            })}
+                        </div>
+
                     </div>
                 </div>
             </div>
