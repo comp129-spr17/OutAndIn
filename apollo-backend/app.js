@@ -61,7 +61,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser("super-secret"));
 // Cross origin request sharing
 app.use(require('./server/middleware/cors'));
-//app.use(require('./server/middleware/auth'));
+app.use(require('./server/middleware/auth'));
 /**
  * Route Handlers
  */
