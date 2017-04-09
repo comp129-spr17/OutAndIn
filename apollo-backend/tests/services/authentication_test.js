@@ -1,13 +1,11 @@
 var authService = require('../../services/authentication');
+var crypto = require('crypto');
 
 describe("[Authentication]", function(){
 	describe("generateSessionToken", function(){
 		it("Should generate a session token", function(){
 			var sessionToken = authService.generateSessionToken();
 			expect(sessionToken).to.be.a("string");
-			expect(sessionToken).to.have.lengthOf(64);
-			var re = /[0-9A-Fa-f]{6}/g;
-			expect(sessionToken).to.satisfy(function(hexString){ return re.test(hexString) });
 		});
 	});
 
@@ -29,8 +27,8 @@ describe("[Authentication]", function(){
 
 	describe("comparePasswordAndHash", function(){
 		it("Should verify plain text password and bcrypt hash match", function(){
-			var password = "test";
-			var hashedPassword = "$2a$10$XYlUdUbuwfJ7HoyX1eCoq.0/pzrhFkpcExusg0u9E9m6ihoy.4pdS";
+			var password = "testing";
+			var hashedPassword = "$2a$10$lavCtshJchizn901ftF5s.1hfAZaarEbuRQUUXfBYccSinxqjjTpm";
 			var result = authService.comparePasswordAndHash(password, hashedPassword);
 			expect(result).to.be.true;
 		});
