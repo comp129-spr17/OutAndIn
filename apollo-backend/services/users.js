@@ -20,6 +20,17 @@ exports.getUserByUsername = function(username){
 };
 
 /**
+ * GetUserByUsername
+ * @description: Get the full user info by the username
+ * @param: {string} username - Username of the user
+ * @return: {promise} promise - SQL promise
+ */
+exports.getFullUserByUsername = function(username){
+    var sql = "SELECT * FROM users WHERE username = ?";
+    return db.pool.query(sql, [username]);
+};
+
+/**
  * GetUserByEmail
  * @description: Get the user by the email
  * @param: {string} email - Email of the user
