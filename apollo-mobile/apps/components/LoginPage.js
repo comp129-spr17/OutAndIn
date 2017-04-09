@@ -24,7 +24,7 @@ export default class LoginPage extends Component
             <Text style = {styles.textLabel}> Username </Text>
             <TextInput style = {styles.textInput}/>
             <Text style = {styles.textLabel}> Password </Text>
-            <TextInput style = {styles.textInput} secureTextEntry = 'true'/>
+            <TextInput style = {styles.textInput} secureTextEntry = {true}/>
 
             <TouchableOpacity onPress = {() => navigate('chatList')} style = {{paddingTop: 30}}>
               <View style = {styles.button}>

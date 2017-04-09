@@ -28,7 +28,7 @@ export default class RegisterPage extends Component
             <Text style = {styles.textLabel}> Username </Text>
             <TextInput style = {styles.textInput}/>
             <Text style = {styles.textLabel}> Password </Text>
-            <TextInput style = {styles.textInput} secureTextEntry = 'true'/>
+            <TextInput style = {styles.textInput} secureTextEntry = {true}/>
             <CheckBox label = 'I agree to the terms and conditions of this service'
                       checkboxStyle={{width:15, height: 15}}
                       labelStyle = {{fontSize: 11}}/>
