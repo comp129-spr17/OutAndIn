@@ -8,6 +8,7 @@ import HomePage from './apps/components/HomePage'
 import ChatList from './apps/components/ChatList'
 import MainScreenNavigator from './apps/components/ChatList'
 import LoginPage from './apps/components/LoginPage'
+import RegisterPage from './apps/components/RegisterPage'
 
 //class Apollo extends Component {
   //static navigationOptions = {
@@ -22,9 +23,10 @@ import LoginPage from './apps/components/LoginPage'
 //  }
 //}
 const Apollo = StackNavigator({
-  //Greeting: { screen: HomePage },
-  //Login: {screen: LoginPage},
-  mainChat: {screen: MainComponent},
+  Greeting: { screen: HomePage },
+  Login: {screen: LoginPage},
+  Register: {screen: RegisterPage},
+  //mainChat: {screen: MainComponent},
   //chatList: {screen: MainScreenNavigator}
 });
 
