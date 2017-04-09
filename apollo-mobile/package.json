@@ -12,6 +12,7 @@
     "babel-preset-react-native-stage-0": "^1.0.1",
     "react": "15.4.2",
     "react-native": "0.41.2",
+    "react-native-checkbox": "^1.1.0",
     "react-native-vector-icons": "^4.0.0",
     "react-navigation": "^1.0.0-beta.7"
   },

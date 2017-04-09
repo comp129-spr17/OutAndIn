@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, AppRegistry, Text, ListView, TextInput, Image, Navigator, TouchableOpacity, View, ScrollView } from 'react-native';
 import{ StackNavigator } from 'react-navigation'
-
+import CheckBox from 'react-native-checkbox'
 
 export default class RegisterPage extends Component
 {
@@ -29,7 +29,9 @@ export default class RegisterPage extends Component
             <TextInput style = {styles.textInput}/>
             <Text style = {styles.textLabel}> Password </Text>
             <TextInput style = {styles.textInput} secureTextEntry = 'true'/>
-
+            <CheckBox label = 'I agree to the terms and conditions of this service'
+                      checkboxStyle={{width:15, height: 15}}
+                      labelStyle = {{fontSize: 11}}/>
             <TouchableOpacity onPress = {() => navigate('chatList')} style = {{paddingTop: 30}}>
               <View style = {styles.button}>
                 <Text style = {{color: 'white', fontSize: 16}}> Log In </Text>
