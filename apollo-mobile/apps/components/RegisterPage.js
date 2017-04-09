@@ -21,6 +21,10 @@ export default class RegisterPage extends Component
         <View style = {styles.container}>
           <Image source={require('../../Img/logo.png')}/>
           <View style = {styles.box}>
+            <Text style = {styles.textLabel}> Email </Text>
+            <TextInput style = {styles.textInput}/>
+            <Text style = {styles.textLabel}> Full Name </Text>
+            <TextInput style = {styles.textInput}/>
             <Text style = {styles.textLabel}> Username </Text>
             <TextInput style = {styles.textInput}/>
             <Text style = {styles.textLabel}> Password </Text>
