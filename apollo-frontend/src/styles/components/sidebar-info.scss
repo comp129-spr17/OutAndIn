@@ -13,6 +13,7 @@
 	width: 300px;
 	position: relative;
 	height: 100px;
+	border-bottom: 1px solid $border;
 
 }
 
@@ -20,7 +21,7 @@
 	width: 300px;
 	position: relative;
 	height: 200px;
-	border-top: 1px solid $border;
+	border-bottom: 1px solid $border;
 
 }
 
@@ -28,5 +29,4 @@
 	width: 300px;
 	position: relative;
 	height: 300px;
-	border-top: 1px solid $border;
 }

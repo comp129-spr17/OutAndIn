@@ -6,15 +6,15 @@ export default class SidebarInfo extends Component {
             <div className="sidebar-info-main">
 
                 <div className="sidebar-info-people">
-                PEOPLE
+                People
                 </div>
 
                 <div className="sidebar-info-files">
-                FILES
+                Files
                 </div>
 
                 <div className="sidebar-info-recent">
-                RECENT FILES & IMAGES
+                Recent Images & Video
                 </div>
 
             </div>
