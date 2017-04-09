@@ -3,12 +3,12 @@
 import React, { Component } from 'react';
 import { StyleSheet, AppRegistry, Text, ListView, TextInput, Image, Navigator, TouchableOpacity, View, ScrollView } from 'react-native';
 import{ StackNavigator } from 'react-navigation'
+import CheckBox from 'react-native-checkbox'
 
-
-export default class LoginPage extends Component
+export default class RegisterPage extends Component
 {
   static navigationOptions = {
-    //title: 'LoginPage',
+    //title: 'RegisterPage',
     header: {
       visible: true
     }
@@ -21,11 +21,17 @@ export default class LoginPage extends Component
         <View style = {styles.container}>
           <Image source={require('../../Img/logo.png')}/>
           <View style = {styles.box}>
+            <Text style = {styles.textLabel}> Email </Text>
+            <TextInput style = {styles.textInput}/>
+            <Text style = {styles.textLabel}> Full Name </Text>
+            <TextInput style = {styles.textInput}/>
             <Text style = {styles.textLabel}> Username </Text>
             <TextInput style = {styles.textInput}/>
             <Text style = {styles.textLabel}> Password </Text>
             <TextInput style = {styles.textInput} secureTextEntry = {true}/>
-
+            <CheckBox label = 'I agree to the terms and conditions of this service'
+                      checkboxStyle={{width:15, height: 15}}
+                      labelStyle = {{fontSize: 11}}/>
             <TouchableOpacity onPress = {() => navigate('chatList')} style = {{paddingTop: 30}}>
               <View style = {styles.button}>
                 <Text style = {{color: 'white', fontSize: 16}}> Log In </Text>
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
   box:
   {
       //flex: 3,
-      height: 298,
+      height: 479,
       width: 345,
       backgroundColor: 'white',
       borderRadius: 10,

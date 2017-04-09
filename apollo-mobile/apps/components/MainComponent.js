@@ -43,6 +43,7 @@ class MainComponent extends Component
                       //multiline={true}
                       onSubmitEditing={() => {this.emitMessage()}}
                       placeholder={'Type your message'}
+                      enablesReturnKeyAutomatically = {true}
             />
           </View>
           <View style = {styles.containerInput}>
@@ -93,12 +94,14 @@ const styles  = StyleSheet.create({
     //marginTop: 20,
     flex: 1,
     flexDirection: 'column',
+    //alignItems: 'flex-end'
   },
   listMessage:
   {
     flex: 13,
     paddingLeft: 5,
     paddingRight:5,
+
   },
   message:
   {

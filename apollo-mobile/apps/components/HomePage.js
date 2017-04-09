@@ -29,7 +29,7 @@ export default class HomePage extends Component
           </View>
 
           <View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress ={() => navigate('Register')}>
               <Text style = {styles.textLabel}>Register</Text>
             </TouchableOpacity>
             <TextInput style = {styles.textInput}/>

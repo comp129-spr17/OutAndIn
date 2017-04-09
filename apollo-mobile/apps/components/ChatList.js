@@ -3,21 +3,37 @@
 import React, { Component } from 'react';
 import { StyleSheet, AppRegistry, Text, ListView, TextInput, Image, Navigator, TouchableOpacity, View, ScrollView } from 'react-native';
 import{ StackNavigator, TabNavigator } from 'react-navigation'
-
+import Icon from 'react-native-vector-icons/FontAwesome'
+import Tabs from 'react-native-tabs';
 
 export default class ChatList extends Component
 {
   static navigationOptions = {
-    //title: 'LoginPage',
-    header: {
-      visible: false,
-    }
+    tabBar: {
+      label: 'Home',
+      // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+      icon: ({ tintColor }) => (
+        <Icon name = "paperclip" size = {20} style = {styles.icons} />
+      ),
+    },
+  }
+
+  constructor(props){
+    super(props);
+    this.state = {page:'home'};
   }
 
   render(){
     const {navigate} = this.props.navigation;
     return(
       <View style = {styles.container}>
+      /*<Tabs selected={this.state.page} style={{backgroundColor:'white'}}
+            selectedStyle={{color:'#848484'}} onSelect={el=>this.setState({page:el.props.name})}>
+          <Text name="ChatList">Home</Text>
+          <Text name="SearchScreen">Search</Text>
+          <Text name="FriendsScreen">Friends</Text>
+          <Text name="ProfileScreen">Profile</Text>
+      </Tabs>*/
         <View style={styles.headerBar}>
           <Image source={require('../../Img/logo.png')} style={styles.logoPic}/>
           <Text style = {styles.textLabel}> Apollo </Text>
@@ -102,18 +118,48 @@ const styles = StyleSheet.create({
 //tab navigation stuff... i dont think this is how to do it?? confused
 
 class SearchScreen extends React.Component {
+  static navigationOptions = {
+    tabBar: {
+      label: 'Home',
+      // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+      icon: ({ tintColor }) => (
+        <Icon name = "paperclip" size = {20} style = {styles.icons} />
+      ),
+    },
+  }
+
   render() {
     return <Text>Search stuff</Text>
   }
 }
 
 class FriendsScreen extends React.Component {
+  static navigationOptions = {
+    tabBar: {
+      label: 'Home',
+      // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+      icon: ({ tintColor }) => (
+        <Icon name = "paperclip" size = {20} style = {styles.icons} />
+      ),
+    },
+  }
+
   render() {
     return <Text>list of all my friendss</Text>
   }
 }
 
 class ProfileScreen extends React.Component {
+  static navigationOptions = {
+    tabBar: {
+      label: 'Home',
+      // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+      icon: ({ tintColor }) => (
+        <Icon name = "paperclip" size = {20} style = {styles.icons} />
+      ),
+    },
+  }
+
   render() {
     return <Text>My profileee</Text>
   }
