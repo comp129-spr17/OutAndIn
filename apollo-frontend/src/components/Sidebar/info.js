@@ -32,6 +32,31 @@ export default class SidebarInfo extends Component {
                 className="sidebar-info-fileicon"
                 name='file-video-o'
                 size='2x'/>
+
+                <FontAwesome
+                className="sidebar-info-fileicon"
+                name='file-text-o'
+                size='2x'/>
+
+                <FontAwesome
+                className="sidebar-info-fileicon"
+                name='file-video-o'
+                size='2x'/>
+
+                <FontAwesome
+                className="sidebar-info-fileicon"
+                name= 'file-audio-o'
+                size='2x'/>
+
+                <FontAwesome
+                className="sidebar-info-fileicon"
+                name='file-text-o'
+                size='2x'/>
+
+                <FontAwesome
+                className="sidebar-info-fileicon"
+                name='file-text-o'
+                size='2x'/>
                 </div>
 
                 <div className="sidebar-info-recent">
