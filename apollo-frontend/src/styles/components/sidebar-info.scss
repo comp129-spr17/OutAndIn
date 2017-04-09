@@ -13,7 +13,6 @@
 	position: relative;
 	height: 100px;
 	border-bottom: 1px solid $border;
-	overflow-y: auto;
 	padding-left: 15px;
 	padding-top: 10px;
 
@@ -24,7 +23,6 @@
 	position: relative;
 	height: 200px;
 	border-bottom: 1px solid $border;
-	overflow-y: auto;
 	padding-top: 10px;
 	padding-left: 15px;
 
@@ -34,7 +32,6 @@
 	width: 300px;
 	position: relative;
 	height: 300px;
-	overflow-y: auto;
 	padding-top: 10px;
 	padding-left: 15px;
 }
@@ -46,6 +43,26 @@
 	padding-right: 15px;
 }
 
-.sidebar-info-fileicon {
-	
+.sidebar-info-inner{
+	width: 250px;
+	position: relative;
+	height: 100px;
+	padding-top: 15px;
+	/*border-top: 1px solid $border; << This is just so I can see where the div begins*/
+	overflow-y: auto;
+}
+
+.sidebar-info-fileiconaudio {
+	position: absolute;
+	vertical-align: left;
+}
+
+.sidebar-info-fileiconvideo {
+	position: absolute;
+	vertical-align: left;
+}
+
+.sidebar-info-fileicontext {
+	position: absolute;
+	vertical-align: left;
 }

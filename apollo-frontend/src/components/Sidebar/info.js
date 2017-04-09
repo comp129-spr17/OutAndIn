@@ -13,6 +13,10 @@ export default class SidebarInfo extends Component {
                 className="sidebar-info-addbutton"
                 name='plus-circle'
                 size='2x'/>
+
+                <div className="sidebar-info-inner">
+
+                </div>
                 </div>
 
                 <div className="sidebar-info-files">
@@ -23,40 +27,23 @@ export default class SidebarInfo extends Component {
                 name='plus-circle'
                 size='2x'/>
 
+                <div className="sidebar-info-inner">
+
                 <FontAwesome
-                className="sidebar-info-fileicon"
+                className="sidebar-info-fileiconaudio"
                 name= 'file-audio-o'
                 size='2x'/>
 
                 <FontAwesome
-                className="sidebar-info-fileicon"
+                className="sidebar-info-fileiconvideo"
                 name='file-video-o'
                 size='2x'/>
 
                 <FontAwesome
-                className="sidebar-info-fileicon"
+                className="sidebar-info-fileicontext"
                 name='file-text-o'
                 size='2x'/>
-
-                <FontAwesome
-                className="sidebar-info-fileicon"
-                name='file-video-o'
-                size='2x'/>
-
-                <FontAwesome
-                className="sidebar-info-fileicon"
-                name= 'file-audio-o'
-                size='2x'/>
-
-                <FontAwesome
-                className="sidebar-info-fileicon"
-                name='file-text-o'
-                size='2x'/>
-
-                <FontAwesome
-                className="sidebar-info-fileicon"
-                name='file-text-o'
-                size='2x'/>
+                </div>
                 </div>
 
                 <div className="sidebar-info-recent">
@@ -66,6 +53,10 @@ export default class SidebarInfo extends Component {
                 className="sidebar-info-addbutton"
                 name='plus-circle'
                 size='2x'/>
+
+                <div className="sidebar-info-inner">
+                
+                </div>
                 </div>
 
             </div>
