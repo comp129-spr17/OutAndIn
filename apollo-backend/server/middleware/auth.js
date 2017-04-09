@@ -1,50 +1,66 @@
-var ResponsePayload = require('../../controllers/controller');
+var responseObject = require('../../controllers/controller').responseObject;
 var sessionService = require('../../services/sessions');
-var util = require('util');
-module.exports = function(req, res, next) {
-	if(req.path == '/api/v1/register' || req.path == '/api/v1/session' || req.method == 'OPTIONS'){
+var jwt = require('jsonwebtoken');
+
+module.exports = function(req, res, next){
+	// Ignore these paths
+	if(req.path == "/api/v1/session" || req.path == "/api/v1/register"){
 		next();
 		return;
 	}
-	// Check if session cookie is present and is signed
-	if(!req.signedCookies["sid"]){
-		var response = new ResponsePayload();
-		response.setStatus(401);
-		response.setCount(1);
-		response.setType("authorization");
-		response.pushResult({
-			"code": "InsufficientPermissions",
-			"message": "User is not authenticated",
-			"objectName": "authentication"
-		});
-		return res.status(401).json(response.getResponse());
+	// Get token from Authorization header
+	var token = req.headers["authorization"];
+    if (!token){
+		// Token does not exist. User must login or register
+		// Error
+		var error = {
+			"code": 1000,
+			"message": "User is not authenticated"
+		};
+		var response = new responseObject();
+		response.setSuccess(false);
+		response.setErrors(error);
+		return res.status(401).json(response.toJSON());
 	}
-	var sessionToken = req.signedCookies["sid"];
-	sessionService.getUserIDBySessionToken(sessionToken).then((user_id) => {
-		if(user_id.length == 0){
-			var response = new ResponsePayload();
-			response.setStatus(401);
-			response.setCount(1);
-			response.setType("authorization");
-			response.pushResult({
-				"code": "InsufficientPermissions",
-				"message": "User is not authenticated",
-				"objectName": "authentication"
-			});
-			return res.status(401).json(response.getResponse());
+    // Parse token
+    token = token.replace('Bearer ', '');
+    // Verify the token
+	jwt.verify(token, "super-secret", function(err, user){
+		if(err){
+			// Error
+			var error = {
+				"code": 1000,
+				"message": "Token is invalid"
+			};
+			var response = new responseObject();
+			response.setSuccess(false);
+			response.setErrors(error);
+			return res.status(401).json(response.toJSON());
 		}
-		req.user = user_id[0]["user_id"];
-		next();
-	}).catch((err) => {
-		var response = new ResponsePayload();
-		response.setStatus("error");
-		response.setCount(1);
-		response.setType("error");
-		response.pushResult({
-			"code": "SystemError",
-			"message": "Authentication failed",
-			"objectName": "authentication"
-		});
-		return res.status(500).json(response.getResponse());
-	});		
+		var sessionToken = user["sid"];  
+		sessionService.getSessionToken(sessionToken).then((user_id) => {
+			if(user_id.length == 0){
+				// Error
+				var error = {
+					"code": 1000,
+					"message": "User is not authenticated"
+				};
+				var response = new responseObject();
+				response.setSuccess(false);
+				response.setErrors(error);
+				return res.status(401).json(response.toJSON());
+			}
+			req.user = user["uid"];
+			next();
+		}).catch((err) => {
+			var error = {
+				"code": 1000,
+				"message": "Authentication failed"
+			};
+			var response = new responseObject();
+			response.setSuccess(false);
+			response.setErrors(error);
+			res.status(500).json(response.toJSON());
+		});	
+    });
 };
