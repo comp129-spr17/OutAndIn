@@ -13,7 +13,7 @@
 	position: relative;
 	height: 100px;
 	border-bottom: 1px solid $border;
-	overflow-y: scroll;
+	overflow-y: auto;
 	padding-left: 15px;
 	padding-top: 10px;
 
@@ -24,7 +24,7 @@
 	position: relative;
 	height: 200px;
 	border-bottom: 1px solid $border;
-	overflow-y: scroll;
+	overflow-y: auto;
 	padding-top: 10px;
 	padding-left: 15px;
 
@@ -34,7 +34,7 @@
 	width: 300px;
 	position: relative;
 	height: 300px;
-	overflow-y: scroll;
+	overflow-y: auto;
 	padding-top: 10px;
 	padding-left: 15px;
 }
