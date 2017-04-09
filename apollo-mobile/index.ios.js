@@ -23,11 +23,11 @@ import RegisterPage from './apps/components/RegisterPage'
 //  }
 //}
 const Apollo = StackNavigator({
-  Greeting: { screen: HomePage },
-  Login: {screen: LoginPage},
-  Register: {screen: RegisterPage},
+  //Greeting: { screen: HomePage },
+  //Login: {screen: LoginPage},
+  //Register: {screen: RegisterPage},
   //mainChat: {screen: MainComponent},
-  //chatList: {screen: MainScreenNavigator}
+  chatList: {screen: ChatList}
 });
 
 var styles = StyleSheet.create({
