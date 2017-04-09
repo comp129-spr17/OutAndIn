@@ -10,18 +10,23 @@
 }
 
 .sidebar-info-people {
+	width: 300px;
 	position: relative;
 	height: 100px;
 
 }
 
 .sidebar-info-files {
+	width: 300px;
 	position: relative;
 	height: 200px;
+	border-top: 1px solid $border;
 
 }
 
 .sidebar-info-recent {
+	width: 300px;
 	position: relative;
 	height: 300px;
+	border-top: 1px solid $border;
 }
