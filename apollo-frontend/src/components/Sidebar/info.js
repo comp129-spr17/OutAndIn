@@ -10,15 +10,24 @@ export default class SidebarInfo extends Component {
                 People
                 <FontAwesome
                 className="sidebar-info-addbutton"
-                name='plus-circle' />
+                name='plus-circle'
+                size='2x'/>
                 </div>
 
                 <div className="sidebar-info-files">
                 Files
+                <FontAwesome
+                className="sidebar-info-addbutton"
+                name='plus-circle'
+                size='2x'/>
                 </div>
 
                 <div className="sidebar-info-recent">
                 Recent Images & Video
+                <FontAwesome
+                className="sidebar-info-addbutton"
+                name='plus-circle'
+                size='2x'/>
                 </div>
 
             </div>
