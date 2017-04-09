@@ -24,8 +24,11 @@ DROP TABLE IF EXISTS `chats`;
 CREATE TABLE `chats` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `uuid` varchar(36) NOT NULL DEFAULT '',
+  `creator_id` varchar(36) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
   `avatar` longtext NOT NULL,
+  `created_at` bigint(20) NOT NULL,
+  `updated_at` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -40,6 +43,8 @@ CREATE TABLE `chat_status` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `chat_id` varchar(36) NOT NULL,
   `state` int(11) NOT NULL,
+  `created_at` bigint(20) NOT NULL,
+  `updated_at` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -62,7 +67,7 @@ CREATE TABLE `chat_users` (
 
 DROP TABLE IF EXISTS `files`;
 
-CREATE TABLE `file` (
+CREATE TABLE `files` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `type` int(11) NOT NULL,
   `user_id` varchar(36) NOT NULL,
@@ -164,8 +169,8 @@ CREATE TABLE `user_sessions` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` varchar(36) NOT NULL DEFAULT '',
   `token` varchar(255) NOT NULL DEFAULT '',
-  `time_created` bigint(20) NOT NULL,
-  `time_updated` bigint(20) NOT NULL,
+  `created_at` bigint(20) NOT NULL,
+  `updated_at` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
