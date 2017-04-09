@@ -9,10 +9,6 @@ function importTest(name, path){
 }
 
 describe("[===Apollo Backend API Test Cases===]", function(){
-    // Testing REST API Routes
-	//importTest("REST API", "./api/index.js");
 	importTest("[===SERVICES===]", "./services/index.js");
 	importTest("[===CONTROLLERS===]", "./controllers/index.js");
-    // Testing Service functions directly
-    //importTest("Services", "./api/index.js");
 });
