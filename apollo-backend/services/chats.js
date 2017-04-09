@@ -20,39 +20,44 @@ exports.generateChatID = function(){
 };
 
 //create entry
-exports.createChat = function(chatID){
-    var sql = "INSERT INTO chats VALUES('', ?, '', '')";
-    return db.pool.query(sql, [chatID]);
+exports.createChat = function(chatID, userID){
+    var sql = "INSERT INTO chats VALUES('', ?, ?, '', '', '', '')";
+    return db.pool.query(sql, [chatID, userID]);
 };
 
 //create entry
-exports.chatsAddUserToChat = function(chatID, userID){
+exports.addUserToChat = function(chatID, userID){
 	var sql = "INSERT INTO chat_users VALUES('', ?, ?)";
 	return db.pool.query(sql, [chatID, userID]);
 };
 
 //get entry by id
-exports.chatsGetChatByID = function(uuid){
+exports.getChatByUUID = function(uuid){
 	var sql = "SELECT * FROM chats WHERE uuid = ?";
 	return db.pool.query(sql, [uuid]);
 };
 
+exports.getChatStatus = function(chatID){
+	var sql = "SELECT * FROM chat_status WHERE chat_id = ?";
+	return db.pool.query(sql, [chatID]);
+};
+
 //get entry by id, use to check if user is in chat
-exports.chatsGetChatUser = function(chatID, userID){
+exports.getUserFromChat = function(chatID, userID){
 	var sql = "SELECT * FROM chat_users WHERE chat_id = ? AND user_id = ?";
 	return db.pool.query(sql, [chatID, userID]);
 };
 
 //get users by chat id
-exports.chatsGetUsersForChat = function(ChatID){
+exports.chatsGetUsersForChat = function(chatID){
 	var sql = 'SELECT * FROM chat_users WHERE chat_id = ?';
 	return db.pool.query(sql, [ChatID]);
 };
 
 //get chat ids by user
-exports.chatsGetChatsForUser = function(UserID){
-	var sql = 'SELECT chat_id FROM chat_users WHERE user_id = ?';
-	return db.pool.query(sql, [UserID]);
+exports.getChatsForUser = function(userID){
+	var sql = "SELECT chats.uuid, chats.name, chats.avatar, chats.creator_id, chat_status.state, chats.created_at, chats.updated_at FROM chats, chat_users, chat_status WHERE chat_users.user_id = ? and chat_users.chat_id = chats.uuid and chat_status.chat_id = chat_users.chat_id"
+	return db.pool.query(sql, [userID]);
 };
 
 //add message for chat
@@ -66,4 +71,9 @@ exports.chatsGetMessagesForChat = function(ChatID){
 	console.log("CHATID: " + ChatID);
 	var sql = "SELECT * FROM messages WHERE chat_id = ?";
 	return db.pool.query(sql, [ChatID]);
+};
+
+exports.getUsersFromChat = function(chatID){
+	var sql = "SELECT users.uuid, users.username FROM users, chat_users WHERE chat_users.chat_id = ? AND chat_users.user_id = users.uuid";
+	return db.pool.query(sql, [chatID]);
 };
