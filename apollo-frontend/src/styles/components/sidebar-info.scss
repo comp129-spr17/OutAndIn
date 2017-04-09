@@ -36,5 +36,8 @@
 
 .sidebar-info-addbutton {
 	color: #196A96;
-	position: absolute;
+	position: static;
+	float: right;
+	padding-right: 10px;
+	padding-top: 10px;
 }
