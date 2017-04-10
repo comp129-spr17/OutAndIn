@@ -171,8 +171,19 @@ export default class UserSearch extends Component {
         this.newUsersConnected = this.newUsersConnected.bind(this);
         this.searchFriend = this.searchFriend.bind(this);
 		this.toggleNewMessageModal = this.toggleNewMessageModal.bind(this);
-        //client.socketRegisterEvent("usersConnected", this.newUsersConnected);
-    }
+		//client.socketRegisterEvent("usersConnected", this.newUsersConnected);
+		
+		// Close New Message Modal if you click off the modal
+		var self = this;
+		document.getElementById('apollo').onclick = function(e) {
+			if(e.target != document.getElementById('new-message-modal')) {
+				if(self.state.newMessageModalState == 1){
+					document.getElementById('new-message-modal').style.display = 'none';
+					self.setState({newMessageModalState: 0});
+				} 
+			}
+		}	
+	}
 
    searchFriend(event){
         var currVal = $('#input_friend').val(); 
@@ -212,12 +223,10 @@ export default class UserSearch extends Component {
 	toggleNewMessageModal(e){
 		e.preventDefault();
 		if(this.state.newMessageModalState == 0){
-			document.getElementById("new-message-modal-overlay").style.display = "block";
-			document.getElementById("new-message-modal-container").style.display = "block";
+			document.getElementById("new-message-modal").style.display = "block";
 			this.setState({newMessageModalState: 1});
 		} else {
-			document.getElementById("new-message-modal-overlay").style.display = "none";
-			document.getElementById("new-message-modal-container").style.display = "none";
+			document.getElementById("new-message-modal").style.display = "none";
 			this.setState({newMessageModalState: 0});
 		}
 	}
