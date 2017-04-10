@@ -56,7 +56,7 @@ describe("[Users]", function(){
 	describe("getAllUsers", function(){
 		it("Should return a collection of users", function(){
 			return usersService.getAllUsers().then((users) => {
-				expect(users.length).to.be.above(1);
+				expect(users.length).to.be.above(0);
 				expect(users[0]).to.have.all.keys("uuid", "email", "fullname", "username", "avatar");
 			}).catch((err) => {
 				throw new Error(err);	
