@@ -1,6 +1,7 @@
+'use strict';
 /**
  *  Apollo
- *  @description: Chats route handlers
+ *  @description: Users route handlers
  *  @author: Out-N-In Team
  *  @license: MIT
  */
@@ -10,7 +11,9 @@ var router = express.Router();
 var chatsService = require('../services/chats');
 var usersService = require('../services/users');
 var responseObject = require('./controller').responseObject;
+var uuid = require('uuid/v4');
 var Promise = require('bluebird');
+
 // Routes permitted per route
 var _OPTIONS = {
 	"/": {
@@ -69,6 +72,17 @@ function init(){
 router.get('/', function(req, res){
 	var userID = req.user;
 	chatsService.getChatsForUser(userID).then((chats) => {
+		if(chats.length == 0){
+			var error = {
+				"code": 1000,
+				"message": "User is not a part of any chats"
+			};
+			let response = new responseObject();
+			response.setSuccess(false);
+			response.setErrors(error);
+			res.status(401).json(response.toJSON());
+			return false;
+		}
 		var promises = [];
 		for(var chat in chats){
 			var chatID = chats[chat]["uuid"];
@@ -80,6 +94,9 @@ router.get('/', function(req, res){
 		promises.push(returnChats);
 		return Promise.all(promises);
 	}).then((results) => {
+		if(results == false){
+			return false;
+		}
 		// Store the chats from previous promise
 		var chats = results[results.length-1];
 		// Remove the chats from the users results
@@ -89,8 +106,8 @@ router.get('/', function(req, res){
 			chats[i]["users"] = [];
 			chats[i]["users"].push(results[i]);
 		}
-		let response = responseObject();
-		response.setSuccess(200);
+		let response = new responseObject();
+		response.setSuccess(true);
 		response.setResults(chats);
 		res.status(200).json(response.toJSON());
 	}).catch((err) => {
@@ -112,15 +129,75 @@ router.get('/', function(req, res){
  * @return: {string} chatID - UUID of the chat
  */
 router.post('/', function(req, res){
-	var userID = "1234";
+	var userID = req.user;
+	var chatID = uuid();
 	var friendID = req.body.friendID;
-	var chatID = chatsService.generateChatID();
-	chatsService.createChat(chatID, userID, friendID).then((chat) => {
+	// TODO:(mcervco) check to make sure the friendID is passed in and validate it
+	// Also check to make sure they are friends in the first place
+	// Check if chat already exists between the two users
+	Promise.all([
+		chatsService.getLimitedChatsForUser(userID),
+		chatsService.getLimitedChatsForUser(friendID)
+	]).then((chats) => {
+		// Check for undefined inputs <<<<<<<<<
+		var userChats = chats[0];
+		var friendChats = chats[1];
+		var chatExists = false;
+		for(var uchat in userChats){
+			for(var	fchat in friendChats){
+				// Need to add check to make sure the chat isnt a group chat
+				if(userChats[uchat]["uuid"] == friendChats[fchat]["uuid"]){
+					chatExists = true;
+				}
+			}
+		}
+		// Chat already exists
+		if(chatExists){
+			// Error
+			var error = {
+				"code": 1000,
+				"message": "Chat already exists between the users"
+			};
+			let response = new responseObject();
+			response.setSuccess(false);
+			response.setErrors(error);
+			res.status(401).json(response.toJSON());
+			return false;
+		}
+		// Create the chat
+		return chatsService.createChat(userID, chatID);
+	}).then((chat) => {
+		if(chat == false){
+			return false;
+		}
+		if(!chat.hasOwnProperty("affectedRows")){
+			// TODO:(mcervco) Handle this error better
+			throw new Error("Was not able to create chat");	
+			return false;
+		}
+		return Promise.all([
+			chatsService.addUserToChat(userID, chatID),
+			chatsService.addUserToChat(friendID, chatID)
+		]);
+	}).then((results) => {
+		if(results == false){
+			return false;
+		}
+		// Couldnt add user to chat
+		if(!results[0].hasOwnProperty("affectedRows") && !results[1].hasOwnProperty("affectedRows")){
+			// TODO:(mcervco) Handle this error better
+			throw new Error("Was not able to create chat");	
+			return false;
+		}
+		return chatsService.setChatStatus(chatID);
+	}).then((results) => {
+		if(results == false){
+			return;
+		}
 		// Create response object
 		let response = new responseObject();
 		// Set attributes
 		response.setSuccess(true);
-		response.setResults(chat);
 		// Send response
 		res.status(200).json(response.toJSON());
 	}).catch((err) => {
@@ -149,28 +226,46 @@ router.get('/:chatID', function(req, res){
 	// TODO:(mcervco) Check whether the user is a part of the chat
 	// Don't want users to just get chat info about any chat
 	var uuid = req.params.chatID;
-	chatsService.getChatByUUID(uuid).then((chat) =>{
-		if(chat.length == 0){
+	var userID = req.user;
+	chatsService.getLimitedChatsForUser(userID).then((chats) => {
+		if(chats.length == 0){
 			// Error
 			var error = {
 				"code": 1000,
-				"message": "Chat does not exist"
+				"message": "User is not a part of this chat"
 			};
-			// Create response object
 			let response = new responseObject();
-			// Set attributes
 			response.setSuccess(false);
 			response.setErrors(error);
-			// Send response
 			res.status(401).json(response.toJSON());
-			return;
+			return false;
 		}
-		// Create response object
+		var chatMember = false;
+		var index = 0;
+		// Check if user if a part of the chat
+		for(var chat in chats){
+			if(uuid == chats[chat]["uuid"]){
+				chatMember = true;
+				index = chat;
+			}
+		}
+		// User is not
+		if(!chatMember){
+			// Error
+			var error = {
+				"code": 1000,
+				"message": "User is not a part of this chat"
+			};
+			let response = new responseObject();
+			response.setSuccess(false);
+			response.setErrors(error);
+			res.status(401).json(response.toJSON());
+			return false;
+
+		}
 		let response = new responseObject();
-		// Set attributes
 		response.setSuccess(true);
-		response.setResults(chat);
-		// Send response
+		response.setResults(chats[index]);
 		res.status(200).json(response.toJSON());
 	}).catch((err) => {
 		// Error
