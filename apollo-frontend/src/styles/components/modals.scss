@@ -1,4 +1,8 @@
-#new-message-modal-overlay {
+#new-message-modal {
+	display: none;
+}
+
+.new-message-modal-overlay {
 	position: absolute;
     top: 0px;
     left: 0px;
@@ -8,10 +12,9 @@
     transition: all 2000ms ease-in-out;
     display: block;
     z-index: 25;
-	display: none;
 }
 
-#new-message-modal-container {
+.new-message-modal-container {
 	width: 300px;
     height: 500px;
     left: 50%;
@@ -22,5 +25,4 @@
     background: white;
     border: 1px solid rgb(239, 239, 239);
     transition: all 2000ms ease-in-out;
-    display: none;
 }
