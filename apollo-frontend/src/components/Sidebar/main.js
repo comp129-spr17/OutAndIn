@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { client } from '../../modules/api-client';
 
 export default class UserSearch extends Component {
@@ -172,20 +173,33 @@ export default class UserSearch extends Component {
         this.searchFriend = this.searchFriend.bind(this);
 		this.toggleNewMessageModal = this.toggleNewMessageModal.bind(this);
 		//client.socketRegisterEvent("usersConnected", this.newUsersConnected);
-		
 		// Close New Message Modal if you click off the modal
-		var self = this;
-		document.getElementById('apollo').onclick = function(e) {
-			if(e.target != document.getElementById('new-message-modal')) {
-				if(self.state.newMessageModalState == 1){
-					document.getElementById('new-message-modal').style.display = 'none';
-					self.setState({newMessageModalState: 0});
-				} 
-			}
-		}	
 	}
 
-   searchFriend(event){
+	componentDidMount(){
+		var self = this;
+		var parent = document.getElementById("new-message-modal-container");
+		document.body.addEventListener("click", function(e) {
+			var target = e.target || e.srcElement;
+			var state = false;
+			var node = target.parentNode;
+			while (node != null) {
+				if(node == parent) {
+					state = true;
+					break;
+				}
+				node = node.parentNode;
+			}	  
+			if(target !== parent && !state) {
+				if(self.state.newMessageModalState == 1){
+					document.getElementById('new-message-modal').style.display = "none";
+					self.setState({newMessageModalState: 0});
+				}
+			}
+		}, false);	
+	}
+
+	searchFriend(event){
         var currVal = $('#input_friend').val(); 
         this.state.friends = [];
         this.state.people=[];
