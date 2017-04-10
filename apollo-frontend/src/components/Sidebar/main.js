@@ -4,7 +4,8 @@ import { client } from '../../modules/api-client';
 export default class UserSearch extends Component {
     constructor() {
         super();
-        this.state = {
+		this.state = {
+			newMessageModalState: 0,
             friends:[],
             allFriends: [{  //new array.static representation of search. hardcoded for now
                 name: 'John Doe',
@@ -169,7 +170,7 @@ export default class UserSearch extends Component {
 
         this.newUsersConnected = this.newUsersConnected.bind(this);
         this.searchFriend = this.searchFriend.bind(this);
-
+		this.toggleNewMessageModal = this.toggleNewMessageModal.bind(this);
         //client.socketRegisterEvent("usersConnected", this.newUsersConnected);
     }
 
@@ -206,7 +207,20 @@ export default class UserSearch extends Component {
         }
         this.forceUpdate();
 
-    }
+	}
+	
+	toggleNewMessageModal(e){
+		e.preventDefault();
+		if(this.state.newMessageModalState == 0){
+			document.getElementById("new-message-modal-overlay").style.display = "block";
+			document.getElementById("new-message-modal-container").style.display = "block";
+			this.setState({newMessageModalState: 1});
+		} else {
+			document.getElementById("new-message-modal-overlay").style.display = "none";
+			document.getElementById("new-message-modal-container").style.display = "none";
+			this.setState({newMessageModalState: 0});
+		}
+	}
 
     newUsersConnected(){
         client.userGetUsers().then((users) => {
@@ -237,7 +251,7 @@ export default class UserSearch extends Component {
                             <input  onKeyUp={this.searchFriend} id="input_friend" type="text" className="form-group" placeholder="Search for ..."/>
                         </div>
                         <div className="sidebar-search-create-msg">
-                            <span><i className="fa fa-pencil-square-o"></i></span>
+                            <span onClick={this.toggleNewMessageModal}><i className="fa fa-pencil-square-o"></i></span>
                         </div>
                     </div>
                     <div className="sidebar-content">
