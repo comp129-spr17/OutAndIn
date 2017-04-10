@@ -25,6 +25,7 @@ CREATE TABLE `chats` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `uuid` varchar(36) NOT NULL DEFAULT '',
   `creator_id` varchar(36) NOT NULL DEFAULT '',
+  `group_chat` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
   `avatar` longtext NOT NULL,
   `created_at` bigint(20) NOT NULL,
