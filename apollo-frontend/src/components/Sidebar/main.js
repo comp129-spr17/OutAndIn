@@ -172,8 +172,32 @@ export default class UserSearch extends Component {
         this.newUsersConnected = this.newUsersConnected.bind(this);
         this.searchFriend = this.searchFriend.bind(this);
 		this.toggleNewMessageModal = this.toggleNewMessageModal.bind(this);
+		this.hasClass = this.hasClass.bind(this);
+		this.addClass = this.addClass.bind(this);
+		this.removeClass = this.removeClass.bind(this);
 		//client.socketRegisterEvent("usersConnected", this.newUsersConnected);
 		// Close New Message Modal if you click off the modal
+	}
+	hasClass(el, className) {
+	  if (el.classList)
+		return el.classList.contains(className)
+	  else
+		return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
+	}
+
+	addClass(el, className) {
+	  if (el.classList)
+		el.classList.add(className)
+	  else if (!hasClass(el, className)) el.className += " " + className
+	}
+
+	removeClass(el, className) {
+	  if (el.classList)
+		el.classList.remove(className)
+	  else if (hasClass(el, className)) {
+		var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
+		el.className=el.className.replace(reg, ' ')
+	  }
 	}
 
 	componentDidMount(){
@@ -192,7 +216,8 @@ export default class UserSearch extends Component {
 			}	  
 			if(target !== parent && !state) {
 				if(self.state.newMessageModalState == 1){
-					document.getElementById('new-message-modal').style.display = "none";
+					var el = document.getElementById('new-message-modal');
+					self.removeClass(el, "active");
 					self.setState({newMessageModalState: 0});
 				}
 			}
@@ -237,10 +262,12 @@ export default class UserSearch extends Component {
 	toggleNewMessageModal(e){
 		e.preventDefault();
 		if(this.state.newMessageModalState == 0){
-			document.getElementById("new-message-modal").style.display = "block";
+			var el = document.getElementById('new-message-modal');
+			this.addClass(el, "active");
 			this.setState({newMessageModalState: 1});
 		} else {
-			document.getElementById("new-message-modal").style.display = "none";
+			var el = document.getElementById('new-message-modal');
+			this.removeClass(el, "active");
 			this.setState({newMessageModalState: 0});
 		}
 	}

@@ -2,6 +2,10 @@
 	display: none;
 }
 
+#new-message-modal.active {
+	display: block;
+}
+
 .new-message-modal-overlay {
 	position: absolute;
     top: 0px;
@@ -9,8 +13,6 @@
     bottom: 0px;
     right: 0px;
     background: rgba(0, 0, 0, 0.14902);
-    transition: all 2000ms ease-in-out;
-    display: block;
     z-index: 25;
 }
 
@@ -19,10 +21,9 @@
     height: 500px;
     left: 50%;
 	top: 50%;
-    z-index: 1000;
+    z-index: 26;
     margin: -250px 0px 0px -150px;
     position: absolute;
     background: white;
     border: 1px solid rgb(239, 239, 239);
-    transition: all 2000ms ease-in-out;
 }
