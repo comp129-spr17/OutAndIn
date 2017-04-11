@@ -20,6 +20,17 @@ exports.getUserByUsername = function(username){
 };
 
 /**
+ * GetUsersByQuery
+ * @description: Get the users where the username matches the keyword
+ * @param: {string} keyword - Keyword of a username
+ * @return: {promise} promise - SQL promise
+ */
+exports.getUsersByQuery = function(keyword){
+	var sql = "SELECT uuid, username, avatar FROM users WHERE username LIKE ?";
+	return db.pool.query(sql, ['%'+keyword+'%']);
+};
+
+/**
  * GetUserByUsername
  * @description: Get the full user info by the username
  * @param: {string} username - Username of the user
