@@ -6,6 +6,7 @@ import App from './pages/App';
 import Layout from './pages/Layout';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 
 // TODO: tmp import, clean up and conver to page later
@@ -22,6 +23,7 @@ export default (
             	<Route path="/" component={Chat} />
 			</Route>
 			<Route path="/login" component={Login} />
+			<Route path="/register" component={Register} />
         </Route>
         <Route path="*" component={NotFound} />
     </Router>
