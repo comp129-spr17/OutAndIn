@@ -1,12 +1,12 @@
 .sidebar-main {
-width: 300px;
-border: 1px solid $border;
-background-color: white;
-position: absolute;
-top: 0;
-bottom: 0;
-left: 0;
-overflow-y: auto;
+	width: 300px;
+	border: 1px solid $border;
+	background-color: white;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	overflow-y: auto;
 }
 
 .sidebar-search {
@@ -60,6 +60,11 @@ overflow-y: auto;
     font-size: 20px;
     color: $primary;
     cursor: pointer;
+	transition: all 200ms ease-in-out;
+}
+
+.sidebar-search-create-msg span i:hover {
+	transform: scale(1.05);
 }
 
 .sidebar-content {
