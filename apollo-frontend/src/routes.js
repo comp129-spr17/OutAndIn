@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 
+
 // TODO: tmp import, clean up and conver to page later
 import Chat from './components/Chat';
 
