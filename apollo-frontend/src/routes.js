@@ -14,7 +14,7 @@ import Profile from './components/Profile';
 import ReduxTest from './containers/user';
 import Registration from './components/Registration';
 import RegistrationTest from './components/RegistrationTest';
-import Pg16Temp from './components/Pg16Temp';
+import ModalStatic from './components/ModalStatic';
 
 export default (
     <Router history={browserHistory} >
@@ -32,7 +32,7 @@ export default (
             <Route path="/landing" component={Landing} />
             <Route path="/register" component={Registration} />
             <Route path="/registerTest" component={RegistrationTest} />
-            <Route path="/pg16temp" component={Pg16Temp} />
+            <Route path="/modalstatic" component={ModalStatic} />
         </Route>
         <Route path="*" component={NotFound} />
     </Router>

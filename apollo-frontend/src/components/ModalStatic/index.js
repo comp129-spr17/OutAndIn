@@ -3,7 +3,7 @@ import { client } from '../../modules/api-client';
 import Modal from 'react-modal';
 
 
-export default class UserSearch extends Component {
+export default class ModalStatic extends Component {
     constructor() {
         super();
         this.state = {
@@ -51,6 +51,7 @@ export default class UserSearch extends Component {
 
         this.newUsersConnected = this.newUsersConnected.bind(this);
         this.searchFriend = this.searchFriend.bind(this);
+        this.state.people=this.state.allPeople;
 
         //client.socketRegisterEvent("usersConnected", this.newUsersConnected);
     }
@@ -67,6 +68,9 @@ export default class UserSearch extends Component {
                 }
             }
 
+        }
+        else{
+            this.state.people=this.state.allPeople;
         }
         this.forceUpdate();
 
@@ -97,15 +101,38 @@ export default class UserSearch extends Component {
                 isOpen={true}
                 contentLabel=''
                   style={
-                        { overlay: {position: 'fixed',
-                            top               : 0,
-                            left              : 0,
-                            right             : 0,
-                            bottom            : 0,
-                            backgroundColor   : 'rgba(255, 255, 255, 0.75)'}, content: {} }}
+                            { 
+                                overlay: {
+                                    position: 'fixed',
+                                    top               : 0,
+                                    left              : 0,
+                                    right             : 0,
+                                    bottom            : 0,
+                                    backgroundColor   : 'rgba(102, 102, 102, 0.74902)',
+
+                                },
+                                content: {
+                                    border: '0',
+                                    borderRadius: '4px',
+                                    bottom: 'auto',
+                                    left: '40%',
+                                    padding: '2rem',
+                                    position: 'fixed',
+                                    right: 'auto',
+                                    top: '20%', 
+                                    width: '300px',
+                                    height:'550px'
+                                  }
+                            }
+                        }
 
                 >
-                <div className="sidebar-main">
+                <div className='modal-header'>
+                    <p className='modal-header-left'> Start a New Message </p>
+                    <p className='modal-header-right'>X </p>
+                </div>
+
+                <div className="modal-main">
                     <div className="sidebar-container">
                         <div className="sidebar-search">
                             <div className="sidebar-search-input">

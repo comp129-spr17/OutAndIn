@@ -183,3 +183,30 @@ overflow-y: scroll;
     width:40px;
     height:40px;
 }
+.modal-main {
+    width: 300px;
+    border: 1px solid $border;
+    background-color: white;
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    overflow-y: scroll;
+}
+
+.modal-header{
+    width: 300px;
+    background-color: #164762;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    clear:both;
+}
+
+.modal-header-left{
+    float:left;
+}
+.modal-header-right{
+    float:right;
+}
