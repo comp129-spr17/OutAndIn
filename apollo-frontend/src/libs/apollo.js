@@ -140,6 +140,9 @@ Apollo.prototype.userGetMe = function(){
 };
 
 //CHATS--------------------------------------------
+Apollo.prototype.chatsGetAll = function(){
+	return this._get('chats', {});
+};
 //{id: #}
 Apollo.prototype.chatGetAllByUser = function(msg){
 	return this._get('chats/byUser/' + msg.id, {});
@@ -182,6 +185,10 @@ Apollo.prototype.sessionRegister = function(data){
 
 Apollo.prototype.sessionLogout = function(){
 	return this._delete('session', {});
+};
+
+Apollo.prototype.search = function(keyword){
+	return this._get('search?q='+keyword, {});
 };
 
 module.exports = Apollo;
