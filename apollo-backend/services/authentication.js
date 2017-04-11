@@ -1,3 +1,4 @@
+'use strict'
 /**
  *  Apollo
  *  @description: Authentication services

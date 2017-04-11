@@ -1,3 +1,4 @@
+'use strict'
 var jwt = require('jsonwebtoken');
 
 describe("[Chats]", function(){

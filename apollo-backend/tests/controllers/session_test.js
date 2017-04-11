@@ -1,3 +1,4 @@
+'use strict'
 describe("[Session]", function(){
 	describe("[router]", function(){
 		describe("POST - ['/']", function(){
