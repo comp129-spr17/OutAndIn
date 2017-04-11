@@ -1,35 +1,51 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+class Login extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			credentials: {
+				username: '',
+				password: ''
+			},
+			inputErrors: {
+				username: "",
+				password: ""
+			}
+		};
+		this.handleUsernameChange = this.handleUsernameChange.bind(this);
+		this.handlePasswordChange = this.handlePasswordChange.bind(this);
+		this.handleLogin = this.handleLogin.bind(this);
+	}
 
 
-export default class Login extends React.Component {
-    constructor() {
-        super();
-        
-        this.state= { 
-	 		username: '',
-	 		password: ''
-        };
-	    this.handleUserNameChange = this.handleUserNameChange.bind(this);
-	    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    }
-    
-     handleUserNameChange(event){
-        this.setState({username: event.target.username}) 
-        this.setState({password: event.target.password})
-    }
-    
-     handlePasswordChange(event){
-        this.setState({password: event.target.password})
-    }
-    
-    handleSignUp(event){  
+	componentWillMount(){
+		console.log("yo");	
+	}
+
+	componentWillReceiveProps(nextProps){
+		if(nextProps.login.isAuthenticated){
+			this.context.router.push("/");
+		}
+	}
+
+	handleUsernameChange(event){
+		this.props.setUsername(event.target.value);
+	}
+
+	handlePasswordChange(event){
+		this.props.setPassword(event.target.value);
+	}
+
+	handleLogin(event){  
 		event.preventDefault();
-    }
-    
-    
-    render() {
+		this.props.loginUser(this.props.login.credentials);
+	}
+
+	render() {
         return (
- <div className="login">
+ 			<div className="login">
                 <div className="login-overlay"></div>
                 <div className="login-container">
                     <div className="login-form-container">
@@ -43,14 +59,15 @@ export default class Login extends React.Component {
                         </div>
                     </div>            
                             <div className="login-actions-container">
-                                <div className="login-actions">
+								<div className="login-actions">
+									<div>{this.props.login.error}</div>
                                     <form className='loginForm'>
                                         <p>Username</p>
-                                        <input autoFocus type="text" value={this.state.username} onChange={this.handleUserNameChange} autoComplete="off"/>
+                                        <input autoFocus type="text" value={this.props.login.credentials.username} onChange={this.handleUsernameChange} autoComplete="off"/>
                                         <p>Password</p>
-                                        <input type="password" value={this.state.password} onChange={this.handlePasswordChange} autoComplete="off"/>
+                                        <input type="password" value={this.props.login.credentials.password} onChange={this.handlePasswordChange} autoComplete="off"/>
                                         <hr></hr>
-                                        <button onClick={this.handleSignUp}>Login</button>
+                                        <button onClick={this.handleLogin}>Login</button>
                                     </form>
                                     <div className="login-actions-forgot-password">
                                         <a href = "">Forgot your password?</a>
@@ -68,3 +85,13 @@ export default class Login extends React.Component {
     }
 
 }
+
+Login.propTypes = {
+	loginUser: PropTypes.func.isRequired
+};
+
+Login.contextTypes = {
+	router: PropTypes.object
+};
+
+export default Login;
