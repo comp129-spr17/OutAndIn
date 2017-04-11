@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'; 
+import { Link } from 'react-router';
 import { client } from '../../modules/api-client';
 
 export default class Landing extends Component {
@@ -23,10 +24,10 @@ export default class Landing extends Component {
                             <div className="landing-actions-container">
                                 <div className="landing-actions">
                                     <div className="landing-actions-button-left">
-                                        <a className="btn btn-md">Register</a>
+										<Link to="/register" className="btn btn-md">Register</Link>
                                     </div>
                                     <div className="landing-actions-button-right">
-                                        <a className="btn btn-md">Log In</a>
+										<Link to="/login" className="btn btn-md">Log In</Link>
                                     </div>
                                     <hr/>
                                     <div className="landing-actions-forgot-password">
