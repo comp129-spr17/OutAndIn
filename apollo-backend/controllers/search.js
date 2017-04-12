@@ -18,7 +18,14 @@ var _OPTIONS = {
 			"GET"
 		],
 		"HASHES": new Set()
+	},
+	"/:q": {
+		"METHODS": [
+			"GET"
+		],
+		"HASHES": new Set()
 	}
+
 };
 
 /**
@@ -78,7 +85,6 @@ router.get('/:q', function(req, res){
  * @return: {string} http headers - Authorized headers and methods
  */
 router.options('/', function(req, res){
-	console.log("Here");
 	var origin = req.get('Origin');
 	// Check if origin is set
 	if(!origin){
@@ -88,6 +94,33 @@ router.options('/', function(req, res){
 	// Check if method that is requested is in the methods hash set
 	var method = req.get('Access-Control-Request-Method');
 	if(_OPTIONS["/"]["HASHES"].has(method)){
+		res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+		res.header("Access-Control-Max-Age", 86400);
+		res.sendStatus(200);
+		return;
+	}
+	// Send 404 if both of the above conditions are not met
+	res.sendStatus(404);
+});
+
+/**
+ * OPTIONS - ["/:q"]
+ * @description: Responds to authorized headers and methods request
+ * @param: {none}
+ * @return: {string} http headers - Authorized headers and methods
+ */
+router.options('/:q', function(req, res){
+	console.log("here");
+	var origin = req.get('Origin');
+	// Check if origin is set
+	if(!origin){
+		res.sendStatus(404);
+		return;
+	}
+	// Check if method that is requested is in the methods hash set
+	var method = req.get('Access-Control-Request-Method');
+	if(_OPTIONS["/:q"]["HASHES"].has(method)){
 		res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
 		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
 		res.header("Access-Control-Max-Age", 86400);
