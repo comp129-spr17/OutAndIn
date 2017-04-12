@@ -18,7 +18,7 @@ class Register extends React.Component {
 
 	componentWillReceiveProps(nextProps){
 		if(nextProps.register.isAuthenticated){
-			this.context.router.push("/");
+			window.location.href = '/';
 		}
 	}
 

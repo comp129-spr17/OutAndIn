@@ -106,32 +106,22 @@ Apollo.prototype._delete = function(url, parameters){
 	return axios.delete(getURL, {withCredentials: true});
 };
 
-//USERS--------------------------------------------
+//##########################################
+//USERS-------------------------------------
 Apollo.prototype.usersGetAll = function(){
 	return this._get('users', {});
 };
 
 // {name: 'name'}
-Apollo.prototype.userInit = function(msg){
-	return this._post('users', msg);
+Apollo.prototype.usersInit = function(name){
+	return this._post('users', {
+		name: name
+	});
 };
 
-// {id: #}
-Apollo.prototype.userDetails = function(msg){
-	EventBus.dispatch("userDetails");
-};
-
-Apollo.prototype.userGetUserByID = function(id){
-	return this._get('users/id/' + id, {});
-};
-
-//input: {user: id}
-Apollo.prototype.userSetSocketID = function(msg){
-	this.socket.emit('usersStoreSocketID', msg);
-};
-
-Apollo.prototype.userGetUsers = function(){
-	return this._get('users', {});
+// {id}
+Apollo.prototype.userGet = function(id){
+	return this._get('users/' + id, {});
 };
 
 //get self info
@@ -139,39 +129,49 @@ Apollo.prototype.userGetMe = function(){
 	return this._get('users/me', {});
 };
 
-//CHATS--------------------------------------------
+//input: {user: id}
+Apollo.prototype.userSetSocketID = function(userID){
+	this.socket.emit('usersStoreSocketID', {
+		user: userID	
+	});
+};
+
+//CHATS--------------------------------------
 Apollo.prototype.chatsGetAll = function(){
 	return this._get('chats', {});
 };
-//{id: #}
-Apollo.prototype.chatGetAllByUser = function(msg){
-	return this._get('chats/byUser/' + msg.id, {});
-};
 
-//{}
-Apollo.prototype.chatInit = function(){
-	return this._post('chats/create', {});
+//{friend: id}
+Apollo.prototype.chatsInit = function(friend){
+	return this._post('chats', {
+		friendID: friend
+	});
 };
 
 //{id: #}
-Apollo.prototype.chatGetChatDetails = function(msg){
-	return this._get('chats/id/' + msg.id, {});
+Apollo.prototype.chatGetDetails = function(chatID){
+	return this._get('chats/' + chatID, {});
 };
 
 //{chatID: #, userID: #}
-Apollo.prototype.chatAddUser = function(msg){
+Apollo.prototype.chatAddUser = function(chatID, userID){
 	console.log('ADDING: ' + msg.userID);
-	return this._post('chats/addUser', msg);
+	return this._post('chats/' + chatID + '/users', {
+		userID: userID	
+	});
 };
 
 //{id: #}
-Apollo.prototype.chatGetMessage = function(msg){
-	return this._get('chats/messages/' + msg.id, {});
+Apollo.prototype.chatGetMessage = function(chatID){
+	return this._get('chats/messages/' + chatID, {});
 };
 
 //{chatID: #, userID: #, message: 'text'}
-Apollo.prototype.chatAddMessage = function(msg){
-	return this._post('chats/messages', msg);
+Apollo.prototype.chatAddMessage = function(chatID, userID, message){
+	return this._post('chats/messages/' + chatID, {
+		userID: userID,
+		messageText: message
+	});
 };
 
 //SESSIONS------------------------------------------
@@ -187,6 +187,7 @@ Apollo.prototype.sessionLogout = function(){
 	return this._delete('session', {});
 };
 
+//Search-------------------------------------------
 Apollo.prototype.search = function(keyword){
 	return this._get('search?q='+keyword, {});
 };

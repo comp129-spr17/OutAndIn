@@ -20,3 +20,4 @@ exports.deleteSessionToken = function(userID, sessionToken){
 	return db.pool.query(sql, [userID, sessionToken]);
 };
 
+

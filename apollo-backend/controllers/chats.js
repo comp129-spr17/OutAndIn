@@ -423,7 +423,7 @@ output:
 	messages: []
 }
 */
-router.get('/:chatID/messages/:id', function(req, res){
+router.get('/messages/:id', function(req, res){
 	console.log('Getting: ' + req.params.id);
 	chatsService.chatsGetMessagesForChat(req.params.id).then((msg) =>{
 		if(msg.length == 0){
@@ -471,11 +471,11 @@ input:
 	messageText: ''
 }
 */
-router.post('/:chatID/messages', function(req, res){
+router.post('/messages/:id', function(req, res){
 	console.log(JSON.stringify(req.body));
-	chatsService.chatsAddMessageToChat(req.body.chatID,req.body.userID,req.body.messageText).then((msg) => {
+	chatsService.chatsAddMessageToChat(req.params.id,req.body.userID,req.body.messageText).then((msg) => {
 		//emit event to all users in chat
-		chatsService.chatsGetUsersForChat(req.body.chatID).then((users)=>{
+		chatsService.chatsGetUsersForChat(req.params.id).then((users)=>{
 			//collect all users
 			for(var i in users){
 				usersService.getSocketID(users[i].uuid).then((socket)=>{
@@ -530,7 +530,7 @@ router.post('/:chatID/messages', function(req, res){
 });
 
 
-router.options('/:chatID/messages', function(req, res){
+router.options('/messages', function(req, res){
 	var origin = req.get('Origin');
 	// Check if origin is set
 	if(!origin){
