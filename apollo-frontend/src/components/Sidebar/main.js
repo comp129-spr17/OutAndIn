@@ -224,12 +224,21 @@ export default class UserSearch extends Component {
 		}, false);	
 	}
 
-	searchFriend(event){
+	searchFriend(e){
         var currVal = $('#input_friend').val(); 
         this.state.friends = [];
         this.state.people=[];
         this.state.files=[];
-        if(currVal !=''){  //removed return statement since it was returning nothing when curr val was empty, keeping searches on screen when there was nothing in search inp
+        if(currVal != ''){  
+			//removed return statement since it was returning nothing when curr val was empty,
+			//keeping searches on screen when there was nothing in search inp
+			
+			client.search(currVal).then((query) =>{
+				console.log(query);
+			}).catch((err) =>{
+			
+			});
+
             for(var i in this.state.allFriends){
                 if(this.state.allFriends[i].name.toLowerCase().indexOf(currVal.toLowerCase())> -1){
                     this.state.friends.push(this.state.allFriends[i]);

@@ -46,8 +46,8 @@ function init(){
  * @param: {none}
  * @return: {object} users - Collection of users
  */
-router.get('/', function(req, res){
-	var query = req.query.q;
+router.get('/:q', function(req, res){
+	var query = req.params.q;
 	var userID = req.user;
 	// TODO:(mcervco) Only searching for friends right now.
 	// Search everything later
@@ -78,6 +78,7 @@ router.get('/', function(req, res){
  * @return: {string} http headers - Authorized headers and methods
  */
 router.options('/', function(req, res){
+	console.log("Here");
 	var origin = req.get('Origin');
 	// Check if origin is set
 	if(!origin){

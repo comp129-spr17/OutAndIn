@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 
 module.exports = function(req, res, next){
 	// Ignore these paths
-	if(req.path == "/api/v1/session" || req.path == "/api/v1/register"){
+	if(req.path == "/api/v1/session" || req.path == "/api/v1/register" || req.method == "OPTIONS"){
 		next();
 		return;
 	}

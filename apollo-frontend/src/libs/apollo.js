@@ -3,6 +3,8 @@ var EventBus = require('eventbusjs');
 
 var Apollo = function(){
 	this.API_URL = 'http://localhost:4200/api/v1';
+	//axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem('token');
+	console.log("token: " + this.sessionToken);
 	this.credentials = {
 		client_id: "",
 		api_key: ""
@@ -85,12 +87,25 @@ Apollo.prototype.eventBusDispatchEvent = function(eventName){
 Apollo.prototype._get = function(url, parameters){
 	//parameters = extend(parameters, this.credentials); // Add credentials to parameters
 	var getURL = "";
-	if(parameters.length > 0) {
-		getURL = this.API_URL + '/' + url + '?' + querystring.stringify(parameters); // Construct URL with parameters
+	if(JSON.stringify(parameters) != '{}') {
+		console.log("par");
+		var parString = "";
+		for(var key in parameters){
+			if(parameters.hasOwnProperty(key)){
+				parString += key + '=' + parameters[key];
+			}
+		}
+		getURL = this.API_URL + '/' + url + '?' + parString; // Construct URL with parameters
 	} else {
 		getURL = this.API_URL + '/' + url;
 	}
-	return axios.get(getURL, {withCredentials: true});
+	console.log("url:" + "asdsad");
+	return axios.get(getURL, {
+		withCredentials: true,
+		headers:{
+			"Authorization": "Bearer " + localStorage.getItem("token")
+		}
+	});
 };
 
 Apollo.prototype._post = function(url, parameters){
@@ -189,7 +204,7 @@ Apollo.prototype.sessionLogout = function(){
 
 //Search-------------------------------------------
 Apollo.prototype.search = function(keyword){
-	return this._get('search?q='+keyword, {});
+	return this._get('search/' + keyword, {});
 };
 
 module.exports = Apollo;
