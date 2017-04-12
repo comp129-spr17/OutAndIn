@@ -226,46 +226,37 @@ export default class UserSearch extends Component {
 
 	searchFriend(e){
         var currVal = $('#input_friend').val(); 
-        this.state.friends = [];
-        this.state.people=[];
-        this.state.files=[];
         if(currVal != ''){  
 			//removed return statement since it was returning nothing when curr val was empty,
 			//keeping searches on screen when there was nothing in search inp
 			
 			client.search(currVal).then((query) =>{
-				console.log(query);
+				var searchList = query.data.results;
+				var friends = [];
+
+				console.log("q: " + JSON.stringify(searchList));
+				for(var i in searchList){
+					var ico = "img/avatar" + Math.floor(Math.random() * 3) + '.png';
+
+					friends.push({
+						name: searchList[i].username,
+						avatar: ico,
+						timestamp: "4/12/2017",
+						preview: 'abcd',
+						id: searchList[i].uuid
+					});	
+				}
+				this.setState({
+					friends: friends
+				});
 			}).catch((err) =>{
-			
+				console.log("ERR: " + JSON.stringify(err));
 			});
-
-            for(var i in this.state.allFriends){
-                if(this.state.allFriends[i].name.toLowerCase().indexOf(currVal.toLowerCase())> -1){
-                    this.state.friends.push(this.state.allFriends[i]);
-                    if(this.state.friends.length >=3)
-                        break;
-                }
-            }
-
-            for(var i in this.state.allPeople){
-                if(this.state.allPeople[i].name.toLowerCase().indexOf(currVal.toLowerCase())> -1){
-                    this.state.people.push(this.state.allPeople[i]);
-                    if(this.state.people.length >=3)
-                        break;
-                }
-            }
-
-            for(var i in this.state.allFiles){
-                if(this.state.allFiles[i].fileName.toLowerCase().indexOf(currVal.toLowerCase())> -1){
-                    this.state.files.push(this.state.allFiles[i]);
-                    if(this.state.files.length >=3)
-                        break;
-                }
-            }
-
-        }
-        this.forceUpdate();
-
+        }else{
+			this.setState({
+				friends: []
+			});
+		}
 	}
 	
 	toggleNewMessageModal(e){
@@ -294,7 +285,7 @@ export default class UserSearch extends Component {
                     timestamp: '11/09/2911'
                 });
             }
-            this.setState({friends: friends});
+            //this.setState({friends: friends});
         }).catch((err) => {
             console.log(err); 
         }); 
