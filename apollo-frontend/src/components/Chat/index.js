@@ -10,13 +10,15 @@ import ReactDOM from 'react-dom';
 import moment from 'moment';
 import { client } from '../../modules/api-client';
 
+var jwt_decode = require('jwt-decode');
+
 export default class Chat extends Component {
 	constructor () { //constructor
 		super();
 		this.state= { //new object
 			error: 1, // username taken error
 			inputChatText: '',//text that you type into input box
-			userID: -1,
+			userID: jwt_decode(localStorage.getItem('token')).uid,
 			messageList: [],
 			messagesEnd: '',
 			activeChatID: 0,
@@ -63,6 +65,7 @@ export default class Chat extends Component {
 		client.eventBusRegisterEvent('focusChat', this.handleChatFocusUpdate);
 
 		// client.socketRegisterEvent("messageAdd", this.handleChatFocusUpdate);
+		console.log("me: " + this.state.userID);
 	}
 
 	handleChatFocusUpdate(){
@@ -81,44 +84,6 @@ export default class Chat extends Component {
 	}
 
 	userInit(){
-		var username = "";
-		if(this.state.userID == -1){
-			/*
-			if(!this.state.error == 1){
-				username = prompt(this.state.error + "\n" + "Please enter your name", username); //var person stores user input, which is name
-			} else {
-				username = prompt("Please enter your name", username); //var person stores user input, which is name
-			}
-			if(username == null){
-				return false;
-			}
-			*/
-			client.userGetMe().then((res) => {
-				console.log(res.data.results[0].username);
-				client.userInit({username: username}).then((user) =>{
-					this.setState({
-						userID: user.data.body.id,
-						error: user.data.header.code
-					});
-					localStorage.setItem("userID", user.data.body.id);
-					if(user.data.header.code == 0){
-						//fine
-						//set socket id in server
-						client.userSetSocketID({user: this.state.userID});
-						client.eventBusDispatchEvent('chatsInitWithUsers');
-					} else {
-						//username already taken
-						console.log('ERR code: ' + res.data.header.code);
-						//this.userInit();
-					}
-					return;
-				}).catch((err) =>{
-					console.log(err);
-				});
-			}).catch((err) => {
-				console.log("ERROR here: " + JSON.stringify(err));
-			});
-		}
 	}
 
 	handleChatInpChange(event){
@@ -182,7 +147,7 @@ export default class Chat extends Component {
 		// } else if(this.state.userID == -1 && this.state.error == 1){
 		// 	return (<div>{this.userInit()}</div>);
 		// }
-
+		
 		return (
 			<div className="content">
 				<div className="chat-header"></div>
@@ -191,7 +156,7 @@ export default class Chat extends Component {
                         <div className="bubble-dialog">
                             {
 								this.state.messageList.map((msg, k) => {
-                                	return <ChatDirectionComponent key={k} message={msg} selfname={this.state.userID} />
+                                	return <ChatDirectionComponent key={k} message={msg} userID={this.state.userID} />
                             	})
 							}
                         </div>
