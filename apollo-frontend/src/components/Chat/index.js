@@ -72,25 +72,9 @@ export default class Chat extends Component {
 			//update messagelist
 			console.log("msg");
 			console.log(messages);
-			var msgs = [];
-			var msgData = messages.data.results;
-			for(var m in msgData){
-				console.log(msgData[m]);
-				var temp = msgData[m];
-				client.userDetails(temp.created_by).then((user) => {
-					console.log("user");
-					console.log(user);
-					msgs.push({
-							user:user.data.body.user.username,
-							message: temp.message,
-							timeStamp: temp.timestamp
-						});
-					this.setState({messageList: msgs});
-				}).catch((err) =>{
-					console.log('ERR 0');
-				});
-			}
-			this.setState({messageList: msgs});
+			this.setState({
+				messageList: messages.data.results
+			});
 		}).catch((err) => {
 			console.log('err 1');
 		});
@@ -207,7 +191,7 @@ export default class Chat extends Component {
                         <div className="bubble-dialog">
                             {
 								this.state.messageList.map((msg, k) => {
-                                	return <ChatDirectionComponent key={k} message={msg} selfname={this.state.username} />
+                                	return <ChatDirectionComponent key={k} message={msg} selfname={this.state.userID} />
                             	})
 							}
                         </div>
@@ -238,7 +222,7 @@ export default class Chat extends Component {
 
 class ChatDirectionComponent extends React.Component {
 	render() {
-		if(this.props.selfname==this.props.message.user)
+		if(this.props.userID==this.props.message.created_by)
 			return <FloatRightChatComponent msg={this.props.message} />
 		else
 			return <FloatLeftChatComponent msg={this.props.message} />
@@ -249,7 +233,7 @@ class FloatRightChatComponent extends React.Component {
 	render() {
 		return (
 			<div className="bubble-right">
-				<span className='msgSender'> me:  { "\u00a0\u00a0" } </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+				<span className='msgSender'>{ "\u00a0\u00a0" } </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
 			</div>
 		)
 	}
@@ -260,7 +244,7 @@ class FloatLeftChatComponent extends React.Component {
 	render() {
 		return (
 			<div className="bubble-left">
-				<span className='msgSender'>{this.props.msg.user}:  { "\u00a0\u00a0" }</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+				<span className='msgSender'> { "\u00a0\u00a0" }</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
 			</div>
 		)
 	}

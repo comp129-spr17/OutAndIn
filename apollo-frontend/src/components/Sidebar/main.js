@@ -121,8 +121,10 @@ export default class UserSearch extends Component {
 	}
 
 	chatSelect(chatID){
+		localStorage.setItem("focusChat", chatID);
 		client.eventBusDispatchEvent("focusChat");
 	}
+
 	
 	toggleNewMessageModal(e){
 		e.preventDefault();
