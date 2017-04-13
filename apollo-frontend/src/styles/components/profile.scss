@@ -1,10 +1,19 @@
+.profile-header{
+    position:absolute;
+    top: 0%;
+    color: black;
+    text-align:center;
+    width: 100%;
+    border: 3px solid #164762; 
+}
 .profile-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
-}
+    border: 3px solid #164762; 
 
+}
 .profile-avatar {
    display: inline-block;
    float:left;
@@ -19,7 +28,7 @@
 
 .profile-name {
     margin:10px;
-    color: blue;
+    color: #164762;
     font-size:21px;
 }
 
@@ -32,6 +41,7 @@
     clear:both;
     margin:10px;
     font-size:15px;
+    font-style: italic;
 }
 
 .profile-friendlist{
@@ -44,4 +54,6 @@
     border-radius: 50%;
     margin:5px;
 }
+
+
 
