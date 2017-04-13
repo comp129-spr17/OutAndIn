@@ -59,7 +59,7 @@ exports.getUserByEmail = function(email){
  * @return: {promise} promise - SQL promise
  */
 exports.getAllUsers = function(){
-	var sql = "SELECT uuid, email, fullname, username, avatar FROM users";
+	var sql = "SELECT uuid, email, fullname, username, avatar, socket FROM users";
 	return db.pool.query(sql);
 };
 

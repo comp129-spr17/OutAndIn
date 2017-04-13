@@ -66,6 +66,12 @@ export default class Chat extends Component {
 
 		// client.socketRegisterEvent("messageAdd", this.handleChatFocusUpdate);
 		console.log("me: " + this.state.userID);
+		
+		client.userSetSocketID(this.state.userID);
+		client.usersGetAll().then((u) =>{
+			console.log('u');
+			console.log(u);
+		}).catch((err) =>{});
 	}
 
 	handleChatFocusUpdate(){
