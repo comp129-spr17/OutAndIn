@@ -49,7 +49,7 @@ var sockets = require('./controllers/sockets');
  */
 // Attach socket.io to res to allow REST routes to interact with sockets
 app.use(function(req, res, next){
-    res.io = io;
+    res.socketIO = io;
     next();
 });
 // Logging

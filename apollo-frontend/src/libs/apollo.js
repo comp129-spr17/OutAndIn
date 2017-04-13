@@ -21,10 +21,17 @@ Apollo.prototype.socketEvents = function(){
 		"messageAdd": [],
 		"userIDList": [],
 		"usersConnected": [],
-		"chatsListUpdate": []
+		"chatsListUpdate": [],
+		"chatAdded": []
     };
     this.socket = require('socket.io-client')('http://localhost:4200');
     var _self = this;
+	
+	this.socket.on("chatAdded", function(data){
+		for(var index in _self._events["chatAdded"]){
+			_self._events["chatAdded"][index](data);
+		}
+	});
 
 	this.socket.on("chatsListUpdate", function(data){
 		for(var index in _self._events["chatsListUpdate"]){

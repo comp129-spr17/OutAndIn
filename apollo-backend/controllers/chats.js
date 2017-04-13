@@ -193,6 +193,24 @@ router.post('/', function(req, res){
 			throw new Error("Was not able to create chat");	
 			return false;
 		}
+		return Promise.all([
+			usersService.getSocketID(userID),
+			usersService.getSocketID(friendID)
+		]);
+	}).then((sock) => {
+		if(sock == false)
+			return;
+
+		//emit events
+		console.log(res);
+		for(var i in sock){
+			if(res.socketIO.sockets.connected[sock[i][0].socket]){
+				res.socketIO.sockets.connected[sock[i][0].socket].emit('chatAdded', {});
+			}else{
+				console.log("Socket not connected: " + sock[i][0].socket);
+			}
+		}
+		
 		return chatsService.setChatStatus(chatID);
 	}).then((results) => {
 		if(results == false){

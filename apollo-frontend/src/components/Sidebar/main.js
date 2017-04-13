@@ -18,8 +18,9 @@ export default class UserSearch extends Component {
 		this.hasClass = this.hasClass.bind(this);
 		this.addClass = this.addClass.bind(this);
 		this.removeClass = this.removeClass.bind(this);
-		//client.socketRegisterEvent("usersConnected", this.newUsersConnected);
+		this.handleChatAdded = this.handleChatAdded.bind(this);
 		// Close New Message Modal if you click off the modal
+		client.socketRegisterEvent('chatAdded', this.handleChatAdded);
 	}
 	hasClass(el, className) {
 	  if (el.classList)
@@ -117,12 +118,20 @@ export default class UserSearch extends Component {
 		}).catch((err) =>{
 			console.log("Err: " + JSON.stringify(err));
 		});
+		$('#input_friend').val('');
 		this.displayChats();
 	}
 
 	chatSelect(chatID){
 		localStorage.setItem("focusChat", chatID);
 		client.eventBusDispatchEvent("focusChat");
+	}
+
+	handleChatAdded(){
+		console.log("Chat added");
+		if($('#input_friend').val() == ''){
+			this.displayChats();
+		}
 	}
 
 	
