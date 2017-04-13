@@ -8,11 +8,10 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
-
+import Profile from './pages/Profile';
 
 // TODO: tmp import, clean up and conver to page later
 import Chat from './components/Chat';
-import Profile from './components/Profile';
 
 // Higher order component to protect privileged pages
 import AuthRequired from './utils/AuthRequired'; 
@@ -20,13 +19,13 @@ import AuthRequired from './utils/AuthRequired';
 // Router and the routes that utilize their respective components
 export default (
     <Router history={browserHistory} >
-        <Route component={App} >
-        	<Route component={ AuthRequired(Layout) } >
-            	<Route path="/" component={Chat} />
+		<Route component={App} >
+			<Route component={ AuthRequired(Layout) } >
+				<Route path="/" component={Chat} />
+        		<Route path="/profile" component={Profile} />
 			</Route>
 			<Route path="/login" component={Login} />
 			<Route path="/register" component={Register} />
-            <Route path="/profile" component={Profile} />
         </Route>
         <Route path="*" component={NotFound} />
     </Router>
