@@ -12,6 +12,7 @@ import NotFound from './pages/NotFound';
 
 // TODO: tmp import, clean up and conver to page later
 import Chat from './components/Chat';
+import Profile from './components/Profile';
 
 // Higher order component to protect privileged pages
 import AuthRequired from './utils/AuthRequired'; 
@@ -20,11 +21,12 @@ import AuthRequired from './utils/AuthRequired';
 export default (
     <Router history={browserHistory} >
         <Route component={App} >
-        	<Route component={AuthRequired(Layout)} >
+        	<Route component={ AuthRequired(Layout) } >
             	<Route path="/" component={Chat} />
 			</Route>
 			<Route path="/login" component={Login} />
 			<Route path="/register" component={Register} />
+            <Route path="/profile" component={Profile} />
         </Route>
         <Route path="*" component={NotFound} />
     </Router>
