@@ -60,25 +60,29 @@ export default class Chat extends Component {
 		//add socket event handlers
 		// client.eventBusRegisterEvent("chatDetails", this.handleChatDetails);
 		// client.eventBusRegisterEvent("userInit", this.handleUserInit);
-		// client.eventBusRegisterEvent('chatFocusedUpdate', this.handleChatFocusUpdate);
+		client.eventBusRegisterEvent('focusChat', this.handleChatFocusUpdate);
 
 		// client.socketRegisterEvent("messageAdd", this.handleChatFocusUpdate);
 	}
 
 	handleChatFocusUpdate(){
-		var chatID = localStorage.getItem('chatFocused');
+		var chatID = localStorage.getItem('focusChat');
 		console.log('building msgs: ' + chatID);
-		client.chatGetMessage({id: chatID}).then((messages) => {
+		client.chatGetMessage(chatID).then((messages) => {
 			//update messagelist
+			console.log("msg");
 			console.log(messages);
 			var msgs = [];
-			for(var m in messages.data.body.messages){
-				console.log(messages.data.body.messages[m]);
-				var temp = messages.data.body.messages[m];
-				client.userDetails({id: temp.created_by}).then((user) => {
+			var msgData = messages.data.results;
+			for(var m in msgData){
+				console.log(msgData[m]);
+				var temp = msgData[m];
+				client.userDetails(temp.created_by).then((user) => {
+					console.log("user");
+					console.log(user);
 					msgs.push({
 							user:user.data.body.user.username,
-							message:temp.message,
+							message: temp.message,
 							timeStamp: temp.timestamp
 						});
 					this.setState({messageList: msgs});
@@ -141,14 +145,15 @@ export default class Chat extends Component {
 		event.preventDefault();
 		if(this.state.inputChatText=='') //checking if value is empty
 			return;
-		client.chatAddMessage({
-			chatID: localStorage.getItem('chatFocused'),
-			userID: localStorage.getItem('userID'),
-			message: this.state.inputChatText
-		}).then((msg) => {
+		client.chatAddMessage(
+			localStorage.getItem('focusChat'),
+			this.state.inputChatText
+		).then((msg) => {
+			console.log('msg');
 			console.log(msg);
 			this.setState({inputChatText: ''});
 			this.forceUpdate();
+			client.eventBusDispatchEvent("focusChat");
 		}).catch((err) => {
 			console.log('Err: ' + err);
 		});

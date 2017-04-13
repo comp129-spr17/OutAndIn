@@ -6,5 +6,5 @@ import sidebar from './reducer_sidebar';
 export default combineReducers({
 	login,
 	sidebar,
-	register
+	register,
 });

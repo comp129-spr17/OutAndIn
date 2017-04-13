@@ -41,6 +41,13 @@ var _OPTIONS = {
 			"POST"
 		],
 		"HASHES": new Set()
+	},
+	"/messages/:id": {
+		"METHODS": [
+			"GET",
+			"POST"
+		],
+		"HASHES": new Set()
 	}
 };
 
@@ -80,7 +87,7 @@ router.get('/', function(req, res){
 			let response = new responseObject();
 			response.setSuccess(false);
 			response.setErrors(error);
-			res.status(401).json(response.toJSON());
+			res.status(200).json(response.toJSON());
 			return false;
 		}
 		var promises = [];
@@ -143,36 +150,33 @@ router.post('/', function(req, res){
 		var userChats = chats[0];
 		var friendChats = chats[1];
 		var chatExists = false;
+		var existingChatID = '';
 		for(var uchat in userChats){
 			for(var	fchat in friendChats){
 				// Need to add check to make sure the chat isnt a group chat
 				if(userChats[uchat]["uuid"] == friendChats[fchat]["uuid"]){
 					chatExists = true;
+					existingChatID = userChats[uchat]["uuid"];
 				}
 			}
 		}
 		// Chat already exists
 		if(chatExists){
-			// Error
-			var error = {
-				"code": 1000,
-				"message": "Chat already exists between the users"
-			};
-			let response = new responseObject();
-			response.setSuccess(false);
-			response.setErrors(error);
-			res.status(401).json(response.toJSON());
-			return false;
+			//Return the exsisting chat id
+			return chatsService.getChatByUUID(existingChatID);
 		}
 		// Create the chat
 		return chatsService.createChat(userID, chatID);
 	}).then((chat) => {
-		if(chat == false){
-			return false;
-		}
 		if(!chat.hasOwnProperty("affectedRows")){
 			// TODO:(mcervco) Handle this error better
-			throw new Error("Was not able to create chat");	
+			// (pranav) no error, just gonna return the chat from getChatByUUID
+			let response = new responseObject();
+			response.setSuccess(true);
+			response.setResults({
+				chatID: chat[0].uuid
+			});
+			res.status(200).json(response.toJSON());
 			return false;
 		}
 		return Promise.all([
@@ -198,6 +202,9 @@ router.post('/', function(req, res){
 		let response = new responseObject();
 		// Set attributes
 		response.setSuccess(true);
+		response.setResults({
+			chatID: chatID
+		});
 		// Send response
 		res.status(200).json(response.toJSON());
 	}).catch((err) => {
@@ -318,7 +325,7 @@ router.options('/', function(req, res){
  */
 router.post("/:chatID/users", function(req,res){
 	var chatID = req.params.chatID;
-	var userID = req.body.userID;
+	var userID = req.user;
 	chatsService.getUserFromChat(chatID, userID).then((user) => {
 		if(user.length != 0){
 			// Error
@@ -426,39 +433,21 @@ output:
 router.get('/messages/:id', function(req, res){
 	console.log('Getting: ' + req.params.id);
 	chatsService.chatsGetMessagesForChat(req.params.id).then((msg) =>{
-		if(msg.length == 0){
-			//no messages found
-			res.json({
-				header:{
-					code: 2,
-					message: 'No messages for chat'
-				},
-				body:{
-					messages: msg
-				}
-			});
-		}else{
-			//fine
-			res.json({
-				header:{
-					code: 0,
-					message: 'success'
-				},
-				body:{
-					messages: msg
-				}
-			});
-		}
+		//fine
+		//TODO: check if user is part of chat
+		var response = new responseObject();
+		response.setSuccess(true);
+		response.setResults(msg);
+		res.status(200).json(response.toJSON());
 	}).catch((err) =>{
-		res.json({
-			header:{
-				code: 1,
-				message: 'ERROR: sql cannot get messages from chat'
-			},
-			body:{
-				err : err
-			}
+		var response = new responseObject();
+		response.setSuccess(false);
+		response.setErrors({
+			code: 1,
+			err: err,
+			message: "internal sql error"
 		});
+		res.status(500).json(response.toJSON());
 	});
 });
 
@@ -467,12 +456,32 @@ router.get('/messages/:id', function(req, res){
 input:
 {
 	chatID: #,
-	userID: #,
 	messageText: ''
 }
 */
 router.post('/messages/:id', function(req, res){
 	console.log(JSON.stringify(req.body));
+	var userID = req.user;
+	var chatID = req.params.id;
+	var msg = req.body.messageText;
+
+	chatsService.chatsAddMessageToChat(chatID, userID, msg).then((m) => {
+		var response = new responseObject();
+		response.setSuccess(true);
+		response.setResults(m);
+		res.status(200).json(response.toJSON());
+	
+	}).catch((err) => {
+		var response = new responseObject();
+		response.setSuccess(false);
+		response.setErrors({
+			code: 1,
+			err: err,
+			message: "internal sql error"
+		});
+		res.status(500).json(response.toJSON());	
+	});
+/*
 	chatsService.chatsAddMessageToChat(req.params.id,req.body.userID,req.body.messageText).then((msg) => {
 		//emit event to all users in chat
 		chatsService.chatsGetUsersForChat(req.params.id).then((users)=>{
@@ -526,7 +535,7 @@ router.post('/messages/:id', function(req, res){
 				err : err
 			}
 		});
-	});
+	});*/
 });
 
 
@@ -553,6 +562,28 @@ router.options('/messages', function(req, res){
 	res.sendStatus(404);
 });
 
+router.options('/messages/:id', function(req, res){
+	var origin = req.get('Origin');
+	// Check if origin is set
+	if(!origin){
+		console.log('no origin');
+		res.sendStatus(404);
+		return;
+	}
+	// Check if method that is requested is in the methods hash set
+	var method = req.get('Access-Control-Request-Method');
+	if(_OPTIONS["/messages/:id"]["HASHES"].has(method)){
+
+		res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+		res.header("Access-Control-Max-Age", 86400);
+		res.sendStatus(200);
+		return;
+	}
+
+	// Send 404 if both of the above conditions are not met
+	res.sendStatus(404);
+});
 
 module.exports = {
 	init: init,

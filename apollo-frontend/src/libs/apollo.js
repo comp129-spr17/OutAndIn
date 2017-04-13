@@ -3,7 +3,7 @@ var EventBus = require('eventbusjs');
 
 var Apollo = function(){
 	this.API_URL = 'http://localhost:4200/api/v1';
-	//axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem('token');
+	axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem('token');
 	console.log("token: " + this.sessionToken);
 	this.credentials = {
 		client_id: "",
@@ -72,7 +72,6 @@ Apollo.prototype.socketEvents = function(){
 
 Apollo.prototype.socketRegisterEvent = function(eventName, func){
 	this._events[eventName].push(func);
-	//EventBus.addEventListener(eventName, func);
 };
 
 Apollo.prototype.eventBusRegisterEvent = function(eventName, func){
@@ -101,10 +100,7 @@ Apollo.prototype._get = function(url, parameters){
 	}
 	console.log("url:" + "asdsad");
 	return axios.get(getURL, {
-		withCredentials: true,
-		headers:{
-			"Authorization": "Bearer " + localStorage.getItem("token")
-		}
+		withCredentials: true
 	});
 };
 
@@ -182,9 +178,8 @@ Apollo.prototype.chatGetMessage = function(chatID){
 };
 
 //{chatID: #, userID: #, message: 'text'}
-Apollo.prototype.chatAddMessage = function(chatID, userID, message){
+Apollo.prototype.chatAddMessage = function(chatID, message){
 	return this._post('chats/messages/' + chatID, {
-		userID: userID,
 		messageText: message
 	});
 };

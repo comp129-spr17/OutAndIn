@@ -6,171 +6,14 @@ export default class UserSearch extends Component {
     constructor() {
         super();
 		this.state = {
-			newMessageModalState: 0,
-            friends:[],
-            allFriends: [{  //new array.static representation of search. hardcoded for now
-                name: 'John Doe',
-                avatar: '/img/avatar2.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'Jane Doe',
-                avatar: '/img/avatar1.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'Johnny Doe',
-                avatar: '/img/avatar.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '09/11/2001'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar2.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar3.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar1.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '3:15 pm'
-            },{
-                name: 'Osvaldo Jimenez',
-                avatar: '/img/avatar.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '06:17 am'
-            },{
-
-                name: 'Ayy LMAO',
-                avatar: '/img/avatar3.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar1.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '09/11/2001'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar2.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar3.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-
-                name: 'John Doe',
-                avatar: '/img/avatar1.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '3:15 pm'
-            },{
-                name: 'Donald Trump',
-                avatar: '/img/avatar2.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '12:45 pm'
-            },{
-                name: 'Jill Smith',
-                avatar: '/img/avatar2.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '8:45 pm'
-            },{
-                name: 'Mike Jones',
-                avatar: '/img/avatar3.jpg',
-                preview: 'Lorem ipsum stuff some preview message',
-                timestamp: '04/23/2016'
-            }],
-            people:[],
-            allPeople: [{  //new array.static representation of search. hardcoded for now
-                name: 'John1 Doe1',
-                avatar: '/img/avatar2.jpg',
-                handle: '@John',
-                icon: '12:45 pm'
-            },{
-                name: 'Osvaldo1 Jimenez1',
-                avatar: '/img/avatar.jpg',
-                handle: '@Osvaldo1',
-                icon: '06:17 am'
-            },{
-
-                name: 'Ayy1 LMAO1',
-                avatar: '/img/avatar3.jpg',
-                handle: '@Ayy1',
-                icon: '12:45 pm'
-            },{
-                name: 'Donald1 Trump1',
-                avatar: '/img/avatar2.jpg',
-                handle: '@Donald1',
-                icon: '12:45 pm'
-            },{
-                name: 'Jill1 Smith1',
-                avatar: '/img/avatar2.jpg',
-                handle: '@Jill1',
-                icon: '8:45 pm'
-            },{
-                name: 'Mike1 Jones1',
-                avatar: '/img/avatar3.jpg',
-                handle: '@Mike1',
-                icon: '04/23/2016'
-            }],
-            files:[],
-            allFiles: [{  //new array.static representation of search. hardcoded for now
-                fileName: 'Johns File',
-                avatar: '/img/avatar2.jpg',
-                icon: '12:45 pm'
-            },{
-                fileName: 'Osvaldos File',
-                avatar: '/img/avatar.jpg',
-                icon: '06:17 am'
-            },{
-
-                fileName: 'Ayys File',
-                avatar: '/img/avatar3.jpg',
-                icon: '12:45 pm'
-            },{
-                fileName: 'Donalds File',
-                avatar: '/img/avatar2.jpg',
-                icon: '12:45 pm'
-            },{
-                fileName: 'Jills File',
-                avatar: '/img/avatar2.jpg',
-                icon: '8:45 pm'
-            },{
-                fileName: 'Mikes File',
-                avatar: '/img/avatar3.jpg',
-                icon: '04/23/2016'
-            }]
-        };
-
-
-        // $(document).ready(function(){
-        //     $('.sidebar-content').niceScroll({
-        //         cursorcolor:"#ccc"
-        //     });
-        //});
-
-        this.newUsersConnected = this.newUsersConnected.bind(this);
-        this.searchFriend = this.searchFriend.bind(this);
+			chats: [],
+			friends: [],
+			people: [],
+			files: [],
+			newMessageModalState: 0
+		};
+       //this.newUsersConnected = this.newUsersConnected.bind(this);
+        this.search = this.search.bind(this);
 		this.toggleNewMessageModal = this.toggleNewMessageModal.bind(this);
 		this.hasClass = this.hasClass.bind(this);
 		this.addClass = this.addClass.bind(this);
@@ -221,16 +64,19 @@ export default class UserSearch extends Component {
 					self.setState({newMessageModalState: 0});
 				}
 			}
-		}, false);	
+		}, false);
+
+		this.displayChats();
 	}
 
-	searchFriend(e){
+	search(e){
         var currVal = $('#input_friend').val(); 
         if(currVal != ''){  
 			//removed return statement since it was returning nothing when curr val was empty,
 			//keeping searches on screen when there was nothing in search inp
 			
 			client.search(currVal).then((query) =>{
+				console.log(query);
 				var searchList = query.data.results;
 				var friends = [];
 
@@ -247,16 +93,35 @@ export default class UserSearch extends Component {
 					});	
 				}
 				this.setState({
-					friends: friends
+					friends: friends,
+					people: friends,	//TODO: retrieve people
+					files: friends,		//TODO: retrieve files
+					chats: []
 				});
 			}).catch((err) =>{
 				console.log("ERR: " + JSON.stringify(err));
 			});
         }else{
-			this.setState({
-				friends: []
-			});
+			this.displayChats();
 		}
+	}
+
+	friendSelect(userID){
+		//request to make new chat
+		client.chatsInit(userID).then((res) => {
+			console.log("res");
+			console.log(res);
+			localStorage.setItem("focusChat", res.data.results[0].chatID);
+			client.eventBusDispatchEvent("focusChat");
+
+		}).catch((err) =>{
+			console.log("Err: " + JSON.stringify(err));
+		});
+		this.displayChats();
+	}
+
+	chatSelect(chatID){
+		client.eventBusDispatchEvent("focusChat");
 	}
 	
 	toggleNewMessageModal(e){
@@ -272,24 +137,31 @@ export default class UserSearch extends Component {
 		}
 	}
 
-    newUsersConnected(){
-        client.userGetUsers().then((users) => {
-            var friends = [];
-            for(var user in users.data.body.list){
-                var rn = Math.floor(Math.random() * 3) + 1;
-                console.log(users.data.body.list[user].username);
-                friends.push({
-                    name: users.data.body.list[user].username,
-                    avatar: '/img/avatar'+rn+'.jpg',
-                    preview: 'Lorem ipsum stuff some preview message',
-                    timestamp: '11/09/2911'
-                });
-            }
-            //this.setState({friends: friends});
-        }).catch((err) => {
-            console.log(err); 
-        }); 
-    }
+	displayChats(){
+		client.chatsGetAll().then((query) => {
+				console.log(query);
+				var chats = [];
+				var chatsList = query.data.results;
+				for(var i in chatsList){
+					chats.push({
+						name: chatsList[i].name,
+						avatar:  chatsList[i].avatar,
+						timestamp: "4/12/2017",
+						preview: "abcd",
+						id:  chatsList[i].uuid
+					});
+				}
+				this.setState({
+					chats: chats,
+					friends: [],
+					people: [],
+					files: []
+				});
+			}).catch((err) =>{
+				console.log("ERR: " + JSON.stringify(err));
+			});
+
+	}
 
     render() {
         return (
@@ -298,17 +170,44 @@ export default class UserSearch extends Component {
                     <div className="sidebar-search">
                         <div className="sidebar-search-input">
                             <i className="fa fa-search"></i>
-                            <input  onKeyUp={this.searchFriend} id="input_friend" type="text" className="form-group" placeholder="Search for ..."/>
+                            <input  onKeyUp={this.search} id="input_friend" type="text" className="form-group" placeholder="Search for ..."/>
                         </div>
                         <div className="sidebar-search-create-msg">
                             <span onClick={this.toggleNewMessageModal}><i className="fa fa-pencil-square-o"></i></span>
                         </div>
                     </div>
                     <div className="sidebar-content">
+						<div className='conversationDiv'>
+							{this.state.chats.map((chat, k) =>{
+								return 	<div className="sidebar-item" onClick={() => this.chatSelect(chat.id)} key={k}>
+                                    <div className="sidebar-chat">
+                                        <div className="sidebar-chat-img">
+                                            <div className="sidebar-chat-avatar">
+                                                <img src={ chat.avatar } alt="Sidebar Chat Image"/>
+                                            </div>
+                                            <div className="sidebar-chat-status">
+                                            </div>
+                                        </div>
+                                        <div className="sidebar-chat-details">
+                                            <div className="sidebar-chat-details-name">
+                                                <h4>{ chat.name }</h4>
+                                            </div>
+                                            <div className="sidebar-chat-details-preview">
+                                                <p>{ chat.preview }</p>
+                                            </div>
+                                        </div>
+                                        <div className="sidebar-chat-timestamp">
+                                            <span>{ chat.timestamp }</span>
+                                        </div>
+                                    </div>
+                                </div>
+							  
+							})}
+						</div>
                         <div className='conversationDiv' >
                             <p>Conversation</p>
                             { this.state.friends.map((friend, k) => {
-                                return <div className="sidebar-item" key={k}>
+                                return <div className="sidebar-item" onClick={() => this.friendSelect(friend.id)} key={k}>
                                     <div className="sidebar-chat">
                                         <div className="sidebar-chat-img">
                                             <div className="sidebar-chat-avatar">
