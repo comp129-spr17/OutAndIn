@@ -387,7 +387,6 @@ router.post("/:chatID/users", function(req,res){
 			res.status(401).json(response.toJSON());
 			return;
 		}
-		res.io.sockets.connected[sock[0].socket].emit('chatsListUpdate', {});
 		// Create response object
 		let response = new responseObject();
 		// Set attributes
@@ -484,9 +483,31 @@ router.post('/messages/:id', function(req, res){
 	var msg = req.body.messageText;
 
 	chatsService.chatsAddMessageToChat(chatID, userID, msg).then((m) => {
+		
+		//get users for chat
+		return chatsService.chatsGetUsersForChat(chatID);
+	
+	}).then((chatUsers) =>{
+
+		//get socket ids
+		var promises = [];
+		for(var i in chatUsers){
+			promises.push(usersService.getSocketID(chatUsers[i].user_id));
+		}
+		return Promise.all(promises);
+
+	}).then((sock) => {
+		for(var i in sock){
+			if(res.socketIO.sockets.connected[sock[i][0].socket]){
+				console.log("EMIT: " + JSON.stringify(sock[i][0].socket));
+				res.socketIO.sockets.connected[sock[i][0].socket].emit("messageAdded", chatID);
+			}else{
+				console.log("Socket not connected: " + sock[i][0].socket);
+			}
+		}
+		
 		var response = new responseObject();
 		response.setSuccess(true);
-		response.setResults(m);
 		res.status(200).json(response.toJSON());
 	
 	}).catch((err) => {

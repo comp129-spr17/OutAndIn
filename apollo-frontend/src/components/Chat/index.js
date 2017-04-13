@@ -64,7 +64,8 @@ export default class Chat extends Component {
 		// client.eventBusRegisterEvent("userInit", this.handleUserInit);
 		client.eventBusRegisterEvent('focusChat', this.handleChatFocusUpdate);
 
-		// client.socketRegisterEvent("messageAdd", this.handleChatFocusUpdate);
+		client.socketRegisterEvent("messageAdded", this.handleMessageAdd);
+
 		console.log("me: " + this.state.userID);
 		
 		client.userSetSocketID(this.state.userID);
@@ -140,10 +141,11 @@ export default class Chat extends Component {
 		this.setState({messageList: msg['body']['chat'].messages}); //parsing the server response
 	}
 
-	handleMessageAdd(msg) {
-		client.chatDetails({
-			id: msg['chat']
-		});
+	handleMessageAdd(chatID) {
+		console.log("PING!: " + chatID);
+		if(chatID == localStorage.getItem("focusChat")){
+			this.handleChatFocusUpdate();
+		}
 	}
 
     render() {

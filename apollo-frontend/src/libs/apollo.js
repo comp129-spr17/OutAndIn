@@ -18,7 +18,7 @@ Apollo.prototype.socketEvents = function(){
 		"userDetails": [],
 		"chatInit": [],
 		"chatDetails": [],
-		"messageAdd": [],
+		"messageAdded": [],
 		"userIDList": [],
 		"usersConnected": [],
 		"chatsListUpdate": [],
@@ -65,9 +65,10 @@ Apollo.prototype.socketEvents = function(){
 			_self._events["chatDetails"][index](data);
 		}
 	});
-	this.socket.on("messageAdd", function(data){
-		for(var index in _self._events["messageAdd"]){
-			_self._events["messageAdd"][index](data);
+	this.socket.on("messageAdded", function(data){
+		console.log("MESSAGE ADDED");
+		for(var index in _self._events["messageAdded"]){
+			_self._events["messageAdded"][index](data);
 		}
 	});
 	this.socket.on("userIDList", function(data){
