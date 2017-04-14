@@ -9,6 +9,7 @@ import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import { client } from '../../modules/api-client';
+var FontAwesome = require('react-fontawesome');
 
 var jwt_decode = require('jwt-decode');
 
@@ -177,7 +178,10 @@ export default class Chat extends Component {
 	 	                   	<img className="chatImage" src = "/img/vid.png"/>
 	                    </div>
                     	<div className="chatIcons">
-                    		<img className="chatImage" src = "/img/paperclip.png"/>
+                    	<FontAwesome
+                    	className="chatImage"
+                    	name='paperclip'
+                    	size='2x' />
                     	</div>
                     	<div className="chatIcons">
                     		<img className="chatImage" src = "/img/micicon.png"/>
