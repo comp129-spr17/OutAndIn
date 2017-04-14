@@ -43,6 +43,13 @@
 	overflow-y: auto;
 }
 
+/*Everything under here is used for the static representation for the files.
+You will notice that these file icons are stacked on top of each other. I did not get
+to finish this last sprint but you need to organize the layout so that each new file
+will align vertically, one on top of the other, when a new file is added.*/
+
+/*Also, you should work on getting the actual "+" button to be interactive.*/
+
 .sidebar-info-fileiconaudio {
 	position: absolute;
 	vertical-align: left;
