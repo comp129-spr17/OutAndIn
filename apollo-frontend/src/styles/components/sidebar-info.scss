@@ -39,8 +39,8 @@
 	position: relative;
 	height: 100px;
 	padding-top: 15px;
-	/*border-top: 1px solid $border; << This is just so I can see where the div begins*/
-	overflow-y: auto;
+	/*border-top: 1px solid $border; << This is just so I can see where the div begins - ignore it.*/
+	overflow-y: auto; /*Makes the inner div scrollable when content overflows.*/
 }
 
 /*Everything under here is used for the static representation for the files.
