@@ -11,7 +11,7 @@
 .sidebar-info-people {
 	width: 300px;
 	position: relative;
-	height: 100px;
+	height: 200px;
 	border-bottom: 1px solid $border;
 	padding-left: 15px;
 	padding-top: 10px;
@@ -21,19 +21,10 @@
 .sidebar-info-files {
 	width: 300px;
 	position: relative;
-	height: 200px;
-	border-bottom: 1px solid $border;
-	padding-top: 10px;
-	padding-left: 15px;
-
-}
-
-.sidebar-info-recent {
-	width: 300px;
-	position: relative;
 	height: 300px;
 	padding-top: 10px;
 	padding-left: 15px;
+
 }
 
 .sidebar-info-addbutton {

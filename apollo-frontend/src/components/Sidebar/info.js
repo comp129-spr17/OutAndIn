@@ -18,11 +18,6 @@ export default class SidebarInfo extends Component {
 						<i className="sidebar-info-fileicontext fa fa-file-text-o fa-2x"></i>
                 	</div>
                 </div>
-                <div className="sidebar-info-recent">
-                	Recent Images & Video
-					<i className="sidebar-info-addbutton fa fa-plus-circle fa-2x"></i>
-                	<div className="sidebar-info-inner"></div>
-                </div>
             </div>
         );
     }
