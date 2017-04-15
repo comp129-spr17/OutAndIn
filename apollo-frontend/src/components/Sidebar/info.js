@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 export default class SidebarInfo extends Component {
-    constructor() {
+    /*constructor() {
         super();
         this.state = {
             people: [],
@@ -12,7 +12,7 @@ export default class SidebarInfo extends Component {
         this.toggleAddtoChatModal = this.toggleAddtoChatModal.bind(this);
 
         client.socketRegisterEvent('userAdded', this.handleUserAdded);
-    }
+    } <<< Need to add onto this, not working atm. */
 
     render() {
         return (
