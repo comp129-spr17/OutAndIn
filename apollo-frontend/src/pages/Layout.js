@@ -16,7 +16,6 @@ class Layout extends Component {
                     <SidebarMain />
 					{ this.props.children }
 					<SidebarInfo />
-                    <AddtoChatModal />
                 </div>
             </div>
 		);

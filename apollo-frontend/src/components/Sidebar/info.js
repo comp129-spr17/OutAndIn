@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 
 export default class SidebarInfo extends Component {
+    constructor() {
+        super();
+        this.state = {
+            people: [],
+            files: [],
+            AddtoChatModalState: 0
+        };
+    }
     render() {
         return (
             <div className="sidebar-info-main">
