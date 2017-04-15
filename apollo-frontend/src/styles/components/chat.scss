@@ -1,8 +1,11 @@
-.chatIcons{
-position:relative;
-float:right;
-cursor: pointer;
+.chatIcons {
+	position: relative;
+	float: right;
+	cursor: pointer;
+	padding-top: 5px;
+	padding-right: 7px;
 }
+
 .chat-header {
 	height: 66px;
 	left: 0;
