@@ -8,7 +8,16 @@ export default class SidebarInfo extends Component {
             files: [],
             AddtoChatModalState: 0
         };
+
+        this.toggleAddtoChatModal = this.toggleAddtoChatModal.bind(this);
+
+        client.socketRegisterEvent('userAdded', this.handleUserAdded);
     }
+
+    handleUserAdded() {
+        
+    }
+
     render() {
         return (
             <div className="sidebar-info-main">
