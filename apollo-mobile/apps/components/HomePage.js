@@ -3,10 +3,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, AppRegistry, Text, ListView, TextInput, Image, Navigator, TouchableOpacity, View, ScrollView } from 'react-native';
 import{ StackNavigator } from 'react-navigation'
+import { Navigation } from 'react-native-navigation';
 
 
 export default class HomePage extends Component
 {
+  
+
   static navigationOptions = {
     //title: 'HomePage',
     header: {

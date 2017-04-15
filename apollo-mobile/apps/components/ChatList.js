@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, AppRegistry, Text, ListView, TextInput, Image, Navigator, TouchableOpacity, View, ScrollView } from 'react-native';
 import{ StackNavigator, TabNavigator } from 'react-navigation'
+import { Navigation } from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Tabs from 'react-native-tabs';
 
@@ -27,13 +28,7 @@ export default class ChatList extends Component
     const {navigate} = this.props.navigation;
     return(
       <View style = {styles.container}>
-      /*<Tabs selected={this.state.page} style={{backgroundColor:'white'}}
-            selectedStyle={{color:'#848484'}} onSelect={el=>this.setState({page:el.props.name})}>
-          <Text name="ChatList">Home</Text>
-          <Text name="SearchScreen">Search</Text>
-          <Text name="FriendsScreen">Friends</Text>
-          <Text name="ProfileScreen">Profile</Text>
-      </Tabs>*/
+
         <View style={styles.headerBar}>
           <Image source={require('../../Img/logo.png')} style={styles.logoPic}/>
           <Text style = {styles.textLabel}> Apollo </Text>
@@ -170,4 +165,9 @@ const MainScreenNavigator = TabNavigator({
   Search: { screen: SearchScreen },
   Friends: {screen: FriendsScreen },
   Profile: {screen: ProfileScreen },
+},
+{
+tabBarOptions: {
+  activeTintColor: '#e91e63',
+},
 });

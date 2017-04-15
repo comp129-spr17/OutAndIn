@@ -52,7 +52,7 @@ will align vertically, one on top of the other, when a new file is added.*/
 /*Also, you should work on getting the actual "+" button to be interactive.*/
 
 .sidebar-info-fileiconaudio {
-	position: absolute;
+	display: block;
 	vertical-align: left;
 }
 
