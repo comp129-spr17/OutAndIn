@@ -173,11 +173,9 @@ export default class Chat extends Component {
                 <div className="chat-input">
                     <form className='form' onSubmit={this.handleChatTextSend}>
                        <input autoFocus type="text" value={this.state.inputChatText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type a message ...'/>
+         
                     	<div className="chatIcons">
-                    	<FontAwesome
-                    	className="chatImage"
-                    	name='paperclip'
-                    	size='2x' />
+                    	<i className="chatImage fa fa-paperclip fa-2x"></i>
                     	</div>
 					    
 					</form>
