@@ -12,7 +12,7 @@ export default class AddtoChat extends React.Component {
 		return (
 			<div id="add-to-chat-modal">
 				<div className="add-to-chat-modal-overlay"></div>
-				<div id="new-message-modal-container">
+				<div id="add-to-chat-modal-container">
 					<input type="text" placeholder="Type friends name"/>
 				</div>
 			</div>
