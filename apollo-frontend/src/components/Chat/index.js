@@ -9,7 +9,6 @@ import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import { client } from '../../modules/api-client';
-var FontAwesome = require('react-fontawesome');
 
 var jwt_decode = require('jwt-decode');
 
