@@ -54,14 +54,15 @@ will align vertically, one on top of the other, when a new file is added.*/
 .sidebar-info-fileiconaudio {
 	display: block;
 	vertical-align: left;
+	padding: 5px;
 }
 
 .sidebar-info-fileiconvideo {
-	position: absolute;
+	display: block;
 	vertical-align: left;
 }
 
 .sidebar-info-fileicontext {
-	position: absolute;
+	display: block;
 	vertical-align: left;
 }
