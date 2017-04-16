@@ -170,7 +170,7 @@ router.get('/:uuid', function(req, res){
 			response.setSuccess(false);
 			response.setErrors(error);
 			// Send response
-			res.status(401).json(response.toJSON());
+			res.status(200).json(response.toJSON());
 			return;
 		}
 		// Create response object
@@ -183,7 +183,7 @@ router.get('/:uuid', function(req, res){
 	}).catch((err) => {
 		// Error
 		var error = {
-			"code": 1000,
+			"code": 2000,
 			"message": err
 		};
 		// Create response object

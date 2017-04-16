@@ -139,7 +139,7 @@ Apollo.prototype.usersInit = function(name){
 };
 
 // {id}
-Apollo.prototype.userGet = function(id){
+Apollo.prototype.userGetProfile = function(id){
 	return this._get('users/' + id, {});
 };
 

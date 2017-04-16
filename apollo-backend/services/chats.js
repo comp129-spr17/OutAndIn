@@ -40,7 +40,6 @@ exports.getUserFromChat = function(chatID, userID){
 
 //get users by chat id
 exports.chatsGetUsersForChat = function(chatID){
-	console.log("chat users for " + chatID);
 	var sql = 'SELECT * FROM chat_users WHERE chat_id = ?';
 	return db.pool.query(sql, [chatID]);
 };

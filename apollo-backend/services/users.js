@@ -70,7 +70,7 @@ exports.getAllUsers = function(){
  * @return: {promise} promise - SQL promise
  */
 exports.getUserByUUID = function(uuid){
-	var sql = "SELECT uuid, email, fullname, username, avatar FROM users WHERE uuid = ?";
+	var sql = "SELECT uuid, email, fullname, username, avatar, socket FROM users WHERE uuid = ?";
 	return db.pool.query(sql, [uuid]);
 };
 
