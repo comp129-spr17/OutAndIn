@@ -4,12 +4,14 @@
     color: black;
     text-align:center;
     width: 100%;
-    border: 3px solid #164762; 
+    height:50%;
+    background-color:#164762; 
 }
 .profile-container {
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
+    width:100%;
     transform: translateX(-50%) translateY(-50%);
     border: 3px solid #164762; 
 
@@ -17,23 +19,29 @@
 .profile-avatar {
    display: inline-block;
    float:left;
-
+   margin-left:15%;
+   margin-top:-5%;
 }
 
 .profile-avatar img{
-    height: 100px;
-    width: 100px;
+    height: 250px;
+    width: 250px;
     border-radius: 50%;
 }
 
 .profile-name {
     margin:10px;
-    color: #164762;
+    color: white;
     font-size:21px;
+    margin-left: 60%;
+    margin-top:20%;
 }
 
 .profile-handle{
-    margin-left:100px;
+    margin-left: 52%;
+    text-align: center;
+    width: 20%;
+    height: 5%;
     font-size:15px;
 }
 
@@ -42,10 +50,11 @@
     margin:10px;
     font-size:15px;
     font-style: italic;
+    text-align:center;
 }
 
 .profile-friendlist{
-    float:left;
+    float:none;
 }
 
 .profile-friendlist img{
