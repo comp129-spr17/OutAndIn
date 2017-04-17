@@ -4,7 +4,7 @@ import ProfileContainer from '../containers/ProfileContainer';
 class Profile extends Component {
 	render(){
 		return (
-			<ProfileContainer />
+			<ProfileContainer userID={this.props.params.id}/>
 		);
 	}
 }

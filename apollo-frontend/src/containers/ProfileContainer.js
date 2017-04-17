@@ -1,5 +1,28 @@
 import Profile from '../components/Profile/index';
 import { connect } from 'react-redux';
+import {
+	getProfile,
+	getProfileSuccess,
+	getProfileFailure,
+	setProfileName,
+	setProfileAvatar
+} from '../actions/profile';
+
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		getProfile: (userID) =>{
+			let res = dispatch(getProfile(userID));
+			res.payload.then((user) => {
+				//TODO
+				//ERROR checking	
+				//SET PROFILE
+			}).catch((err) => {
+				
+			});
+		}
+	};
+};
 
 function mapStateToProps(state, ownProps){
 	return {
@@ -7,4 +30,4 @@ function mapStateToProps(state, ownProps){
 	};
 }
 
-export default connect(mapStateToProps, null)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

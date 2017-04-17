@@ -16,6 +16,12 @@ export default class Profile extends Component {
     constructor(){
         super();
     }
+	
+	componentWillMount(){
+		console.log("USERID: " + this.props.userID);
+		this.props.getProfile(this.props.userID);
+	}
+
     render() {
         return (
             <div className="content">
@@ -23,17 +29,17 @@ export default class Profile extends Component {
                 <div className='profile-container'> 
                     <div >
                         <div className='profile-avatar'>
-                            <img  src={ this.props.profile.avatar } alt="User Image"/>
+                            <img  src={ this.props.profile.user.avatar } alt="User Image"/>
                         </div>
                         <div  >
-                            <p className='profile-name' >{this.props.profile.name} </p>
-                            <p className='profile-handle' > {this.props.profile.handle} </p>
+                            <p className='profile-name' >{this.props.profile.user.name} </p>
+                            <p className='profile-handle' > {this.props.profile.user.handle} </p>
                         </div>
                     </div>
                     <div className='profile-otherinfo'>
-                        <p> Phone : {this.props.profile.phoneNumber}  </p>
-                        <p> Birthday : {this.props.profile.dob}  </p>
-                        <p> Where I Live : {this.props.profile.address}  </p>
+                        <p> Phone : {this.props.profile.user.phoneNumber}  </p>
+                        <p> Birthday : {this.props.profile.user.dob}  </p>
+                        <p> Where I Live : {this.props.profile.user.address}  </p>
                         <div>
                             <p>Friends </p>
                             <div className='profile-friendlist'> 

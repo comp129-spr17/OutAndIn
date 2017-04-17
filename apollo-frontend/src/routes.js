@@ -22,7 +22,7 @@ export default (
 		<Route component={App} >
 			<Route component={ AuthRequired(Layout) } >
 				<Route path="/" component={Chat} />
-        		<Route path="/profile" component={Profile} />
+        		<Route path="/profile/:id" component={Profile} />
 			</Route>
 			<Route path="/login" component={Login} />
 			<Route path="/register" component={Register} />
