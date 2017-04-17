@@ -54,14 +54,16 @@ export default function(state = INITIAL_STATE, action){
 			};
 			break;
 		case PROFILE_SET_NAME:
-			user.name = action.payload.name;
+			user = state.user;
+			user.name = action.payload;
 			return {
 				...state,
 				user
 			};
 			break;
 		case PROFILE_SET_AVATAR:
-			user.avatar = actionpayload.avatar;
+			user = state.user;
+			user.avatar = action.payload;
 			return {
 				...state,
 				user

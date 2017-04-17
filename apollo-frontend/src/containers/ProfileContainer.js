@@ -12,13 +12,20 @@ import {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		getProfile: (userID) =>{
-			let res = dispatch(getProfile(userID));
-			res.payload.then((user) => {
+			dispatch(getProfile(userID)).payload.then((res) => {
 				//TODO
 				//ERROR checking	
 				//SET PROFILE
+				if(res.data.errors){
+					for(var i in res.data.errors){
+						console.log("ERROR - getProfile: " + res.data.errors[0].message);
+					}
+					return;
+				}
+				dispatch(setProfileName(res.data.results[0].fullname));
+				dispatch(setProfileAvatar(res.data.results[0].avatar));
 			}).catch((err) => {
-				
+				console.log("ERROR - getProfile: " + err);
 			});
 		}
 	};
