@@ -7,15 +7,6 @@ import {
 } from '../actions/profile';
 
 
-// const INITIAL_STATE = {
-// 	user: {
-// 		name: '',
-// 		avatar: ''
-// 	},
-// 	loading: false,
-// 	error: ''
-// };
-
 const INITIAL_STATE = {
 	//use this object instead
 	user: {
@@ -69,7 +60,10 @@ export default function(state = INITIAL_STATE, action){
 				user
 			};
 			break;
-
+		default:
+			console.log('Error - invalid action: ' + action.type);
+			return state;
+			break;
 	}	
 	return state;
 };
