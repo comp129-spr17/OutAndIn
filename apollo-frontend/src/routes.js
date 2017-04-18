@@ -9,9 +9,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
+import Chat from './pages/Chat';
 
 // TODO: tmp import, clean up and conver to page later
-import Chat from './components/Chat';
+//import Chat from './components/Chat';
 
 // Higher order component to protect privileged pages
 import AuthRequired from './utils/AuthRequired'; 

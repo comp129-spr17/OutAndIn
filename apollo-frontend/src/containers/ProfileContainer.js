@@ -13,19 +13,21 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		getProfile: (userID) =>{
 			dispatch(getProfile(userID)).payload.then((res) => {
-				//TODO
-				//ERROR checking	
-				//SET PROFILE
 				if(res.data.errors){
 					for(var i in res.data.errors){
-						console.log("ERROR - getProfile: " + res.data.errors[0].message);
+						console.log("Error - getProfile: " + res.data.errors[i].message);
+						dispatch(getProfileFailure(res.data.errors[i]));
 					}
 					return;
 				}
+				dispatch(getProfileSuccess());
+
+				//set user details
 				dispatch(setProfileName(res.data.results[0].fullname));
 				dispatch(setProfileAvatar(res.data.results[0].avatar));
 			}).catch((err) => {
-				console.log("ERROR - getProfile: " + err);
+				console.log("Error - getProfile: " + JSON.stringify(err));
+				dispatch(getProfileFailure(err));
 			});
 		}
 	};

@@ -61,7 +61,6 @@ export default function(state = INITIAL_STATE, action){
 			};
 			break;
 		default:
-			console.log('Error - invalid action: ' + action.type);
 			return state;
 			break;
 	}	
