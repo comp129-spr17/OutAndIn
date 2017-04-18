@@ -52,7 +52,7 @@ const mapDispatchToProps = (dispatch) =>{
 function mapStateToProps(state, ownProps){
 	return {
 		chat: state.chat,
-		sidebar.state.sidebar
+		sidebar: state.sidebar
 	};
 };
 
