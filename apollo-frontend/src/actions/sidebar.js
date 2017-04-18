@@ -1,28 +1,37 @@
 import { client } from '../modules/api-client';
 
 // Conversations
-export const FETCH_CONVERSATIONS = "FETCH_CONVERSATIONS";
-export const FETCH_CONVERSATIONS_SUCCESS = "FETCH_CONVERSATIONS_SUCCESS";
-export const FETCH_CONVERSATIONS_FAILURE = "FETCH_CONVERSATIONS_FAILURE";
+export const GET_CHATS = "GET_CHATS";
+export const GET_CHATS_SUCCESS = "GET_CHATS_SUCCESS";
+export const GET_CHATS_FAILURE = "GET_CHATS_FAILURE";
 
-export const fetchConversations = () => {
+export const SIDEBAR_FOCUS_CHAT = "SIDEBAR_FOCUS_CHAT";
+
+export const getChats = () => {
 	return {
-		type: FETCH_CONVERSATIONS,
+		type: GET_CHATS,
 		payload: client.chatsGetAll()
 	};
 };
 
 
-export const fetchConversationsSuccess = (conversations) => {
+export const getChatsSuccess = (conversations) => {
 	return {
-		type: FETCH_CONVERSATIONS_SUCCESS,
+		type: GET_CHATS_SUCCESS,
 		payload: conversations
 	};
 };
 
-export const fetchConversationsFailure = (error) => {
+export const getChatsFailure = (error) => {
 	return {
-		type: FETCH_CONVERSATIONS_FAILURE,
+		type: GET_CHATS_FAILURE,
 		payload: error
+	};
+};
+
+export const focusChat = (chatID) => {
+	return {
+		type: SIDEBAR_FOCUS_CHAT,
+		payload: chatID
 	};
 };

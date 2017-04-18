@@ -1,7 +1,8 @@
 import {
-	FETCH_CONVERSATIONS,
-	FETCH_CONVERSATIONS_SUCCESS,
-	FETCH_CONVERSATIONS_FAILURE
+	GET_CHATS,
+	GET_CHATS_SUCCESS,
+	GET_CHATS_FAILURE,
+	SIDEBAR_FOCUS_CHAT
 } from '../actions/sidebar';
 
 const INITIAL_STATE = {
@@ -9,14 +10,15 @@ const INITIAL_STATE = {
 		conversations: [],
 		error: null,
 		loading: false
-	}
+	},
+	chatFocused: ''
 };
 
 export default function(state=INITIAL_STATE, action){
 	let error;
 	switch(action.type){
 		// Begin to get conversations for the user and set loading to true
-		case FETCH_CONVERSATIONS:
+		case GET_CHATS:
 			return {
 				...state,
 				conversationsList: { 
@@ -25,7 +27,7 @@ export default function(state=INITIAL_STATE, action){
 					loading: true
 				} 
 			};
-		case FETCH_CONVERSATIONS_SUCCESS:
+		case GET_CHATS_SUCCESS:
 			return {
 				...state,
 				conversationsList: {
@@ -34,7 +36,7 @@ export default function(state=INITIAL_STATE, action){
 					loading: false
 				}
 			};
-		case FETCH_CONVERSATIONS_FAILURE:
+		case GET_CHATS_FAILURE:
 			error = action.payload || { message: action.payload.message };
 			return {
 				...state,
@@ -44,6 +46,11 @@ export default function(state=INITIAL_STATE, action){
 					loading: false
 				}
 			}
+		case SIDEBAR_FOCUS_CHAT:
+			return {
+				...state,
+				chatFocused: action.payload
+			};
 		default:
 			return state;
 	}

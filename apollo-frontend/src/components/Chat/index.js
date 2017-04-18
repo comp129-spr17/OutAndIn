@@ -52,7 +52,6 @@ export default class Chat extends Component {
 	}
 
 	handleChatInpChange(event){
-		console.log("inputChange");
 		this.props.inputChange(event.target.value);
 		this.setState({inputChatText: event.target.value})  //setting value of this.state.value to what is typed in input box
 	}
@@ -61,6 +60,8 @@ export default class Chat extends Component {
 		event.preventDefault();
 		if(this.state.inputChatText=='') //checking if value is empty
 			return;
+
+		//this.props.sendMessage(this.props.chat.inputText);
 		client.chatAddMessage(
 			localStorage.getItem('focusChat'),
 			this.state.inputChatText
