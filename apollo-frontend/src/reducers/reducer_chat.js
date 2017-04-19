@@ -18,6 +18,8 @@ const INITIAL_STATE = {
 };
 
 export default function(state = INITIAL_STATE, action){
+	console.log("action");
+	console.log(action);
 	switch(action.type){
 		case CHAT_GET_MESSAGES:
 			return{
@@ -41,6 +43,7 @@ export default function(state = INITIAL_STATE, action){
 			};
 			break;
 		case CHAT_INPUT_CHANGE:
+			console.log("CHANGE: " + action.payload);
 			return {
 				...state,
 				inputText: action.payload
@@ -48,7 +51,8 @@ export default function(state = INITIAL_STATE, action){
 			break;
 		case CHAT_MESSAGE_SEND:
 			return {
-				...state
+				...state,
+				inputText: ''
 			};
 			break;
 		case CHAT_MESSAGE_SEND_SUCCESS:
@@ -64,7 +68,7 @@ export default function(state = INITIAL_STATE, action){
 			};
 			break;
 		default:
+			console.log("NO action: " + action.type);
 			return state;
-			break;
 	}
 }

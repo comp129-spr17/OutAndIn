@@ -8,7 +8,6 @@ import {
 	setProfileAvatar
 } from '../actions/profile';
 
-
 const mapDispatchToProps = (dispatch) => {
 	return {
 		getProfile: (userID) =>{

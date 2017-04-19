@@ -477,6 +477,7 @@ input:
 }
 */
 router.post('/messages/:id', function(req, res){
+	console.log('message add');
 	console.log(JSON.stringify(req.body));
 	var userID = req.user;
 	var chatID = req.params.id;
@@ -497,6 +498,8 @@ router.post('/messages/:id', function(req, res){
 		return Promise.all(promises);
 
 	}).then((sock) => {
+		console.log("SOCK");
+		console.log(sock);
 		for(var i in sock){
 			if(res.socketIO.sockets.connected[sock[i][0].socket]){
 				console.log("EMIT: " + JSON.stringify(sock[i][0].socket));

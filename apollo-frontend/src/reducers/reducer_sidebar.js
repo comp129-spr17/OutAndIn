@@ -1,51 +1,80 @@
 import {
-	GET_CHATS,
-	GET_CHATS_SUCCESS,
-	GET_CHATS_FAILURE,
+	SIDEBAR_GET_CHATS,
+	SIDEBAR_GET_CHATS_SUCCESS,
+	SIDEBAR_GET_CHATS_FAILURE,
+	SIDEBAR_SEARCH,
+	SIDEBAR_SEARCH_SUCCESS,
+	SIDEBAR_SEARCH_FAILURE,
 	SIDEBAR_FOCUS_CHAT
 } from '../actions/sidebar';
 
 const INITIAL_STATE = {
-	conversationsList: {
-		conversations: [],
-		error: null,
-		loading: false
-	},
-	chatFocused: ''
+	chats: [],
+	friends: [],
+	people: [],
+	files: [],
+	searching: false,
+	chatFocused: '',
+	isLoading: false,
+	error: ''
 };
 
 export default function(state=INITIAL_STATE, action){
 	let error;
+	console.log(action);
 	switch(action.type){
 		// Begin to get conversations for the user and set loading to true
-		case GET_CHATS:
+		case SIDEBAR_GET_CHATS:
 			return {
 				...state,
-				conversationsList: { 
-					conversations: [], 
-					error: null, 
-					loading: true
-				} 
+				chats: [],
+				friends: [],
+				people: [],
+				files: [],
+				isLoading: true,
+				searching: false
 			};
-		case GET_CHATS_SUCCESS:
+		case SIDEBAR_GET_CHATS_SUCCESS:
+			console.log("ACT");
+			console.log(action);
 			return {
 				...state,
-				conversationsList: {
-					conversations: action.payload,
-					error: null,
-					loading: false
-				}
+				chats: action.payload,
+				isLoading: false,
+				searching: false
 			};
-		case GET_CHATS_FAILURE:
+		case SIDEBAR_GET_CHATS_FAILURE:
 			error = action.payload || { message: action.payload.message };
 			return {
 				...state,
-				conversationsList: {
-					conversations: [],
-					error: error,
-					loading: false
-				}
+				isLoading: false,
+				searching: false,
+				error: action.payload
 			}
+		case SIDEBAR_SEARCH: 
+			return {
+				...state,
+				chats: [],
+				friends: [],
+				people: [],
+				files: [],
+				isLoading: true,
+				searching: true
+			};
+		case SIDEBAR_SEARCH_SUCCESS:
+			return {
+				...state,
+				friends: action.payload.friends,
+				people: action.payload.people,
+				files: action.payload.files,
+				isLoading: false
+			};
+		case SIDEBAR_SEARCH_FAILURE:
+			return {
+				...state,
+				error: action.payload,
+				isLoading: false
+			};
 		case SIDEBAR_FOCUS_CHAT:
 			return {
 				...state,
@@ -54,4 +83,4 @@ export default function(state=INITIAL_STATE, action){
 		default:
 			return state;
 	}
-}
+};

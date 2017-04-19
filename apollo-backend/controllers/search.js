@@ -61,9 +61,14 @@ router.get('/:q', function(req, res){
 	
 	// Get all users that match the query to the username
 	usersService.getUsersByQuery(query).then((results) => {
+		let q = {
+			friends: results,
+			people: [],
+			files: []
+		};
 		let response = new responseObject();
 		response.setSuccess(true);
-		response.setResults(results);
+		response.setResults(q);
 		res.status(200).json(response.toJSON());
 	}).catch((err) => {
 		// Error
@@ -74,7 +79,7 @@ router.get('/:q', function(req, res){
 		let response = new responseObject();
 		response.setSuccess(true);
 		response.setErrors(error);
-		res.status(200).json(response.toJSON());
+		res.status(500).json(response.toJSON());
 	});
 });
 
@@ -111,7 +116,6 @@ router.options('/', function(req, res){
  * @return: {string} http headers - Authorized headers and methods
  */
 router.options('/:q', function(req, res){
-	console.log("here");
 	var origin = req.get('Origin');
 	// Check if origin is set
 	if(!origin){

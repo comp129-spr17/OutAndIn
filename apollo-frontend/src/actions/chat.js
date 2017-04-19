@@ -1,20 +1,20 @@
 import { client } from '../modules/api-client';
 
 //actions
-const CHAT_GET_MESSAGES = "CHAT_GET_MESSAGES";
-const CHAT_GET_MESSAGES_SUCCESS = "CHAT_GET_MESSAGES_SUCCESS";
-const CHAT_GET_MESSAGES_FAILURE = "CHAT_GET_MESSAGES_FAILURE";
+export const CHAT_GET_MESSAGES = "CHAT_GET_MESSAGES";
+export const CHAT_GET_MESSAGES_SUCCESS = "CHAT_GET_MESSAGES_SUCCESS";
+export const CHAT_GET_MESSAGES_FAILURE = "CHAT_GET_MESSAGES_FAILURE";
 
-const CHAT_INPUT_CHANGE = "CHAT_INPUT_CHANGE";
+export const CHAT_INPUT_CHANGE = "CHAT_INPUT_CHANGE";
 
-const CHAT_MESSAGE_SEND = "CHAT_MESSAGE_SEND";
-const CHAT_MESSAGE_SEND_SUCCESS = "CHAT_MESSAGE_SEND_SUCCESS";
-const CHAT_MESSAGE_SEND_FAILURE = "CHAT_MESSAGE_SEND_FAILURE";
+export const CHAT_MESSAGE_SEND = "CHAT_MESSAGE_SEND";
+export const CHAT_MESSAGE_SEND_SUCCESS = "CHAT_MESSAGE_SEND_SUCCESS";
+export const CHAT_MESSAGE_SEND_FAILURE = "CHAT_MESSAGE_SEND_FAILURE";
 
 export function getMessages(chatID){
 	return {
 		type: CHAT_GET_MESSAGES,
-		payload: client.chatsGetMessage(chatID)
+		payload: client.chatGetMessage(chatID)
 	};
 };
 
@@ -39,10 +39,10 @@ export function inputChange(value){
 	};
 };
 
-export function sendMessage(message){
+export function sendMessage(chatID, message){
 	return {
 		type: CHAT_MESSAGE_SEND,
-		payload: message
+		payload: client.chatAddMessage(chatID, message)
 	};
 };
 
@@ -56,6 +56,6 @@ export function sendMessageSuccess(value){
 export function sendMessageFailure(error){
 	return {
 		type: CHAT_MESSAGE_SEND_FAILURE,
-		paylaod: error
+		payload: error
 	};
 };

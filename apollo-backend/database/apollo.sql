@@ -140,7 +140,7 @@ CREATE TABLE `users` (
   `username` varchar(255) NOT NULL DEFAULT '',
   `password` varchar(255) NOT NULL DEFAULT '',
   `avatar` longtext NOT NULL,
-  `socket` varchar(32) NOT NULL DEFAULT '',
+  `socket` varchar(32) DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

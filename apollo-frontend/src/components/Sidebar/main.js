@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { client } from '../../modules/api-client';
 
-export default class UserSearch extends Component {
+export default class Sidebar extends Component {
     constructor() {
         super();
 		this.state = {
@@ -21,6 +21,7 @@ export default class UserSearch extends Component {
 		this.handleChatAdded = this.handleChatAdded.bind(this);
 		// Close New Message Modal if you click off the modal
 		client.socketRegisterEvent('chatAdded', this.handleChatAdded);
+
 	}
 	hasClass(el, className) {
 	  if (el.classList)
@@ -67,43 +68,18 @@ export default class UserSearch extends Component {
 			}
 		}, false);
 
-		this.displayChats();
+		this.props.getChats();
 	}
 
 	search(e){
-        var currVal = $('#input_friend').val(); 
-        if(currVal != ''){  
+        var curVal = $('#input_friend').val();
+        if(curVal != ''){  
 			//removed return statement since it was returning nothing when curr val was empty,
 			//keeping searches on screen when there was nothing in search inp
 			
-			client.search(currVal).then((query) =>{
-				console.log(query);
-				var searchList = query.data.results;
-				var friends = [];
-
-				console.log("q: " + JSON.stringify(searchList));
-				for(var i in searchList){
-					var ico = "img/avatar" + Math.floor(Math.random() * 3) + '.png';
-
-					friends.push({
-						name: searchList[i].username,
-						avatar: ico,
-						timestamp: "4/12/2017",
-						preview: 'abcd',
-						id: searchList[i].uuid
-					});	
-				}
-				this.setState({
-					friends: friends,
-					people: friends,	//TODO: retrieve people
-					files: friends,		//TODO: retrieve files
-					chats: []
-				});
-			}).catch((err) =>{
-				console.log("ERR: " + JSON.stringify(err));
-			});
+			this.props.search(curVal);
         }else{
-			this.displayChats();
+			this.props.getChats();
 		}
 	}
 
@@ -119,18 +95,19 @@ export default class UserSearch extends Component {
 			console.log("Err: " + JSON.stringify(err));
 		});
 		$('#input_friend').val('');
-		this.displayChats();
+		this.props.getChats();
 	}
 
 	chatSelect(chatID){
-		localStorage.setItem("focusChat", chatID);
+		this.props.focusChat(chatID);
+		//localStorage.setItem("focusChat", chatID);
 		client.eventBusDispatchEvent("focusChat");
 	}
 
 	handleChatAdded(){
 		console.log("Chat added");
 		if($('#input_friend').val() == ''){
-			this.displayChats();
+			this.props.getChats();
 		}
 	}
 
@@ -147,7 +124,7 @@ export default class UserSearch extends Component {
 			this.setState({newMessageModalState: 0});
 		}
 	}
-
+	//old
 	displayChats(){
 		client.chatsGetAll().then((query) => {
 				console.log(query);
@@ -189,8 +166,8 @@ export default class UserSearch extends Component {
                     </div>
                     <div className="sidebar-content">
 						<div className='conversationDiv'>
-							{this.state.chats.map((chat, k) =>{
-								return 	<div className="sidebar-item" onClick={() => this.chatSelect(chat.id)} key={k}>
+							{this.props.sidebar.chats.map((chat, k) =>{
+								return 	<div className="sidebar-item" onClick={() => this.chatSelect(chat.uuid)} key={k}>
                                     <div className="sidebar-chat">
                                         <div className="sidebar-chat-img">
                                             <div className="sidebar-chat-avatar">
@@ -216,9 +193,9 @@ export default class UserSearch extends Component {
 							})}
 						</div>
                         <div className='conversationDiv' >
-                            <p>Conversation</p>
-                            { this.state.friends.map((friend, k) => {
-                                return <div className="sidebar-item" onClick={() => this.friendSelect(friend.id)} key={k}>
+							{ this.props.sidebar.searching ? (<p>Conversation</p>) : '' }
+                            { this.props.sidebar.friends.map((friend, k) => {
+                                return <div className="sidebar-item" onClick={() => this.friendSelect(friend.uuid)} key={k}>
                                     <div className="sidebar-chat">
                                         <div className="sidebar-chat-img">
                                             <div className="sidebar-chat-avatar">
@@ -229,7 +206,7 @@ export default class UserSearch extends Component {
                                         </div>
                                         <div className="sidebar-chat-details">
                                             <div className="sidebar-chat-details-name">
-                                                <h4>{ friend.name }</h4>
+                                                <h4>{ friend.username }</h4>
                                             </div>
                                             <div className="sidebar-chat-details-preview">
                                                 <p>{ friend.preview }</p>
@@ -243,8 +220,8 @@ export default class UserSearch extends Component {
                             })}
                         </div>
                         <div className='peopleDiv' >
-                            <p>People</p>
-                            { this.state.people.map((p, k) => {
+							{ this.props.sidebar.searching ? (<p>People</p>) : ''}
+                            { this.props.sidebar.people.map((p, k) => {
                                 return <div className="sidebar-item" key={k}>
                                     <div className="sidebar-chat">
                                         <div className="sidebar-chat-img">
@@ -270,8 +247,8 @@ export default class UserSearch extends Component {
                             })}
                         </div>
                         <div className='fileDiv' >
-                            <p>Files</p>
-                            { this.state.files.map((file, k) => {
+							{ this.props.sidebar.searching ? (<p>Files</p>) : '' }
+                            { this.props.sidebar.files.map((file, k) => {
                                 return <div className="sidebar-item" key={k}>
                                     <div className="sidebar-chat">
                                         <div className="sidebar-chat-img">

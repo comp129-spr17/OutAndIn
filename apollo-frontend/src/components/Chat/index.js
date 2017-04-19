@@ -9,81 +9,47 @@ export default class Chat extends Component {
 	constructor () { //constructor
 		super();
 		this.state= { //new object
-			inputChatText: '',//text that you type into input box
+			inputText: '',//text that you type into input box
 			userID: jwt_decode(localStorage.getItem('token')).uid,
 			messageList: [],
 		};
 
 		//bind 'this' referance
+		this.getMessages = this.getMessages.bind(this);
 		this.handleChatInpChange = this.handleChatInpChange.bind(this);
 		this.handleChatTextSend = this.handleChatTextSend.bind(this);
-		this.handleChatDetails = this.handleChatDetails.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
-		this.handleChatFocusUpdate = this.handleChatFocusUpdate.bind(this);
 
 		//event bus event handlers
-		client.eventBusRegisterEvent('focusChat', this.handleChatFocusUpdate);
-		
+		client.eventBusRegisterEvent('focusChat', this.getMessages);
+
 		//add socket event handlers
 		client.socketRegisterEvent("messageAdded", this.handleMessageAdd);
 
 		console.log("me: " + this.state.userID);
-		
 		client.userSetSocketID(this.state.userID);
-		client.usersGetAll().then((u) =>{
-			console.log('u');
-			console.log(u);
-		}).catch((err) =>{});
 	}
 
-	handleChatFocusUpdate(){
-		var chatID = localStorage.getItem('focusChat');
-		console.log('building msgs: ' + chatID);
-		client.chatGetMessage(chatID).then((messages) => {
-			//update messagelist
-			console.log("msg");
-			console.log(messages);
-			this.setState({
-				messageList: messages.data.results
-			});
-		}).catch((err) => {
-			console.log('err 1');
-		});
+	getMessages(){
+		this.props.getMessages(this.props.sidebar.chatFocused);
 	}
 
 	handleChatInpChange(event){
 		this.props.inputChange(event.target.value);
-		this.setState({inputChatText: event.target.value})  //setting value of this.state.value to what is typed in input box
 	}
 
 	handleChatTextSend(event){  	//storing chat in array
 		event.preventDefault();
-		if(this.state.inputChatText=='') //checking if value is empty
+		if(this.props.chat.inputText == '' || this.props.sidebar.chatFocused == '') //checking if value is empty
 			return;
-
-		//this.props.sendMessage(this.props.chat.inputText);
-		client.chatAddMessage(
-			localStorage.getItem('focusChat'),
-			this.state.inputChatText
-		).then((msg) => {
-			console.log('msg');
-			console.log(msg);
-			this.setState({inputChatText: ''});
-			this.forceUpdate();
-			client.eventBusDispatchEvent("focusChat");
-		}).catch((err) => {
-			console.log('Err: ' + err);
-		});
+		this.props.sendMessage(this.props.sidebar.chatFocused, this.props.chat.inputText);
 	}
 
-	handleChatDetails(msg){
-		this.setState({messageList: msg['body']['chat'].messages}); //parsing the server response
-	}
-
-	handleMessageAdd(chatID) {
-		console.log("PING!: " + chatID);
-		if(chatID == localStorage.getItem("focusChat")){
-			this.handleChatFocusUpdate();
+	//from other users
+	handleMessageAdd(chatID){
+		console.log("PING: " + chatID);
+		if(chatID == this.props.sidebar.chatFocused){
+			this.getMessages();
 		}
 	}
 
@@ -95,7 +61,7 @@ export default class Chat extends Component {
                     <div className="div-right">
                         <div className="bubble-dialog">
                             {
-								this.state.messageList.map((msg, k) => {
+								this.props.chat.messages.map((msg, k) => {
                                 	return <ChatDirectionComponent key={k} message={msg} userID={this.state.userID} />
                             	})
 							}
@@ -104,7 +70,7 @@ export default class Chat extends Component {
                 </div>
                 <div className="chat-input">
                     <form className='form' onSubmit={this.handleChatTextSend}>
-                       <input autoFocus type="text" value={this.state.inputChatText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type a message ...'/>
+                       <input autoFocus type="text" value={this.props.chat.inputText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type a message ...'/>
          
                     	<div className="chatIcons">
                     	<i className="chatImage fa fa-paperclip fa-2x"></i>
