@@ -38,7 +38,7 @@
 .sidebar-info-inner{ /*This refers to the div I placed inside each section (People and Files) in order to format the content that goes in them.*/
 	width: 250px;
 	position: relative;
-	height: 100px;
+	height: auto;
 	padding-top: 15px;
 	/*border-top: 1px solid $border; << This is just so I can see where the div begins - ignore it.*/
 	overflow-y: auto; /*Makes the inner div scrollable when content overflows.*/
@@ -56,4 +56,3 @@ will align vertically, one on top of the other, when a new file is added.*/
 	vertical-align: left;
 	padding: 5px;
 }
-
