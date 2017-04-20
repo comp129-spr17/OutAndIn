@@ -4,11 +4,12 @@ import moment from 'moment';
 import { client } from '../../modules/api-client';
 
 export default class SidebarInfo extends Component {
-    constructor() {
+    /*constructor() {
+        super();
 
     this.handleMessageAdd = this.handleMessageAdd.bind(this);
 
-    }
+    }*/
 
     handleFileChoosen(e){
         console.log("CLICK: ", e.target.value);
