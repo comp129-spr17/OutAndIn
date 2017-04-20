@@ -12,7 +12,13 @@ export default class Chat extends Component {
 			inputText: '',//text that you type into input box
 			userID: jwt_decode(localStorage.getItem('token')).uid,
 			messageList: [],
+			height: 150,
+			width: 150,
+			stream: null
 		};
+		this.hasClass = this.hasClass.bind(this);
+		this.addClass = this.addClass.bind(this);
+		this.removeClass = this.removeClass.bind(this);
 
 		//bind 'this' referance
 		this.getMessages = this.getMessages.bind(this);
@@ -20,6 +26,9 @@ export default class Chat extends Component {
 		this.handleChatTextSend = this.handleChatTextSend.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
 		this.handleFileInput = this.handleFileInput.bind(this);
+		this.enableWebcam = this.enableWebcam.bind(this);
+		this.takePicture = this.takePicture.bind(this);
+		this.handleTakePicture = this.handleTakePicture.bind(this);
 		//event bus event handlers
 		client.eventBusRegisterEvent('focusChat', this.getMessages);
 
@@ -29,7 +38,27 @@ export default class Chat extends Component {
 		console.log("me: " + this.state.userID);
 		client.userSetSocketID(this.state.userID);
 	}
+	hasClass(el, className) {
+	  if (el.classList)
+		return el.classList.contains(className)
+	  else
+		return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
+	}
 
+	addClass(el, className) {
+	  if (el.classList)
+		el.classList.add(className)
+	  else if (!hasClass(el, className)) el.className += " " + className
+	}
+
+	removeClass(el, className) {
+	  if (el.classList)
+		el.classList.remove(className)
+	  else if (hasClass(el, className)) {
+		var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
+		el.className=el.className.replace(reg, ' ')
+	  }
+	}
 	getMessages(){
 		this.props.getMessages(this.props.sidebar.chatFocused);
 	}
@@ -71,10 +100,116 @@ export default class Chat extends Component {
 		fileInput.click();
 	}
 
+	enableWebcam(){
+		var streaming = false,
+    	video = document.querySelector('#video'),
+		canvas = document.querySelector('#canvas'),
+		//photo = document.querySelector('#photo'),
+		startbutton = document.querySelector('#capture');
+		this.setState({width: 150, height: 150});
+		console.log("WIDTH: ", this.state.width);	
+		console.log("HEIGHT: ", this.state.height);	
+		// Infer the vendor prefix
+		navigator.getMedia = (
+			navigator.getUserMedia ||
+			navigator.webkitGetUserMedia ||
+			navigator.mozGetUserMedia ||
+			navigator.msGetUserMedia
+		);
+		
+		var self = this;
+  		navigator.getMedia({
+      		video: true,
+      		audio: false
+    	}, function(stream) {
+			if(navigator.mozGetUserMedia) {
+        		video.mozSrcObject = stream;
+			} else {
+				self.setState({stream: stream});
+        		var vendorURL = window.URL || window.webkitURL;
+        		video.src = vendorURL.createObjectURL(stream);
+      		}
+      		video.play();
+    	}, function(err) {
+      		console.log("An error occured! " + err);
+    	});
+  		video.addEventListener('canplay', function(ev) {
+			if(!streaming) {
+				self.setState({height: video.videoHeight / (video.videoWidth / self.state.width)});
+				video.setAttribute('width', self.state.width);
+				video.setAttribute('height', self.state.height);
+				canvas.setAttribute('width', self.state.width);
+				canvas.setAttribute('height', self.state.height);
+				streaming = true;
+			}
+  		}, false);
+	}
+  	
+	takePicture() {
+    	document.querySelector('#video').style.display = "none";
+    	document.querySelector('#canvas').style.display = "inline-block";
+    	document.querySelector('#capture').innerText = "RETAKE";
+    	document.querySelector('#canvas').width = this.state.width;
+    	document.querySelector('#canvas').height = this.state.height;
+    	document.querySelector('#canvas').getContext('2d').drawImage(document.querySelector("#video"), 0, 0, this.state.width, this.state.height);
+    	var data = document.querySelector("#canvas").toDataURL('image/png');
+		document.querySelector("#photo").setAttribute('src', data);
+		var byteString = atob(data.split(',')[1]);
+
+	  	// separate out the mime component
+	  	var mimeString = data.split(',')[0].split(':')[1].split(';')[0]
+
+	  	// write the bytes of the string to an ArrayBuffer
+	  	var ab = new ArrayBuffer(byteString.length);
+	  	var ia = new Uint8Array(ab);
+	  	for(var i = 0; i < byteString.length; i++) {
+			ia[i] = byteString.charCodeAt(i);
+	  	}
+
+  		// write the ArrayBuffer to a blob, and you're done
+	  	var blob = new Blob([ab], {type: mimeString});
+	  	var fd = new FormData();
+	  	fd.append('file', blob);
+	  	client.upload('/upload', fd).then(function(res){
+	 		console.log(res.data); 
+	  	}).catch(function(err){
+	 		console.log(err.response); 
+	  	});
+	}
+
+	handleTakePicture(e){
+		if(this.hasClass(document.querySelector(".chat-camera"), "active") && this.hasClass(document.querySelector(".chat-timeline"), "camera-active")){
+			this.removeClass(document.querySelector(".chat-camera"), "active");
+			this.removeClass(document.querySelector(".chat-timeline"), "camera-active");
+			this.state.stream.getTracks()[0].stop();
+			return;
+		}
+		this.addClass(document.querySelector(".chat-camera"), "active");
+		this.addClass(document.querySelector(".chat-timeline"), "camera-active");
+		this.enableWebcam();
+		var self = this;
+		document.querySelector("#capture").addEventListener('click', function(e){
+			if(this.innerText === "CAPTURE"){
+				self.takePicture();
+			} else {
+				document.querySelector("#video").style.display = "inline-block";
+				document.querySelector("#canvas").style.display = "none";
+				document.querySelector("#capture").innerText= "CAPTURE";
+			}
+			e.preventDefault();
+		}, false);
+	}
+
     render() {
 		return (
 			<div className="content">
 				<div className="chat-header"></div>
+				<div className="chat-camera">
+					<video id="video"></video>
+					<canvas id="canvas" style={{display: "none"}}></canvas>
+					<img src="" id="photo" alt="" />
+					<button id="capture">CAPTURE</button>
+				</div>
                 <div className="chat-timeline">
                     <div className="div-right">
                         <div className="bubble-dialog">
@@ -90,11 +225,15 @@ export default class Chat extends Component {
                     <form className='form' onSubmit={this.handleChatTextSend}>
                        <input autoFocus type="text" value={this.props.chat.inputText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type a message ...'/>
          
-                    	<div className="chatIcons">
-							<i className="chatImage fa fa-paperclip fa-2x" onClick={this.handleFileInput}></i>
-							<input id="file-upload" name="file" style={{maxWidth: 0, opacity: 0, height: 0}} type="file" onChange={this.handleFileChoosen} />
+					   <div className="chat-input-icons">
+						   <div className="chat-input-icons-container">
+								<i className="chat-input-icon fa fa-paperclip fa-2x" onClick={this.handleFileInput}></i>
+								<input id="file-upload" name="file" type="file" onChange={this.handleFileChoosen} />
+							</div>
+							<div className="chat-input-icons-container">
+								<i className="chat-input-icon fa fa-camera fa-2x" onClick={this.handleTakePicture}></i>
+							</div>
                     	</div>
-					    
 					</form>
                 </div>
             </div>
