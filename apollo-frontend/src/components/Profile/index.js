@@ -30,6 +30,9 @@ export default class Profile extends Component {
                     <div >
                         <div className='profile-avatar'>
                             <img src={ this.props.profile.user.avatar } alt = "User Image"/>
+
+
+                            
                         </div>
                         <div  >
                             <p className='profile-name' >{this.props.profile.user.name} </p>
