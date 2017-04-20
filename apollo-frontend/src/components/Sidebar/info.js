@@ -1,6 +1,30 @@
 import React, { Component } from 'react';
 
 export default class SidebarInfo extends Component {
+    constructor() {
+
+    this.handleMessageAdd = this.handleMessageAdd.bind(this);
+
+    }
+
+    handleFileChoosen(e){
+        console.log("CLICK: ", e.target.value);
+        var data = new FormData();
+        data.append('file', document.getElementById("file-upload").files[0]);
+        console.log("FORM DATA: ", data.getAll('file'));
+        client.upload(data).then((res) => {
+            console.log(res.data);  
+        }).catch((err) => {
+            console.log(err.response);  
+        });
+    }
+
+    handleFileInput(e){
+        console.log("CLICK: ", e.target.value);
+        let fileInput = document.getElementById("file-upload");
+        fileInput.click();
+    }
+
     render() {
         return (
             <div className="sidebar-info-main">
@@ -11,7 +35,8 @@ export default class SidebarInfo extends Component {
                 </div>
                 <div className="sidebar-info-files">
                 	Files
-					<i className="sidebar-info-addbutton fa fa-plus-circle fa-2x"></i>
+					<i className="sidebar-info-addbutton fa fa-plus-circle fa-2x" onClick={this.handleFileInput}></i>
+                    <input id="file-upload" name="file" type="file" onChange={this.handleFileChoosen} />
                 	<div className="sidebar-info-inner">
 						<i className="sidebar-info-fileicon fa fa-file-audio-o fa-2x"></i>
 						<i className="sidebar-info-fileicon fa fa-file-video-o fa-2x"></i>
