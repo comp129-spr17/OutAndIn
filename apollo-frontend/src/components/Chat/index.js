@@ -19,7 +19,7 @@ export default class Chat extends Component {
 		this.handleChatInpChange = this.handleChatInpChange.bind(this);
 		this.handleChatTextSend = this.handleChatTextSend.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
-
+		this.handleFileInput = this.handleFileInput.bind(this);
 		//event bus event handlers
 		client.eventBusRegisterEvent('focusChat', this.getMessages);
 
@@ -53,6 +53,24 @@ export default class Chat extends Component {
 		}
 	}
 
+	handleFileChoosen(e){
+		console.log("CLICK: ", e.target.value);
+		var data = new FormData();
+		data.append('file', document.getElementById("file-upload").files[0]);
+		console.log("FORM DATA: ", data.getAll('file'));
+		client.upload(data).then((res) => {
+			console.log(res.data);	
+		}).catch((err) => {
+			console.log(err.response);	
+		});
+	}
+
+	handleFileInput(e){
+		console.log("CLICK: ", e.target.value);
+		let fileInput = document.getElementById("file-upload");
+		fileInput.click();
+	}
+
     render() {
 		return (
 			<div className="content">
@@ -73,7 +91,8 @@ export default class Chat extends Component {
                        <input autoFocus type="text" value={this.props.chat.inputText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type a message ...'/>
          
                     	<div className="chatIcons">
-                    	<i className="chatImage fa fa-paperclip fa-2x"></i>
+							<i className="chatImage fa fa-paperclip fa-2x" onClick={this.handleFileInput}></i>
+							<input id="file-upload" name="file" style={{maxWidth: 0, opacity: 0, height: 0}} type="file" onChange={this.handleFileChoosen} />
                     	</div>
 					    
 					</form>

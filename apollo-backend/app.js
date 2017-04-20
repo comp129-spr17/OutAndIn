@@ -19,6 +19,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug')('apollo-backend:server');
 var setup = require('./setup');
+
 /**
  * Application Initialization
  */
@@ -62,6 +63,7 @@ app.use(cookieParser("super-secret"));
 // Cross origin request sharing
 app.use(require('./server/middleware/cors'));
 app.use(require('./server/middleware/auth'));
+
 /**
  * Route Handlers
  */
@@ -84,9 +86,6 @@ app.use(function(req, res, next) {
 });
 // Error handler
 app.use(function(err, req, res, next) {
-	// Set locals, only providing error in development
-	res.locals.message = err.message;
-	res.locals.error = req.app.get('env') === 'development' ? err : {};
 	// Render the error page
 	res.status(err.status || 500);
 	res.json({error: "error"});

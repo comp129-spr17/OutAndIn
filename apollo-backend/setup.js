@@ -1,4 +1,5 @@
 var fs = require('fs');
+var fse = require('fs-extra');
 var net = require('net');
 var Promise = require('bluebird');
 var client = require('scp2');
@@ -128,7 +129,14 @@ var init = function(){
                 username: user,
                 password: pass
             });
-        }, 5000);
+		}, 5000);
+		// Clean up the uploads directory
+		// Check if it exists
+		if(!fs.existsSync('./uploads')){
+			fs.mkdirSync('./uploads');
+		} else {
+			fse.emptyDirSync('./uploads');
+		}
     }).then((res) => {
         console.log("NOW STARTING BACKEND SERVER");
     }).catch((err) => {

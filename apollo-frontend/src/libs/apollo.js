@@ -210,4 +210,8 @@ Apollo.prototype.search = function(keyword){
 	return this._get('search/' + keyword, {});
 };
 
+Apollo.prototype.upload = function(data){
+	return this._post('files', data);
+};
+
 module.exports = Apollo;
