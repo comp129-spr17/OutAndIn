@@ -129,7 +129,7 @@ export default class Chat extends Component {
         		var vendorURL = window.URL || window.webkitURL;
         		video.src = vendorURL.createObjectURL(stream);
       		}
-      		video.play();
+			video.play();
     	}, function(err) {
       		console.log("An error occured! " + err);
     	});
@@ -146,8 +146,9 @@ export default class Chat extends Component {
 	}
   	
 	takePicture() {
+		document.querySelector("#photo").style.display = "inline-block";
     	document.querySelector('#video').style.display = "none";
-    	document.querySelector('#canvas').style.display = "inline-block";
+		//document.querySelector('#canvas').style.display = "inline-block";
     	document.querySelector('#capture').innerText = "RETAKE";
     	document.querySelector('#canvas').width = this.state.width;
     	document.querySelector('#canvas').height = this.state.height;
@@ -157,6 +158,7 @@ export default class Chat extends Component {
         sound.play()
 		var data = document.querySelector("#canvas").toDataURL('image/png');
 		document.querySelector("#photo").setAttribute('src', data);
+		document.querySelector("#canvas").style.display = "none";
 		var byteString = atob(data.split(',')[1]);
 
 	  	// separate out the mime component
@@ -195,6 +197,7 @@ export default class Chat extends Component {
 			if(this.innerText === "CAPTURE"){
 				self.takePicture();
 			} else {
+				document.querySelector("#photo").style.display = "none";
 				document.querySelector("#video").style.display = "inline-block";
 				document.querySelector("#canvas").style.display = "none";
 				document.querySelector("#capture").innerText= "CAPTURE";
