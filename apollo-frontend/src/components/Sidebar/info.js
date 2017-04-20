@@ -1,19 +1,6 @@
 import React, { Component } from 'react';
 
 export default class SidebarInfo extends Component {
-    /*constructor() {
-        super();
-        this.state = {
-            people: [],
-            files: [],
-            AddtoChatModalState: 0
-        };
-
-        this.toggleAddtoChatModal = this.toggleAddtoChatModal.bind(this);
-
-        client.socketRegisterEvent('userAdded', this.handleUserAdded);
-    } <<< Need to add onto this, not working atm. */
-
     render() {
         return (
             <div className="sidebar-info-main">
