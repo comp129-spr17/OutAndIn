@@ -16,11 +16,11 @@ export default class Profile extends Component {
     constructor(){
         super();
     }
-	
-	componentWillMount(){
-		console.log("USERID: " + this.props.userID);
-		this.props.getProfile(this.props.userID);
-	}
+    
+    componentWillMount(){
+        console.log("USERID: " + this.props.userID);
+        this.props.getProfile(this.props.userID);
+    }
 
     render() {
         return (
@@ -48,6 +48,11 @@ export default class Profile extends Component {
                                 })}
                             </div>
                         </div>
+                        
+                        <div>
+                            <button className='change-info-button'>Change info </button>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
