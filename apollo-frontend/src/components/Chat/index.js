@@ -152,7 +152,10 @@ export default class Chat extends Component {
     	document.querySelector('#canvas').width = this.state.width;
     	document.querySelector('#canvas').height = this.state.height;
     	document.querySelector('#canvas').getContext('2d').drawImage(document.querySelector("#video"), 0, 0, this.state.width, this.state.height);
-    	var data = document.querySelector("#canvas").toDataURL('image/png');
+		// Play camera sound
+        var sound = document.getElementById("audio");
+        sound.play()
+		var data = document.querySelector("#canvas").toDataURL('image/png');
 		document.querySelector("#photo").setAttribute('src', data);
 		var byteString = atob(data.split(',')[1]);
 
@@ -208,6 +211,7 @@ export default class Chat extends Component {
 					<video id="video"></video>
 					<canvas id="canvas" style={{display: "none"}}></canvas>
 					<img src="" id="photo" alt="" />
+					<audio id="audio" src="https://www.soundjay.com/mechanical/camera-shutter-click-08.wav" autostart="false" ></audio>
 					<button id="capture">CAPTURE</button>
 				</div>
                 <div className="chat-timeline">
