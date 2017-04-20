@@ -14,7 +14,8 @@ export default class Chat extends Component {
 			messageList: [],
 			height: 199,
 			width: 265,
-			stream: null
+			stream: null,
+			captureState: 0
 		};
 		this.hasClass = this.hasClass.bind(this);
 		this.addClass = this.addClass.bind(this);
@@ -149,7 +150,8 @@ export default class Chat extends Component {
 		document.querySelector("#photo").style.display = "inline-block";
     	document.querySelector('#video').style.display = "none";
 		//document.querySelector('#canvas').style.display = "inline-block";
-    	document.querySelector('#capture').innerText = "RETAKE";
+		this.setState({captureState: 1});
+		//document.querySelector('#capture').innerText = "RETAKE";
     	document.querySelector('#canvas').width = this.state.width;
     	document.querySelector('#canvas').height = this.state.height;
     	document.querySelector('#canvas').getContext('2d').drawImage(document.querySelector("#video"), 0, 0, this.state.width, this.state.height);
@@ -194,13 +196,14 @@ export default class Chat extends Component {
 		this.enableWebcam();
 		var self = this;
 		document.querySelector("#capture").addEventListener('click', function(e){
-			if(this.innerText === "CAPTURE"){
+			if(self.state.captureState == 0){
 				self.takePicture();
 			} else {
 				document.querySelector("#photo").style.display = "none";
 				document.querySelector("#video").style.display = "inline-block";
 				document.querySelector("#canvas").style.display = "none";
-				document.querySelector("#capture").innerText= "CAPTURE";
+				self.setState({captureState: 0});
+				//document.querySelector("#capture").innerText= "CAPTURE";
 			}
 			e.preventDefault();
 		}, false);
@@ -215,7 +218,7 @@ export default class Chat extends Component {
 					<canvas id="canvas" style={{display: "none"}}></canvas>
 					<img src="" id="photo" alt="" style={{display: "none"}}/>
 					<audio id="audio" src="https://www.soundjay.com/mechanical/camera-shutter-click-08.wav" autostart="false" ></audio>
-					<button id="capture">CAPTURE</button>
+					<i id="capture" className="fa fa-circle-o"></i>
 				</div>
                 <div className="chat-timeline">
                     <div className="div-right">

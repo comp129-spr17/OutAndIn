@@ -211,6 +211,19 @@
 
 #capture {
 	position: absolute;
-	top: 15px;
-	right: 15px;
+	color: white;
+	font-size: 50px;
+	top: 50%;
+	right: 50%;
+	width: 50px;
+	margin: 40px -25px 0px 0;
+	transition: all 200ms ease-in-out;
+}
+
+#capture:hover {
+	transform: scale(1.15);
+}
+
+#capture:active#capture:hover {
+	transform: scale(1.05);
 }
