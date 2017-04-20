@@ -22,6 +22,8 @@ export default class Profile extends Component {
         this.props.getProfile(this.props.userID);
     }
 
+
+
     render() {
         return (
             <div className="content">
@@ -29,10 +31,8 @@ export default class Profile extends Component {
                 <div className='profile-container'>
                     <div >
                         <div className='profile-avatar'>
-                            <img src={ this.props.profile.user.avatar } alt = "User Image"/>
+                            <i className = "profile-pic-user fa fa-user-circle-o fa-5x"> </i>
 
-
-                            
                         </div>
                         <div  >
                             <p className='profile-name' >{this.props.profile.user.name} </p>
