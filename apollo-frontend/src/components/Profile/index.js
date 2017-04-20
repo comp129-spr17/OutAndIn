@@ -36,6 +36,11 @@ export default class Profile extends Component {
                             <p className='profile-handle' > {this.props.profile.user.handle} </p>
                         </div>
                     </div>
+                        
+                    <div >
+                    <img className='change-image'  src = "/img/capture.png"/>
+                     </div>
+                    
                     <div className='profile-otherinfo'>
                         <p> Phone : {this.props.profile.user.phoneNumber}  </p>
                         <p> Birthday : {this.props.profile.user.dob}  </p>
