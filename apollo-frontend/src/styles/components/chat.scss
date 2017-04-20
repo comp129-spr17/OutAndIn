@@ -188,7 +188,20 @@
 }
 
 .chat-camera.active {
-	display: block;	
+	display: block;
+	text-align: center;
+}
+
+.chat-camera video {
+	width: 265px;
+}
+
+.chat-camera canvas {
+	height: 199px;
+}
+
+.chat-camera img {
+	height: 199px;
 }
 
 .chat-timeline.camera-active {

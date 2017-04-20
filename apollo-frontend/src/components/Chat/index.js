@@ -12,8 +12,8 @@ export default class Chat extends Component {
 			inputText: '',//text that you type into input box
 			userID: jwt_decode(localStorage.getItem('token')).uid,
 			messageList: [],
-			height: 150,
-			width: 150,
+			height: 199,
+			width: 265,
 			stream: null
 		};
 		this.hasClass = this.hasClass.bind(this);
@@ -106,7 +106,7 @@ export default class Chat extends Component {
 		canvas = document.querySelector('#canvas'),
 		//photo = document.querySelector('#photo'),
 		startbutton = document.querySelector('#capture');
-		this.setState({width: 150, height: 150});
+		this.setState({width: 265, height: 199});
 		console.log("WIDTH: ", this.state.width);	
 		console.log("HEIGHT: ", this.state.height);	
 		// Infer the vendor prefix
@@ -135,7 +135,7 @@ export default class Chat extends Component {
     	});
   		video.addEventListener('canplay', function(ev) {
 			if(!streaming) {
-				self.setState({height: video.videoHeight / (video.videoWidth / self.state.width)});
+				//self.setState({height: video.videoHeight / (video.videoWidth / self.state.width)});
 				video.setAttribute('width', self.state.width);
 				video.setAttribute('height', self.state.height);
 				canvas.setAttribute('width', self.state.width);
