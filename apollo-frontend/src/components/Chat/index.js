@@ -29,6 +29,7 @@ export default class Chat extends Component {
 		this.handleFileInput = this.handleFileInput.bind(this);
 		this.enableWebcam = this.enableWebcam.bind(this);
 		this.takePicture = this.takePicture.bind(this);
+		this.uploadImage = this.uploadImage.bind(this);
 		this.handleTakePicture = this.handleTakePicture.bind(this);
 		//event bus event handlers
 		client.eventBusRegisterEvent('focusChat', this.getMessages);
@@ -151,13 +152,22 @@ export default class Chat extends Component {
     	document.querySelector('#video').style.display = "none";
 		//document.querySelector('#canvas').style.display = "inline-block";
 		this.setState({captureState: 1});
+		document.querySelector('#capture').style.display = "none";
+		document.querySelector('#capture-remove').style.display = "inline-block";
+		document.querySelector('#capture-upload').style.display = "inline-block";
 		//document.querySelector('#capture').innerText = "RETAKE";
     	document.querySelector('#canvas').width = this.state.width;
     	document.querySelector('#canvas').height = this.state.height;
     	document.querySelector('#canvas').getContext('2d').drawImage(document.querySelector("#video"), 0, 0, this.state.width, this.state.height);
 		// Play camera sound
         var sound = document.getElementById("audio");
-        sound.play()
+		sound.play()
+		var data = document.querySelector("#canvas").toDataURL('image/png');
+		document.querySelector("#photo").setAttribute('src', data);
+		document.querySelector("#canvas").style.display = "none";
+	}
+
+	uploadImage(){
 		var data = document.querySelector("#canvas").toDataURL('image/png');
 		document.querySelector("#photo").setAttribute('src', data);
 		document.querySelector("#canvas").style.display = "none";
@@ -177,11 +187,7 @@ export default class Chat extends Component {
 	  	var blob = new Blob([ab], {type: mimeString});
 	  	var fd = new FormData();
 	  	fd.append('file', blob, Date.now() + '.jpg');
-	  	client.upload(fd).then(function(res){
-	 		console.log(res.data); 
-	  	}).catch(function(err){
-	 		console.log(err.response); 
-	  	});
+		return client.upload(fd);
 	}
 
 	handleTakePicture(e){
@@ -195,10 +201,37 @@ export default class Chat extends Component {
 		this.addClass(document.querySelector(".chat-timeline"), "camera-active");
 		this.enableWebcam();
 		var self = this;
+		document.querySelector("#capture-remove").addEventListener('click', function(e){
+			self.setState({captureState: 0});
+			document.querySelector('#capture-remove').style.display = "none";
+			document.querySelector('#capture-upload').style.display = "none";
+			document.querySelector("#photo").style.display = "none";
+			document.querySelector("#video").style.display = "inline-block";
+			document.querySelector("#canvas").style.display = "none";
+			document.querySelector('#capture').style.display = "inline-block";
+			e.preventDefault();
+		}, false);
+		document.querySelector("#capture-upload").addEventListener('click', function(e){
+			self.setState({captureState: 0});
+			document.querySelector('#capture-remove').style.display = "none";
+			document.querySelector('#capture-upload').style.display = "none";
+			document.querySelector("#photo").style.display = "none";
+			document.querySelector("#video").style.display = "inline-block";
+			document.querySelector("#canvas").style.display = "none";
+			document.querySelector('#capture').style.display = "inline-block";
+			self.uploadImage().then(function(res){
+				console.log(res.data);		
+			}).catch(function(err){
+				console.log(err.response);		
+			});
+			e.preventDefault();
+		}, false);
 		document.querySelector("#capture").addEventListener('click', function(e){
 			if(self.state.captureState == 0){
 				self.takePicture();
 			} else {
+				document.querySelector('#capture-remove').style.display = "none";
+				document.querySelector('#capture-upload').style.display = "none";
 				document.querySelector("#photo").style.display = "none";
 				document.querySelector("#video").style.display = "inline-block";
 				document.querySelector("#canvas").style.display = "none";
@@ -214,11 +247,15 @@ export default class Chat extends Component {
 			<div className="content">
 				<div className="chat-header"></div>
 				<div className="chat-camera">
-					<video id="video"></video>
-					<canvas id="canvas" style={{display: "none"}}></canvas>
-					<img src="" id="photo" alt="" style={{display: "none"}}/>
-					<audio id="audio" src="https://www.soundjay.com/mechanical/camera-shutter-click-08.wav" autostart="false" ></audio>
-					<i id="capture" className="fa fa-circle-o"></i>
+					<div className="chat-camera-container">
+						<i className="fa fa-close" id="capture-remove"></i>
+						<i className="fa fa-save" id="capture-upload"></i>
+						<video id="video"></video>
+						<canvas id="canvas" style={{display: "none"}}></canvas>
+						<img src="" id="photo" alt="" style={{display: "none"}}/>
+						<audio id="audio" src="https://www.soundjay.com/mechanical/camera-shutter-click-08.wav" autostart="false" ></audio>
+						<i id="capture" className="fa fa-circle-o"></i>
+					</div>
 				</div>
                 <div className="chat-timeline">
                     <div className="div-right">

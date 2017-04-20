@@ -209,6 +209,14 @@
 	top: 266px;
 }
 
+.chat-camera-container {
+	width: 265px;
+	margin: 0 auto;
+	padding: 0;
+	height: 199px;
+	position: relative;
+}
+
 #capture {
 	position: absolute;
 	color: white;
@@ -225,5 +233,43 @@
 }
 
 #capture:active#capture:hover {
+	transform: scale(1.05);
+}
+
+#capture-remove {
+	display: none;
+	position: absolute;
+	top: 7px;
+	right: 10px;
+	color: white;
+	z-index: 60;
+	font-size: 25px;
+	transition: all 200ms ease-in-out;
+}
+
+#capture-remove:hover {
+	transform: scale(1.15);
+}
+
+#capture-remove:active#capture-remove:hover {
+	transform: scale(1.05);
+}
+
+#capture-upload {
+	display: none;
+	position: absolute;
+	bottom: 7px;
+	right: 10px;
+	color: white;
+	z-index: 60;
+	font-size: 25px;
+	transition: all 200ms ease-in-out;
+}
+
+#capture-upload:hover {
+	transform: scale(1.15);
+}
+
+#capture-upload:active#capture-upload:hover {
 	transform: scale(1.05);
 }
