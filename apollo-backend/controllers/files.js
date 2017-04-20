@@ -17,11 +17,12 @@ var responseObject = require('./controller').responseObject;
 var storage = multer.diskStorage({
 	destination: function(req, file, callback){
 		var filepath = "uploads" + "/" + req.user;
-		fs.mkdirSync("./" + filepath);
+		if(!fs.existsSync('./' + filepath)){
+			fs.mkdirSync("./" + filepath);
+		}
 		callback(null, filepath);
 	},
 	filename: function(req, file, callback){
-		console.log("USER: ", req.user);
 		callback(null, file.originalname);
 	}
 });

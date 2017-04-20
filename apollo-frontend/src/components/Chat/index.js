@@ -174,8 +174,8 @@ export default class Chat extends Component {
   		// write the ArrayBuffer to a blob, and you're done
 	  	var blob = new Blob([ab], {type: mimeString});
 	  	var fd = new FormData();
-	  	fd.append('file', blob);
-	  	client.upload('/upload', fd).then(function(res){
+	  	fd.append('file', blob, Date.now() + '.jpg');
+	  	client.upload(fd).then(function(res){
 	 		console.log(res.data); 
 	  	}).catch(function(err){
 	 		console.log(err.response); 
@@ -213,7 +213,7 @@ export default class Chat extends Component {
 				<div className="chat-camera">
 					<video id="video"></video>
 					<canvas id="canvas" style={{display: "none"}}></canvas>
-					<img src="" id="photo" alt="" />
+					<img src="" id="photo" alt="" style={{display: "none"}}/>
 					<audio id="audio" src="https://www.soundjay.com/mechanical/camera-shutter-click-08.wav" autostart="false" ></audio>
 					<button id="capture">CAPTURE</button>
 				</div>
