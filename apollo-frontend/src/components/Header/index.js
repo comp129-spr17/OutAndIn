@@ -22,8 +22,6 @@ export default class Header extends Component {
                 </div>
                 <div className="info-container">
                     <div className="info-links">
-                        <span><a href=""><i className="fa fa-user"></i></a></span>
-                        <span><a href=""><i className="fa fa-cog"></i></a></span>
                         <span><a href=""><i className="fa fa-sign-out"></i></a></span>
                     </div>
                     <div className="info-user" onClick={this.handleUserProfile}>
