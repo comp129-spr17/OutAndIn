@@ -43,7 +43,7 @@ export default class SidebarInfo extends Component {
                 	<div className="sidebar-info-inner">
 						<i className="sidebar-info-fileicon fa fa-file-audio-o fa-2x"></i>
 						<i className="sidebar-info-fileicon fa fa-file-video-o fa-2x"></i>
-            <i className="sidebar-info-fileicon fa fa-file-video-o fa-2x"></i>
+                        <i className="sidebar-info-fileicon fa fa-file-video-o fa-2x"></i>
 
 
                 	</div>
