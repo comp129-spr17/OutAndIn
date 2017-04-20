@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import moment from 'moment';
+import { client } from '../../modules/api-client';
 
 export default class SidebarInfo extends Component {
     constructor() {
