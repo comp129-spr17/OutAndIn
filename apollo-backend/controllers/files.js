@@ -61,7 +61,7 @@ function init(){
 
 /**
  * POST - ["/"]
- * @description: Create an authenticated session for a user
+ * @description: Upload a single file
  * @param: {none}
  * @return: {string} token - JSON Web Token
  */
