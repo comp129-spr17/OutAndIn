@@ -16,7 +16,7 @@ export default class Profile extends Component {
     constructor(){
         super();
     }
-    
+
     componentWillMount(){
         console.log("USERID: " + this.props.userID);
         this.props.getProfile(this.props.userID);
@@ -26,38 +26,38 @@ export default class Profile extends Component {
         return (
             <div className="content">
                 <Header></Header>
-                <div className='profile-container'> 
+                <div className='profile-container'>
                     <div >
                         <div className='profile-avatar'>
-                            <img  src={ this.props.profile.user.avatar } alt="User Image"/>
+                            <img src={ this.props.profile.user.avatar } alt = "User Image"/>
                         </div>
                         <div  >
                             <p className='profile-name' >{this.props.profile.user.name} </p>
                             <p className='profile-handle' > {this.props.profile.user.handle} </p>
                         </div>
                     </div>
-                        
-                    <div >
-                    <img className='change-image'  src = "/img/capture.png"/>
-                     </div>
-                    
+
+                    <div>
+                      <i className = "profile-pic-icon fa fa-camera fa-2x"></i>
+                    </div>
+
                     <div className='profile-otherinfo'>
                         <p> Phone : {this.props.profile.user.phoneNumber}  </p>
                         <p> Birthday : {this.props.profile.user.dob}  </p>
                         <p> Where I Live : {this.props.profile.user.address}  </p>
                         <div>
                             <p>Friends </p>
-                            <div className='profile-friendlist'> 
+                            <div className='profile-friendlist'>
                                 { this.props.profile.friends.map((friend, k) => {
                                      return <img  src={ friend }  key={k} alt="User Image"/>
                                 })}
                             </div>
                         </div>
-                        
+
                         <div>
                             <button className='change-info-button'>Change info </button>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
