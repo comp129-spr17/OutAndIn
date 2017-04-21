@@ -34,19 +34,23 @@ export default class SidebarInfo extends Component {
             <div className="sidebar-info-main">
 				<div className="sidebar-info-people">
                 	People
-					<i className="sidebar-info-addbutton fa fa-plus-circle fa-2x"></i>
+					<i className="sidebar-info-plus-button fa fa-plus-circle fa-2x"></i>
                 	<div className="sidebar-info-inner"></div>
                 </div>
-                <div className="sidebar-info-files">
-                	Files
-					<i className="sidebar-info-addbutton fa fa-plus-circle fa-2x" onClick={this.handleFileInput}></i>
-                    <input id="file-upload" name="file" type="file" onChange={this.handleFileChoosen} />
-                	<div className="sidebar-info-inner">
+				<div className="sidebar-info-files">
+					<div className="sidebar-info-files-header">
+						<div className="sidebar-info-files-name">
+							Files
+						</div>
+						<div className="sidebar-info-file-upload">
+							<i className="sidebar-info-plus-button fa fa-plus-circle fa-2x" onClick={this.handleFileInput}></i>
+							<input id="file-upload" name="file" type="file" onChange={this.handleFileChoosen} />
+						</div>
+					</div>
+					<div className="sidebar-info-inner">
 						<i className="sidebar-info-fileicon fa fa-file-audio-o fa-2x"></i>
 						<i className="sidebar-info-fileicon fa fa-file-video-o fa-2x"></i>
                         <i className="sidebar-info-fileicon fa fa-file-video-o fa-2x"></i>
-
-
                 	</div>
                 </div>
             </div>

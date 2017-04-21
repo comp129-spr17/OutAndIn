@@ -27,12 +27,34 @@
 
 }
 
-.sidebar-info-addbutton {
+.sidebar-info-files-name {
+	display: inline-block;
+	float: left;
+}
+
+.sidebar-info-file-upload {
+	display: inline-block;
+	float: right;
+}
+
+.sidebar-info-file-upload input {
+	display: none;
+}
+
+.sidebar-info-plus-button {
 	color: #196A96;
 	position: static;
 	float: right;
 	padding-right: 15px;
 	cursor: pointer;
+}
+
+.sidebar-info-plus-button:hover {
+	color: #143D53;
+}
+
+.sidebar-info-files-header {
+	clear: both;
 }
 
 .sidebar-info-inner{ /*This refers to the div I placed inside each section (People and Files) in order to format the content that goes in them.*/
