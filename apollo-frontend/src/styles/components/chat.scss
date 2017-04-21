@@ -5,6 +5,14 @@
 	top: 0;
 	position: absolute;
 	border-bottom: 1px solid #efefef;
+	text-align: center;
+	vertical-align: middle;
+	padding-top: 5px;
+
+}
+
+.users-fullName {
+	font-size: 20px;
 }
 
 .chat-timeline {
@@ -162,7 +170,7 @@
 }
 
 .chat-input-icons-container {
-	display: inline-block;	
+	display: inline-block;
 }
 
 .chat-input-icons-container input {

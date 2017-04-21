@@ -90,9 +90,9 @@ export default class Chat extends Component {
 		data.append('file', document.getElementById("file-upload").files[0]);
 		console.log("FORM DATA: ", data.getAll('file'));
 		client.upload(data).then((res) => {
-			console.log(res.data);	
+			console.log(res.data);
 		}).catch((err) => {
-			console.log(err.response);	
+			console.log(err.response);
 		});
 	}
 
@@ -109,8 +109,8 @@ export default class Chat extends Component {
 		//photo = document.querySelector('#photo'),
 		startbutton = document.querySelector('#capture');
 		this.setState({width: 265, height: 199});
-		console.log("WIDTH: ", this.state.width);	
-		console.log("HEIGHT: ", this.state.height);	
+		console.log("WIDTH: ", this.state.width);
+		console.log("HEIGHT: ", this.state.height);
 		// Infer the vendor prefix
 		navigator.getMedia = (
 			navigator.getUserMedia ||
@@ -118,7 +118,7 @@ export default class Chat extends Component {
 			navigator.mozGetUserMedia ||
 			navigator.msGetUserMedia
 		);
-		
+
 		var self = this;
   		navigator.getMedia({
       		video: true,
@@ -146,7 +146,7 @@ export default class Chat extends Component {
 			}
   		}, false);
 	}
-  	
+
 	takePicture() {
 		document.querySelector("#photo").style.display = "inline-block";
     	document.querySelector('#video').style.display = "none";
@@ -220,9 +220,9 @@ export default class Chat extends Component {
 			document.querySelector("#canvas").style.display = "none";
 			document.querySelector('#capture').style.display = "inline-block";
 			self.uploadImage().then(function(res){
-				console.log(res.data);		
+				console.log(res.data);
 			}).catch(function(err){
-				console.log(err.response);		
+				console.log(err.response);
 			});
 			e.preventDefault();
 		}, false);
@@ -245,7 +245,9 @@ export default class Chat extends Component {
     render() {
 		return (
 			<div className="content">
-				<div className="chat-header"></div>
+				<div className="chat-header">
+					<div className = "users-fullName">Maxine Lien</div>@dickbutt
+				</div>
 				<div className="chat-camera">
 					<div className="chat-camera-container">
 						<i className="fa fa-close" id="capture-remove"></i>
@@ -271,7 +273,7 @@ export default class Chat extends Component {
                 <div className="chat-input">
                     <form className='form' onSubmit={this.handleChatTextSend}>
                        <input autoFocus type="text" value={this.props.chat.inputText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type a message ...'/>
-         
+
 					   <div className="chat-input-icons">
 						   <div className="chat-input-icons-container">
 								<i className="chat-input-icon fa fa-paperclip fa-2x" onClick={this.handleFileInput}></i>
