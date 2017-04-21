@@ -241,12 +241,13 @@ export default class Chat extends Component {
 			e.preventDefault();
 		}, false);
 	}
-
+//user's name in the header is static for now. still need to change it to display whoever the user is actually talking to
     render() {
 		return (
 			<div className="content">
 				<div className="chat-header">
-					<div className = "users-fullName">Maxine Lien</div>@dickbutt
+					<div className = "users-fullName">Maxine Lien</div>
+					@dickbutt
 				</div>
 				<div className="chat-camera">
 					<div className="chat-camera-container">
