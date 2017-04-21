@@ -33,13 +33,19 @@ export default class SidebarInfo extends Component {
         return (
             <div className="sidebar-info-main">
 				<div className="sidebar-info-people">
-                	People
-					<i className="sidebar-info-plus-button fa fa-plus-circle fa-2x"></i>
+					<div className="sidebar-info-people-header">
+						<div className="sidebar-info-people-header-name">
+							People
+						</div>
+						<div className="sidebar-info-people-add">
+							<i className="sidebar-info-plus-button fa fa-plus-circle fa-2x"></i>
+						</div>
+					</div>
                 	<div className="sidebar-info-inner"></div>
                 </div>
 				<div className="sidebar-info-files">
 					<div className="sidebar-info-files-header">
-						<div className="sidebar-info-files-name">
+						<div className="sidebar-info-files-header-name">
 							Files
 						</div>
 						<div className="sidebar-info-file-upload">

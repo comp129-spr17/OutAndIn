@@ -18,6 +18,23 @@
 
 }
 
+.sidebar-info-people-header-name {
+	display: inline-block;
+	float: left;
+	font-size: 16px;
+    color: #7a7a7a;
+    font-weight: 500;
+}
+
+.sidebar-info-people-header {
+	clear: both;
+}
+
+.sidebar-info-people-add {
+	display: inline-block;
+	float: right;
+}
+
 .sidebar-info-files {
 	width: 300px;
 	position: relative;
@@ -27,9 +44,12 @@
 
 }
 
-.sidebar-info-files-name {
+.sidebar-info-files-header-name {
 	display: inline-block;
 	float: left;
+	font-size: 16px;
+    color: #7a7a7a;
+    font-weight: 500;
 }
 
 .sidebar-info-file-upload {
