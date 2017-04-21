@@ -9,6 +9,17 @@
 	vertical-align: middle;
 	padding-top: 5px;
 
+	.chat-header-fullname {
+		font-size: 20px;
+		color: #424242;
+		font-weight: 500;
+	}
+
+	.chat-header-username {
+		color: #164762;
+		font-weight: 500;
+		font-size: 13px;
+	}
 }
 
 .users-fullName {

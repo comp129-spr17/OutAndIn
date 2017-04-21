@@ -246,8 +246,8 @@ export default class Chat extends Component {
 		return (
 			<div className="content">
 				<div className="chat-header">
-					<div className = "users-fullName">Maxine Lien</div>
-					@dickbutt
+					<div className="chat-header-fullname">Maxine Lien</div>
+					<div className="chat-header-username">@dickbutt</div>
 				</div>
 				<div className="chat-camera">
 					<div className="chat-camera-container">
