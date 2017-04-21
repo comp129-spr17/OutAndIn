@@ -6,14 +6,13 @@ import Landing from '../components/Landing';
 export default function(ComposedComponent){
 	class Authenticate extends Component {
 		componentWillMount(){
-			console.log(this.context.router.location.pathname);
-			if(!this.props.isAuthenticated && !localStorage.getItem("token") && !this.context.router.location.pathname == "/"){
+			if(!localStorage.getItem("token") && !this.context.router.location.pathname == "/"){
 				this.context.router.push("/login");
 			}	
 		}
 		
 		componentWillUpdate(nextProps){
-			if(!nextProps.isAuthenticated){
+			if(!localStorage.getItem("token")){
 				this.context.router.push("/");
 			}	
 		}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'; 
+import { Link } from 'react-router';
 import { client } from '../../modules/api-client';
 
 var jwt_decode = require('jwt-decode');
@@ -31,7 +32,7 @@ export default class Header extends Component {
         return (
             <div className="header">
                 <div className="logo-container">
-                    <img className="logo" src="/img/logo.png" alt="Apollo Logo"/>
+					<Link to="/"><img className="logo" src="/img/logo.png" alt="Apollo Logo"/></Link>
                 </div>
                 <div className="info-container">
                     <div className="info-links">
