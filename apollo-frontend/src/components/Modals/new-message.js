@@ -14,6 +14,7 @@ export default class NewMessageModal extends React.Component {
 				<div className="new-message-modal-overlay"></div>
 				<div id="new-message-modal-container">
 					<input type="text" placeholder="Type friends name"/>
+					<i className="new-message-modal-confirm fa fa-check-square-o fa-2x"></i>
 				</div>
 			</div>
 		)
