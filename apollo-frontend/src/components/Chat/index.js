@@ -304,7 +304,7 @@ class FloatRightChatComponent extends React.Component {
 	render() {
 		return (
 			<div className="bubble-right">
-				<span className='msgSender'>{ "\u00a0\u00a0" } </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+				<span className='msgSender'>{ "\u00a0\u00a0" } </span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timestamp).fromNow()} </span>
 			</div>
 		)
 	}
@@ -315,7 +315,7 @@ class FloatLeftChatComponent extends React.Component {
 	render() {
 		return (
 			<div className="bubble-left">
-				<span className='msgSender'> { "\u00a0\u00a0" }</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timeStamp).fromNow()} </span>
+				<span className='msgSender'> { "\u00a0\u00a0" }</span> {this.props.msg.message} <br/> <span className='msgTimeStamp'>{moment.unix(this.props.msg.timestamp).fromNow()} </span>
 			</div>
 		)
 	}
