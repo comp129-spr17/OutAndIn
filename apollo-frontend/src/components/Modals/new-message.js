@@ -13,7 +13,10 @@ export default class NewMessageModal extends React.Component {
 			<div id="new-message-modal">
 				<div className="new-message-modal-overlay"></div>
 				<div id="new-message-modal-container">
-					<input type="text" placeholder="Type friends name"/>
+					<div id="new-message-modal-search">
+					<input type="text" placeholder="Type a name..."/>
+					</div>
+					<i className="new-message-modal-confirm fa fa-check-square-o fa-2x"></i>
 				</div>
 			</div>
 		)
