@@ -19,6 +19,7 @@ var _OPTIONS = {
 	// Default Users Route
 	"/": {
 		"METHODS": [
+			"GET",
 			"POST",
 			"DELETE"
 		],
@@ -44,6 +45,57 @@ function init(){
 		});
 	});
 }
+/**
+ * GET - ["/"]
+ * @description: Create an authenticated session for a user
+ * @param: {none}
+ * @return: {string} token - JSON Web Token
+ */
+
+router.get('/', function(req, res){
+	var token = req.headers["authorization"];
+	token = token.replace('Bearer ', '');
+	jwt.verify(token, "super-secret", function(err, user){
+		if(err){
+			let response = new responseObject();
+			response.setSuccess(false);
+			response.setErrors({
+				code: 1000,
+				message: "Token is invalid"
+			});
+			res.status(401).json(response.toJSON());
+			return;
+		}
+		sessionService.getUserIDBySessionToken(user["sid"]).then((results) => {
+			console.log(JSON.stringify(results));
+			if(results.length == 0){
+				let response = new responseObject();
+				response.setSuccess(false);
+				response.setErrors({
+					code: 1000,
+					message: "User is not authenticated"
+				});
+				res.status(401).json(response.toJSON());
+				return;
+			}
+			let response = new responseObject();
+			response.setSuccess(true);
+			response.setResults({
+				code: 1000,
+				message: "User is authenticated"
+			});
+			res.status(200).json(response.toJSON());
+		}).catch((err) => {
+			let response = new responseObject();
+			response.setSuccess(false);
+			response.setResults({
+				code: 1000,
+				message: "System error"
+			});
+			res.status(500).json(response.toJSON());
+		});
+	});
+});
 
 /**
  * POST - ["/"]
@@ -242,7 +294,7 @@ router.options('/', function(req, res){
 	// Check if method that is requested is in the methods hash set
 	var method = req.get('Access-Control-Request-Method');
 	if(_OPTIONS["/"]["HASHES"].has(method)){
-		res.header('Access-Control-Allow-Methods', 'POST, DELETE, OPTIONS');
+		res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
 		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
 		res.header("Access-Control-Max-Age", 86400);
 		res.sendStatus(200);

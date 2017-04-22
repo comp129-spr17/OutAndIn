@@ -16,10 +16,18 @@ export default class Header extends Component {
 		var self = this;
 		client.sessionLogout().then((res) => {
 			localStorage.removeItem("token");
-			console.log("logged out");
 			window.location.href = "/";
 		}).catch((err) => {
-			alert("Logout Unsuccessful. Try again.");	
+			try {
+				if(err.response.status == 401){
+					localStorage.removeItem("token");
+					window.location.href = "/";
+					return;
+				}
+				alert("Logout failed. Looks like a server problem. Let us know!");
+			} catch(err){
+				alert("Logout failed. Is your Internet connection online?");
+			}
 		});
 	} 
 

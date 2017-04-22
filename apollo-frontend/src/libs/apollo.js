@@ -193,6 +193,11 @@ Apollo.prototype.chatAddMessage = function(chatID, message){
 };
 
 //SESSIONS------------------------------------------
+// This function needs to be synchronous
+Apollo.prototype.sessionVerify = function(){
+	return this._get('session', {});
+};
+
 Apollo.prototype.sessionLogin = function(data){
 	return this._post('session', data);
 };
