@@ -30,9 +30,6 @@ export default class Landing extends Component {
 										<Link to="/login" className="btn btn-md">Log In</Link>
                                     </div>
                                     <hr/>
-                                    <div className="landing-actions-forgot-password">
-                                        Forgot your password? <a href="">Click Here</a>
-                                    </div>
                                 </div>
                             </div>
                             <div className="landing-footer">
