@@ -80,8 +80,8 @@
 
 .profile-pic-icon {
   //display: block;
-	align-self: center;
-	padding-left: 10px;
+    align-self: center;
+    padding-left: 10px;
   padding-top: 15px;
 
 }
@@ -95,3 +95,13 @@ from the profile/index.js because it wouldn't let me put an icon in the alt?
   font-size: 200px;
   padding-bottom: 10px;
 }
+
+.modal-container{
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 320px;
+}
+
