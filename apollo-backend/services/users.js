@@ -107,8 +107,9 @@ exports.getSocketID = function(userID){
  */
 exports.createUser = function(email, username, fullname, password){
 	var u = uuid();
-    var sql = "INSERT INTO users VALUES ('', ?, ?, ?, ?, ?, '', '')";
-    return db.pool.query(sql, [u, email, fullname, username, password]);
+	var avatar = "https://api.adorable.io/avatars/50/" + username + ".png";
+    var sql = "INSERT INTO users VALUES ('', ?, ?, ?, ?, ?, ?, '')";
+    return db.pool.query(sql, [u, email, fullname, username, password, avatar]);
 };
 
 /**

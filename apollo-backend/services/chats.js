@@ -11,8 +11,9 @@ var uuid = require('uuid/v4');
 
 //create entry
 exports.createChat = function(userID, chatID){
-    var sql = "INSERT INTO chats VALUES('', ?, ?, 0, '', '', UNIX_TIMESTAMP(), UNIX_TIMESTAMP())";
-    return db.pool.query(sql, [chatID, userID]);
+	var sql = "INSERT INTO chats VALUES('', ?, ?, 0, '', ?, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())";
+	var avatar = "https://api.adorable.io/avatars/50/"+chatID+".png";
+    return db.pool.query(sql, [chatID, userID, avatar]);
 };
 
 //create entry
