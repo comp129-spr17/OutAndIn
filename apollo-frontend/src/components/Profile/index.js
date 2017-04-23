@@ -22,6 +22,14 @@ export default class Profile extends Component {
         this.props.getProfile(this.props.userID);
     }
 
+    componentDidMount(){
+          $('.profile-pic-icon').hide();
+          $('.profile-avatar').hover(function(){
+            $('.profile-pic-icon').show();
+          },function(){
+            $('.profile-pic-icon').hide();
+          });
+    }
 
 
     render() {
