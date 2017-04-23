@@ -13,8 +13,8 @@ export default class Sidebar extends Component {
 			files: [],
 			newMessageModalState: 0
 		};
-       //this.newUsersConnected = this.newUsersConnected.bind(this);
-        this.search = this.search.bind(this);
+		//this.newUsersConnected = this.newUsersConnected.bind(this);
+		this.search = this.search.bind(this);
 		this.toggleNewMessageModal = this.toggleNewMessageModal.bind(this);
 		this.handleChatAdded = this.handleChatAdded.bind(this);
 		// Close New Message Modal if you click off the modal
@@ -63,7 +63,6 @@ export default class Sidebar extends Component {
 	friendSelect(userID){
 		//request to make new chat
 		client.chatsInit(userID).then((res) => {
-			console.log("res");
 			console.log(res);
 			localStorage.setItem("focusChat", res.data.results[0].chatID);
 			client.eventBusDispatchEvent("focusChat");

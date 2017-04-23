@@ -28,7 +28,7 @@ const mapDispatchToProps = (dispatch) =>{
 				dispatch(getMessagesSuccess(res.data.results));
 			}).catch((err) => {
 				console.log("Error - getMessages: " + JSON.stringify(err));
-				dispatch(getMessagesFailure(res.data.errors[i]));
+				dispatch(getMessagesFailure(err.response.data.errors[0]));
 			});
 		},
 		inputChange: (text) =>{

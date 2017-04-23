@@ -13,10 +13,10 @@ import { hasClass, addClass, removeClass } from '../../utils/DOMTools';
 import jwtDecode from 'jwt-decode';
 
 export default class Chat extends Component {
-	constructor () { //constructor
+	constructor(){ 
 		super();
-		this.state= { //new object
-			inputText: '',//text that you type into input box
+		this.state = {
+			inputText: '',
 			userID: jwtDecode(localStorage.getItem('token')).uid,
 			messageList: [],
 			height: 199,
@@ -24,28 +24,28 @@ export default class Chat extends Component {
 			stream: null,
 			captureState: 0
 		};
-
+		
+		// Chat methods
 		this.getMessages = this.getMessages.bind(this);
 		this.handleChatInpChange = this.handleChatInpChange.bind(this);
-		this.handleChatTextSend = this.handleChatTextSend.bind(this);
+		this.handleSendMessage = this.handleSendMessage.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
-		this.handleFileInput = this.handleFileInput.bind(this);
-		this.enableWebcam = this.enableWebcam.bind(this);
-		this.disableWebcam = this.disableWebcam.bind(this);
-		this.registerCameraEvents = this.registerCameraEvents.bind(this);
-
-		this.takePicture = this.takePicture.bind(this);
-		this.uploadImage = this.uploadImage.bind(this);
-		this.handleTakePicture = this.handleTakePicture.bind(this);
 		//event bus event handlers
 		client.eventBusRegisterEvent('focusChat', this.getMessages);
-
 		//add socket event handlers
 		client.socketRegisterEvent("messageAdded", this.handleMessageAdd);
-		
-		// Register camera events
-		console.log("me: " + this.state.userID);
 		client.userSetSocketID(this.state.userID);
+
+		// File methods
+		this.handleFileInput = this.handleFileInput.bind(this);
+
+		// Camera methods
+		this.enableWebcam = this.enableWebcam.bind(this);
+		this.disableWebcam = this.disableWebcam.bind(this);
+		this.handleTakePicture = this.handleTakePicture.bind(this);
+		this.registerCameraEvents = this.registerCameraEvents.bind(this);
+		this.takePicture = this.takePicture.bind(this);
+		this.uploadImage = this.uploadImage.bind(this);
 	}
 
 	componentDidMount(){
@@ -60,11 +60,17 @@ export default class Chat extends Component {
 		this.props.inputChange(event.target.value);
 	}
 
-	handleChatTextSend(event){  	//storing chat in array
+	/**
+	 * HandleSendMessage
+	 * @description: Send the message for the given chat to the server
+	 * @param: {none} 
+	 * @return: {none}
+	 */
+	handleSendMessage(event){
+		// Check for empty input
+		if(!this.props.chat.inputText == '' || !this.props.sidebar.chatFocused == '') 
+			this.props.sendMessage(this.props.sidebar.chatFocused, this.props.chat.inputText);
 		event.preventDefault();
-		if(this.props.chat.inputText == '' || this.props.sidebar.chatFocused == '') //checking if value is empty
-			return;
-		this.props.sendMessage(this.props.sidebar.chatFocused, this.props.chat.inputText);
 	}
 
 	//from other users
@@ -81,7 +87,7 @@ export default class Chat extends Component {
 	 * @param: {none} 
 	 * @return: {none}
 	 */
-	handleFileChoosen(e){
+	handleFileChoosen(event){
 		var data = new FormData();
 		data.append('file', document.getElementById("file-upload").files[0]);
 		// TODO:(mcervco) Handle this error visually
@@ -111,7 +117,7 @@ export default class Chat extends Component {
 	 */
 	enableWebcam(){
 		var streaming = false;
-    	var video = document.querySelector('#video');
+		var video = document.querySelector('#video');
 		var canvas = document.querySelector('#canvas');
 		this.setState({width: 265, height: 199});
 		
@@ -146,7 +152,7 @@ export default class Chat extends Component {
 
 		// Register video play event
 		video.addEventListener('canplay', function(ev){
-			if(!streaming) {
+			if(!streaming){
 				//self.setState({height: video.videoHeight / (video.videoWidth / self.state.width)});
 				video.setAttribute('width', self.state.width);
 				video.setAttribute('height', self.state.height);
@@ -353,7 +359,7 @@ export default class Chat extends Component {
                     </div>
                 </div>
                 <div className="chat-input">
-                    <form className='form' onSubmit={this.handleChatTextSend}>
+                    <form className='form' onSubmit={this.handleSendMessage}>
                        <input autoFocus type="text" value={this.props.chat.inputText} onChange={this.handleChatInpChange} autoComplete="off" className='msg' placeholder='Type a message ...'/>
 
 					   <div className="chat-input-icons">
