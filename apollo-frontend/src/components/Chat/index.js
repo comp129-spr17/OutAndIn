@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import { client } from '../../modules/api-client';
-
+import { hasClass, addClass, removeClass } from '../../utils/DOMTools';
 var jwt_decode = require('jwt-decode');
 
 export default class Chat extends Component {
@@ -17,9 +17,6 @@ export default class Chat extends Component {
 			stream: null,
 			captureState: 0
 		};
-		this.hasClass = this.hasClass.bind(this);
-		this.addClass = this.addClass.bind(this);
-		this.removeClass = this.removeClass.bind(this);
 
 		//bind 'this' referance
 		this.getMessages = this.getMessages.bind(this);
@@ -40,27 +37,7 @@ export default class Chat extends Component {
 		console.log("me: " + this.state.userID);
 		client.userSetSocketID(this.state.userID);
 	}
-	hasClass(el, className) {
-	  if (el.classList)
-		return el.classList.contains(className)
-	  else
-		return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
-	}
-
-	addClass(el, className) {
-	  if (el.classList)
-		el.classList.add(className)
-	  else if (!hasClass(el, className)) el.className += " " + className
-	}
-
-	removeClass(el, className) {
-	  if (el.classList)
-		el.classList.remove(className)
-	  else if (hasClass(el, className)) {
-		var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
-		el.className=el.className.replace(reg, ' ')
-	  }
-	}
+	
 	getMessages(){
 		this.props.getMessages(this.props.sidebar.chatFocused);
 	}
@@ -191,14 +168,14 @@ export default class Chat extends Component {
 	}
 
 	handleTakePicture(e){
-		if(this.hasClass(document.querySelector(".chat-camera"), "active") && this.hasClass(document.querySelector(".chat-timeline"), "camera-active")){
-			this.removeClass(document.querySelector(".chat-camera"), "active");
-			this.removeClass(document.querySelector(".chat-timeline"), "camera-active");
+		if(hasClass(document.querySelector(".chat-camera"), "active") && hasClass(document.querySelector(".chat-timeline"), "camera-active")){
+			removeClass(document.querySelector(".chat-camera"), "active");
+			removeClass(document.querySelector(".chat-timeline"), "camera-active");
 			this.state.stream.getTracks()[0].stop();
 			return;
 		}
-		this.addClass(document.querySelector(".chat-camera"), "active");
-		this.addClass(document.querySelector(".chat-timeline"), "camera-active");
+		addClass(document.querySelector(".chat-camera"), "active");
+		addClass(document.querySelector(".chat-timeline"), "camera-active");
 		this.enableWebcam();
 		var self = this;
 		document.querySelector("#capture-remove").addEventListener('click', function(e){

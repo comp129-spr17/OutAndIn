@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { client } from '../../modules/api-client';
+import { hasClass, addClass, removeClass } from '../../utils/DOMTools';
 
 export default class Sidebar extends Component {
     constructor() {
@@ -15,34 +16,10 @@ export default class Sidebar extends Component {
        //this.newUsersConnected = this.newUsersConnected.bind(this);
         this.search = this.search.bind(this);
 		this.toggleNewMessageModal = this.toggleNewMessageModal.bind(this);
-		this.hasClass = this.hasClass.bind(this);
-		this.addClass = this.addClass.bind(this);
-		this.removeClass = this.removeClass.bind(this);
 		this.handleChatAdded = this.handleChatAdded.bind(this);
 		// Close New Message Modal if you click off the modal
 		client.socketRegisterEvent('chatAdded', this.handleChatAdded);
 
-	}
-	hasClass(el, className) {
-	  if (el.classList)
-		return el.classList.contains(className)
-	  else
-		return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'))
-	}
-
-	addClass(el, className) {
-	  if (el.classList)
-		el.classList.add(className)
-	  else if (!hasClass(el, className)) el.className += " " + className
-	}
-
-	removeClass(el, className) {
-	  if (el.classList)
-		el.classList.remove(className)
-	  else if (hasClass(el, className)) {
-		var reg = new RegExp('(\\s|^)' + className + '(\\s|$)')
-		el.className=el.className.replace(reg, ' ')
-	  }
 	}
 
 	componentDidMount(){
@@ -62,7 +39,7 @@ export default class Sidebar extends Component {
 			if(target !== parent && !state) {
 				if(self.state.newMessageModalState == 1){
 					var el = document.getElementById('new-message-modal');
-					self.removeClass(el, "active");
+					removeClass(el, "active");
 					self.setState({newMessageModalState: 0});
 				}
 			}
@@ -116,11 +93,11 @@ export default class Sidebar extends Component {
 		e.preventDefault();
 		if(this.state.newMessageModalState == 0){
 			var el = document.getElementById('new-message-modal');
-			this.addClass(el, "active");
+			addClass(el, "active");
 			this.setState({newMessageModalState: 1});
 		} else {
 			var el = document.getElementById('new-message-modal');
-			this.removeClass(el, "active");
+			removeClass(el, "active");
 			this.setState({newMessageModalState: 0});
 		}
 	}
