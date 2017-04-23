@@ -21,14 +21,24 @@ export default class Profile extends Component {
         console.log("USERID: " + this.props.userID);
         this.props.getProfile(this.props.userID);
     }
+    
+     componentDidMount(){
+      $('.modal-content').hide();
+      // $('.profile-pic-icon').hide();
+      // $('.profile-avatar').hover(function(){
+      //   $('.profile-pic-icon').show();
+      // },function(){
+      //   $('.profile-pic-icon').hide();
+      // });
+    }
 
-    componentDidMount(){
-          $('.profile-pic-icon').hide();
-          $('.profile-avatar').hover(function(){
-            $('.profile-pic-icon').show();
-          },function(){
-            $('.profile-pic-icon').hide();
-          });
+    
+    showModal(){
+      $('.modal-content').show();
+    }
+
+    hideModal(){
+      $('.modal-content').hide();
     }
 
 
@@ -40,7 +50,6 @@ export default class Profile extends Component {
                     <div >
                         <div className='profile-avatar'>
                             <i className = "profile-pic-user fa fa-user-circle-o fa-5x"> </i>
-
                         </div>
                         <div  >
                             <p className='profile-name' >{this.props.profile.user.name} </p>
@@ -48,7 +57,7 @@ export default class Profile extends Component {
                         </div>
                     </div>
 
-                    <div>
+                    <div onClick={this.showModal}>
                       <i className = "profile-pic-icon fa fa-camera fa-2x"></i>
                     </div>
 
@@ -71,6 +80,15 @@ export default class Profile extends Component {
 
                     </div>
                 </div>
+                
+                <div className="modal-content">
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-default">Open Camera</button>
+                      <button type="button" className="btn btn-default"> Choose File </button>
+                      <button type="button" className="btn btn-default" onClick={this.hideModal}>Close</button>
+                    </div>
+                </div> 
+                
             </div>
         );
     }
