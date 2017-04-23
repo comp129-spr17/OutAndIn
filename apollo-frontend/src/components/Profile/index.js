@@ -81,11 +81,13 @@ export default class Profile extends Component {
                     </div>
                 </div>
                 
-                <div className="modal-content">
-                    <div className="modal-footer">
-                      <button type="button" className="btn btn-default">Open Camera</button>
-                      <button type="button" className="btn btn-default"> Choose File </button>
-                      <button type="button" className="btn btn-default" onClick={this.hideModal}>Close</button>
+                <div className='modal-container'>
+                    <div className="modal-content">
+                        <div className="modal-footer">
+                          <button type="button" className="btn btn-default">Open Camera</button>
+                          <button type="button" className="btn btn-default"> Choose File </button>
+                          <button type="button" className="btn btn-default" onClick={this.hideModal}>Close</button>
+                        </div>
                     </div>
                 </div> 
                 
