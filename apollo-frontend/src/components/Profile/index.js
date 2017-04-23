@@ -15,6 +15,8 @@ class Header extends Component{
 export default class Profile extends Component {
     constructor(){
         super();
+        this.handleFileInput = this.handleFileInput.bind(this);
+
     }
 
     componentWillMount(){
@@ -31,6 +33,8 @@ export default class Profile extends Component {
       //   $('.profile-pic-icon').hide();
       // });
     }
+    
+
 
     
     showModal(){
@@ -40,6 +44,11 @@ export default class Profile extends Component {
     hideModal(){
       $('.modal-content').hide();
     }
+    
+     handleFileInput(e){
+      var fileInput = document.getElementById("file-upload");
+      fileInput.click();
+     }
 
 
     render() {
@@ -85,7 +94,8 @@ export default class Profile extends Component {
                     <div className="modal-content">
                         <div className="modal-footer">
                           <button type="button" className="btn btn-default">Open Camera</button>
-                          <button type="button" className="btn btn-default"> Choose File </button>
+                          <button type="button" className="btn btn-default" onClick={this.handleFileInput} > Choose File </button>
+                            <input style={{display: "none"}} id="file-upload" name="file" type="file" onChange={this.handleFileChoosen} />
                           <button type="button" className="btn btn-default" onClick={this.hideModal}>Close</button>
                         </div>
                     </div>
