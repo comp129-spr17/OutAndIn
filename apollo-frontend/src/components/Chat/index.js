@@ -1,16 +1,23 @@
+/**
+ *  Apollo
+ *  @description: Chats component
+ *  @author: Out-N-In Team
+ *  @license: MIT
+ */
+
 import React, { PropTypes, Component } from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import { client } from '../../modules/api-client';
 import { hasClass, addClass, removeClass } from '../../utils/DOMTools';
-var jwt_decode = require('jwt-decode');
+import jwtDecode from 'jwt-decode';
 
 export default class Chat extends Component {
 	constructor () { //constructor
 		super();
 		this.state= { //new object
 			inputText: '',//text that you type into input box
-			userID: jwt_decode(localStorage.getItem('token')).uid,
+			userID: jwtDecode(localStorage.getItem('token')).uid,
 			messageList: [],
 			height: 199,
 			width: 265,
@@ -18,13 +25,15 @@ export default class Chat extends Component {
 			captureState: 0
 		};
 
-		//bind 'this' referance
 		this.getMessages = this.getMessages.bind(this);
 		this.handleChatInpChange = this.handleChatInpChange.bind(this);
 		this.handleChatTextSend = this.handleChatTextSend.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
 		this.handleFileInput = this.handleFileInput.bind(this);
 		this.enableWebcam = this.enableWebcam.bind(this);
+		this.disableWebcam = this.disableWebcam.bind(this);
+		this.registerCameraEvents = this.registerCameraEvents.bind(this);
+
 		this.takePicture = this.takePicture.bind(this);
 		this.uploadImage = this.uploadImage.bind(this);
 		this.handleTakePicture = this.handleTakePicture.bind(this);
@@ -33,9 +42,14 @@ export default class Chat extends Component {
 
 		//add socket event handlers
 		client.socketRegisterEvent("messageAdded", this.handleMessageAdd);
-
+		
+		// Register camera events
 		console.log("me: " + this.state.userID);
 		client.userSetSocketID(this.state.userID);
+	}
+
+	componentDidMount(){
+		this.registerCameraEvents();
 	}
 	
 	getMessages(){
@@ -61,11 +75,16 @@ export default class Chat extends Component {
 		}
 	}
 
+	/**
+	 * HandleFileChoosen
+	 * @description: Get choosen file and upload it
+	 * @param: {none} 
+	 * @return: {none}
+	 */
 	handleFileChoosen(e){
-		console.log("CLICK: ", e.target.value);
 		var data = new FormData();
 		data.append('file', document.getElementById("file-upload").files[0]);
-		console.log("FORM DATA: ", data.getAll('file'));
+		// TODO:(mcervco) Handle this error visually
 		client.upload(data).then((res) => {
 			console.log(res.data);
 		}).catch((err) => {
@@ -73,46 +92,60 @@ export default class Chat extends Component {
 		});
 	}
 
+	/**
+	 * HandleFileInput
+	 * @description: Handle the file input button
+	 * @param: {none} 
+	 * @return: {none}
+	 */
 	handleFileInput(e){
-		console.log("CLICK: ", e.target.value);
-		let fileInput = document.getElementById("file-upload");
+		var fileInput = document.getElementById("file-upload");
 		fileInput.click();
 	}
 
+	/**
+	 * EnableWebcam
+	 * @description: Enable the webcam
+	 * @param: {none} 
+	 * @return: {none}
+	 */
 	enableWebcam(){
-		var streaming = false,
-    	video = document.querySelector('#video'),
-		canvas = document.querySelector('#canvas'),
-		//photo = document.querySelector('#photo'),
-		startbutton = document.querySelector('#capture');
+		var streaming = false;
+    	var video = document.querySelector('#video');
+		var canvas = document.querySelector('#canvas');
 		this.setState({width: 265, height: 199});
-		console.log("WIDTH: ", this.state.width);
-		console.log("HEIGHT: ", this.state.height);
-		// Infer the vendor prefix
+		
+		// Determine the vendor prefix
 		navigator.getMedia = (
 			navigator.getUserMedia ||
 			navigator.webkitGetUserMedia ||
 			navigator.mozGetUserMedia ||
 			navigator.msGetUserMedia
 		);
-
+		
 		var self = this;
-  		navigator.getMedia({
-      		video: true,
-      		audio: false
-    	}, function(stream) {
+		// Get the video stream from the webcam
+		navigator.getMedia({
+			video: true,
+			audio: false
+		}, function(stream) {
+			// Handle mozilla stream
 			if(navigator.mozGetUserMedia) {
-        		video.mozSrcObject = stream;
-			} else {
+				video.mozSrcObject = stream;
 				self.setState({stream: stream});
-        		var vendorURL = window.URL || window.webkitURL;
-        		video.src = vendorURL.createObjectURL(stream);
-      		}
+			} else {
+				// All other streams
+				self.setState({stream: stream});
+				var vendorURL = window.URL || window.webkitURL;
+				video.src = vendorURL.createObjectURL(stream);
+			}
 			video.play();
-    	}, function(err) {
-      		console.log("An error occured! " + err);
-    	});
-  		video.addEventListener('canplay', function(ev) {
+		}, function(err) {
+			console.log("Could not get the video stream from the webcam: " + err);
+		});
+
+		// Register video play event
+		video.addEventListener('canplay', function(ev){
 			if(!streaming) {
 				//self.setState({height: video.videoHeight / (video.videoWidth / self.state.width)});
 				video.setAttribute('width', self.state.width);
@@ -121,81 +154,151 @@ export default class Chat extends Component {
 				canvas.setAttribute('height', self.state.height);
 				streaming = true;
 			}
-  		}, false);
+		}, false);
+	}
+	
+	/**
+	 * DisableWebcam
+	 * @description: Disable the webcam 
+	 * @param: {none} 
+	 * @return: {none}
+	 */
+	disableWebcam(){
+		this.state.stream.getTracks()[0].stop();
 	}
 
+	/**
+	 * TakePicture
+	 * @description: Take a still image from the webcam
+	 * @param: {none} 
+	 * @return: {none}
+	 */
 	takePicture() {
-		document.querySelector("#photo").style.display = "inline-block";
-    	document.querySelector('#video').style.display = "none";
-		//document.querySelector('#canvas').style.display = "inline-block";
+		var photo = document.querySelector("#photo");
+		var video = document.querySelector("#video");
+		var capture = document.querySelector('#capture')
+		var captureRemove = document.querySelector('#capture-remove');
+		var captureUpload = document.querySelector('#capture-upload');
+		var canvas = document.querySelector('#canvas');
+		// Display the photo div
+		photo.style.display = "inline-block";
+		// Hide the video div
+		video.style.display = "none";
 		this.setState({captureState: 1});
-		document.querySelector('#capture').style.display = "none";
-		document.querySelector('#capture-remove').style.display = "inline-block";
-		document.querySelector('#capture-upload').style.display = "inline-block";
-		//document.querySelector('#capture').innerText = "RETAKE";
-    	document.querySelector('#canvas').width = this.state.width;
-    	document.querySelector('#canvas').height = this.state.height;
-    	document.querySelector('#canvas').getContext('2d').drawImage(document.querySelector("#video"), 0, 0, this.state.width, this.state.height);
+		// Hide the capture button
+		capture.style.display = "none";
+		// Display the options for captured photos
+		captureRemove.style.display = "inline-block";
+		captureUpload.style.display = "inline-block";
+		// Get still image from the video and write it to the canvas element
+		canvas.getContext('2d').drawImage(video, 0, 0, this.state.width, this.state.height);
 		// Play camera sound
-        var sound = document.getElementById("audio");
+		var sound = document.getElementById("audio");
 		sound.play()
-		var data = document.querySelector("#canvas").toDataURL('image/png');
-		document.querySelector("#photo").setAttribute('src', data);
-		document.querySelector("#canvas").style.display = "none";
+		// Get image attached to the canvas
+		var data = canvas.toDataURL('image/png');
+		// Set the image to the photo div
+		photo.setAttribute('src', data);
+		// Hide the canvas
+		canvas.style.display = "none";
 	}
 
+	/**
+	 * UploadImage
+	 * @description: Upload the still image taken to the server
+	 * @param: {none} 
+	 * @return: {promise} Upload image to server
+	 */
 	uploadImage(){
+		// Get image from canvas element
 		var data = document.querySelector("#canvas").toDataURL('image/png');
 		document.querySelector("#photo").setAttribute('src', data);
 		document.querySelector("#canvas").style.display = "none";
+		
+		// Code below from stackoverflow
+		// http://stackoverflow.com/a/12300351	
 		var byteString = atob(data.split(',')[1]);
-
-	  	// separate out the mime component
-	  	var mimeString = data.split(',')[0].split(':')[1].split(';')[0]
-
-	  	// write the bytes of the string to an ArrayBuffer
-	  	var ab = new ArrayBuffer(byteString.length);
-	  	var ia = new Uint8Array(ab);
-	  	for(var i = 0; i < byteString.length; i++) {
+		// separate out the mime component
+		var mimeString = data.split(',')[0].split(':')[1].split(';')[0]
+		// write the bytes of the string to an ArrayBuffer
+		var ab = new ArrayBuffer(byteString.length);
+		var ia = new Uint8Array(ab);
+		for(var i = 0; i < byteString.length; i++){
 			ia[i] = byteString.charCodeAt(i);
-	  	}
+		}
+		// write the ArrayBuffer to a blob, and you're done
+		var blob = new Blob([ab], { type: mimeString });
 
-  		// write the ArrayBuffer to a blob, and you're done
-	  	var blob = new Blob([ab], {type: mimeString});
-	  	var fd = new FormData();
-	  	fd.append('file', blob, Date.now() + '.jpg');
+		// Create Form Data instance and inject the image
+		var fd = new FormData();
+		fd.append('file', blob, Date.now() + '.jpg');
 		return client.upload(fd);
 	}
 
+	/**
+	 * HandleTakePicture
+	 * @description: Handle the visual state of taking a picture
+	 * @param: {none} 
+	 * @return: {none}
+	 */
 	handleTakePicture(e){
-		if(hasClass(document.querySelector(".chat-camera"), "active") && hasClass(document.querySelector(".chat-timeline"), "camera-active")){
-			removeClass(document.querySelector(".chat-camera"), "active");
-			removeClass(document.querySelector(".chat-timeline"), "camera-active");
-			this.state.stream.getTracks()[0].stop();
+		var chatCamera = document.querySelector(".chat-camera");
+		var chatTimeline = document.querySelector(".chat-timeline");
+		var captureRemove = document.querySelector("#capture-remove");
+		var captureUpload = document.querySelector("#capture-upload");
+		var photo = document.querySelector("#photo");
+		// Hide the camera div
+		if(hasClass(chatCamera, "active") && hasClass(chatTimeline, "camera-active")){
+			removeClass(chatCamera, "active");
+			removeClass(chatTimeline, "camera-active");
+			// Disable the webcam
+			this.disableWebcam();
 			return;
 		}
-		addClass(document.querySelector(".chat-camera"), "active");
-		addClass(document.querySelector(".chat-timeline"), "camera-active");
+		// Show the camera div
+		addClass(chatCamera, "active");
+		addClass(chatTimeline, "camera-active");
+		// Enable the webcam
 		this.enableWebcam();
+	}
+
+	/**
+	 * RegisterCameraEvents
+	 * @description: Register the camera button events
+	 * @param: {none} 
+	 * @return: {none}
+	 */
+	registerCameraEvents(){
+		var captureRemove = document.querySelector("#capture-remove");
+		var captureUpload = document.querySelector("#capture-upload");
+		var video = document.querySelector("#video");
+		var photo = document.querySelector("#photo");
+		var canvas = document.querySelector("#canvas");
+		var capture = document.querySelector('#capture');
+
 		var self = this;
-		document.querySelector("#capture-remove").addEventListener('click', function(e){
+		// Handle click event for removing captured image
+		captureRemove.addEventListener('click', function(e){
 			self.setState({captureState: 0});
-			document.querySelector('#capture-remove').style.display = "none";
-			document.querySelector('#capture-upload').style.display = "none";
-			document.querySelector("#photo").style.display = "none";
-			document.querySelector("#video").style.display = "inline-block";
-			document.querySelector("#canvas").style.display = "none";
-			document.querySelector('#capture').style.display = "inline-block";
+			captureRemove.style.display = "none";
+			captureUpload.style.display = "none";
+			photo.style.display = "none";
+			video.style.display = "inline-block";
+			canvas.style.display = "none";
+			capture.style.display = "inline-block";
 			e.preventDefault();
 		}, false);
-		document.querySelector("#capture-upload").addEventListener('click', function(e){
+
+		// Handle click event for uploading captured image
+		captureUpload.addEventListener('click', function(e){
 			self.setState({captureState: 0});
-			document.querySelector('#capture-remove').style.display = "none";
-			document.querySelector('#capture-upload').style.display = "none";
-			document.querySelector("#photo").style.display = "none";
-			document.querySelector("#video").style.display = "inline-block";
-			document.querySelector("#canvas").style.display = "none";
-			document.querySelector('#capture').style.display = "inline-block";
+			captureRemove.style.display = "none";
+			captureUpload.style.display = "none";
+			photo.style.display = "none";
+			video.style.display = "inline-block";
+			canvas.style.display = "none";
+			capture.style.display = "inline-block";
+			// TODO:(mcervco) Figure out a visual way of saying the image upload failed
 			self.uploadImage().then(function(res){
 				console.log(res.data);
 			}).catch(function(err){
@@ -203,22 +306,23 @@ export default class Chat extends Component {
 			});
 			e.preventDefault();
 		}, false);
-		document.querySelector("#capture").addEventListener('click', function(e){
+		
+		// Handle click event for taking a picture
+		capture.addEventListener('click', function(e){
 			if(self.state.captureState == 0){
 				self.takePicture();
 			} else {
-				document.querySelector('#capture-remove').style.display = "none";
-				document.querySelector('#capture-upload').style.display = "none";
-				document.querySelector("#photo").style.display = "none";
-				document.querySelector("#video").style.display = "inline-block";
-				document.querySelector("#canvas").style.display = "none";
+				captureRemove.style.display = "none";
+				captureUpload.style.display = "none";
+				photo.style.display = "none";
+				video.style.display = "inline-block";
+				canvas.style.display = "none";
 				self.setState({captureState: 0});
-				//document.querySelector("#capture").innerText= "CAPTURE";
 			}
 			e.preventDefault();
 		}, false);
 	}
-//user's name in the header is static for now. still need to change it to display whoever the user is actually talking to
+
     render() {
 		return (
 			<div className="content">
@@ -233,7 +337,7 @@ export default class Chat extends Component {
 						<video id="video"></video>
 						<canvas id="canvas" style={{display: "none"}}></canvas>
 						<img src="" id="photo" alt="" style={{display: "none"}}/>
-						<audio id="audio" src="https://www.soundjay.com/mechanical/camera-shutter-click-08.wav" autostart="false" ></audio>
+						<audio id="audio" src="https://www.soundjay.com/mechanical/camera-shutter-click-08.wav"></audio>
 						<i id="capture" className="fa fa-circle-o"></i>
 					</div>
 				</div>
