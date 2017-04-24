@@ -277,14 +277,6 @@ export default class Profile extends Component {
                         <p> Phone : {this.props.profile.user.phoneNumber}  </p>
                         <p> Birthday : {this.props.profile.user.dob}  </p>
                         <p> Where I Live : {this.props.profile.user.address}  </p>
-                        <div>
-                            <p>Friends </p>
-                            <div className='profile-friendlist'>
-                                { this.props.profile.friends.map((friend, k) => {
-                                     return <img  src={ friend }  key={k} alt="User Image"/>
-                                })}
-                            </div>
-                        </div>
 
                     </div>
                 </div>
