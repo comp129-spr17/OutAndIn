@@ -6,9 +6,9 @@ import { hasClass, addClass, removeClass } from '../../utils/DOMTools';
 class Header extends Component{
     render() {
         return (
-                <div className='profile-header'>
-                </div>
-            );
+            <div className='profile-header'>
+            </div>
+        );
     }
 }
 
@@ -296,11 +296,7 @@ export default class Profile extends Component {
                       <i id="capture" className="fa fa-circle-o"></i>
                     </div>
                 </div>
-                <div className="chat-timeline"></div>
-                
-                
-               
-                
+                <div className="chat-timeline"></div>    
             </div>
         );
     }
