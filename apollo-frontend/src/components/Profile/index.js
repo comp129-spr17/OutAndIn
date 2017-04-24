@@ -256,12 +256,12 @@ export default class Profile extends Component {
     render() {
         return (
             <div className="content">
-                //<Header></Header>
+                <Header></Header>
                 <div className='profile-container'>
                     <div >
                       <div onClick={this.showModal}>
                         <div className='profile-avatar'>
-                            <i className = "profile-pic-user fa fa-user-circle-o fa-5x"> </i>
+                            <i className = "profile-pic-user fa fa-user-circle-o"> </i>
                         </div>
                       </div>
                         <div className="profile-info-container">
