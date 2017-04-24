@@ -269,7 +269,9 @@ export default class Profile extends Component {
                     </div>
 
                     <div onClick={this.showModal}>
-                      <i className = "profile-pic-icon fa fa-camera fa-2x"></i>
+                      <div className="profile-camera-icon">
+                        <i className = "profile-pic-icon fa fa-camera fa-2x"></i>
+                      </div>
                     </div>
                 </div>
                 
