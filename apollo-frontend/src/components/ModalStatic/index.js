@@ -52,7 +52,8 @@ export default class ModalStatic extends Component {
         this.newUsersConnected = this.newUsersConnected.bind(this);
         this.searchFriend = this.searchFriend.bind(this);
         this.state.people=this.state.allPeople;
-
+		
+		console.log("MODALSTAT");
         //client.socketRegisterEvent("usersConnected", this.newUsersConnected);
     }
 
