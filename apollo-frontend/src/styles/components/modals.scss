@@ -4,6 +4,7 @@
 
 #new-message-modal.active {
 	display: block;
+	text-align: center;
 }
 
 .new-message-modal-overlay {
@@ -29,7 +30,7 @@
 }
 
 #new-message-modal-search {
-    
+		width: 100%;
 }
 
 .new-message-modal-confirm {
