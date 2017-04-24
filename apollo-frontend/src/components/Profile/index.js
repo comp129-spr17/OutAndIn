@@ -286,10 +286,6 @@ export default class Profile extends Component {
                             </div>
                         </div>
 
-                        <div>
-                            <button className='change-info-button'>Change info </button>
-                        </div>
-
                     </div>
                 </div>
                 
