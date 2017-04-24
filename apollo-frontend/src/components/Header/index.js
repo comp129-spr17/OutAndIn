@@ -33,7 +33,7 @@ export default class Header extends Component {
 
 	handleUserProfile(){
 		let id = jwt_decode(localStorage.getItem('token')).uid;
-		window.location = "profile/" + id;	
+		window.location = "/profile/" + id;	
 	}
 
 	render(){

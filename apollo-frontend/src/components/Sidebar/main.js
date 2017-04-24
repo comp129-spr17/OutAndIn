@@ -62,6 +62,7 @@ export default class Sidebar extends Component {
 
 	friendSelect(userID){
 		//request to make new chat
+		/*
 		client.chatsInit(userID).then((res) => {
 			console.log(res);
 			localStorage.setItem("focusChat", res.data.results[0].chatID);
@@ -71,7 +72,10 @@ export default class Sidebar extends Component {
 			console.log("Err: " + JSON.stringify(err));
 		});
 		$('#input_friend').val('');
-		this.props.getChats();
+		this.props.getChats();*/
+
+		//get user profile
+		window.location = "/profile/" + userID;
 	}
 
 	chatSelect(chatID){
@@ -86,7 +90,6 @@ export default class Sidebar extends Component {
 			this.props.getChats();
 		}
 	}
-
 	
 	toggleNewMessageModal(e){
 		e.preventDefault();
@@ -99,32 +102,6 @@ export default class Sidebar extends Component {
 			removeClass(el, "active");
 			this.setState({newMessageModalState: 0});
 		}
-	}
-	//old
-	displayChats(){
-		client.chatsGetAll().then((query) => {
-				console.log(query);
-				var chats = [];
-				var chatsList = query.data.results;
-				for(var i in chatsList){
-					chats.push({
-						name: chatsList[i].name,
-						avatar:  chatsList[i].avatar,
-						timestamp: "4/12/2017",
-						preview: "abcd",
-						id:  chatsList[i].uuid
-					});
-				}
-				this.setState({
-					chats: chats,
-					friends: [],
-					people: [],
-					files: []
-				});
-			}).catch((err) =>{
-				console.log("ERR: " + JSON.stringify(err));
-			});
-
 	}
 
     render() {
