@@ -29,7 +29,7 @@ export default class Profile extends Component {
         console.log("USERID: " + this.props.userID);
         this.props.getProfile(this.props.userID);
     }
-    
+
      componentDidMount(){
       $('.modal-content').hide();
         this.registerCameraEvents();
@@ -41,10 +41,10 @@ export default class Profile extends Component {
       //   $('.profile-pic-icon').hide();
       // });
     }
-    
 
 
-    
+
+
     showModal(){
       $('.modal-content').show();
     }
@@ -52,14 +52,14 @@ export default class Profile extends Component {
     hideModal(){
       $('.modal-content').hide();
     }
-    
+
      handleFileInput(e){
       var fileInput = document.getElementById("file-upload");
       fileInput.click();
      }
-     
-     
-     
+
+
+
     handleTakePicture(e){
       var chatCamera = document.querySelector(".chat-camera");
       var chatTimeline = document.querySelector(".chat-timeline");
@@ -78,7 +78,7 @@ export default class Profile extends Component {
         return;
       }
       $('#cameraToggle').html('Close Camera');
-    
+
     // Hide the camera div
     if(hasClass(chatCamera, "active") && hasClass(chatTimeline, "camera-active")){
       removeClass(chatCamera, "active");
@@ -97,7 +97,7 @@ export default class Profile extends Component {
       /**
    * EnableWebcam
    * @description: Enable the webcam
-   * @param: {none} 
+   * @param: {none}
    * @return: {none}
    */
   enableWebcam(){
@@ -105,7 +105,7 @@ export default class Profile extends Component {
       var video = document.querySelector('#video');
     var canvas = document.querySelector('#canvas');
     this.setState({width: 265, height: 199});
-    
+
     // Determine the vendor prefix
     navigator.getMedia = (
       navigator.getUserMedia ||
@@ -113,7 +113,7 @@ export default class Profile extends Component {
       navigator.mozGetUserMedia ||
       navigator.msGetUserMedia
     );
-    
+
     var self = this;
     // Get the video stream from the webcam
     navigator.getMedia({
@@ -147,11 +147,11 @@ export default class Profile extends Component {
       }
     }, false);
   }
-  
+
   /**
    * DisableWebcam
-   * @description: Disable the webcam 
-   * @param: {none} 
+   * @description: Disable the webcam
+   * @param: {none}
    * @return: {none}
    */
   disableWebcam(){
@@ -161,7 +161,7 @@ export default class Profile extends Component {
   /**
    * TakePicture
    * @description: Take a still image from the webcam
-   * @param: {none} 
+   * @param: {none}
    * @return: {none}
    */
   takePicture() {
@@ -234,7 +234,7 @@ export default class Profile extends Component {
       });
       e.preventDefault();
     }, false);
-    
+
     // Handle click event for taking a picture
     capture.addEventListener('click', function(e){
       if(self.state.captureState == 0){
@@ -261,7 +261,7 @@ export default class Profile extends Component {
                     <div >
                       <div onClick={this.showModal}>
                         <div className='profile-avatar'>
-                            <i className = "profile-pic-user fa fa-user-circle-o"> </i>
+                            <i className = "profile-pic-user fa fa-user-circle-o fa-5x"> </i>
                         </div>
                       </div>
                         <div className="profile-info-container">
@@ -270,7 +270,7 @@ export default class Profile extends Component {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className='modal-container'>
                     <div className="modal-content">
                         <div className="modal-footer">
@@ -280,9 +280,9 @@ export default class Profile extends Component {
                           <button type="button" className="btn btn-default" onClick={this.hideModal}>Close</button>
                         </div>
                     </div>
-                </div> 
-                
-                
+                </div>
+
+
                   <div className="chat-camera">
                     <div className="chat-camera-container">
                       <i className="fa fa-close" id="capture-remove"></i>
@@ -294,7 +294,7 @@ export default class Profile extends Component {
                       <i id="capture" className="fa fa-circle-o"></i>
                     </div>
                 </div>
-                <div className="chat-timeline"></div>    
+                <div className="chat-timeline"></div>
             </div>
         );
     }
