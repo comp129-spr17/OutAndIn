@@ -7,19 +7,20 @@
     height:50%;
     background-color:#164762;
 }
+
 .profile-container {
     position: absolute;
     top: 55%;
     left: 50%;
     width:100%;
     transform: translateX(-50%) translateY(-50%);
-
 }
+
 .profile-avatar {
    display: inline-block;
    float:left;
    margin-left:15%;
-   margin-top:-5%;
+   margin-top: -5%;
 }
 
 .profile-avatar img{
@@ -28,16 +29,21 @@
     border-radius: 50%;
 }
 
+.profile-info-container {
+  position: relative;
+  margin-top: 5%
+}
+
 .profile-name {
     margin:10px;
     color: white;
     font-size:21px;
-    margin-left: 60%;
+    margin-left: 65%;
     margin-top: 5%;
 }
 
 .profile-handle{
-    margin-left: 52%;
+    margin-left: 60%;
     text-align: center;
     width: 20%;
     height: 5%;

@@ -7,7 +7,6 @@ class Header extends Component{
     render() {
         return (
                 <div className='profile-header'>
-                    <h3>My Profile</h3>
                 </div>
             );
     }
@@ -257,13 +256,13 @@ export default class Profile extends Component {
     render() {
         return (
             <div className="content">
-                <Header></Header>
+                //<Header></Header>
                 <div className='profile-container'>
                     <div >
                         <div className='profile-avatar'>
                             <i className = "profile-pic-user fa fa-user-circle-o fa-5x"> </i>
                         </div>
-                        <div  >
+                        <div className="profile-info-container">
                             <p className='profile-name' >{this.props.profile.user.name} </p>
                             <p className='profile-handle' > {this.props.profile.user.handle} </p>
                         </div>
