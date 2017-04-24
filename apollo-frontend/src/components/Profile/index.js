@@ -272,13 +272,6 @@ export default class Profile extends Component {
                     <div onClick={this.showModal}>
                       <i className = "profile-pic-icon fa fa-camera fa-2x"></i>
                     </div>
-
-                    <div className='profile-otherinfo'>
-                        <p> Phone : {this.props.profile.user.phoneNumber}  </p>
-                        <p> Birthday : {this.props.profile.user.dob}  </p>
-                        <p> Where I Live : {this.props.profile.user.address}  </p>
-
-                    </div>
                 </div>
                 
                 <div className='modal-container'>
