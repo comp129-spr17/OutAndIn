@@ -43,7 +43,7 @@ export default class NewMessageModal extends React.Component {
 		);
 
 		return (
-			<div>{items}</div>				
+			<div>{items}</div>
 		);
 	};
 	render(){
@@ -51,13 +51,14 @@ export default class NewMessageModal extends React.Component {
 			<div id="new-message-modal">
 				<div className="new-message-modal-overlay"></div>
 				<div id="new-message-modal-container">
-					<div id="new-message-modal-search">
-						<input type="text" placeholder="Type a name..."/>
+					<div className="new-message-modal-title">
+						Start a Message
 					</div>
-					<i className="new-message-modal-confirm fa fa-check-square-o fa-2x"></i>
+					<input type="text" placeholder="Type a name..." id="new-message-modal-search"/>
 					<div className="modal-list">
 						<this.listItems />
 					</div>
+					<i className="new-message-modal-confirm fa fa-check-square-o fa-2x"></i>
 				</div>
 			</div>
 		)
