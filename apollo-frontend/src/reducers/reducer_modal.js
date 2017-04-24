@@ -25,7 +25,7 @@ export default function(state = INITIAL_STATE, action){
 		case MODAL_SEARCH_SUCCESS:
 			return {
 				...state,
-				users: action.payload
+				users: action.payload.people
 			};
 			break;
 		case MODAL_SEARCH_FAILURE:

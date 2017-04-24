@@ -9,7 +9,9 @@ import {
 	chatInitSuccess,
 	chatInitFailure
 } from '../actions/modal';
-
+import {
+	focusChat
+} from '../actions/sidebar';
 
 const mapDispatchToProps = (dispatch) => {
 	return {
@@ -34,9 +36,19 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		chatInit:(users) =>{
 			dispatch(chatInit(users)).then((res) => {
-				
+				if(res.data.errors){
+					for(var i in res.data.errors){
+						console.log("Errors - chatInit: " + res.data.errors[i].message);
+						dispatch(chatInitFailure(res.data.errors[i]));
+					}
+					return;
+				}
+
+				dispatch(chatInitSuccess(res.data.results[0].chatID));
+				dispatch(focusChat(res.data.results[0].chatID));
 			}).catch((err) =>{
-				
+				console.log("Error - chatInit: " + JSON.stringify(err));
+				dispatch(chatInitFailure(err));
 			});
 		}
 	};

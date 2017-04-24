@@ -56,19 +56,17 @@ function init(){
 router.get('/:q', function(req, res){
 	var query = req.params.q;
 	var userID = req.user;
-	// TODO:(mcervco) Only searching for friends right now.
-	// Search everything later
 	
-	// Get all users that match the query to the username
-	usersService.getUsersByQuery(query).then((results) => {
-		let q = {
-			friends: results,
-			people: [],
-			files: []
-		};
+	Promise.all([
+		usersService.getUsersByQuery(query),
+		//TODO file search
+	]).then((search) => {
 		let response = new responseObject();
 		response.setSuccess(true);
-		response.setResults(q);
+		response.setResults({
+			people: search[0],
+			files:[]
+		});
 		res.status(200).json(response.toJSON());
 	}).catch((err) => {
 		// Error
@@ -80,6 +78,7 @@ router.get('/:q', function(req, res){
 		response.setSuccess(true);
 		response.setErrors(error);
 		res.status(500).json(response.toJSON());
+	
 	});
 });
 

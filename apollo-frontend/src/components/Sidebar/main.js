@@ -61,26 +61,12 @@ export default class Sidebar extends Component {
 	}
 
 	friendSelect(userID){
-		//request to make new chat
-		/*
-		client.chatsInit(userID).then((res) => {
-			console.log(res);
-			localStorage.setItem("focusChat", res.data.results[0].chatID);
-			client.eventBusDispatchEvent("focusChat");
-
-		}).catch((err) =>{
-			console.log("Err: " + JSON.stringify(err));
-		});
-		$('#input_friend').val('');
-		this.props.getChats();*/
-
 		//get user profile
 		window.location = "/profile/" + userID;
 	}
 
 	chatSelect(chatID){
 		this.props.focusChat(chatID);
-		//localStorage.setItem("focusChat", chatID);
 		client.eventBusDispatchEvent("focusChat");
 	}
 
@@ -145,35 +131,8 @@ export default class Sidebar extends Component {
 							  
 							})}
 						</div>
-                        <div className='conversationDiv' >
-							{ this.props.sidebar.searching ? (<p>Conversation</p>) : '' }
-                            { this.props.sidebar.friends.map((friend, k) => {
-                                return <div className="sidebar-item" onClick={() => this.friendSelect(friend.uuid)} key={k}>
-                                    <div className="sidebar-chat">
-                                        <div className="sidebar-chat-img">
-                                            <div className="sidebar-chat-avatar">
-                                                <img src={ friend.avatar } alt="Sidebar Chat Image"/>
-                                            </div>
-                                            <div className="sidebar-chat-status">
-                                            </div>
-                                        </div>
-                                        <div className="sidebar-chat-details">
-                                            <div className="sidebar-chat-details-name">
-                                                <h4>{ friend.username }</h4>
-                                            </div>
-                                            <div className="sidebar-chat-details-preview">
-                                                <p>{ friend.preview }</p>
-                                            </div>
-                                        </div>
-                                        <div className="sidebar-chat-timestamp">
-                                            <span>{ friend.timestamp }</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            })}
-                        </div>
                         <div className='peopleDiv' >
-							{ this.props.sidebar.searching ? (<p>People</p>) : ''}
+							{ this.props.sidebar.searching ? (<h4>People</h4>) : ''}
                             { this.props.sidebar.people.map((p, k) => {
                                 return <div className="sidebar-item" key={k}>
                                     <div className="sidebar-chat">
@@ -200,7 +159,7 @@ export default class Sidebar extends Component {
                             })}
                         </div>
                         <div className='fileDiv' >
-							{ this.props.sidebar.searching ? (<p>Files</p>) : '' }
+							{ this.props.sidebar.searching ? (<h4>Files</h4>) : '' }
                             { this.props.sidebar.files.map((file, k) => {
                                 return <div className="sidebar-item" key={k}>
                                     <div className="sidebar-chat">
