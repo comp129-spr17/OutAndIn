@@ -54,9 +54,7 @@ export default class NewMessageModal extends React.Component {
 					<div className="new-message-modal-title">
 						Start a Message
 					</div>
-					
 					<input type="text" placeholder="Type a name..." id="new-message-modal-search"/>
-
 					<div className="modal-list">
 						<this.listItems />
 					</div>
