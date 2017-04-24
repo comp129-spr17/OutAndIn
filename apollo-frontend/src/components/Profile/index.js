@@ -259,19 +259,15 @@ export default class Profile extends Component {
                 //<Header></Header>
                 <div className='profile-container'>
                     <div >
+                      <div onClick={this.showModal}>
                         <div className='profile-avatar'>
                             <i className = "profile-pic-user fa fa-user-circle-o fa-5x"> </i>
                         </div>
+                      </div>
                         <div className="profile-info-container">
                             <p className='profile-name' >{this.props.profile.user.name} </p>
                             <p className='profile-handle' > {this.props.profile.user.handle} </p>
                         </div>
-                    </div>
-
-                    <div onClick={this.showModal}>
-                      <div className="profile-camera-icon">
-                        <i className = "profile-pic-icon fa fa-camera fa-2x"></i>
-                      </div>
                     </div>
                 </div>
                 

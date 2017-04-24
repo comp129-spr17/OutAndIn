@@ -19,6 +19,7 @@
    float: left;
    margin-left: 15%;
    margin-top: -10%;
+   cursor: pointer;
 }
 
 .profile-avatar img{
@@ -122,10 +123,6 @@ background-color:#164762;
   font-size: 14px;
   font-family: "Lucida Grande", "Arial", sans-serif;
   color: rgba(255, 255, 255, 1.0);
-}
-
-.profile-camera-icon {
-  cursor: pointer;
 }
 
 .chat-camera {
