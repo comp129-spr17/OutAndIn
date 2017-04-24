@@ -51,7 +51,9 @@ export default class NewMessageModal extends React.Component {
 			<div id="new-message-modal">
 				<div className="new-message-modal-overlay"></div>
 				<div id="new-message-modal-container">
-					Start a Message
+					<div className="new-message-modal-title">
+						Start a Message
+					</div>
 					<div id="new-message-modal-search">
 						<input type="text" placeholder="Type a name..."/>
 					</div>
