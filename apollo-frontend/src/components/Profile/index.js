@@ -261,7 +261,7 @@ export default class Profile extends Component {
                     <div >
                       <div onClick={this.showModal}>
                         <div className='profile-avatar'>
-                            <i className = "profile-pic-user fa fa-user-circle-o fa-5x"> </i>
+                            <img src={this.props.profile.user.avatar} />
                         </div>
                       </div>
                         <div className="profile-info-container">

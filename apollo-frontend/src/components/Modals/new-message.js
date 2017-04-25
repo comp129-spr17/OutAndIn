@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { client } from '../../modules/api-client';
-import { hasClass, removeClass, addClass } from '../../utils/DOMTools';
+
 var jwt_decode = require("jwt-decode");
 
 export default class NewMessageModal extends React.Component {
@@ -93,10 +93,6 @@ export default class NewMessageModal extends React.Component {
 			console.log("U");
 			console.log(u);
 			this.props.chatInit(u);
-			// Close modal after selecting a user(s) to chat with
-			let nmm = document.getElementById("new-message-modal");
-			removeClass(nmm, "active");
-			
 		}else{
 			console.log("No users selected");
 		}

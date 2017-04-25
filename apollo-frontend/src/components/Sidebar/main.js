@@ -65,8 +65,8 @@ export default class Sidebar extends Component {
 		window.location = "/profile/" + userID;
 	}
 
-	chatSelect(chatID){
-		this.props.focusChat(chatID);
+	chatSelect(chat){
+		this.props.focusChat(chat);
 		client.eventBusDispatchEvent("focusChat");
 	}
 
@@ -106,7 +106,7 @@ export default class Sidebar extends Component {
                     <div className="sidebar-content">
 						<div className='conversationDiv'>
 							{this.props.sidebar.chats.map((chat, k) =>{
-								return 	<div className="sidebar-item" onClick={() => this.chatSelect(chat.uuid)} key={k}>
+								return 	<div className="sidebar-item" onClick={() => this.chatSelect(chat)} key={k}>
                                     <div className="sidebar-chat">
                                         <div className="sidebar-chat-img">
                                             <div className="sidebar-chat-avatar">

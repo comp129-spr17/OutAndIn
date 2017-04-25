@@ -10,14 +10,13 @@ import {
 const INITIAL_STATE = {
 	//use this object instead
 	user: {
-		name: 'ABC',
-		avatar: '/img/avatar1.jpg',
-		handle: '@ABC',
+		name: '',
+		avatar: '',
+		handle: '',
 		phoneNunber: '(123)456-7890',
 		dob: '7/11/1997',
 		address: 'Here and there'
-	},
-    friends:['/img/avatar1.jpg','/img/avatar2.jpg','/img/avatar3.jpg']
+	}	
 };
 
 export default function(state = INITIAL_STATE, action){

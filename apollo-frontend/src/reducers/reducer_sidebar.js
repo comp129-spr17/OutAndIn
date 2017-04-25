@@ -13,7 +13,10 @@ const INITIAL_STATE = {
 	people: [],
 	files: [],
 	searching: false,
-	chatFocused: '',
+	chatFocused: {
+		name: '',
+		uuid: ''
+	},
 	isLoading: false,
 	error: ''
 };

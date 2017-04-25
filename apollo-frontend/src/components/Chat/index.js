@@ -53,7 +53,7 @@ export default class Chat extends Component {
 	}
 	
 	getMessages(){
-		this.props.getMessages(this.props.sidebar.chatFocused);
+		this.props.getMessages(this.props.sidebar.chatFocused.uuid);
 	}
 
 	handleChatInpChange(event){
@@ -333,7 +333,7 @@ export default class Chat extends Component {
 		return (
 			<div className="content">
 				<div className="chat-header">
-					<div className="chat-header-fullname">Maxine Lien</div>
+					<div className="chat-header-fullname">{ this.props.sidebar.chatFocused.name }</div>
 					<div className="chat-header-username">@m_lien</div>
 				</div>
 				<div className="chat-camera">

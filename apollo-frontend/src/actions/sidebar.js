@@ -53,9 +53,9 @@ export const searchFailure = (error) => {
 	};
 };
 
-export const focusChat = (chatID) => {
+export const focusChat = (chat) => {
 	return {
 		type: SIDEBAR_FOCUS_CHAT,
-		payload: chatID
+		payload: chat
 	};
 };
