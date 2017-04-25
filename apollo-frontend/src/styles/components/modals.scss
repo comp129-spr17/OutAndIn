@@ -27,12 +27,15 @@
     position: absolute;
     background: white;
     border: 1px solid rgb(239, 239, 239);
-		border-radius: 3%;
 }
 
 #new-message-modal-search {
 	padding: 5px;
 	width: 100%;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	border-bottom-width: 1px;
 }
 
 .new-message-modal-confirm {
@@ -49,5 +52,4 @@
 	background-color: #164762;
 	color: white;
 	padding-top: 10px;
-	border-radius: 3%;
 }
