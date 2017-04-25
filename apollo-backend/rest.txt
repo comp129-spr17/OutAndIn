@@ -1,0 +1,29 @@
+GET: /chats - get all chats you are a part of
+POST: /chats - create a chat between a friend
+
+GET: /chats/:id - get details for specific chat, this can include who’s in the chat, but just the uuid and username
+PUT: /chats/:id - change details of a chat
+DELETE: /chats/:id - delete a chat
+
+GET: /chats/:id/messages - get messages for a specific chat
+POST: /chats/:id/messages - send a message to the chat
+
+GET: /chats/:id/users - get only the users for a chat, with detailed info about them
+POST: /chats/:id/users - add user to chat
+
+GET: /chats/:id/files - get all files for a chat
+POST: /chats/:id/files - upload a file to the chat
+DELETE: /chats/:id/files - delete a file from the chat
+PUT: /chats/:id/files - overwrite a file? not too sure on this one
+
+GET: /chats/:id/bot - send the bot a request, should include the “/command" and the query
+
+GET: /users/:id - get info about a user, detailed if they are friends, basic if they are not
+
+GET: /me - get your own information based on your session token
+PUT: /me - update something about you
+DELETE: /me - remove something, though I don’t see anything currently that would be good for this (edited)
+
+GET: /me/friends - get all your friends
+POST: /me/friends - add a friend
+DELETE: /me/friends - remove a friend
