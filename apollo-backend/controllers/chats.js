@@ -115,6 +115,27 @@ router.get('/', function(req, res){
 			chats[i]["users"] = [];
 			chats[i]["users"].push(results[i]);
 		}
+
+		//set default titles
+		console.log("chats");
+		console.log(JSON.stringify(chats));
+		for(var i in chats){
+			console.log("0");
+			if(!(chats[i].name)){
+				console.log("1");
+				chats[i].name = "";
+				for(var u in chats[i].users[0]){
+					console.log("2");
+					if(chats[i].users[0][u].uuid != userID)
+						chats[i].name += chats[i].users[0][u].username + ",";
+				}
+				console.log("3: " + chats[i].name);
+				//remove comma
+				chats[i].name = chats[i].name.substring(0, chats[i].name.length - 1);
+				console.log("4: " + chats[i].name);
+			}
+		}
+
 		let response = new responseObject();
 		response.setSuccess(true);
 		response.setResults(chats);
@@ -144,7 +165,6 @@ router.post('/', function(req, res){
 	// TODO:(mcervco) check to make sure the friendID is passed in and validate it
 	// Also check to make sure they are friends in the first place
 	// Check if chat already exists between the two users
-	console.log("0");	
 	if(users){
 		if(users.length == 0)
 		{
@@ -178,7 +198,6 @@ router.post('/', function(req, res){
 		
 	}
 
-	console.log("1");
 	//make chat
 	chatsService.createChat(userID,chatID).then((chat) => {
 		//make chat status
@@ -195,7 +214,6 @@ router.post('/', function(req, res){
 
 		return Promise.all(prom);
 	}).then((u) => {
-		console.log("4");
 		//get sockets
 		var prom = [];
 		for(var i in users){
@@ -206,7 +224,6 @@ router.post('/', function(req, res){
 		console.log("5");
 		return Promise.all(prom);
 	}).then((socks) => {
-		console.log("6");
 		for(var i in socks){
 			if(res.socketIO.sockets.connected[socks[i][0].socket]){
 				res.socketIO.sockets.connected[socks[i][0].socket].emit('chatAdded', {});
@@ -214,7 +231,6 @@ router.post('/', function(req, res){
 				console.log("Socket not connected: " + socks[i][0].socket);
 			}
 		}
-		console.log("7");
 		let response = new responseObject();
 		response.setSuccess(true);
 		response.setResults({
@@ -235,103 +251,6 @@ router.post('/', function(req, res){
 		// Send response
 		res.status(500).json(response.toJSON());
 	});
-	/*
-	Promise.all([
-		chatsService.getLimitedChatsForUser(userID),
-		chatsService.getLimitedChatsForUser(friendID)
-	]).then((chats) => {
-		// Check for undefined inputs <<<<<<<<<
-		var userChats = chats[0];
-		var friendChats = chats[1];
-		var chatExists = false;
-		var existingChatID = '';
-		for(var uchat in userChats){
-			for(var	fchat in friendChats){
-				// Need to add check to make sure the chat isnt a group chat
-				if(userChats[uchat]["uuid"] == friendChats[fchat]["uuid"]){
-					chatExists = true;
-					existingChatID = userChats[uchat]["uuid"];
-				}
-			}
-		}
-		// Chat already exists
-		if(chatExists){
-			//Return the exsisting chat id
-			return chatsService.getChatByUUID(existingChatID);
-		}
-		// Create the chat
-		return chatsService.createChat(userID, chatID);
-	}).then((chat) => {
-		if(!chat.hasOwnProperty("affectedRows")){
-			// TODO:(mcervco) Handle this error better
-			// (pranav) no error, just gonna return the chat from getChatByUUID
-			let response = new responseObject();
-			response.setSuccess(true);
-			response.setResults({
-				chatID: chat[0].uuid
-			});
-			res.status(200).json(response.toJSON());
-			return false;
-		}
-		return Promise.all([
-			chatsService.addUserToChat(userID, chatID),
-			chatsService.addUserToChat(friendID, chatID)
-		]);
-	}).then((results) => {
-		if(results == false){
-			return false;
-		}
-		// Couldnt add user to chat
-		if(!results[0].hasOwnProperty("affectedRows") && !results[1].hasOwnProperty("affectedRows")){
-			// TODO:(mcervco) Handle this error better
-			throw new Error("Was not able to create chat");	
-			return false;
-		}
-		return Promise.all([
-			usersService.getSocketID(userID),
-			usersService.getSocketID(friendID)
-		]);
-	}).then((sock) => {
-		if(sock == false)
-			return;
-
-		//emit events
-		for(var i in sock){
-			if(res.socketIO.sockets.connected[sock[i][0].socket]){
-				res.socketIO.sockets.connected[sock[i][0].socket].emit('chatAdded', {});
-			}else{
-				console.log("Socket not connected: " + sock[i][0].socket);
-			}
-		}
-		
-		return chatsService.setChatStatus(chatID);
-	}).then((results) => {
-		if(results == false){
-			return;
-		}
-		// Create response object
-		let response = new responseObject();
-		// Set attributes
-		response.setSuccess(true);
-		response.setResults({
-			chatID: chatID
-		});
-		// Send response
-		res.status(200).json(response.toJSON());
-	}).catch((err) => {
-		// Error
-		var error = {
-			"code": 1000,
-			"message": err
-		};
-		// Create response object
-		let response = new responseObject();
-		// Set attributes
-		response.setSuccess(false);
-		response.setErrors(error);
-		// Send response
-		res.status(500).json(response.toJSON());
-	});*/
 });
 
 /**
