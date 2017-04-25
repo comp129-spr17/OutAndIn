@@ -64,6 +64,8 @@ app.use(cookieParser("super-secret"));
 app.use(require('./server/middleware/cors'));
 app.use(require('./server/middleware/auth'));
 
+app.disable('etag');
+
 /**
  * Route Handlers
  */

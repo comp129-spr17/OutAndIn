@@ -26,6 +26,8 @@ const mapDispatchToProps = (dispatch) =>{
 				console.log("getMessages");
 				console.log(res);
 				dispatch(getMessagesSuccess(res.data.results));
+
+				//TODO Chat scroll <Malvika>
 			}).catch((err) => {
 				console.log("Error - getMessages: " + JSON.stringify(err));
 				dispatch(getMessagesFailure(err.response.data.errors[0]));
@@ -35,8 +37,8 @@ const mapDispatchToProps = (dispatch) =>{
 			console.log("Input");
 			dispatch(inputChange(text));
 		},
-		sendMessage: (chatID, message) =>{
-			dispatch(sendMessage(chatID, message)).payload.then((res) => {
+		sendMessage: (chat, message) =>{
+			dispatch(sendMessage(chat.uuid, message)).payload.then((res) => {
 				if(res.data.errors){
 					for(var i in res.data.errors){
 						console.log("Error - sendMessage: " + res.data.errors[i].message);

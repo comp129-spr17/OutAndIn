@@ -76,7 +76,7 @@ export default class Chat extends Component {
 	//from other users
 	handleMessageAdd(chatID){
 		console.log("PING: " + chatID);
-		if(chatID == this.props.sidebar.chatFocused){
+		if(chatID == this.props.sidebar.chatFocused.uuid){
 			this.getMessages();
 		}
 	}
