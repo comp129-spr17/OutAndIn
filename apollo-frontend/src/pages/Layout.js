@@ -14,7 +14,7 @@ class Layout extends Component {
             <div>
                 <Header />
 				<div className="main-container">
-					<NewMessageModal />
+					<ModalPage />
                     <SidebarMain />
 					{ this.props.children }
 					<SidebarInfo />

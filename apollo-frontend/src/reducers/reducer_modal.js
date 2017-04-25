@@ -23,9 +23,10 @@ export default function(state = INITIAL_STATE, action){
 			};
 			break;
 		case MODAL_SEARCH_SUCCESS:
+			console.log(action.payload);
 			return {
 				...state,
-				users: action.payload.people
+				users: action.payload
 			};
 			break;
 		case MODAL_SEARCH_FAILURE:

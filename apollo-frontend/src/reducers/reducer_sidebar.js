@@ -10,7 +10,6 @@ import {
 
 const INITIAL_STATE = {
 	chats: [],
-	friends: [],
 	people: [],
 	files: [],
 	searching: false,
@@ -28,7 +27,6 @@ export default function(state=INITIAL_STATE, action){
 			return {
 				...state,
 				chats: [],
-				friends: [],
 				people: [],
 				files: [],
 				isLoading: true,
@@ -55,7 +53,6 @@ export default function(state=INITIAL_STATE, action){
 			return {
 				...state,
 				chats: [],
-				friends: [],
 				people: [],
 				files: [],
 				isLoading: true,
@@ -64,7 +61,6 @@ export default function(state=INITIAL_STATE, action){
 		case SIDEBAR_SEARCH_SUCCESS:
 			return {
 				...state,
-				friends: action.payload.friends,
 				people: action.payload.people,
 				files: action.payload.files,
 				isLoading: false

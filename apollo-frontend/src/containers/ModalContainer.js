@@ -24,7 +24,6 @@ const mapDispatchToProps = (dispatch) => {
 					}
 					return;
 				}
-
 				dispatch(getSearchSuccess(res.data.results[0]));
 			}).catch((err) => {
 				console.log("Error - getSearch: " + JSON.stringify(err));
@@ -35,7 +34,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(userSelect(userID));
 		},
 		chatInit:(users) =>{
-			dispatch(chatInit(users)).then((res) => {
+			dispatch(chatInit(users)).payload.then((res) => {
 				if(res.data.errors){
 					for(var i in res.data.errors){
 						console.log("Errors - chatInit: " + res.data.errors[i].message);
@@ -43,7 +42,9 @@ const mapDispatchToProps = (dispatch) => {
 					}
 					return;
 				}
-
+				
+				console.log("RES");
+				console.log(res);
 				dispatch(chatInitSuccess(res.data.results[0].chatID));
 				dispatch(focusChat(res.data.results[0].chatID));
 			}).catch((err) =>{

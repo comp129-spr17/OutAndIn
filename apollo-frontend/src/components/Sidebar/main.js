@@ -134,7 +134,7 @@ export default class Sidebar extends Component {
                         <div className='peopleDiv' >
 							{ this.props.sidebar.searching ? (<h4>People</h4>) : ''}
                             { this.props.sidebar.people.map((p, k) => {
-                                return <div className="sidebar-item" key={k}>
+                                return <div className="sidebar-item" key={k} onClick={() => this.friendSelect(p.uuid)}>
                                     <div className="sidebar-chat">
                                         <div className="sidebar-chat-img">
                                             <div className="sidebar-chat-avatar">
@@ -145,7 +145,7 @@ export default class Sidebar extends Component {
                                         </div>
                                         <div className="sidebar-chat-details">
                                             <div className="sidebar-chat-details-name">
-                                                <h4>{ p.name }</h4>
+                                                <h4>{ p.username }</h4>
                                             </div>
                                             <div className="sidebar-chat-details-preview">
                                                 <p>{ p.handle }</p>

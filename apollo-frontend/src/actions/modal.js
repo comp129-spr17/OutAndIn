@@ -20,7 +20,7 @@ export const getSearch = (query) => {
 export const getSearchSuccess = (results) => {
 	return {
 		type: MODAL_SEARCH_SUCCESS,
-		payload: results.friends
+		payload: results.people
 	};
 };
 
@@ -41,7 +41,7 @@ export const userSelect = (userID) =>{
 export const chatInit = (users) => {
 	return {
 		type: MODAL_CHAT_INIT,
-		payload: client.chatsInit()
+		payload: client.chatsInit(users)
 	};
 };
 

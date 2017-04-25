@@ -79,6 +79,8 @@ function init(){
 router.get('/', function(req, res){
 	var userID = req.user;
 	chatsService.getChatsForUser(userID).then((chats) => {
+		console.log("Chats for " + userID);
+		console.log(chats);
 		if(chats.length == 0){
 			var error = {
 				"code": 1000,
@@ -138,10 +140,100 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
 	var userID = req.user;
 	var chatID = uuid();
-	var friendID = req.body.friendID;
+	var users = req.body.users;
 	// TODO:(mcervco) check to make sure the friendID is passed in and validate it
 	// Also check to make sure they are friends in the first place
 	// Check if chat already exists between the two users
+	console.log("0");	
+	if(users){
+		if(users.length == 0)
+		{
+			// Error
+		var error = {
+			"code": 2000,
+			"message": "No users"
+		};
+		// Create response object
+		let response = new responseObject();
+		// Set attributes
+		response.setSuccess(false);
+		response.setErrors(error);
+		// Send response
+		res.status(500).json(response.toJSON());
+			
+		}
+	}else{
+		// Error
+		var error = {
+			"code": 3000,
+			"message": "no users"
+		};
+		// Create response object
+		let response = new responseObject();
+		// Set attributes
+		response.setSuccess(false);
+		response.setErrors(error);
+		// Send response
+		res.status(500).json(response.toJSON());
+		
+	}
+
+	console.log("1");
+	chatsService.createChat(userID,chatID).then((chat) => {
+		console.log("2");
+		//Add users to chat
+		var prom = [];
+		for(var i in users){
+			console.log("Adding: " + users[i] + " - " + chatID);
+			prom.push(chatsService.addUserToChat(users[i], chatID));
+		}
+		console.log("Adding - u: " + userID + " - " + chatID);
+		prom.push(chatsService.addUserToChat(userID, chatID));
+
+		console.log("3");
+		return Promise.all(prom);
+	}).then((u) => {
+		console.log("4");
+		//get sockets
+		var prom = [];
+		for(var i in users){
+			prom.push(usersService.getSocketID(users[i]));
+		}
+		prom.push(usersService.getSocketID(userID));
+
+		console.log("5");
+		return Promise.all(prom);
+	}).then((socks) => {
+		console.log("6");
+		for(var i in socks){
+			if(res.socketIO.sockets.connected[socks[i][0].socket]){
+				res.socketIO.sockets.connected[socks[i][0].socket].emit('chatAdded', {});
+			}else{
+				console.log("Socket not connected: " + socks[i][0].socket);
+			}
+		}
+		console.log("7");
+		let response = new responseObject();
+		response.setSuccess(true);
+		response.setResults({
+			chatID: chatID
+		});
+		res.status(200).json(response.toJSON());
+	}).catch((err) => {
+		// Error
+		var error = {
+			"code": 1000,
+			"message": err
+		};
+		// Create response object
+		let response = new responseObject();
+		// Set attributes
+		response.setSuccess(false);
+		response.setErrors(error);
+		// Send response
+		res.status(500).json(response.toJSON());
+	});
+	/*
 	Promise.all([
 		chatsService.getLimitedChatsForUser(userID),
 		chatsService.getLimitedChatsForUser(friendID)
@@ -202,7 +294,6 @@ router.post('/', function(req, res){
 			return;
 
 		//emit events
-		console.log(res);
 		for(var i in sock){
 			if(res.socketIO.sockets.connected[sock[i][0].socket]){
 				res.socketIO.sockets.connected[sock[i][0].socket].emit('chatAdded', {});
@@ -238,7 +329,7 @@ router.post('/', function(req, res){
 		response.setErrors(error);
 		// Send response
 		res.status(500).json(response.toJSON());
-	});
+	});*/
 });
 
 /**

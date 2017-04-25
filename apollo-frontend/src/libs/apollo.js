@@ -161,9 +161,9 @@ Apollo.prototype.chatsGetAll = function(){
 };
 
 //{friend: id}
-Apollo.prototype.chatsInit = function(friend){
+Apollo.prototype.chatsInit = function(users){
 	return this._post('chats', {
-		friendID: friend
+			users: users
 	});
 };
 
