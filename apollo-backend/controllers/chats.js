@@ -179,8 +179,11 @@ router.post('/', function(req, res){
 	}
 
 	console.log("1");
+	//make chat
 	chatsService.createChat(userID,chatID).then((chat) => {
-		console.log("2");
+		//make chat status
+		return chatsService.setChatStatus(chatID);
+	}).then((s) =>{
 		//Add users to chat
 		var prom = [];
 		for(var i in users){
@@ -190,7 +193,6 @@ router.post('/', function(req, res){
 		console.log("Adding - u: " + userID + " - " + chatID);
 		prom.push(chatsService.addUserToChat(userID, chatID));
 
-		console.log("3");
 		return Promise.all(prom);
 	}).then((u) => {
 		console.log("4");
