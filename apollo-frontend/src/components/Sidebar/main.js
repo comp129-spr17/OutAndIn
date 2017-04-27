@@ -46,6 +46,13 @@ export default class Sidebar extends Component {
 		}, false);
 
 		this.props.getChats();
+
+		//check for focused chat
+		var focusChatString = localStorage.getItem("focus");
+		if(focusChatString){
+			this.props.focusChat(JSON.parse(focusChatString));
+			client.eventBusDispatchEvent('focusChat');
+		}
 	}
 
 	search(e){
@@ -66,8 +73,15 @@ export default class Sidebar extends Component {
 	}
 
 	chatSelect(chat){
-		this.props.focusChat(chat);
-		client.eventBusDispatchEvent("focusChat");
+		var loc = window.location.pathname;
+		
+		if(loc == '/'){
+			this.props.focusChat(chat);
+			client.eventBusDispatchEvent("focusChat");
+		}else{
+			localStorage.setItem('focus', JSON.stringify(chat));
+			window.location = '/';
+		}
 	}
 
 	handleChatAdded(){

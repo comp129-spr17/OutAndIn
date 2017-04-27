@@ -44,8 +44,8 @@ const mapDispatchToProps = (dispatch) =>{
 				dispatch(searchFailure(err));
 			});
 		},
-		focusChat: (chatID) =>{
-			dispatch(focusChat(chatID));
+		focusChat: (chat) =>{
+			dispatch(focusChat(chat));
 		}
 	};
 };

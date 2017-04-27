@@ -53,7 +53,10 @@ export default class Chat extends Component {
 	}
 	
 	getMessages(){
-		this.props.getMessages(this.props.sidebar.chatFocused.uuid);
+		var id = this.props.sidebar.chatFocused.uuid 
+			|| JSON.parse(localStorage.getItem('focus')).uuid;
+
+		this.props.getMessages(id);
 	}
 
 	handleChatInpChange(event){
