@@ -30,7 +30,6 @@
 }
 
 #new-message-modal-search {
-	padding: 5px;
 	width: 100%;
 	border-left: none;
 	border-right: none;
@@ -52,4 +51,80 @@
 	background-color: #164762;
 	color: white;
 	padding-top: 10px;
+}
+
+.new-message-modal-header {
+	height: 50px;
+	padding: 10px;
+	color: white;
+	font-weight: 500;
+	font-size: 20px;
+	background: #164762;
+}
+
+.new-message-modal-search-container {
+	height: 55px;
+	background: white;
+	border-bottom: 1px solid #efefef;
+	padding: 10px 15px 10px 15px;
+}
+
+.new-message-modal-search-container input {
+	border-color: #efefef;
+	outline: none;
+	display: inline-block;
+	width: 190px;
+}
+
+.new-message-modal-search-container button {
+	display: inline-block;
+}
+
+.new-message-modal-users-selected-header {
+	border-bottom: 1px solid #efefef;
+	padding: 5px;
+	font-size: 16px;
+	font-weight: 500;
+	color: #7a7a7a;
+	background: #f9f9f9;
+}
+
+.new-message-modal-search-container input:focus, .new-message-modal-search-container input:focus.new-message-modal-search-container input:active {
+	border-color: #dbdbdb;
+	box-shadow: none;
+}
+
+.new-message-modal-users-selected-list {
+	padding: 5px;
+}
+
+.new-message-modal-users-item {
+	margin-top: 15px;
+	position: relative;
+	display: inline-block;
+	width: 50px;
+	margin-right: 7px;
+	margin-left: 7px;
+}
+
+.new-message-modal-users-item-name h4 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 50px;
+}
+
+.new-message-modal-users-item-avatar {
+	border-radius: 50%;
+}	
+
+
+.new-message-modal-users-found-header {
+	padding: 5px;
+	font-size: 16px;
+	font-weight: 500;
+	color: #7a7a7a;
+	border-top: 1px solid #efefef;
+	border-bottom: 1px solid #efefef;
+	background: #f9f9f9;
 }

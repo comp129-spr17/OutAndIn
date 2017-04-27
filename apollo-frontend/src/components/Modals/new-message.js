@@ -39,35 +39,33 @@ export default class NewMessageModal extends React.Component {
 				return '';
 			}
 
-			console.log("uuid: " + user.uuid);
-
 			return (
-			<div className="modal-item" onClick={() => _self.selectUser(user)}>
-				<div className="modal-item-img">
-					<div className="modal-item-avatar">
-						<img src={ user.avatar } alt="Modal Image" />
+				<div className="new-message-modal-users-item" onClick={() => _self.selectUser(user)}>
+					<div className="new-message-modal-users-item-image">
+						<div className="modal-item-avatar">
+							<img src={ user.avatar } alt="Modal Image" />
+						</div>
+						<div className="modal-item-status"></div>
 					</div>
-					<div className="modal-item-status"></div>
-				</div>
-				<div className="modal-item-details">
-					<div className="modal-item-name">
-						<h4>{ user.username }</h4>
+					<div className="modal-item-details">
+						<div className="new-message-modal-users-item-name">
+							<h4>{ user.username }</h4>
+						</div>
 					</div>
 				</div>
-			</div>
 			);
 		});
 
-		const selected = this.props.modal.selectedUsers.map((user) => 
-			<div className="modal-item-selected">
-				<div className="modal-item-img">
-					<div className="modal-item-avatar">
+		const selected = this.props.modal.selectedUsers.map((user) =>
+			<div className="new-message-modal-users-item">
+				<div className="new-message-modal-users-item-image">
+					<div className="new-message-modal-users-item-avatar">
 						<img src={ user.avatar } alt="Modal Image" />
 					</div>
 					<div className="modal-item-status"></div>
 				</div>
-				<div className="modal-item-details">
-					<div className="modal-item-name">
+				<div className="new-message-modal-users-item-details">
+					<div className="new-message-modal-users-item-name">
 						<h4>{ user.username }</h4>
 					</div>
 				</div>
@@ -76,9 +74,22 @@ export default class NewMessageModal extends React.Component {
 
 		return (
 			<div>
-				<div>{selected}</div>
-				<hr />
-				<div>{search}</div>
+				<div className="new-message-modal-users-selected-container">
+					<div className="new-message-modal-users-selected-header">
+						Selected
+					</div>
+					<div className="new-message-modal-users-selected-list">
+						{selected}
+					</div>
+				</div>
+				<div className="new-message-modal-users-found-container">
+					<div className="new-message-modal-users-found-header">
+						Users Found
+					</div>
+					<div className="new-message-modal-users-found-list">
+						{search}
+					</div>
+				</div>
 			</div>
 		);
 	};
@@ -103,11 +114,16 @@ export default class NewMessageModal extends React.Component {
 			<div id="new-message-modal">
 				<div className="new-message-modal-overlay"></div>
 				<div id="new-message-modal-container">
-					<div id="new-message-modal-search">
-						<input onKeyUp={this.search} id="input_user" type="text" placeholder="Type a name..."/>
+					<div className="new-message-modal-header">
+						Create a chat
 					</div>
-					<i className="new-message-modal-confirm fa fa-check-square-o fa-2x" onClick={this.initChat}></i>
-					<div className="modal-list">
+					<div className="new-message-modal-search-container">
+						<div id="new-message-modal-search">
+							<input onKeyUp={this.search} id="input_user" type="text" className="form-control" placeholder="Type a name..."/>
+							<button className="btn btn-sm btn-success">Start Chat</button>
+						</div>
+					</div>
+					<div className="new-message-model-users-container">
 						<this.listItems />
 					</div>
 				</div>
