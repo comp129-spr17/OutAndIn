@@ -16,6 +16,7 @@ export default class Header extends Component {
 		var self = this;
 		client.sessionLogout().then((res) => {
 			localStorage.removeItem("token");
+			localStorage.removeItem("focus");
 			window.location.href = "/";
 		}).catch((err) => {
 			try {
@@ -29,6 +30,7 @@ export default class Header extends Component {
 				alert("Logout failed. Is your Internet connection online?");
 			}
 		});
+
 	} 
 
 	handleUserProfile(){

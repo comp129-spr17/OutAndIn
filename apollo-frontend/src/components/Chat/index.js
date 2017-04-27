@@ -22,7 +22,8 @@ export default class Chat extends Component {
 			height: 199,
 			width: 265,
 			stream: null,
-			captureState: 0
+			captureState: 0,
+			messagesLastPulled: ''
 		};
 		
 		// Chat methods
@@ -30,8 +31,6 @@ export default class Chat extends Component {
 		this.handleChatInpChange = this.handleChatInpChange.bind(this);
 		this.handleSendMessage = this.handleSendMessage.bind(this);
 		this.handleMessageAdd = this.handleMessageAdd.bind(this);
-		//event bus event handlers
-		client.eventBusRegisterEvent('focusChat', this.getMessages);
 		//add socket event handlers
 		client.socketRegisterEvent("messageAdded", this.handleMessageAdd);
 		client.userSetSocketID(this.state.userID);
@@ -51,12 +50,20 @@ export default class Chat extends Component {
 	componentDidMount(){
 		this.registerCameraEvents();
 	}
-	
-	getMessages(){
-		var id = this.props.sidebar.chatFocused.uuid 
-			|| JSON.parse(localStorage.getItem('focus')).uuid;
 
-		this.props.getMessages(id);
+	componentWillUpdate(nextProps, nextState){
+		//get new focused chat messages
+		if(this.state.messagesLastPulled != nextProps.sidebar.chatFocused.uuid){
+			this.getMessages(nextProps.sidebar.chatFocused.uuid);
+		}
+	}
+	
+	getMessages(chatID){
+		this.setState({
+			messagesLastPulled: chatID
+		});
+		
+		this.props.getMessages(chatID);
 	}
 
 	handleChatInpChange(event){
@@ -80,7 +87,7 @@ export default class Chat extends Component {
 	handleMessageAdd(chatID){
 		console.log("PING: " + chatID);
 		if(chatID == this.props.sidebar.chatFocused.uuid){
-			this.getMessages();
+			this.getMessages(chatID);
 		}
 	}
 

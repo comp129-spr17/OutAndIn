@@ -1,5 +1,6 @@
 import Sidebar from '../components/Sidebar/main';
 import { connect } from 'react-redux';
+import { client } from '../modules/api-client';
 import {
 	getChats,
 	getChatsSuccess,
@@ -46,12 +47,12 @@ const mapDispatchToProps = (dispatch) =>{
 		},
 		focusChat: (chat) =>{
 			dispatch(focusChat(chat));
+			//client.eventBusDispatchEvent("focusChat");
 		}
 	};
 };
 
-const mapStateToProps = (state, ownProps) =>{
-	
+const mapStateToProps = (state, ownProps) =>{	
 	return {
 		sidebar: state.sidebar
 	};

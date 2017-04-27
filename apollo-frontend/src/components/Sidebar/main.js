@@ -49,9 +49,9 @@ export default class Sidebar extends Component {
 
 		//check for focused chat
 		var focusChatString = localStorage.getItem("focus");
+		localStorage.removeItem("focus");
 		if(focusChatString){
 			this.props.focusChat(JSON.parse(focusChatString));
-			client.eventBusDispatchEvent('focusChat');
 		}
 	}
 
@@ -77,7 +77,6 @@ export default class Sidebar extends Component {
 		
 		if(loc == '/'){
 			this.props.focusChat(chat);
-			client.eventBusDispatchEvent("focusChat");
 		}else{
 			localStorage.setItem('focus', JSON.stringify(chat));
 			window.location = '/';
