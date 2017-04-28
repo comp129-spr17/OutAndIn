@@ -94,7 +94,7 @@ router.post('/', function(req, res){
 			error["message"].push(err);
 		}
 		response.setErrors(error);
-		return res.status(400).json(response.toJSON());
+		return res.status(200).json(response.toJSON());
 	}
 	// There are values that are either an array or an object
 	if(typeCount > 0){
@@ -113,7 +113,7 @@ router.post('/', function(req, res){
 			error["message"].push(err);
 		}
 		response.setErrors(error);
-		return res.status(400).json(response.toJSON());
+		return res.status(200).json(response.toJSON());
 	}
 	// Valid input errors
 	var inputErrors = {
@@ -164,7 +164,7 @@ router.post('/', function(req, res){
 		let response = new responseObject();
 		response.setSuccess(false);
 		response.setErrors(inputErrors);
-		return res.status(400).json(response.toJSON());
+		return res.status(200).json(response.toJSON());
 	}
 	// Check if both the username and email exists
 	Promise.all([
@@ -190,7 +190,7 @@ router.post('/', function(req, res){
 			let response = new responseObject();
 			response.setSuccess(false);
 			response.setErrors(errors);	
-			res.status(400).json(response.toJSON());
+			res.status(200).json(response.toJSON());
 			return false;
 		}
 		// Username already exists
@@ -206,7 +206,7 @@ router.post('/', function(req, res){
 			let response = new responseObject();
 			response.setSuccess(false);
 			response.setErrors(error);
-			res.status(400).json(response.toJSON());
+			res.status(200).json(response.toJSON());
 			return false;
 		}
 		// Email already exists
@@ -222,7 +222,7 @@ router.post('/', function(req, res){
 			let response = new responseObject();
 			response.setSuccess(false);
 			response.setErrors(error);
-			res.status(400).json(response.toJSON());
+			res.status(200).json(response.toJSON());
 			return false;
 		}
 		// Create user
