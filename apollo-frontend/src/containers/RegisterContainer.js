@@ -7,10 +7,16 @@ const mapDispatchToProps = (dispatch) => {
 		registerUser: (formValues) => {
 			let res = dispatch(registerUser(formValues))
 			res.payload.then((results) => {
-				dispatch(registerUserSuccess(results.data));
-				localStorage.setItem("token", results.data["results"][0]["token"]);
+				console.log(results);
+				if (results.data.errors != []){
+					dispatch(registerUserFailure(results.data.errors[0].message));
+				}
+				else{
+					dispatch(registerUserSuccess(results.data));
+					localStorage.setItem("token", results.data["results"][0]["token"]);
+				}
 			}).catch((err) => {
-				dispatch(registerUserFailure("ERROR"));
+				dispatch(registerUserFailure(err));
 			});
 		},
 		setUsername: (value) => {
@@ -35,3 +41,15 @@ function mapStateToProps(state, ownProps){
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
+
+/*
+username
+fullname
+email
+password
+
+
+
+
+
+*/

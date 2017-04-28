@@ -14,11 +14,32 @@ class Register extends React.Component {
 
 	componentWillMount(){
 		console.log("yo");	
-	}
-
+	
+}
 	componentWillReceiveProps(nextProps){
 		if(nextProps.register.isAuthenticated){
 			window.location.href = '/';
+		}
+	}
+
+	componentWillUpdate(prop, state){
+		if (prop.register.error){
+			var errors = prop.register.error;
+			for (var i in errors){
+				console.log(errors[i]);
+				switch(errors[i].property_name){
+					case "email":
+						break;
+					case "fullname":
+						break;
+					case "username":
+						break;
+					case "password":
+						break;
+					default:
+						console.log("Invalid Register error: " + JSON.stringify(errors[i]));
+				}
+			}
 		}
 	}
 
@@ -60,7 +81,6 @@ class Register extends React.Component {
                     </div>            
                             <div className="login-actions-container">
 								<div className="login-actions">
-									<div>{this.props.register.error}</div>
                                     <form className='loginForm'>
                                         <p>Email</p>
                                         <input autoFocus type="text" value={this.props.register.credentials.email} onChange={this.handleEmailChange} autoComplete="off"/>
