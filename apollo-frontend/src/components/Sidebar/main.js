@@ -35,7 +35,7 @@ export default class Sidebar extends Component {
 					break;
 				}
 				node = node.parentNode;
-			}	  
+			}
 			if(target !== parent && !state) {
 				if(self.state.newMessageModalState == 1){
 					var el = document.getElementById('new-message-modal');
@@ -57,10 +57,10 @@ export default class Sidebar extends Component {
 
 	search(e){
         var curVal = $('#input_friend').val();
-        if(curVal != ''){  
+        if(curVal != ''){
 			//removed return statement since it was returning nothing when curr val was empty,
 			//keeping searches on screen when there was nothing in search inp
-			
+
 			this.props.search(curVal);
         }else{
 			this.props.getChats();
@@ -74,7 +74,7 @@ export default class Sidebar extends Component {
 
 	chatSelect(chat){
 		var loc = window.location.pathname;
-		
+
 		if(loc == '/'){
 			this.props.focusChat(chat);
 		}else{
@@ -89,7 +89,7 @@ export default class Sidebar extends Component {
 			this.props.getChats();
 		}
 	}
-	
+
 	toggleNewMessageModal(e){
 		e.preventDefault();
 		if(this.state.newMessageModalState == 0){
@@ -141,7 +141,7 @@ export default class Sidebar extends Component {
                                         </div>
                                     </div>
                                 </div>
-							  
+
 							})}
 						</div>
                         <div className='peopleDiv' >

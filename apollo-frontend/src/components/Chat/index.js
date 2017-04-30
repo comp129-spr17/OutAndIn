@@ -13,7 +13,7 @@ import { hasClass, addClass, removeClass } from '../../utils/DOMTools';
 import jwtDecode from 'jwt-decode';
 
 export default class Chat extends Component {
-	constructor(){ 
+	constructor(){
 		super();
 		this.state = {
 			inputText: '',
@@ -25,7 +25,7 @@ export default class Chat extends Component {
 			captureState: 0,
 			messagesLastPulled: ''
 		};
-		
+
 		// Chat methods
 		this.getMessages = this.getMessages.bind(this);
 		this.handleChatInpChange = this.handleChatInpChange.bind(this);
@@ -57,12 +57,12 @@ export default class Chat extends Component {
 			this.getMessages(nextProps.sidebar.chatFocused.uuid);
 		}
 	}
-	
+
 	getMessages(chatID){
 		this.setState({
 			messagesLastPulled: chatID
 		});
-		
+
 		this.props.getMessages(chatID);
 	}
 
@@ -73,12 +73,12 @@ export default class Chat extends Component {
 	/**
 	 * HandleSendMessage
 	 * @description: Send the message for the given chat to the server
-	 * @param: {none} 
+	 * @param: {none}
 	 * @return: {none}
 	 */
 	handleSendMessage(event){
 		// Check for empty input
-		if(!this.props.chat.inputText == '' || !this.props.sidebar.chatFocused == '') 
+		if(!this.props.chat.inputText == '' || !this.props.sidebar.chatFocused == '')
 			this.props.sendMessage(this.props.sidebar.chatFocused, this.props.chat.inputText);
 		event.preventDefault();
 	}
@@ -94,7 +94,7 @@ export default class Chat extends Component {
 	/**
 	 * HandleFileChoosen
 	 * @description: Get choosen file and upload it
-	 * @param: {none} 
+	 * @param: {none}
 	 * @return: {none}
 	 */
 	handleFileChoosen(event){
@@ -111,7 +111,7 @@ export default class Chat extends Component {
 	/**
 	 * HandleFileInput
 	 * @description: Handle the file input button
-	 * @param: {none} 
+	 * @param: {none}
 	 * @return: {none}
 	 */
 	handleFileInput(e){
@@ -122,7 +122,7 @@ export default class Chat extends Component {
 	/**
 	 * EnableWebcam
 	 * @description: Enable the webcam
-	 * @param: {none} 
+	 * @param: {none}
 	 * @return: {none}
 	 */
 	enableWebcam(){
@@ -130,7 +130,7 @@ export default class Chat extends Component {
 		var video = document.querySelector('#video');
 		var canvas = document.querySelector('#canvas');
 		this.setState({width: 265, height: 199});
-		
+
 		// Determine the vendor prefix
 		navigator.getMedia = (
 			navigator.getUserMedia ||
@@ -138,7 +138,7 @@ export default class Chat extends Component {
 			navigator.mozGetUserMedia ||
 			navigator.msGetUserMedia
 		);
-		
+
 		var self = this;
 		// Get the video stream from the webcam
 		navigator.getMedia({
@@ -172,11 +172,11 @@ export default class Chat extends Component {
 			}
 		}, false);
 	}
-	
+
 	/**
 	 * DisableWebcam
-	 * @description: Disable the webcam 
-	 * @param: {none} 
+	 * @description: Disable the webcam
+	 * @param: {none}
 	 * @return: {none}
 	 */
 	disableWebcam(){
@@ -186,7 +186,7 @@ export default class Chat extends Component {
 	/**
 	 * TakePicture
 	 * @description: Take a still image from the webcam
-	 * @param: {none} 
+	 * @param: {none}
 	 * @return: {none}
 	 */
 	takePicture() {
@@ -222,7 +222,7 @@ export default class Chat extends Component {
 	/**
 	 * UploadImage
 	 * @description: Upload the still image taken to the server
-	 * @param: {none} 
+	 * @param: {none}
 	 * @return: {promise} Upload image to server
 	 */
 	uploadImage(){
@@ -230,9 +230,9 @@ export default class Chat extends Component {
 		var data = document.querySelector("#canvas").toDataURL('image/png');
 		document.querySelector("#photo").setAttribute('src', data);
 		document.querySelector("#canvas").style.display = "none";
-		
+
 		// Code below from stackoverflow
-		// http://stackoverflow.com/a/12300351	
+		// http://stackoverflow.com/a/12300351
 		var byteString = atob(data.split(',')[1]);
 		// separate out the mime component
 		var mimeString = data.split(',')[0].split(':')[1].split(';')[0]
@@ -254,7 +254,7 @@ export default class Chat extends Component {
 	/**
 	 * HandleTakePicture
 	 * @description: Handle the visual state of taking a picture
-	 * @param: {none} 
+	 * @param: {none}
 	 * @return: {none}
 	 */
 	handleTakePicture(e){
@@ -281,7 +281,7 @@ export default class Chat extends Component {
 	/**
 	 * RegisterCameraEvents
 	 * @description: Register the camera button events
-	 * @param: {none} 
+	 * @param: {none}
 	 * @return: {none}
 	 */
 	registerCameraEvents(){
@@ -322,7 +322,7 @@ export default class Chat extends Component {
 			});
 			e.preventDefault();
 		}, false);
-		
+
 		// Handle click event for taking a picture
 		capture.addEventListener('click', function(e){
 			if(self.state.captureState == 0){
@@ -344,7 +344,7 @@ export default class Chat extends Component {
 			<div className="content">
 				<div className="chat-header">
 					<div className="chat-header-fullname">{ this.props.sidebar.chatFocused.name }</div>
-					<div className="chat-header-username">@m_lien</div>
+					<div className="chat-header-username">{ this.props.sidebar.chatFocused.name }</div>
 				</div>
 				<div className="chat-camera">
 					<div className="chat-camera-container">
