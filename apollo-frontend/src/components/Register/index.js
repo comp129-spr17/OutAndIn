@@ -23,6 +23,7 @@ class Register extends React.Component {
 	}
 
 	componentWillUpdate(prop, state){
+		document.getElementById('error-message').innerHTML = '';
 		if (prop.register.error){
 			var errors = prop.register.error;
 			for (var i in errors){
