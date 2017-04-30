@@ -8,7 +8,7 @@ const mapDispatchToProps = (dispatch) => {
 			let res = dispatch(registerUser(formValues))
 			res.payload.then((results) => {
 				console.log(results);
-				if (results.data.errors != []){
+				if (results.data.errors){
 					dispatch(registerUserFailure(results.data.errors[0].message));
 				}
 				else{

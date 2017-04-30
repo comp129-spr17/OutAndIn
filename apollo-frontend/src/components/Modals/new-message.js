@@ -120,7 +120,7 @@ export default class NewMessageModal extends React.Component {
 					<div className="new-message-modal-search-container">
 						<div id="new-message-modal-search">
 							<input onKeyUp={this.search} id="input_user" type="text" className="form-control" placeholder="Type a name..."/>
-							<button className="btn btn-sm btn-success">Start Chat</button>
+							<button onClick={this.initChat} className="btn btn-sm btn-success">Start Chat</button>
 						</div>
 					</div>
 					<div className="new-message-model-users-container">
