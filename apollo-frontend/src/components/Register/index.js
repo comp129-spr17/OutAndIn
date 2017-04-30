@@ -27,21 +27,14 @@ class Register extends React.Component {
 			var errors = prop.register.error;
 			for (var i in errors){
 				console.log(errors[i]);
-				switch(errors[i].property_name){
-					case "email":
-						break;
-					case "fullname":
-						break;
-					case "username":
-						break;
-					case "password":
-						break;
-					default:
-						console.log("Invalid Register error: " + JSON.stringify(errors[i]));
-				}
+
+				//add style and message
+				document.getElementById(errors[i].property_name + '-input').style.borderColor = "#EC644B";
+				document.getElementById('error-message').innerHTML += errors[i].message + '<br />';
 			}
 		}
 	}
+	
 
 	handleEmailChange(event){
 		this.props.setEmail(event.target.value);
@@ -81,15 +74,16 @@ class Register extends React.Component {
                     </div>            
                             <div className="login-actions-container">
 								<div className="login-actions">
+									<div id="error-message"></div>
                                     <form className='loginForm'>
                                         <p>Email</p>
-                                        <input autoFocus type="text" value={this.props.register.credentials.email} onChange={this.handleEmailChange} autoComplete="off"/>
+                                        <input id="email-input" autoFocus type="text" value={this.props.register.credentials.email} onChange={this.handleEmailChange} autoComplete="off"/>
                                         <p>Full Name</p>
-                                        <input autoFocus type="text" value={this.props.register.credentials.fullname} onChange={this.handleFullnameChange} autoComplete="off"/>
+                                        <input id="fullname-input" autoFocus type="text" value={this.props.register.credentials.fullname} onChange={this.handleFullnameChange} autoComplete="off"/>
                                         <p>Username</p>
-                                        <input autoFocus type="text" value={this.props.register.credentials.username} onChange={this.handleUsernameChange} autoComplete="off"/>
+                                        <input id="username-input" autoFocus type="text" value={this.props.register.credentials.username} onChange={this.handleUsernameChange} autoComplete="off"/>
                                         <p>Password</p>
-                                        <input type="password" value={this.props.register.credentials.password} onChange={this.handlePasswordChange} autoComplete="off"/>
+                                        <input id="password-input" type="password" value={this.props.register.credentials.password} onChange={this.handlePasswordChange} autoComplete="off"/>
                                         <hr></hr>
                                         <button onClick={this.handleRegister}>Register</button>
                                     </form>
