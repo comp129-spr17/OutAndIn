@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { client } from '../../modules/api-client';
+import {removeClass} from '../../utils/DOMTools';
 
 var jwt_decode = require("jwt-decode");
 
@@ -125,6 +126,7 @@ export default class NewMessageModal extends React.Component {
 				//add people
 				this.props.addPeople(this.props.sidebar.chatFocused.uuid, u);
 			}
+			removeClass(document.getElementById('new-message-modal'), 'active');	
 		}else{
 			console.log("No users selected");
 		}

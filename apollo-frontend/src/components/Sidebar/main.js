@@ -11,7 +11,6 @@ export default class Sidebar extends Component {
 			friends: [],
 			people: [],
 			files: [],
-			newMessageModalState: 0
 		};
 		//this.newUsersConnected = this.newUsersConnected.bind(this);
 		this.search = this.search.bind(this);
@@ -33,26 +32,7 @@ export default class Sidebar extends Component {
 				//close modal
 				var el = document.getElementById('new-message-modal');
 				removeClass(el, 'active');
-				self.setState({
-					newMessageModalState: 0
-				});
 			}
-			/*var state = false;
-			var node = target.parentNode;
-			while (node != null) {
-				if(node == parent) {
-					state = true;
-					break;
-				}
-				node = node.parentNode;
-			}
-			if(target !== parent && !state) {
-				if(self.state.newMessageModalState == 1){
-					var el = document.getElementById('new-message-modal');
-					removeClass(el, "active");
-					self.setState({newMessageModalState: 0});
-				}
-			}*/
 		}, false);
 
 		this.props.getChats();
@@ -102,16 +82,9 @@ export default class Sidebar extends Component {
 
 	toggleNewMessageModal(e){
 		e.preventDefault();
-		if(this.state.newMessageModalState == 0){
-			var el = document.getElementById('new-message-modal');
-			addClass(el, "active");
-			this.setState({newMessageModalState: 1});
-			client.eventBusDispatchEvent('modal');
-		} else {
-			var el = document.getElementById('new-message-modal');
-			removeClass(el, "active");
-			this.setState({newMessageModalState: 0});
-		}
+		var el = document.getElementById('new-message-modal');
+		addClass(el, "active");
+		client.eventBusDispatchEvent('modal');
 	}
 
     render() {
