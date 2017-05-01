@@ -27,7 +27,17 @@ export default class Sidebar extends Component {
 		var parent = document.getElementById("new-message-modal-container");
 		document.body.addEventListener("click", function(e) {
 			var target = e.target || e.srcElement;
-			var state = false;
+			console.log('TARGET');
+			console.log(target);
+			if(hasClass(target, 'new-message-modal-overlay')){
+				//close modal
+				var el = document.getElementById('new-message-modal');
+				removeClass(el, 'active');
+				self.setState({
+					newMessageModalState: 0
+				});
+			}
+			/*var state = false;
 			var node = target.parentNode;
 			while (node != null) {
 				if(node == parent) {
@@ -42,7 +52,7 @@ export default class Sidebar extends Component {
 					removeClass(el, "active");
 					self.setState({newMessageModalState: 0});
 				}
-			}
+			}*/
 		}, false);
 
 		this.props.getChats();
@@ -96,6 +106,7 @@ export default class Sidebar extends Component {
 			var el = document.getElementById('new-message-modal');
 			addClass(el, "active");
 			this.setState({newMessageModalState: 1});
+			client.eventBusDispatchEvent('modal');
 		} else {
 			var el = document.getElementById('new-message-modal');
 			removeClass(el, "active");

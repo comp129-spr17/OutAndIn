@@ -2,14 +2,22 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 import { client } from '../../modules/api-client';
+import {hasClass, addClass, removeClass} from '../../utils/DOMTools';
 
 export default class SidebarInfo extends Component {
-    /*constructor() {
-        super();
-
-    this.handleMessageAdd = this.handleMessageAdd.bind(this);
-
-    }*/
+	//activate modal
+	handlePeopleAdd(){
+		var el = document.getElementById('new-message-modal');
+	
+		if(hasClass(el, 'active')){
+			removeClass(el, 'active');
+			removeClass(el, 'addPeople');
+		}else{
+			addClass(el, 'active');
+			addClass(el, 'addPeople');
+			client.eventBusDispatchEvent('modal');
+		}
+	}
 
     handleFileChoosen(e){
         console.log("CLICK: ", e.target.value);
@@ -38,7 +46,7 @@ export default class SidebarInfo extends Component {
 							People
 						</div>
 						<div className="sidebar-info-people-add">
-							<i className="sidebar-info-plus-button fa fa-plus-circle fa-2x"></i>
+							<i onClick={this.handlePeopleAdd} className="sidebar-info-plus-button fa fa-plus-circle fa-2x"></i>
 						</div>
 					</div>
                 	<div className="sidebar-info-inner"></div>

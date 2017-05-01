@@ -6,11 +6,26 @@ var jwt_decode = require("jwt-decode");
 export default class NewMessageModal extends React.Component {
 	constructor(){
 		super();
+		this.state = {
+			newMessage: true 	//true if new message, false if adding ppl
+		};
 
+		this.handleInit = this.handleInit.bind(this);
 		this.listItems = this.listItems.bind(this);
 		this.selectUser = this.selectUser.bind(this);
 		this.search = this.search.bind(this);
 		this.initChat = this.initChat.bind(this);
+
+		client.eventBusRegisterEvent('modal', this.handleInit);
+	}
+
+	handleInit(){
+		console.log('Modal INIT');
+		
+		var el = document.getElementById('new-message-modal')
+		this.setState({
+			newMessage:	!(el.classList.contains('addPeople'))
+		});
 	}
 
 	selectUser(user){
@@ -115,12 +130,14 @@ export default class NewMessageModal extends React.Component {
 				<div className="new-message-modal-overlay"></div>
 				<div id="new-message-modal-container">
 					<div className="new-message-modal-header">
-						Create a chat
+						{this.state.newMessage ? 'Create a chat' : 'Add new people'}
 					</div>
 					<div className="new-message-modal-search-container">
 						<div id="new-message-modal-search">
 							<input onKeyUp={this.search} id="input_user" type="text" className="form-control" placeholder="Type a name..."/>
-							<button onClick={this.initChat} className="btn btn-sm btn-success">Start Chat</button>
+							<button onClick={this.initChat} className="btn btn-sm btn-success">
+							{this.state.newMessage ? 'Start' : 'Add'}
+							</button>
 						</div>
 					</div>
 					<div className="new-message-model-users-container">
