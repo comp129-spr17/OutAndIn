@@ -5,7 +5,10 @@ import {
 	MODAL_USER_SELECT,
 	MODAL_CHAT_INIT,
 	MODAL_CHAT_INIT_SUCCESS,
-	MODAL_CHAT_INIT_FAILURE
+	MODAL_CHAT_INIT_FAILURE,
+	MODAL_ADD_PEOPLE,
+	MODAL_ADD_PEOPLE_SUCCESS,
+	MODAL_ADD_PEOPLE_FAILURE
 } from '../actions/modal';
 
 const INITIAL_STATE = {
@@ -59,6 +62,22 @@ export default function(state = INITIAL_STATE, action){
 			return {
 				...state
 			};
+			break;
+		case MODAL_ADD_PEOPLE:
+			return {
+				...state
+			}
+			break;
+		case MODAL_ADD_PEOPLE_SUCCESS:
+			return {
+				...state
+			}
+			break;
+		case MODAL_ADD_PEOPLE_FAILURE:
+			return {
+				...state,
+				err:action.payload
+			}
 			break;
 		default:
 			return state;

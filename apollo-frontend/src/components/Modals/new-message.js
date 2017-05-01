@@ -14,7 +14,7 @@ export default class NewMessageModal extends React.Component {
 		this.listItems = this.listItems.bind(this);
 		this.selectUser = this.selectUser.bind(this);
 		this.search = this.search.bind(this);
-		this.initChat = this.initChat.bind(this);
+		this.sendRequest = this.sendRequest.bind(this);
 
 		client.eventBusRegisterEvent('modal', this.handleInit);
 	}
@@ -109,7 +109,7 @@ export default class NewMessageModal extends React.Component {
 		);
 	};
 
-	initChat(){
+	sendRequest(){
 		let u = [];
 		for(var i in this.props.modal.selectedUsers){
 			u.push(this.props.modal.selectedUsers[i].uuid);
@@ -118,7 +118,13 @@ export default class NewMessageModal extends React.Component {
 		if(u.length != 0){
 			console.log("U");
 			console.log(u);
-			this.props.chatInit(u);
+			if(this.state.newMessage){
+				//create chat
+				this.props.chatInit(u);
+			}else{
+				//add people
+				this.props.addPeople(this.props.sidebar.chatFocused.uuid, u);
+			}
 		}else{
 			console.log("No users selected");
 		}
@@ -135,7 +141,7 @@ export default class NewMessageModal extends React.Component {
 					<div className="new-message-modal-search-container">
 						<div id="new-message-modal-search">
 							<input onKeyUp={this.search} id="input_user" type="text" className="form-control" placeholder="Type a name..."/>
-							<button onClick={this.initChat} className="btn btn-sm btn-success">
+							<button onClick={this.sendRequest} className="btn btn-sm btn-success">
 							{this.state.newMessage ? 'Start' : 'Add'}
 							</button>
 						</div>

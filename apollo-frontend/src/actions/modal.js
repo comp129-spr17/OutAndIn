@@ -10,6 +10,10 @@ export const MODAL_CHAT_INIT = "MODAL_CHAT_INIT";
 export const MODAL_CHAT_INIT_SUCCESS = "MODAL_CHAT_INIT_SUCCESS";
 export const MODAL_CHAT_INIT_FAILURE = "MODAL_CHAT_INIT_FAILURE";
 
+export const MODAL_ADD_PEOPLE = "MODAL_ADD_PEOPLE";
+export const MODAL_ADD_PEOPLE_SUCCESS = "MODAL_ADD_PEOPLE_SUCCESS";
+export const MODAL_ADD_PEOPLE_FAILURE = "MODAL_ADD_PEOPLE_FAILURE";
+
 export const getSearch = (query) => {
 	return {
 		type: MODAL_SEARCH,
@@ -55,6 +59,27 @@ export const chatInitSuccess = (chatID) =>{
 export const chatInitFailure = (err) =>{
 	return {
 		type: MODAL_CHAT_INIT_FAILURE,
+		payload: err
+	};
+};
+
+export const peopleAdd = (chat, users) => {
+	return {
+		type: MODAL_ADD_PEOPLE,
+		payload: client.chatAddPeople(chat, users)
+	};
+};
+
+export const peopleAddSuccess = () => {
+	return {
+		type: MODAL_ADD_PEOPLE_SUCCESS,
+		payload: null
+	};
+};
+
+export const peopleAddFailure = (err) => {
+	return {
+		type: MODAL_ADD_PEOPLE_FAILURE,
 		payload: err
 	};
 };

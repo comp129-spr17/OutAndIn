@@ -162,9 +162,6 @@ router.post('/', function(req, res){
 	var userID = req.user;
 	var chatID = uuid();
 	var users = req.body.users;
-	// TODO:(mcervco) check to make sure the friendID is passed in and validate it
-	// Also check to make sure they are friends in the first place
-	// Check if chat already exists between the two users
 	if(users){
 		if(users.length == 0)
 		{
@@ -349,15 +346,65 @@ router.options('/', function(req, res){
 
 /**
  * POST - ["/:chatID/users"]
- * @description: Add user to chat
+ * @description: Add users to chat
  * @param: {none}
  * @return: {string} chatID - UUID of the chat
  */
 router.post("/:chatID/users", function(req,res){
 	var chatID = req.params.chatID;
 	var userID = req.user;
-	chatsService.getUserFromChat(chatID, userID).then((user) => {
-		if(user.length != 0){
+	var usersToAdd = req.body.users;
+	var userInChat = [];		//arr of bools
+
+	var Promises = [];
+	chatsService.getChatByUUID(chatID).then((chat) => {
+		console.log('-3');
+		if(chat.length == 0){
+			console.log('no chat');
+			// no chat
+			var response = new responseObject();
+			response.setSuccess(false);
+			response.setError({
+				code: 2000,
+				message: 'no chat found',
+				chatID: chatID
+			});
+			res.status(401).json(response.JSON());
+			return false;
+		}
+		
+		Promises = [];
+		console.log("users");
+		console.log(JSON.stringify(usersToAdd));
+		for(var u in usersToAdd){
+			Promises.push(chatsService.getUsersFromChat(chatID, usersToAdd[u]));
+		}
+		console.log('-2');
+		return Promise.all(Promises);
+	}).then((user) => {
+		console.log('-1');
+		if(!user){
+			return;
+		}
+
+		console.log("0");
+		//check if user is in chat
+		for(var u in user){
+			//0 if not in chat
+			console.log(JSON.stringify(user[u]));
+			userInChat[u] = user[u].length;
+		}
+		console.log("1");
+		//add users to chat
+		Promises = [];
+		for(var u in usersToAdd){
+			if(userInChat[u]){
+				Promises.push(chatsService.addUserToChat(usersToAdd[u], chatID));
+			}
+		}
+		console.log("2");
+		return Promise.all(Promises);
+		/*if(user.length != 0){
 			// Error
 			var error = {
 				"code": 1000,
@@ -372,15 +419,40 @@ router.post("/:chatID/users", function(req,res){
 			res.status(401).json(response.toJSON());
 			return false;
 		}
-		return chatsService.addUserToChat(chatID, userID);
-	}).then((chat) => {
-		// Handle previously completed promises
-		if(chat == false){
-			return false;
+		return chatsService.addUserToChat(chatID, userID);*/
+	}).then((added) => {
+		//get all users in chat
+		console.log("3");
+		return chatsService.chatsGetUsersForChat(chatID);
+	}).then((chatUsers) => {
+		//get socket ids for users
+		console.log("4");
+		console.log(JSON.stringify(chatUsers));
+		Promises = [];
+		for(var c in chatUsers){
+			Promises.push(usersService.getSocketID(chatUsers[c].user_id));
 		}
-		return usersService.getSocketID(userID);
-	}).then((socketID) => {
-		// Handle previously completed promises
+		console.log("5");
+		return Promise.all(Promises);
+	}).then((sock) => {
+		console.log("6");
+		console.log("SOCK");
+		console.log(sock);
+		for(var i in sock){
+			if(res.socketIO.sockets.connected[sock[i][0].socket]){
+				console.log("EMIT: " + JSON.stringify(sock[i][0].socket));
+				res.socketIO.sockets.connected[sock[i][0].socket].emit("chatAdded", chatID);
+			}else{
+				console.log("Socket not connected: " + sock[i][0].socket);
+			}
+		}
+		console.log("7");
+		
+		var response = new responseObject();
+		response.setSuccess(true);
+		res.status(200).json(response.toJSON());
+	
+		/*// Handle previously completed promises
 		if(socketID == false){
 			return false;
 		}
@@ -404,7 +476,7 @@ router.post("/:chatID/users", function(req,res){
 		// Set attributes
 		response.setSuccess(false);
 		// Send response
-		res.status(200).json(response.toJSON());
+		res.status(200).json(response.toJSON());*/
 	}).catch((err) => {
 		// Error
 		var error = {
@@ -535,63 +607,7 @@ router.post('/messages/:id', function(req, res){
 		});
 		res.status(500).json(response.toJSON());	
 	});
-/*
-	chatsService.chatsAddMessageToChat(req.params.id,req.body.userID,req.body.messageText).then((msg) => {
-		//emit event to all users in chat
-		chatsService.chatsGetUsersForChat(req.params.id).then((users)=>{
-			//collect all users
-			for(var i in users){
-				usersService.getSocketID(users[i].uuid).then((socket)=>{
-					//send socket event
-					if(res.io.connected[socket[0].socket]){
-						res.io.connected[socket[0].socket].emit('messageAdd', {});
-					}else{
-						console.log("ERR: no such socket - " + JSON.stringify(socket));
-					}
-				}).catch((err)=>{
-					res.json({
-						header:{
-							code: 3,
-							message: 'ERROR: sql'
-						},
-						body: {
-							err:err
-						}
-					});
-				});
-			}
-		}).catch((err) =>{
-			res.json({
-				header:{
-					code: 2,
-					message: 'ERROR: sql cannot get chats for user'
-				},
-				body: {
-					err:err
-				}
-			});
-		});
-
-		res.json({
-			header:{
-				code: 0,
-				message: 'success'
-			},
-			body:{}
-		});
-	}).catch((err) =>{
-		res.json({
-			header:{
-				code: 1,
-				message: 'ERROR: sql cannot add message to chat '
-			},
-			body:{
-				err : err
-			}
-		});
-	});*/
 });
-
 
 router.options('/messages', function(req, res){
 	var origin = req.get('Origin');

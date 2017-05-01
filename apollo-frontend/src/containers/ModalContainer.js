@@ -7,7 +7,10 @@ import {
 	userSelect,
 	chatInit,
 	chatInitSuccess,
-	chatInitFailure
+	chatInitFailure,
+	peopleAdd,
+	peopleAddSuccess,
+	peopleAddFailure
 } from '../actions/modal';
 import {
 	focusChat
@@ -51,13 +54,22 @@ const mapDispatchToProps = (dispatch) => {
 				console.log("Error - chatInit: " + JSON.stringify(err));
 				dispatch(chatInitFailure(err));
 			});
+		},
+		addPeople: (chat, users) => {
+			dispatch(peopleAdd(chat, users)).payload.then((res)=> {
+				dispatch(peopleAddSuccess(res.data.results));
+			}).catch((err) => {
+				console.log("Error - addPeople: " + JSON.stringify(err));
+				dispatch(peopleAddFailure(err));
+			});
 		}
 	};
 };
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		modal: state.modal
+		modal: state.modal,
+		sidebar: state.sidebar
 	};
 };
 

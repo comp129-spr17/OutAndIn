@@ -173,10 +173,9 @@ Apollo.prototype.chatGetDetails = function(chatID){
 };
 
 //{chatID: #, userID: #}
-Apollo.prototype.chatAddUser = function(chatID, userID){
-	console.log('ADDING: ' + msg.userID);
+Apollo.prototype.chatAddPeople = function(chatID, users){
 	return this._post('chats/' + chatID + '/users', {
-		userID: userID	
+		users: users	
 	});
 };
 
