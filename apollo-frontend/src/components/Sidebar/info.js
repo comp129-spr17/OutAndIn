@@ -14,7 +14,7 @@ export default class SidebarInfo extends Component {
 		};
 		this.handlePeopleAdd = this.handlePeopleAdd.bind(this);
 	}
-	
+
 	componentWillUpdate(nextProps, nextState){
 		console.log("info prop update");
 		if(nextProps.sidebar.chatFocused.uuid != this.state.curChat){
@@ -35,7 +35,7 @@ export default class SidebarInfo extends Component {
 	handlePeopleAdd(){
 		console.log(this.props);
 		var el = document.getElementById('new-message-modal');
-	
+
 		if(hasClass(el, 'active')){
 			removeClass(el, 'active');
 			removeClass(el, 'addPeople');
@@ -52,9 +52,9 @@ export default class SidebarInfo extends Component {
         data.append('file', document.getElementById("file-upload").files[0]);
         console.log("FORM DATA: ", data.getAll('file'));
         client.upload(data).then((res) => {
-            console.log(res.data);  
+            console.log(res.data);
         }).catch((err) => {
-            console.log(err.response);  
+            console.log(err.response);
         });
     }
 
@@ -80,7 +80,7 @@ export default class SidebarInfo extends Component {
 						</div>
 					</div>
 				</div>
-		
+
 			);
 		});
 		return (
@@ -101,7 +101,7 @@ export default class SidebarInfo extends Component {
 						</div>
 					</div>
                 	<div className="sidebar-info-inner">
-						{this.listPeople}					
+									{this.listPeople()}
 					</div>
                 </div>
 				<div className="sidebar-info-files">
