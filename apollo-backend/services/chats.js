@@ -81,3 +81,8 @@ exports.getUsersFromChat = function(chatID){
 	var sql = "SELECT users.uuid, users.username FROM users, chat_users WHERE chat_users.chat_id = ? AND chat_users.user_id = users.uuid";
 	return db.pool.query(sql, [chatID]);
 };
+
+exports.chatUploadFile = function(name, path, chat){
+	var sql = "INSERT INTO files VALUES ('', ?, ?, ?)";
+	return db.pool.query(sql, [name, chat, path]);
+};

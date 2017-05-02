@@ -70,12 +70,8 @@ DROP TABLE IF EXISTS `files`;
 
 CREATE TABLE `files` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `type` int(11) NOT NULL,
-  `user_id` varchar(36) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `owner` int(11) DEFAULT NULL,
   `chat_id` varchar(36) DEFAULT NULL,
-  `size` bigint(20) DEFAULT NULL,
   `path` longtext,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

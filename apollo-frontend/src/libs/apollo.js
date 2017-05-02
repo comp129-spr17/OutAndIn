@@ -22,10 +22,15 @@ Apollo.prototype.socketEvents = function(){
 		"userIDList": [],
 		"usersConnected": [],
 		"chatsListUpdate": [],
-		"chatAdded": []
+		"chatAdded": [],
+		"fileAdded": []
     };
     this.socket = require('socket.io-client')('http://localhost:4200');
     var _self = this;
+
+	this.socket.on("fileAdded", function(data){
+		console.log("FILEEE");
+	});
 	
 	this.socket.on("chatAdded", function(data){
 		for(var index in _self._events["chatAdded"]){
@@ -226,8 +231,8 @@ Apollo.prototype.search = function(keyword){
 	return this._get('search/' + keyword, {});
 };
 
-Apollo.prototype.upload = function(data){
-	return this._post('files', data);
+Apollo.prototype.upload = function(data,chatID){
+	return this._post('files/' + chatID, data);
 };
 
 module.exports = Apollo;
