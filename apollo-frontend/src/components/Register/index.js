@@ -80,9 +80,9 @@ class Register extends React.Component {
                                         <p>Email</p>
                                         <input id="email-input" autoFocus type="text" value={this.props.register.credentials.email} onChange={this.handleEmailChange} autoComplete="off"/>
                                         <p>Full Name</p>
-                                        <input id="fullname-input" autoFocus type="text" value={this.props.register.credentials.fullname} onChange={this.handleFullnameChange} autoComplete="off"/>
+                                        <input id="fullname-input" type="text" value={this.props.register.credentials.fullname} onChange={this.handleFullnameChange} autoComplete="off"/>
                                         <p>Username</p>
-                                        <input id="username-input" autoFocus type="text" value={this.props.register.credentials.username} onChange={this.handleUsernameChange} autoComplete="off"/>
+                                        <input id="username-input" type="text" value={this.props.register.credentials.username} onChange={this.handleUsernameChange} autoComplete="off"/>
                                         <p>Password</p>
                                         <input id="password-input" type="password" value={this.props.register.credentials.password} onChange={this.handlePasswordChange} autoComplete="off"/>
                                         <hr></hr>
