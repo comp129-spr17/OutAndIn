@@ -15,6 +15,8 @@ export default class SidebarInfo extends Component {
 		this.handlePeopleAdd = this.handlePeopleAdd.bind(this);
 		this.handleFileChoosen = this.handleFileChoosen.bind(this);
 		this.handleFileAdded = this.handleFileAdded.bind(this);
+		this.listFiles = this.listFiles.bind(this);
+		this.selectFile = this.selectFile.bind(this);
 
 		client.socketRegisterEvent('fileAdded', this.handleFileAdded);
 	}
@@ -71,10 +73,31 @@ export default class SidebarInfo extends Component {
         fileInput.click();
     }
 
+	selectFile(file){
+		
+	}
+
+	listFiles(){
+		var _self = this;
+		console.log(this.props.info);
+		const files = this.props.info.files.map(function(file){
+			console.log("FILE VIEW");
+			return (
+				<i className="sidebar-info-fileicon fa fa-file-o" onClick={_self.selectFile(file.path)}>{file.name}</i>
+			);
+		});
+		return (
+			<div>{files}</div>
+		);
+	
+	}
+
 	listPeople(){
+		var _self = this;
+
 		const people = this.props.info.people.map(function(user){
 			return (
-				<div className="new-message-modal-users-item" onClick={() => _self.selectUser(user)}>
+				<div className="new-message-modal-users-item" >
 					<div className="new-message-modal-users-item-image">
 						<div className="modal-item-avatar">
 							<img src={ user[0].avatar } alt="Modal Image" />
@@ -122,7 +145,7 @@ export default class SidebarInfo extends Component {
 						</div>
 					</div>
 					<div className="sidebar-info-inner">
-					<i className="sidebar-info-fileicon fa fa-file-o"></i>
+					{this.listFiles()}
                 	</div>
                 </div>
             </div>
