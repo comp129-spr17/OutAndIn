@@ -9,6 +9,7 @@ const mapDispatchToProps = (dispatch) => {
 			res.payload.then((results) => {
 				dispatch(loginUserSuccess(results.data));
 				localStorage.setItem("token", results.data["results"][0]["token"]);
+				window.location.href = "/";
 			}).catch((err) => {
 				dispatch(loginUserFailure(err.response.data.errors[0]["message"]));
 			});
