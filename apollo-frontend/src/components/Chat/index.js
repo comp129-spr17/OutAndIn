@@ -45,6 +45,7 @@ export default class Chat extends Component {
 		this.registerCameraEvents = this.registerCameraEvents.bind(this);
 		this.takePicture = this.takePicture.bind(this);
 		this.uploadImage = this.uploadImage.bind(this);
+		this.handleFileChoosen = this.handleFileChoosen.bind(this);
 	}
 
 	componentDidMount(){
@@ -101,7 +102,7 @@ export default class Chat extends Component {
 		var data = new FormData();
 		data.append('file', document.getElementById("file-upload").files[0]);
 		// TODO:(mcervco) Handle this error visually
-		client.upload(data).then((res) => {
+		client.upload(data, this.props.sidebar.chatFocused.uuid).then((res) => {
 			console.log(res.data);
 		}).catch((err) => {
 			console.log(err.response);
@@ -248,7 +249,9 @@ export default class Chat extends Component {
 		// Create Form Data instance and inject the image
 		var fd = new FormData();
 		fd.append('file', blob, Date.now() + '.jpg');
-		return client.upload(fd);
+		console.log("UPLOAD");
+		console.log(this.props);
+		return client.upload(fd, this.props.sidebar.chatFocused.uuid);
 	}
 
 	/**
