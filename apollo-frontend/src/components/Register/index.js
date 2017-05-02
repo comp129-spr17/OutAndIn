@@ -88,9 +88,6 @@ class Register extends React.Component {
                                         <hr></hr>
                                         <button onClick={this.handleRegister}>Register</button>
                                     </form>
-                                    <div className="login-actions-forgot-password">
-                                        <a href = "">Forgot your password?</a>
-                                    </div>
                                 </div>
                             </div>
                             <div className="login-footer">

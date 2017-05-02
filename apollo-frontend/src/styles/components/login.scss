@@ -108,16 +108,26 @@
     line-height: inherit;
     align-items: center;
     width: 80%;
-    border-radius: 10px;
-    border-color: grey;
-    opacity:.65;
+    border-radius: 5px;
+    border: 1px solid #dfdfdf;
+	padding: 5px 10px;
+	outline: none;
+	box-shadow: none;
+}
+
+.loginForm input:focus {
+	border-color: #bbb;
 }
 
 .loginForm button{
     width: 80%;
     border-radius: 10px;
-    background-color:#164762;
-    color:white;
+	padding: 5px 0;
+	border-color: transparent;
+	outline: none;
+	font-weight: 500;
+    background-color: #164762;
+    color: white;
 }
 
 .loginForm p{
