@@ -13,6 +13,10 @@ export default class SidebarInfo extends Component {
 			curChat: ''
 		};
 		this.handlePeopleAdd = this.handlePeopleAdd.bind(this);
+		this.handleFileChoosen = this.handleFileChoosen.bind(this);
+		this.handleFileAdded = this.handleFileAdded.bind(this);
+
+		client.socketRegisterEvent('fileAdded', this.handleFileAdded);
 	}
 
 	componentWillUpdate(nextProps, nextState){
@@ -45,12 +49,16 @@ export default class SidebarInfo extends Component {
 		}
 	}
 
+	handleFileAdded(){
+		this.props.getFiles(this.props.sidebar.chatFocused.uuid);
+	}
+
     handleFileChoosen(e){
         console.log("CLICK: ", e.target.value);
         var data = new FormData();
         data.append('file', document.getElementById("file-upload").files[0]);
         console.log("FORM DATA: ", data.getAll('file'));
-        client.upload(data).then((res) => {
+        client.upload(data, this.props.sidebar.chatFocused.uuid).then((res) => {
             console.log(res.data);
         }).catch((err) => {
             console.log(err.response);
