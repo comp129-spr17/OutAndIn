@@ -343,8 +343,7 @@ export default class Chat extends Component {
 		return (
 			<div className="content">
 				<div className="chat-header">
-					<div className="chat-header-fullname">{ this.props.sidebar.chatFocused.name }</div>
-					<div className="chat-header-username">{ "@" + this.props.sidebar.chatFocused.name }</div>
+					<div className="chat-header-fullname">{ this.props.sidebar.chatFocused.name || "Select a chat to view" }</div>
 				</div>
 				<div className="chat-camera">
 					<div className="chat-camera-container">

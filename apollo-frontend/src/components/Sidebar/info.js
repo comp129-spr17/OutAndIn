@@ -5,8 +5,33 @@ import { client } from '../../modules/api-client';
 import {hasClass, addClass, removeClass} from '../../utils/DOMTools';
 
 export default class SidebarInfo extends Component {
+	constructor(){
+		super();
+		this.state = {
+			curChat: ''
+		};
+		this.handlePeopleAdd = this.handlePeopleAdd.bind(this);
+	}
+	
+	componentWillUpdate(nextProps, nextState){
+		console.log("info prop update");
+		if(nextProps.sidebar.chatFocused.uuid != this.state.curChat){
+			//pull new chat people and files
+			this.setState({
+				curChat: nextProps.sidebar.chatFocused.uuid
+			});
+
+			console.log("GET PEOPLE: ");
+			console.log(nextProps);
+			this.props.getPeople(nextProps.sidebar.chatFocused.uuid);
+			//TODO
+			//this.props.getFiles(this.state.curChat);
+		}
+	}
+
 	//activate modal
 	handlePeopleAdd(){
+		console.log(this.props);
 		var el = document.getElementById('new-message-modal');
 	
 		if(hasClass(el, 'active')){

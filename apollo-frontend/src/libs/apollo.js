@@ -172,6 +172,12 @@ Apollo.prototype.chatGetDetails = function(chatID){
 	return this._get('chats/' + chatID, {});
 };
 
+//{chatID: #}
+Apollo.prototype.chatGetPeople = function(chatID){
+	console.log("Get People: " + chatID);
+	return this._get('chats/' + chatID + '/users', {});
+};
+
 //{chatID: #, userID: #}
 Apollo.prototype.chatAddPeople = function(chatID, users){
 	return this._post('chats/' + chatID + '/users', {
@@ -190,6 +196,12 @@ Apollo.prototype.chatAddMessage = function(chatID, message){
 		messageText: message
 	});
 };
+
+//list of files in chat
+//{chatID : #}
+Apollo.prototype.chatGetFiles = function(chatID){
+	return this._get('chats/' + chatID + '/files');
+}
 
 //SESSIONS------------------------------------------
 // This function needs to be synchronous

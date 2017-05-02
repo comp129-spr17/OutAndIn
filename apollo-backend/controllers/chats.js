@@ -25,6 +25,7 @@ var _OPTIONS = {
 	},
 	"/:chatID/users": {
 		"METHODS": [
+			"GET",
 			"POST"
 		],
 		"HASHES": new Set()
@@ -342,6 +343,52 @@ router.options('/', function(req, res){
 	}
 	// Send 404 if both of the above conditions are not met
 	res.sendStatus(404);
+});
+
+/*
+ *	GET - ["/:chatID/users"]
+ *	@description: get users in a chat
+ *	@param: {none}
+ *	@return {array: object} Users
+ * */
+router.get("/:chatID/users", function(req,res){
+	var chatID = req.params.chatID;
+	var userID = req.user;
+
+	chatsService.getUsersFromChat(chatID).then((chatUsers) => {
+		if(chatUsers.length == 0){
+			//no chat found
+			let response = new responseObject();
+			response.setSuccess(false);
+			response.setErrors({
+				code: 2000,
+				message: "No chat found",
+				chatID: chatID
+			});
+			res.status(401).json(response.toJSON());
+			return;
+		}
+		var users = [];
+		for(var i in chatUsers){
+			if(chatUsers[i].uuid != userID){
+				users.push(chatUsers[i]);
+			}
+		}
+
+		let response = new responseObject();
+		response.setSuccess(true);
+		response.setResults(users);
+		res.status(200).json(response.toJSON());
+	}).catch((err) => {
+		let response = new responseObject();
+		response.setSuccess(false);
+		response.setErrors({
+			code: 1000,
+			message: "Request Err",
+			chatID: chatID
+		});
+		res.status(500).json(response.toJSON());
+	});
 });
 
 /**
