@@ -366,15 +366,20 @@ router.get("/:chatID/users", function(req,res){
 				chatID: chatID
 			});
 			res.status(401).json(response.toJSON());
-			return;
-		}
-		var users = [];
-		for(var i in chatUsers){
-			if(chatUsers[i].uuid != userID){
-				users.push(chatUsers[i]);
-			}
+			return false;
 		}
 
+		var proms = [];
+		for(var i in chatUsers){
+			if(chatUsers[i].uuid != userID){
+				proms.push(usersService.getUserByUUID(chatUsers[i].uuid));
+			}
+		}
+		return Promise.all(proms);
+	}).then((users) => {
+		if(!users){
+			return;
+		}
 		let response = new responseObject();
 		response.setSuccess(true);
 		response.setResults(users);
