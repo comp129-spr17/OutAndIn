@@ -27,12 +27,13 @@
 }
 
 .chat-timeline {
-  overflow-y: auto;
+  	overflow-y: auto;
 	padding: 15px;
 	bottom: 50px;
 	top: 66px;
-	position: absolute;
+	position: relative;
 	width: 100%;
+	height: 740px;
 }
 
 .chat-input {
@@ -141,14 +142,17 @@
     height:100%;
     border: 2px solid grey;
     border-color: #EFEFEF;
+    position: absolute;
+    bottom: 0;
 
 }
 .div-right {
     float:right;
-    width:100%;
+    width: 95%;
     padding-right:5px;
     position: absolute;
     bottom: 0;
+    height: 10px;
 }
 
 .form .msg {
