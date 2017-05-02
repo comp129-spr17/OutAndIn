@@ -11,7 +11,7 @@ const mapDispatchToProps = (dispatch) => {
 				localStorage.setItem("token", results.data["results"][0]["token"]);
 				window.location.href = "/";
 			}).catch((err) => {
-				dispatch(loginUserFailure(err.response.data.errors[0]["message"]));
+				dispatch(loginUserFailure("Username or Password is invalid"));
 			});
 		},
 		setUsername: (value) => {

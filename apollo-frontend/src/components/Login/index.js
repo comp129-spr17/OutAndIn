@@ -60,7 +60,7 @@ class Login extends React.Component {
                     </div>            
                             <div className="login-actions-container">
 								<div className="login-actions">
-									<div>{this.props.login.error}</div>
+									<div style={{paddingTop: "15px"}} >{this.props.login.error}</div>
                                     <form className='loginForm'>
                                         <p>Username</p>
                                         <input autoFocus type="text" value={this.props.login.credentials.username} onChange={this.handleUsernameChange} autoComplete="off"/>
