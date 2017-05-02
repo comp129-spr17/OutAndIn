@@ -26,6 +26,11 @@ const mapDispatchToProps = (dispatch) =>{
 				console.log("getMessages");
 				console.log(res);
 				dispatch(getMessagesSuccess(res.data.results));
+				
+				// Scroll to bottom when receiving new messages
+				$('.chat-timeline').animate({
+					scrollTop: document.querySelector(".chat-timeline").scrollHeight
+				}, 'slow');
 
 				//TODO Chat scroll <Malvika>
 			}).catch((err) => {
