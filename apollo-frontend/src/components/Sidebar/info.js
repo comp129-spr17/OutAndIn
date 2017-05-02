@@ -62,6 +62,30 @@ export default class SidebarInfo extends Component {
         fileInput.click();
     }
 
+	listPeople(){
+		const people = this.props.info.people.map(function(user){
+			return (
+				<div className="new-message-modal-users-item" onClick={() => _self.selectUser(user)}>
+					<div className="new-message-modal-users-item-image">
+						<div className="modal-item-avatar">
+							<img src={ user[0].avatar } alt="Modal Image" />
+						</div>
+						<div className="modal-item-status"></div>
+					</div>
+					<div className="modal-item-details">
+						<div className="new-message-modal-users-item-name">
+							<h4>{ user[0].username }</h4>
+						</div>
+					</div>
+				</div>
+		
+			);
+		});
+		return (
+			<div className="new-message-modal-users-found-list">{people}</div>
+		);
+	}
+
     render() {
         return (
             <div className="sidebar-info-main">
@@ -74,7 +98,9 @@ export default class SidebarInfo extends Component {
 							<i onClick={this.handlePeopleAdd} className="sidebar-info-plus-button fa fa-plus-circle fa-2x"></i>
 						</div>
 					</div>
-                	<div className="sidebar-info-inner"></div>
+                	<div className="sidebar-info-inner">
+						{this.listPeople}					
+					</div>
                 </div>
 				<div className="sidebar-info-files">
 					<div className="sidebar-info-files-header">
