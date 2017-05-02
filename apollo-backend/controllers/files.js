@@ -88,7 +88,7 @@ router.post('/:chatID', function(req, res){
 			res.status(400).send(response.toJSON());
 			return;
 		}
-		chatsService.chatUploadFile(req.file.originalName, req.file.path, chatID).then((file) => {
+		chatsService.chatUploadFile(req.file.originalName, req.file.path, req.file.mimetype, req.file.size, chatID).then((file) => {
 			//get users from chat
 			console.log("0");
 			return chatsService.chatsGetUsersForChat(chatID);

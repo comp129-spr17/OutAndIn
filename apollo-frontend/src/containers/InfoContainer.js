@@ -22,7 +22,15 @@ const mapDispatchToProps = (dispatch) => {
 			});
 		},
 		getFiles: (chatID) => {
-		
+			dispatch(getFiles(chatID)).payload.then((res) => {
+				console.log("Get Files res");
+				console.log(res);
+				dispatch(getFilesSuccess(res.data.results));	
+			}).catch((err) =>{
+				console.log("Error - getFiles: " + JSON.stringify(err));
+				dispatch(getFilesFailure(err));
+			});
+
 		}
 	};
 };

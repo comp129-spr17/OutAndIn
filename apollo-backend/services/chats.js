@@ -82,7 +82,12 @@ exports.getUsersFromChat = function(chatID){
 	return db.pool.query(sql, [chatID]);
 };
 
-exports.chatUploadFile = function(name, path, chat){
-	var sql = "INSERT INTO files VALUES ('', ?, ?, ?)";
-	return db.pool.query(sql, [name, chat, path]);
+exports.chatUploadFile = function(name, path, type, size, chat){
+	var sql = "INSERT INTO files VALUES ('', ?, ?, ?, ?, ?)";
+	return db.pool.query(sql, [type, name, chat, size, path]);
 };
+
+exports.chatGetFiles = function(chatID){
+	var sql = "SELECT * FROM files WHERE chat_id = ?";
+	return db.pool.query(sql, [chatID]);
+}

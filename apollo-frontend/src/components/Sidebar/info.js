@@ -26,8 +26,7 @@ export default class SidebarInfo extends Component {
 			console.log("GET PEOPLE: ");
 			console.log(nextProps);
 			this.props.getPeople(nextProps.sidebar.chatFocused.uuid);
-			//TODO
-			//this.props.getFiles(this.state.curChat);
+			this.props.getFiles(nextProps.sidebar.chatFocused.uuid);
 		}
 	}
 

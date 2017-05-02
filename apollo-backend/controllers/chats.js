@@ -30,6 +30,12 @@ var _OPTIONS = {
 		],
 		"HASHES": new Set()
 	},
+	"/:chatID/files": {
+		"METHODS":[
+			"GET"
+		],
+		"HASHES": new Set()
+	},
 	"/byUser": {
 		"METHODS": [
 			"GET"
@@ -563,6 +569,54 @@ router.options('/:chatID/users', function(req, res){
 	if(_OPTIONS["/:chatID/users"]["HASHES"].has(method)){
 
 		res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
+		res.header("Access-Control-Max-Age", 86400);
+		res.sendStatus(200);
+		return;
+	}
+	// Send 404 if both of the above conditions are not met
+	res.sendStatus(404);
+});
+
+router.get('/:chatID/files', function(req, res){
+	var chatID = req.params.chatID;
+	var userID = req.user;
+
+	chatsService.chatGetFiles(chatID).then((files) => {
+		var response = new responseObject();
+		response.setSuccess(true);
+		response.setResults(files);
+		res.status(200).json(response.toJSON());
+	}).catch((err) =>{
+		var response = new responseObject();
+		response.setSuccess(false);
+		response.setErrors({
+			code: 1000,
+			message: "Could not get files for chat",
+			chatID: chatID
+		});
+		res.status(500).json(response.toJSON());
+	});
+});
+
+/**
+ * OPTIONS - ["/:chatID/files"]
+ * @description: Responds to authorized headers and methods request
+ * @param: {none}
+ * @return: {string} http headers - Authorized headers and methods
+ */
+router.options('/:chatID/files', function(req, res){
+	var origin = req.get('Origin');
+	// Check if origin is set
+	if(!origin){
+		res.sendStatus(404);
+		return;
+	}
+	// Check if method that is requested is in the methods hash set
+	var method = req.get('Access-Control-Request-Method');
+	if(_OPTIONS["/:chatID/files"]["HASHES"].has(method)){
+
+		res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
 		res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
 		res.header("Access-Control-Max-Age", 86400);
 		res.sendStatus(200);

@@ -29,7 +29,9 @@ Apollo.prototype.socketEvents = function(){
     var _self = this;
 
 	this.socket.on("fileAdded", function(data){
-		console.log("FILEEE");
+		for(var index in _self._events["fileAdded"]){
+			_self._events["fileAdded"][index](data);
+		}
 	});
 	
 	this.socket.on("chatAdded", function(data){
@@ -205,7 +207,7 @@ Apollo.prototype.chatAddMessage = function(chatID, message){
 //list of files in chat
 //{chatID : #}
 Apollo.prototype.chatGetFiles = function(chatID){
-	return this._get('chats/' + chatID + '/files');
+	return this._get('chats/' + chatID + '/files', {});
 }
 
 //SESSIONS------------------------------------------
