@@ -4,6 +4,8 @@ import moment from 'moment';
 import { client } from '../../modules/api-client';
 import {hasClass, addClass, removeClass} from '../../utils/DOMTools';
 
+/* TO PRANAV: The icon implementation is all the way at the bottom under the div "sidebar-info-inner"!*/
+
 export default class SidebarInfo extends Component {
 	constructor(){
 		super();
